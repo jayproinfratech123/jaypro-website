@@ -130,6 +130,7 @@ const BookingForm = () => {
                   className="appearance-none w-full h-14 rounded-xl border border-gray-300 pl-12 pr-12 outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-200"
                 >
                   <option value="">Visit Location</option>
+                  <option>Patna</option>
                   <option>Lucknow</option>
                   <option>Noida</option>
                   <option>Delhi</option>
@@ -152,7 +153,7 @@ const BookingForm = () => {
                 value={formData.address}
                 onChange={handleChange}
                 placeholder="Enter Address"
-                className="w-full rounded-xl border border-gray-300 pl-12 pr-5 py-4 resize-none outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-200"
+                className="w-full rounded-xl border border-gray-300 pl-12 pr-5 py-4 resize-none outline-none focus:border-red-600 focus:ring-2 focus:ring-orange-200"
               />
             </div>
 

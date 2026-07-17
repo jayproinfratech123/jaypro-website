@@ -82,7 +82,7 @@ const handleSubmit = async (e) => {
     <section className="container-xl py-24">
       <div className="mb-14 max-w-xl">
         <span className="section-label">
-          <span className="h-px w-6 bg-amber-500" />
+          <span className="h-px w-6 bg-red-500" />
           Pricing
         </span>
 
@@ -103,19 +103,19 @@ const handleSubmit = async (e) => {
             key={pkg.name}
             className={`flex flex-col rounded-lg border p-6 ${
               pkg.popular
-                ? "border-amber-500 shadow-lg"
+                ? "border-red-500 shadow-lg"
                 : "border-gray-200"
             }`}
           >
             {pkg.popular && (
-              <span className="mb-3 w-fit rounded-full bg-amber-500 px-3 py-1 text-xs font-semibold text-white">
+              <span className="mb-3 w-fit rounded-full bg-red-500 px-3 py-1 text-xs font-semibold text-white">
                 Most Popular
               </span>
             )}
 
             <h3 className="text-2xl font-bold">{pkg.name}</h3>
 
-            <p className="mt-2 mb-6 text-3xl font-bold text-amber-600">
+            <p className="mt-2 mb-6 text-3xl font-bold text-red-600">
               {pkg.price}
             </p>
 
@@ -132,8 +132,8 @@ const handleSubmit = async (e) => {
               onClick={() => setSelectedPackage(pkg.name)}
               className={`rounded-md py-3 font-semibold transition ${
                 pkg.popular
-                  ? "bg-amber-500 text-white hover:bg-amber-600"
-                  : "border border-amber-500 text-amber-500 hover:bg-amber-500 hover:text-white"
+                  ? "bg-red-500 text-white hover:bg-red-600"
+                  : "border border-red-500 text-red-500 hover:bg-red-500 hover:text-white"
               }`}
             >
               Choose {pkg.name}

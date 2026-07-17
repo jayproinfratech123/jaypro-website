@@ -13,7 +13,7 @@ const Contact = () => {
 
   return (
     <section className="container-xl py-24">
-      <span className="section-label"><span className="h-px w-6 bg-amber-500" /> Contact</span>
+      <span className="section-label"><span className="h-px w-6 bg-red-500" /> Contact</span>
       <h1 className="font-display text-4xl font-bold text-blueprint-900">Let's talk about your build</h1>
 
       <div className="mt-10 grid gap-10 lg:grid-cols-2">
@@ -31,9 +31,9 @@ const Contact = () => {
         </form>
 
         <div className="space-y-6">
-          <div className="flex items-center gap-3"><Phone className="h-5 w-5 text-amber-500" /> +91 9835852462</div>
-          <div className="flex items-center gap-3"><Mail className="h-5 w-5 text-amber-500" /> info@jayproinfratech.com</div>
-          <div className="flex items-center gap-3"><MapPin className="h-5 w-5 text-amber-500" /> Patna Branch - 1st Floor, Pandooi Place, Opposite Harihar Chamber, Boring Road, Patna, Bihar - 800001</div>
+          <div className="flex items-center gap-3"><Phone className="h-5 w-5 text-red-500" /> +91 9835852462</div>
+          <div className="flex items-center gap-3"><Mail className="h-5 w-5 text-red-500" /> info@jayproinfratech.com</div>
+          <div className="flex items-center gap-3"><MapPin className="h-5 w-5 text-red-500" /> Patna Branch - 1st Floor, Pandooi Place, Opposite Harihar Chamber, Boring Road, Patna, Bihar - 800001</div>
           <div className="aspect-video w-full overflow-hidden rounded-sm border border-black/10 bg-concrete-100">
             <iframe
               title="map"

@@ -46,25 +46,44 @@ const Hero = () => {
   return (
     <section className="relative min-h-screen overflow-hidden">
 
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{
-          backgroundImage:
-            "url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c')",
-        }}
-      >
-        <div className="absolute inset-0 bg-black/50"></div>
+      {/* Responsive Background */}
+      <div className="absolute inset-0 -z-10">
+
+        <picture>
+
+          {/* Mobile Image */}
+          <source
+            media="(max-width:768px)"
+            srcSet="bg-moblile.png"
+          />
+
+          {/* Desktop Image */}
+          <img
+            src="/bg-image.png"
+            alt="Background"
+            className="w-full h-full object-cover"
+          />
+          <img
+          src="/bg-tablate.png"
+          className="w-full h-full object-cover"
+          />
+        </picture>
+
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-black/30"></div>
+
       </div>
 
       <div className="relative z-10 container mx-auto px-4">
 
         <div className="flex min-h-screen flex-col items-center justify-center">
 
-          <h1 className="mb-10 text-center text-5xl font-bold text-white">
+          <h1 className="mb-8 text-center text-3xl md:text-5xl font-bold text-white">
             नक्शा से लेकर निर्माण तक
           </h1>
 
-          <div className="mb-8 flex flex-wrap justify-center gap-3">
+          {/* Tabs */}
+          <div className="mb-6 flex flex-wrap justify-center gap-2">
 
             {tabs.map((tab, index) => {
               const Icon = tab.icon;
@@ -72,21 +91,23 @@ const Hero = () => {
               return (
                 <button
                   key={index}
-                  className={`flex items-center gap-2 px-6 py-4 font-semibold transition
+                  className={`flex items-center gap-2 rounded-lg px-4 py-2 text-xs md:text-sm font-semibold transition
                   ${
                     tab.active
-                      ? "bg-orange-500 text-white"
-                      : "bg-white hover:bg-orange-500 hover:text-white"
+                      ? "bg-red-600 text-white"
+                      : "bg-white hover:bg-red-600 hover:text-white"
                   }`}
                 >
-                  <Icon size={18} />
+                  <Icon size={15} />
                   {tab.title}
                 </button>
               );
             })}
+
           </div>
 
-          <div className="w-full max-w-7xl rounded-2xl bg-white/20 p-5 backdrop-blur-md">
+          {/* Calculator */}
+          <div className="w-full max-w-6xl rounded-2xl bg-white/20 backdrop-blur-md border border-white/20 p-5">
 
             <div className="grid gap-4 md:grid-cols-6">
 
@@ -95,7 +116,7 @@ const Hero = () => {
                 placeholder="Depth"
                 value={depth}
                 onChange={(e) => setDepth(e.target.value)}
-                className="rounded-xl bg-white px-5 py-4 outline-none"
+                className="rounded-lg bg-white px-4 py-3"
               />
 
               <input
@@ -103,13 +124,13 @@ const Hero = () => {
                 placeholder="Width"
                 value={width}
                 onChange={(e) => setWidth(e.target.value)}
-                className="rounded-xl bg-white px-5 py-4 outline-none"
+                className="rounded-lg bg-white px-4 py-3"
               />
 
               <select
                 value={floor}
                 onChange={(e) => setFloor(e.target.value)}
-                className="rounded-xl bg-white px-5 py-4 outline-none"
+                className="rounded-lg bg-white px-4 py-3"
               >
                 <option value="">Floor</option>
                 <option>Ground Floor</option>
@@ -122,13 +143,13 @@ const Hero = () => {
                 readOnly
                 value={buildingArea}
                 placeholder="Building Area"
-                className="rounded-xl bg-white px-5 py-4 outline-none"
+                className="rounded-lg bg-white px-4 py-3"
               />
 
               <select
                 value={north}
                 onChange={(e) => setNorth(e.target.value)}
-                className="rounded-xl bg-white px-5 py-4 outline-none"
+                className="rounded-lg bg-white px-4 py-3"
               >
                 <option value="">Direction</option>
                 <option>North</option>
@@ -139,7 +160,7 @@ const Hero = () => {
 
               <button
                 onClick={handleCalculate}
-                className="rounded-xl bg-orange-500 text-white font-semibold hover:bg-orange-600"
+                className="rounded-lg bg-red-600 text-white font-semibold hover:bg-red-700"
               >
                 CALCULATE PRICE
               </button>
