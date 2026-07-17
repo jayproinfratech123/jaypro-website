@@ -1,3 +1,4 @@
+import { Toaster } from "react-hot-toast";
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/layout/Navbar.jsx";
 import Footer from "./components/layout/Footer.jsx";
@@ -29,9 +30,11 @@ import AdminCustomers from "./pages/admin/AdminCustomers.jsx";
 import AdminBlogs from "./pages/admin/AdminBlogs.jsx";
 import PrivacyPolicy from "./pages/PrivacyPolocy.jsx";
 import WhatsAppButton from "./components/WhatsAppButton";
+import Estimate from "./components/home/Estimate.jsx";
 function App() {
   return (
     <>
+     <Toaster position="top-center" reverseOrder={false} />
       <Routes>
         {/* Public site */}
         <Route
@@ -51,6 +54,7 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="*" element={<NotFound />} />
+                 <Route path="/estimate" element={<Estimate/>} />
               </Routes>
               <Footer />
             </>

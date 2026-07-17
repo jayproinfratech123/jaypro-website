@@ -1,78 +1,159 @@
-import { Link } from "react-router-dom";
-import { ArrowRight, PlayCircle } from "lucide-react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  Home,
+  Building2,
+  Presentation,
+  MoreHorizontal,
+} from "lucide-react";
 
-const Hero = () => (
-  <section className="relative overflow-hidden bg-blueprint-950 bg-blueprint-grid bg-grid text-white">
-    <div className="container-xl grid gap-12 py-24 lg:grid-cols-2 lg:py-32">
-      <div>
-        <span className="section-label">
-          <span className="h-px w-6 bg-amber-500" /> Construction, tracked in real time
-        </span>
-        <h1 className="font-display text-4xl font-bold leading-[1.1] sm:text-5xl lg:text-6xl">
-          Plan. Design.
-          <br />
-          Build. <span className="text-amber-500">Track.</span>
-        </h1>
-        <p className="mt-6 max-w-md text-concrete-200/80">
-          JAYPRO Infratech  puts your entire construction project — design, materials, workers,
-          payments — on one live dashboard, updated daily from the site to your phone.
-        </p>
-        <div className="mt-8 flex flex-wrap items-center gap-4">
-          <Link to="/pricing" className="btn-primary">
-            Start Your Project <ArrowRight className="h-4 w-4" />
-          </Link>
-          <button className="flex items-center gap-2 font-display text-sm font-semibold text-white/90 hover:text-amber-500">
-            <PlayCircle className="h-9 w-9" /> Watch how it works
-          </button>
-        </div>
+const Hero = () => {
+  const navigate = useNavigate();
 
-        <dl className="mt-14 grid max-w-md grid-cols-3 gap-6 border-t border-white/10 pt-8">
-          <div>
-            <dt className="font-display text-2xl font-bold text-amber-500">1,200+</dt>
-            <dd className="text-xs text-concrete-200/60">Homes delivered</dd>
-          </div>
-          <div>
-            <dt className="font-display text-2xl font-bold text-amber-500">98%</dt>
-            <dd className="text-xs text-concrete-200/60">On-time handover</dd>
-          </div>
-          <div>
-            <dt className="font-display text-2xl font-bold text-amber-500">24/7</dt>
-            <dd className="text-xs text-concrete-200/60">Live site updates</dd>
-          </div>
-        </dl>
+  const tabs = [
+    { title: "2D LAYOUT PLAN", icon: Home, active: true },
+    { title: "3D FRONT ELEVATION", icon: Home },
+    { title: "STRUCTURAL DRAWINGS", icon: Building2 },
+    { title: "PRESENTATION PLAN", icon: Presentation },
+    { title: "MORE", icon: MoreHorizontal },
+  ];
+
+  const [depth, setDepth] = useState("");
+  const [width, setWidth] = useState("");
+  const [floor, setFloor] = useState("");
+  const [north, setNorth] = useState("");
+
+  const buildingArea =
+    depth && width ? Number(depth) * Number(width) : "";
+
+  const handleCalculate = () => {
+    if (!depth || !width) {
+      alert("Please enter Depth & Width");
+      return;
+    }
+
+    navigate("/estimate", {
+      state: {
+        depth,
+        width,
+        buildingArea,
+        floor,
+        north,
+      },
+    });
+  };
+
+  return (
+    <section className="relative min-h-screen overflow-hidden">
+
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{
+          backgroundImage:
+            "url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c')",
+        }}
+      >
+        <div className="absolute inset-0 bg-black/50"></div>
       </div>
 
-      <div className="relative">
-        <div className="rounded-sm border border-white/10 bg-white/5 p-6 backdrop-blur">
-          <div className="mb-4 flex items-center justify-between text-xs text-concrete-200/60">
-            <span>Site Progress — Villa #A204</span>
-            <span className="rounded-full bg-amber-500/20 px-2 py-1 text-amber-500">Live</span>
+      <div className="relative z-10 container mx-auto px-4">
+
+        <div className="flex min-h-screen flex-col items-center justify-center">
+
+          <h1 className="mb-10 text-center text-5xl font-bold text-white">
+            नक्शा से लेकर निर्माण तक
+          </h1>
+
+          <div className="mb-8 flex flex-wrap justify-center gap-3">
+
+            {tabs.map((tab, index) => {
+              const Icon = tab.icon;
+
+              return (
+                <button
+                  key={index}
+                  className={`flex items-center gap-2 px-6 py-4 font-semibold transition
+                  ${
+                    tab.active
+                      ? "bg-orange-500 text-white"
+                      : "bg-white hover:bg-orange-500 hover:text-white"
+                  }`}
+                >
+                  <Icon size={18} />
+                  {tab.title}
+                </button>
+              );
+            })}
           </div>
-          {[
-            { stage: "Foundation", pct: 100 },
-            { stage: "Columns", pct: 100 },
-            { stage: "Roof", pct: 62 },
-            { stage: "Brick Work", pct: 10 },
-          ].map((s) => (
-            <div key={s.stage} className="mb-4">
-              <div className="mb-1 flex justify-between text-sm">
-                <span>{s.stage}</span>
-                <span className="text-amber-500">{s.pct}%</span>
-              </div>
-              <div className="h-1.5 w-full rounded-full bg-white/10">
-                <div className="h-1.5 rounded-full bg-amber-500" style={{ width: `${s.pct}%` }} />
-              </div>
+
+          <div className="w-full max-w-7xl rounded-2xl bg-white/20 p-5 backdrop-blur-md">
+
+            <div className="grid gap-4 md:grid-cols-6">
+
+              <input
+                type="number"
+                placeholder="Depth"
+                value={depth}
+                onChange={(e) => setDepth(e.target.value)}
+                className="rounded-xl bg-white px-5 py-4 outline-none"
+              />
+
+              <input
+                type="number"
+                placeholder="Width"
+                value={width}
+                onChange={(e) => setWidth(e.target.value)}
+                className="rounded-xl bg-white px-5 py-4 outline-none"
+              />
+
+              <select
+                value={floor}
+                onChange={(e) => setFloor(e.target.value)}
+                className="rounded-xl bg-white px-5 py-4 outline-none"
+              >
+                <option value="">Floor</option>
+                <option>Ground Floor</option>
+                <option>1 Floor</option>
+                <option>2 Floor</option>
+                <option>3 Floor</option>
+              </select>
+
+              <input
+                readOnly
+                value={buildingArea}
+                placeholder="Building Area"
+                className="rounded-xl bg-white px-5 py-4 outline-none"
+              />
+
+              <select
+                value={north}
+                onChange={(e) => setNorth(e.target.value)}
+                className="rounded-xl bg-white px-5 py-4 outline-none"
+              >
+                <option value="">Direction</option>
+                <option>North</option>
+                <option>South</option>
+                <option>East</option>
+                <option>West</option>
+              </select>
+
+              <button
+                onClick={handleCalculate}
+                className="rounded-xl bg-orange-500 text-white font-semibold hover:bg-orange-600"
+              >
+                CALCULATE PRICE
+              </button>
+
             </div>
-          ))}
-          <div className="mt-6 grid grid-cols-3 gap-2 text-center text-xs text-concrete-200/60">
-            <div className="rounded-sm bg-white/5 py-3">18 Workers</div>
-            <div className="rounded-sm bg-white/5 py-3">Day 84 / 210</div>
-            <div className="rounded-sm bg-white/5 py-3">₹42L used</div>
+
           </div>
+
         </div>
+
       </div>
-    </div>
-  </section>
-);
+
+    </section>
+  );
+};
 
 export default Hero;

@@ -1,34 +1,194 @@
-import { Home, PenTool, Sofa, TreePine, Compass, Ruler, Sparkles, Box } from "lucide-react";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import {
+  User,
+  Phone,
+  MapPin,
+  Briefcase,
+  IndianRupee,
+  ChevronDown,
+} from "lucide-react";
 
-const services = [
-  { icon: Home, title: "House Construction", desc: "End-to-end turnkey construction from foundation to handover." },
-  { icon: PenTool, title: "House Design", desc: "Custom floor plans tailored to your plot and lifestyle." },
-  { icon: Sofa, title: "Interior Design", desc: "Full interior styling, furniture, and material selection." },
-  { icon: TreePine, title: "Exterior Design", desc: "Facades, landscaping, and elevation that stand out." },
-  { icon: Compass, title: "Architecture Planning", desc: "Structural and architectural drawings by licensed architects." },
-  { icon: Ruler, title: "Structural Drawing", desc: "Detailed structural and load-bearing documentation." },
-  { icon: Sparkles, title: "Vastu Consultation", desc: "Vastu-compliant layouts guided by expert consultants." },
-  { icon: Box, title: "3D Elevation", desc: "Photorealistic 3D walkthroughs before you break ground." },
-];
+const BookingForm = () => {
+  const initialState = {
+    name: "",
+    mobile: "",
+    purpose: "",
+    location: "",
+    address: "",
+    amount: "",
+  };
 
-const ServicesGrid = () => (
-  <section className="container-xl py-24">
-    <div className="mb-14 max-w-xl">
-      <span className="section-label"><span className="h-px w-6 bg-amber-500" /> What we offer</span>
-      <h2 className="font-display text-3xl font-bold text-blueprint-900 sm:text-4xl">
-        Every service, under one roof
-      </h2>
-    </div>
-    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-      {services.map(({ icon: Icon, title, desc }) => (
-        <div key={title} className="group rounded-sm border border-black/5 bg-white p-6 transition hover:border-amber-500/40 hover:shadow-md">
-          <Icon className="mb-4 h-8 w-8 text-amber-500" />
-          <h3 className="mb-2 font-display font-semibold text-blueprint-900">{title}</h3>
-          <p className="text-sm text-charcoal/60">{desc}</p>
+  const [formData, setFormData] = useState(initialState);
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (
+      !formData.name ||
+      !formData.mobile ||
+      !formData.purpose ||
+      !formData.location ||
+      !formData.address ||
+      !formData.amount
+    ) {
+      toast.error("Please fill all fields");
+      return;
+    }
+
+    console.log(formData);
+
+    toast.success("🎉 Congratulations! Booking Successfully.");
+
+    setFormData(initialState);
+  };
+
+  return (
+    <section className="bg-gray-100 py-20">
+      <div className="container mx-auto px-4">
+        <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-xl border border-gray-200 p-8 lg:p-12">
+
+          <h2 className="text-4xl font-bold text-center text-gray-800 mb-10">
+            Book Your Slot Now
+          </h2>
+
+          <form className="space-y-6" onSubmit={handleSubmit}>
+
+            {/* Row 1 */}
+            <div className="grid md:grid-cols-2 gap-6">
+
+              {/* Name */}
+              <div className="relative">
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder="Enter Your Name"
+                  className="w-full h-14 rounded-xl border border-gray-300 pl-5 pr-12 text-gray-700 outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-200"
+                />
+                <User className="absolute right-4 top-1/2 -translate-y-1/2 text-orange-500 w-5 h-5" />
+              </div>
+
+              {/* Mobile */}
+              <div className="relative">
+                <input
+                  type="tel"
+                  name="mobile"
+                  value={formData.mobile}
+                  onChange={handleChange}
+                  placeholder="Enter Mobile Number"
+                  className="w-full h-14 rounded-xl border border-gray-300 pl-5 pr-12 text-gray-700 outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-200"
+                />
+                <Phone className="absolute right-4 top-1/2 -translate-y-1/2 text-orange-500 w-5 h-5" />
+              </div>
+
+            </div>
+
+            {/* Row 2 */}
+            <div className="grid md:grid-cols-2 gap-6">
+
+              {/* Purpose */}
+              <div className="relative">
+                <Briefcase className="absolute left-4 top-1/2 -translate-y-1/2 text-orange-500 w-5 h-5" />
+
+                <select
+                  name="purpose"
+                  value={formData.purpose}
+                  onChange={handleChange}
+                  className="appearance-none w-full h-14 rounded-xl border border-gray-300 pl-12 pr-12 outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-200"
+                >
+                  <option value="">Select Purpose</option>
+                  <option>House Construction</option>
+                  <option>House Design</option>
+                  <option>Interior Design</option>
+                  <option>Exterior Design</option>
+                  <option>Architecture Planning</option>
+                  <option>Structural Drawing</option>
+                  <option>Vastu Consultation</option>
+                  <option>3D Elevation</option>
+                </select>
+
+                <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-orange-500 w-5 h-5" />
+              </div>
+
+              {/* Location */}
+              <div className="relative">
+                <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-orange-500 w-5 h-5" />
+
+                <select
+                  name="location"
+                  value={formData.location}
+                  onChange={handleChange}
+                  className="appearance-none w-full h-14 rounded-xl border border-gray-300 pl-12 pr-12 outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-200"
+                >
+                  <option value="">Visit Location</option>
+                  <option>Lucknow</option>
+                  <option>Noida</option>
+                  <option>Delhi</option>
+                  <option>Kanpur</option>
+                  <option>Varanasi</option>
+                </select>
+
+                <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-orange-500 w-5 h-5" />
+              </div>
+
+            </div>
+
+            {/* Address */}
+            <div className="relative">
+              <MapPin className="absolute left-4 top-5 text-orange-500 w-5 h-5" />
+
+              <textarea
+                rows="3"
+                name="address"
+                value={formData.address}
+                onChange={handleChange}
+                placeholder="Enter Address"
+                className="w-full rounded-xl border border-gray-300 pl-12 pr-5 py-4 resize-none outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-200"
+              />
+            </div>
+
+            {/* Amount */}
+            <div>
+              <label className="block text-lg font-semibold text-gray-700 mb-3">
+                You Have to Pay
+              </label>
+
+              <div className="relative">
+                <IndianRupee className="absolute left-4 top-1/2 -translate-y-1/2 text-orange-500 w-5 h-5" />
+
+                <input
+                  type="number"
+                  name="amount"
+                  value={formData.amount}
+                  onChange={handleChange}
+                  placeholder="Amount"
+                  className="w-full h-14 rounded-xl border border-gray-300 pl-12 pr-5 outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-200"
+                />
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              className="w-full h-14 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold text-lg shadow-lg hover:shadow-xl hover:scale-[1.01] duration-300"
+            >
+              Book Now
+            </button>
+
+          </form>
+
         </div>
-      ))}
-    </div>
-  </section>
-);
+      </div>
+    </section>
+  );
+};
 
-export default ServicesGrid;
+export default BookingForm;
