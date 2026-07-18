@@ -11,20 +11,51 @@ const Hero = () => {
   const navigate = useNavigate();
 
   const tabs = [
-    { title: "2D LAYOUT PLAN", icon: Home, active: true },
-    { title: "3D FRONT ELEVATION", icon: Home },
-    { title: "STRUCTURAL DRAWINGS", icon: Building2 },
-    { title: "PRESENTATION PLAN", icon: Presentation },
-    { title: "MORE", icon: MoreHorizontal },
-  ];
+  {
+    title: "2D LAYOUT PLAN",
+    icon: Home,
+    path: "/2d-layout",
+  },
+  {
+    title: "3D FRONT ELEVATION",
+    icon: Home,
+    path: "/3d-elevation",
+  },
+  {
+    title: "STRUCTURAL DRAWINGS",
+    icon: Building2,
+    path: "/structural-drawings",
+  },
+  {
+    title: "PRESENTATION PLAN",
+    icon: Presentation,
+    path: "/presentation-plan",
+  },
+  {
+    title: "MORE",
+    icon: MoreHorizontal,
+    path: "/services",
+  },
+];
 
-  const [depth, setDepth] = useState("");
-  const [width, setWidth] = useState("");
-  const [floor, setFloor] = useState("");
-  const [north, setNorth] = useState("");
+const priceList = {
+  "2D LAYOUT PLAN": 15,
+  "3D FRONT ELEVATION": 25,
+  "STRUCTURAL DRAWINGS": 12,
+  "PRESENTATION PLAN": 20,
+};
+  const [selectedService, setSelectedService] = useState("2D LAYOUT PLAN");
+
+const [depth, setDepth] = useState("");
+const [width, setWidth] = useState("");
+const [floor, setFloor] = useState("");
+const [north, setNorth] = useState("");
 
   const buildingArea =
-    depth && width ? Number(depth) * Number(width) : "";
+  depth && width ? Number(depth) * Number(width) : 0;
+
+const totalPrice =
+  buildingArea * priceList[selectedService];
 
   const handleCalculate = () => {
     if (!depth || !width) {
@@ -86,25 +117,37 @@ const Hero = () => {
           <div className="mb-6 flex flex-wrap justify-center gap-2">
 
             {tabs.map((tab, index) => {
-              const Icon = tab.icon;
+  const Icon = tab.icon;
 
-              return (
-                <button
-                  key={index}
-                  className={`flex items-center gap-2 rounded-lg px-4 py-2 text-xs md:text-sm font-semibold transition
-                  ${
-                    tab.active
-                      ? "bg-red-600 text-white"
-                      : "bg-white hover:bg-red-600 hover:text-white"
-                  }`}
-                >
-                  <Icon size={15} />
-                  {tab.title}
-                </button>
-              );
-            })}
+  return (
+    <button
+  key={index}
+  onClick={() => setSelectedService(tab.title)}
+  className={`flex items-center gap-2 rounded-lg px-4 py-2 text-xs md:text-sm font-semibold transition
+  ${
+    selectedService === tab.title
+      ? "bg-red-600 text-white"
+      : "bg-white hover:bg-red-600 hover:text-white"
+  }`}
+>
+      <Icon size={15} />
+      {tab.title}
+    </button>
+  );
+})}
 
           </div>
+          <div className="mb-6 text-center">
+
+  <h2 className="text-3xl md:text-4xl font-bold text-white">
+    {selectedService}
+  </h2>
+
+  <p className="text-white/80 mt-2">
+    Fill the details below to calculate your estimated cost.
+  </p>
+
+</div>
 
           {/* Calculator */}
           <div className="w-full max-w-6xl rounded-2xl bg-white/20 backdrop-blur-md border border-white/20 p-5">

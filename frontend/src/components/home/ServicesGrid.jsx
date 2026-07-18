@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { servicePrice, locationCharge } from "../../data/pricing";
 import toast from "react-hot-toast";
 import {
   User,
@@ -19,15 +20,32 @@ const BookingForm = () => {
     amount: "",
   };
 
+  // Form State
   const [formData, setFormData] = useState(initialState);
 
+  // Handle Input Change
   const handleChange = (e) => {
-    setFormData({
+    const { name, value } = e.target;
+
+    const updatedData = {
       ...formData,
-      [e.target.name]: e.target.value,
-    });
+      [name]: value,
+    };
+
+    // Auto Calculate Amount
+    if (updatedData.purpose && updatedData.location) {
+      const service = servicePrice[updatedData.purpose] || 0;
+      const location = locationCharge[updatedData.location] || 0;
+
+      updatedData.amount = service + location;
+    } else {
+      updatedData.amount = "";
+    }
+
+    setFormData(updatedData);
   };
 
+  // Submit Form
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -66,16 +84,17 @@ const BookingForm = () => {
 
               {/* Name */}
               <div className="relative">
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  placeholder="Enter Your Name"
-                  className="w-full h-14 rounded-xl border border-gray-300 pl-5 pr-12 text-gray-700 outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-200"
-                />
-                <User className="absolute right-4 top-1/2 -translate-y-1/2 text-orange-500 w-5 h-5" />
-              </div>
+  <input
+    type="text"
+    name="name"
+    value={formData.name}
+    onChange={handleChange}
+    placeholder="Enter Your Name"
+    className="w-full h-14 rounded-xl border border-gray-300 pl-5 pr-12 text-gray-700 outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-200"
+  />
+
+  <User className="absolute right-4 top-1/2 -translate-y-1/2 text-orange-500 w-5 h-5" />
+</div>
 
               {/* Mobile */}
               <div className="relative">
@@ -167,13 +186,13 @@ const BookingForm = () => {
                 <IndianRupee className="absolute left-4 top-1/2 -translate-y-1/2 text-orange-500 w-5 h-5" />
 
                 <input
-                  type="number"
-                  name="amount"
-                  value={formData.amount}
-                  onChange={handleChange}
-                  placeholder="Amount"
-                  className="w-full h-14 rounded-xl border border-gray-300 pl-12 pr-5 outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-200"
-                />
+  type="text"
+  name="amount"
+  value={formData.amount ? `₹${formData.amount}` : ""}
+  readOnly
+  placeholder="Amount will be calculated automatically"
+  className="w-full h-14 rounded-xl border border-gray-300 bg-gray-100 pl-12 pr-5 outline-none cursor-not-allowed"
+/>
               </div>
             </div>
 

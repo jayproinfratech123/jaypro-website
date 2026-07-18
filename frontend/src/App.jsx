@@ -8,7 +8,7 @@ import WhatsAppButton from "./components/WhatsAppButton.jsx";
 
 // Public Pages
 import Home from "./pages/Home.jsx";
-import About from "./pages/About.jsx";
+import About from "./pages/About";
 import Services from "./pages/Services.jsx";
 import Portfolio from "./pages/Portfolio.jsx";
 import Pricing from "./pages/Pricing.jsx";
@@ -56,7 +56,7 @@ function App() {
       <Routes>
         {/* Public Pages */}
         <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
+         <Route path="/about" element={<About />} />
         <Route path="/services" element={<Services />} />
         <Route path="/portfolio" element={<Portfolio />} />
         <Route path="/pricing" element={<Pricing />} />
@@ -66,7 +66,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/estimate" element={<Estimate />} />
-
+         
         {/* Service Pages */}
         <Route
           path="/services/architecture"

@@ -31,9 +31,9 @@ const Contact = () => {
         </form>
 
         <div className="space-y-6">
-          <div className="flex items-center gap-3"><Phone className="h-5 w-5 text-red-500" /> +91 9835852462</div>
-          <div className="flex items-center gap-3"><Mail className="h-5 w-5 text-red-500" /> info@jayproinfratech.com</div>
-          <div className="flex items-center gap-3"><MapPin className="h-5 w-5 text-red-500" /> Patna Branch - 1st Floor, Pandooi Place, Opposite Harihar Chamber, Boring Road, Patna, Bihar - 800001</div>
+          <div className="flex items-center gap-3"><Phone className="h-5 w-5 text-red-600" /> +91 9835852462</div>
+          <div className="flex items-center gap-3"><Mail className="h-5 w-5 text-red-600" /> info@jayproinfratech.com</div>
+          <div className="flex items-center gap-3"><MapPin className="h-5 w-5 text-red-600" /> Patna Branch - 1st Floor, Pandooi Place, Opposite Harihar Chamber, Boring Road, Patna, Bihar - 800001</div>
           <div className="aspect-video w-full overflow-hidden rounded-sm border border-black/10 bg-concrete-100">
             <iframe
               title="map"

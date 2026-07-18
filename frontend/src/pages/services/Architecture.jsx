@@ -57,7 +57,7 @@ const Architecture = () => {
 
             <h1 className="text-3xl font-extrabold">
 
-              <span className="text-orange-600">JAYPRO</span>
+              <span className="text-red-600">JAYPRO</span>
 
               <span className="text-gray-900 ml-2">
                 INFRATECH
@@ -73,12 +73,12 @@ const Architecture = () => {
 
             <a
               href="/"
-              className="font-semibold hover:text-orange-600"
+              className="font-semibold hover:text-red-600"
             >
               Home
             </a>
 
-            <button className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-7 py-3 rounded-full font-semibold hover:scale-105 duration-300">
+            <button className="bg-gradient-to-r from-red-500 to-red-600 text-white px-7 py-3 rounded-full font-semibold hover:scale-105 duration-300">
 
               Book Consultation
 
@@ -125,7 +125,7 @@ const Architecture = () => {
 
             <a href="/">Home</a>
 
-            <button className="bg-orange-500 text-white rounded-lg py-3">
+            <button className="bg-red-600 text-white rounded-lg py-3">
 
               Book Consultation
 
@@ -165,7 +165,7 @@ const Architecture = () => {
 
           <div className="hidden md:block w-[360px] bg-white rounded-2xl overflow-hidden shadow-2xl">
 
-            <div className="bg-orange-600 py-4">
+            <div className="bg-red-600 py-4">
 
               <h2 className="text-center text-white text-2xl font-bold">
 
@@ -189,7 +189,7 @@ const Architecture = () => {
               <div className="relative">
 
                 <User
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-orange-500"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-red-600"
                   size={20}
                 />
 
@@ -199,7 +199,7 @@ const Architecture = () => {
                   value={formData.name}
                   onChange={handleChange}
                   placeholder="Enter Name"
-                  className="w-full h-14 border rounded-xl pl-5 pr-12 outline-none focus:border-orange-500"
+                  className="w-full h-14 border rounded-xl pl-5 pr-12 outline-none focus:border-red-600"
                 />
 
               </div>
@@ -207,7 +207,7 @@ const Architecture = () => {
               <div className="relative">
 
                 <Phone
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-orange-500"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-red-600"
                   size={20}
                 />
 

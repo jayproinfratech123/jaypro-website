@@ -13,13 +13,13 @@ const Documents = () => (
       {placeholderDocs.map((doc) => (
         <div key={doc.name} className="flex items-center justify-between p-5">
           <div className="flex items-center gap-3">
-            <FileText className="h-5 w-5 text-amber-500" />
+            <FileText className="h-5 w-5 text-red-500" />
             <div>
               <p className="text-sm font-medium text-blueprint-900">{doc.name}</p>
               <p className="text-xs text-charcoal/50">{doc.type}</p>
             </div>
           </div>
-          <button className="text-charcoal/50 hover:text-amber-600"><Download className="h-4 w-4" /></button>
+          <button className="text-charcoal/50 hover:text-red-600"><Download className="h-4 w-4" /></button>
         </div>
       ))}
     </div>
