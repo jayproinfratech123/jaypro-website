@@ -16,7 +16,7 @@ const AdminDashboard = () => {
       <aside className="flex w-64 shrink-0 flex-col border-r border-black/5 bg-blueprint-950 text-white">
         <div className="border-b border-white/10 p-6">
           <p className="font-display font-semibold">{user?.name}</p>
-          <p className="text-xs text-amber-500">Administrator</p>
+          <p className="text-xs text-red-500">Administrator</p>
         </div>
         <nav className="flex-1 space-y-1 p-4">
           {links.map(({ to, label, icon: Icon, end }) => (
@@ -26,7 +26,7 @@ const AdminDashboard = () => {
               end={end}
               className={({ isActive }) =>
                 `flex items-center gap-3 rounded-sm px-3 py-2 text-sm font-medium transition ${
-                  isActive ? "bg-amber-500 text-white" : "text-concrete-200/70 hover:bg-white/5"
+                  isActive ? "bg-red-500 text-white" : "text-concrete-200/70 hover:bg-white/5"
                 }`
               }
             >

@@ -37,7 +37,7 @@ const Vastu = () => {
       {/* Content */}
       <div className="relative z-10 flex h-full items-center justify-center px-6">
         <div className="text-center text-white">
-          <p className="uppercase tracking-[6px] text-yellow-400 font-semibold mb-4">
+          <p className="uppercase tracking-[6px] text-red-500 font-semibold mb-4">
             JAYPRO INFRATECH
           </p>
 
@@ -50,7 +50,7 @@ const Vastu = () => {
             modern architecture, and premium construction solutions.
           </p>
 
-          <button className="mt-8 px-8 py-4 bg-yellow-500 hover:bg-yellow-400 text-black font-semibold rounded-full transition">
+          <button className="mt-8 px-8 py-4 bg-red-500 hover:bg-red-500 text-black font-semibold rounded-full transition">
             Book Free Consultation
           </button>
         </div>

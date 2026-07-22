@@ -4,7 +4,7 @@ const steps = [
   {
     id: "01",
     title: "Raise a Request",
-    image: "/steps/request.webp",
+    image: "/rase-request.webp",
     points: [
       "Raise a house construction request or call Jaypro Infratech.",
       "Our experts understand your requirements.",
@@ -14,7 +14,7 @@ const steps = [
   {
     id: "02",
     title: "Meet our Expert",
-    image: "/steps/expert.webp",
+    image: "/meet-our-expert.webp",
     points: [
       "Our experts help you choose the perfect package.",
       "Discuss design, budget and construction."
@@ -23,7 +23,7 @@ const steps = [
   {
     id: "03",
     title: "Book with Us",
-    image: "/steps/book.webp",
+    image: "/book-with-us.webp",
     points: [
       "Confirm your project.",
       "Booking starts with initial payment."
@@ -32,9 +32,9 @@ const steps = [
   {
     id: "04",
     title: "Receive Detailed Plans",
-    image: "/steps/plans.webp",
+    image: "/received-detail-plan.webp",
     points: [
-      "Floor plans",
+      "Floor Plans",
       "3D Elevation",
       "Structural Drawings",
       "Electrical & Plumbing"
@@ -43,7 +43,7 @@ const steps = [
   {
     id: "05",
     title: "Track & Transact",
-    image: "/steps/track.webp",
+    image: "/track-transact.webp",
     points: [
       "Track construction progress.",
       "Stage-wise payment updates."
@@ -52,10 +52,10 @@ const steps = [
   {
     id: "06",
     title: "Settle In",
-    image: "/steps/settle.webp",
+    image: "/settle-in.webp",
     points: [
       "Project handover.",
-      "10 Years Warranty."
+      "10 Years Structural Warranty."
     ]
   }
 ];
@@ -63,90 +63,103 @@ const steps = [
 export default function TurnkeyTimeline() {
   return (
     <section className="bg-white py-24">
+      <div className="relative max-w-4xl mx-auto px-5">
 
-      <div className="max-w-7xl mx-auto px-6 relative">
+        {/* Vertical Timeline */}
+        <div className="absolute left-[32px] top-0 bottom-0 border-l-2 border-dashed border-orange-500"></div>
 
-        {/* Animated Vertical Line */}
-        <motion.div
-          initial={{ height: 0 }}
-          whileInView={{ height: "100%" }}
-          viewport={{ once: true }}
-          transition={{ duration: 2 }}
-          className="absolute left-10 top-0 w-[2px] bg-orange-500"
-        />
-
-        {steps.map((step, index) => (
-          <div
-            key={index}
-            className="relative grid lg:grid-cols-2 gap-16 items-center mb-28"
+        {steps.map((step) => (
+          <motion.div
+            key={step.id}
+            initial={{ opacity: 0, y: 60 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="relative grid lg:grid-cols-2 items-center gap-12 mb-24"
           >
-            {/* Number */}
-            <motion.div
-              initial={{ scale: 0 }}
-              whileInView={{ scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: .5 }}
-              className="absolute left-4 top-0 z-20"
-            >
-              <div className="h-14 w-14 rounded-full border-2 border-orange-500 bg-white flex items-center justify-center font-bold text-2xl">
+
+            {/* Circle */}
+            <div className="absolute left-0 top-2 z-20">
+              <div className="w-16 h-16 rounded-full bg-white border-[3px] border-red-500 flex items-center justify-center text-2xl font-semibold text-gray-900 shadow-sm">
                 {step.id}
               </div>
-            </motion.div>
+            </div>
 
-            {/* Left Side */}
-            <motion.div
-              initial={{ x: -120, opacity: 0 }}
-              whileInView={{ x: 0, opacity: 1 }}
-              viewport={{ once: true, amount: .3 }}
-              transition={{ duration: .7 }}
-              className="pl-24"
-            >
-              <h2 className="text-4xl font-bold mb-10">
+            {/* Left */}
+            <div className="pl-28">
+
+              <h2 className="text-[40px] font-semibold text-gray-900 mb-8">
                 {step.title}
               </h2>
 
               <img
                 src={step.image}
                 alt={step.title}
-                className="w-full max-w-md mx-auto"
+                className="w-[430px] object-contain"
               />
-            </motion.div>
 
-            {/* Right Side */}
-            <motion.div
-              initial={{ x: 120, opacity: 0 }}
-              whileInView={{ x: 0, opacity: 1 }}
-              viewport={{ once: true, amount: .3 }}
-              transition={{ duration: .7 }}
-            >
-              <ul className="space-y-8">
-                {step.points.map((item, i) => (
+            </div>
+
+            {/* Right */}
+            <div className="max-w-xl">
+
+              <ul className="space-y-10">
+
+                {step.points.map((point, index) => (
                   <li
-                    key={i}
-                    className="flex gap-5"
+                    key={index}
+                    className="flex items-start gap-5"
                   >
-                    <div className="w-3 h-3 bg-orange-500 mt-3"></div>
 
-                    <p className="text-2xl text-gray-700">
-                      {item}
+                    <span className="mt-4 w-3 h-3 rounded-sm bg-red-500 shrink-0"></span>
+
+                    <p className="text-[18px] leading-10 text-gray-700 font-normal">
+                      {point}
                     </p>
+
                   </li>
                 ))}
+
               </ul>
-            </motion.div>
-          </div>
+
+            </div>
+
+          </motion.div>
         ))}
 
-        {/* Bottom Banner */}
-        <motion.div
-          initial={{ opacity: 0, y: 80 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: .8 }}
-          className="bg-orange-600 rounded-lg p-8 text-center text-white text-3xl font-bold"
-        >
-          ✓ Planned – Built – Tracked – Settled
-        </motion.div>
+        {/* Completion Banner */}
+<motion.div
+  initial={{ opacity: 0, y: 40 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true }}
+  transition={{ duration: 0.6 }}
+  className="mt-10"
+>
+  <div className="bg-[#F95A24] rounded-sm py-6 px-8 flex items-center justify-center gap-5">
+    {/* Check Icon */}
+    <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="w-6 h-6 text-[#F95A24]"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={3}
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M5 13l4 4L19 7"
+        />
+      </svg>
+    </div>
+
+    {/* Text */}
+    <h3 className="text-white text-2xl md:text-3xl font-semibold tracking-wide">
+      Planned – Built – Tracked – Settled
+    </h3>
+  </div>
+</motion.div>
 
       </div>
     </section>

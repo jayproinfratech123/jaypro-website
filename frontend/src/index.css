@@ -7,13 +7,13 @@ html {
 }
 
 ::selection {
-  background-color: #E28A1E;
+  background-color: #ed2e08;
   color: white;
 }
 
 @layer components {
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-sm bg-amber-500 px-6 py-3 font-display font-semibold text-white transition hover:bg-amber-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blueprint-900;
+    @apply inline-flex items-center justify-center gap-2 rounded-sm bg-red-500 px-6 py-3 font-display font-semibold text-white transition hover:bg-amber-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blueprint-900;
   }
   .btn-outline {
     @apply inline-flex items-center justify-center gap-2 rounded-sm border border-blueprint-900 px-6 py-3 font-display font-semibold text-blueprint-900 transition hover:bg-blueprint-900 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2;

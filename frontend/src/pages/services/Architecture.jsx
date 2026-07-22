@@ -217,13 +217,13 @@ const Architecture = () => {
                   value={formData.mobile}
                   onChange={handleChange}
                   placeholder="Enter Mobile Number"
-                  className="w-full h-14 border rounded-xl pl-5 pr-12 outline-none focus:border-orange-500"
+                  className="w-full h-14 border rounded-xl pl-5 pr-12 outline-none focus:border-red-500"
                 />
 
               </div>
 
               <button
-                className="w-full h-14 rounded-xl bg-gray-900 text-white text-lg font-semibold hover:bg-orange-600 duration-300"
+                className="w-full h-14 rounded-xl bg-gray-900 text-white text-lg font-semibold hover:bg-red-600 duration-300"
               >
                 Submit
               </button>

@@ -31,7 +31,7 @@ const AdminProjects = () => {
                 <td className="p-4">{p.customer?.name}</td>
                 <td className="p-4 capitalize">{p.serviceType.replace(/_/g, " ")}</td>
                 <td className="p-4">
-                  <span className="rounded-full bg-amber-500/10 px-3 py-1 text-xs font-medium capitalize text-amber-600">
+                  <span className="rounded-full bg-amber-500/10 px-3 py-1 text-xs font-medium capitalize text-red-600">
                     {p.status.replace(/_/g, " ")}
                   </span>
                 </td>

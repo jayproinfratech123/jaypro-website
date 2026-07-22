@@ -66,7 +66,7 @@ const Estimate = () => {
 
       <div className="mx-auto max-w-6xl overflow-hidden rounded-2xl bg-white shadow-2xl">
 
-        <div className="bg-orange-500 py-6 text-center text-white">
+        <div className="bg-red-500 py-6 text-center text-white">
           <h2 className="text-4xl font-bold">
             Construction Estimate
           </h2>
@@ -112,7 +112,7 @@ const Estimate = () => {
 
             </div>
 
-            <div className="mt-8 rounded-xl bg-orange-500 p-6 text-white">
+            <div className="mt-8 rounded-xl bg-red-500 p-6 text-white">
 
               <p className="text-lg">
                 Estimated Construction Cost
@@ -202,11 +202,11 @@ const Estimate = () => {
                 name="message"
                 onChange={changeHandler}
                 placeholder="Tell us about your project..."
-                className="w-full rounded-lg border p-4 outline-none focus:border-orange-500"
+                className="w-full rounded-lg border p-4 outline-none focus:border-red-500"
               />
 
               <button
-                className="w-full rounded-lg bg-orange-500 py-4 text-lg font-semibold text-white transition hover:bg-orange-600"
+                className="w-full rounded-lg bg-red-500 py-4 text-lg font-semibold text-white transition hover:bg-red-600"
               >
                 Submit Enquiry
               </button>
@@ -226,7 +226,7 @@ const Estimate = () => {
 const Detail = ({ icon, label, value }) => (
   <div className="flex items-center justify-between rounded-lg border bg-white p-4">
     <div className="flex items-center gap-3">
-      <div className="text-orange-500">{icon}</div>
+      <div className="text-red-500">{icon}</div>
       <span>{label}</span>
     </div>
 

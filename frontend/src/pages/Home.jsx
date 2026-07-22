@@ -10,6 +10,8 @@ import FAQ from "../components/home/FAQ.jsx";
 import Pricing from "./Pricing.jsx";
 import TrustedBrands from "../components/TrustedBrands";
 import HowItWorks from "../components/home/HowItWorks";
+import DesignPackage from "./DesignPackage.jsx"
+import Packages from "../components/home/packages/Packages.jsx";
 const Home = () => {
   return (
     <>
@@ -18,7 +20,8 @@ const Home = () => {
       <ServicesGrid />
 
       <ServicesSection />
-
+      
+      <Packages />
       <Pricing />
       <HowItWorks />
       <TrustedBrands />

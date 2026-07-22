@@ -24,30 +24,30 @@ const steps = [
   {
     number: "02",
     icon: <FaClipboardList size={30} />,
-    title: "Planning",
+    title: "Slot Booking",
     description:
-      "Detailed planning, site inspection and project scheduling for smooth execution.",
+      "Book your slot to finalize the rate and start your work..",
   },
   {
     number: "03",
     icon: <FaLaptopHouse size={30} />,
     title: "Design",
     description:
-      "Modern architectural design, 3D visualization and premium floor planning.",
+      "Vastu-based architectural design, structural design detailed, and 3D front Elevation.",
   },
   {
     number: "04",
     icon: <FaFileInvoiceDollar size={30} />,
-    title: "Estimate",
+    title: "Material Selection",
     description:
-      "Transparent quotations with BOQ, approvals and complete project planning.",
+      "Client selects materials, and we provide a clear construction rate based on the project requirements.",
   },
   {
     number: "05",
     icon: <FaHardHat size={30} />,
     title: "Construction",
     description:
-      "Expert engineers execute every stage with strict quality standards.",
+      "From foundation to final finishing, we handle every stage with quality workmanship and expert supervision.",
   },
   {
     number: "06",
@@ -83,7 +83,7 @@ const features = [
 
 export default function HowItWorks() {
   return (
-    <section className="py-20 bg-[#faf8f5]">
+    <section className="py-15 bg-[#faf8f5]">
       <div className="max-w-5xl mx-auto px-6">
 
         {/* Heading */}

@@ -27,7 +27,7 @@ const Sidebar = () => {
             end={end}
             className={({ isActive }) =>
               `flex items-center gap-3 rounded-sm px-3 py-2 text-sm font-medium transition ${
-                isActive ? "bg-amber-500/10 text-amber-600" : "text-charcoal/70 hover:bg-concrete-100"
+                isActive ? "bg-amber-500/10 text-red-600" : "text-charcoal/70 hover:bg-concrete-100"
               }`
             }
           >

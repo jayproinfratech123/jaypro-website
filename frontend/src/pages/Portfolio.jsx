@@ -17,7 +17,7 @@ const Portfolio = () => {
 
   return (
     <section className="container-xl py-24">
-      <span className="section-label"><span className="h-px w-6 bg-amber-500" /> Portfolio</span>
+      <span className="section-label"><span className="h-px w-6 bg-red-500" /> Portfolio</span>
       <h1 className="font-display text-4xl font-bold text-blueprint-900">Projects we're proud of</h1>
 
       <div className="my-8 flex flex-wrap gap-2">
@@ -26,7 +26,7 @@ const Portfolio = () => {
             key={c}
             onClick={() => setFilter(c)}
             className={`rounded-full px-4 py-2 text-sm transition ${
-              filter === c ? "bg-amber-500 text-white" : "border border-black/10 text-charcoal/70 hover:border-amber-500"
+              filter === c ? "bg-red-500 text-white" : "border border-black/10 text-charcoal/70 hover:border-red-500"
             }`}
           >
             {c}
@@ -39,7 +39,7 @@ const Portfolio = () => {
           <div key={p.title} className="overflow-hidden rounded-sm border border-black/5 bg-white">
             <img src={p.img} alt={p.title} className="aspect-[4/3] w-full object-cover" />
             <div className="p-5">
-              <span className="text-xs font-semibold uppercase tracking-wide text-amber-600">{p.category}</span>
+              <span className="text-xs font-semibold uppercase tracking-wide text-red-600">{p.category}</span>
               <h3 className="mt-1 font-display font-semibold text-blueprint-900">{p.title}</h3>
             </div>
           </div>

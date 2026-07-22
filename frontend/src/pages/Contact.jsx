@@ -38,7 +38,7 @@ const Contact = () => {
             <iframe
               title="map"
               className="h-full w-full"
-              src="https://maps.google.com/maps?q=Bengaluru&t=&z=12&ie=UTF8&iwloc=&output=embed"
+              src="https://share.google/7WzTj96cXle0T7BW2"
             />
           </div>
         </div>

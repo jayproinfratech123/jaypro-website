@@ -16,12 +16,12 @@ const Blogs = () => {
 
   return (
     <section className="container-xl py-24">
-      <span className="section-label"><span className="h-px w-6 bg-amber-500" /> Blogs</span>
+      <span className="section-label"><span className="h-px w-6 bg-red-500" /> Blogs</span>
       <h1 className="font-display text-4xl font-bold text-blueprint-900">Construction insights</h1>
       <div className="mt-10 grid gap-6 md:grid-cols-3">
         {blogs.map((b) => (
           <article key={b._id} className="rounded-sm border border-black/5 bg-white p-6">
-            <span className="text-xs font-semibold uppercase tracking-wide text-amber-600">
+            <span className="text-xs font-semibold uppercase tracking-wide text-red-600">
               {b.category.replace("_", " ")}
             </span>
             <h3 className="mt-2 font-display font-semibold text-blueprint-900">{b.title}</h3>

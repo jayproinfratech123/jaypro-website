@@ -23,7 +23,7 @@ const brands = [
 
 const TrustedBrands = () => {
   return (
-    <section className="py-20 bg-gray-100">
+    <section className="py-16 bg-gray-100">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-14">
           <h2 className="text-4xl font-bold text-gray-900">
