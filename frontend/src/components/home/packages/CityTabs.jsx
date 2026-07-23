@@ -4,14 +4,14 @@ export default function CityTabs({ selectedCity, setSelectedCity }) {
   const cities = ["Patna", "Noida"];
 
   return (
-    <div className="mb-10">
+    <div className="mb-10 mt-3">
       {/* City Buttons */}
       <div className="flex justify-center items-center gap-6">
         {cities.map((city) => (
           <button
             key={city}
             onClick={() => setSelectedCity(city)}
-            className={`px-8 py-3 rounded-lg font-semibold text-lg transition-all duration-300 border-2
+            className={`px-5 py-2 rounded-md font-medium text-base transition-all duration-300 border-2
               ${
                 selectedCity === city
                   ? "bg-[#F45A17] text-white border-[#F45A17] shadow-lg"
@@ -24,9 +24,9 @@ export default function CityTabs({ selectedCity, setSelectedCity }) {
       </div>
 
       {/* Heading */}
-      <h3 className="text-center text-4xl font-bold text-[#1F2937] mt-8">
+      <h3 className="text-center text-4xl font-bold text-[#1F2937] mt-5">
         Package For{" "}
-        <span className="text-[#F45A17]">
+        <span className="text-[#f42217]">
           {selectedCity}
         </span>
       </h3>

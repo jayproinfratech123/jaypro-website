@@ -3,14 +3,15 @@ import ServicesGrid from "../components/home/ServicesGrid.jsx";
 import ServicesSection from "../components/ServicesSection.jsx";
 import FeaturedProjects from "../components/home/FeaturedProjects.jsx";
 
+import DesignPackage from "../components/home/DesignPackage.jsx";
 
 import WhyChooseUs from "../components/home/WhyChooseUs.jsx";
 import Testimonials from "../components/home/Testimonials.jsx";
 import FAQ from "../components/home/FAQ.jsx";
-import Pricing from "./Pricing.jsx";
+
 import TrustedBrands from "../components/TrustedBrands";
 import HowItWorks from "../components/home/HowItWorks";
-import DesignPackage from "./DesignPackage.jsx"
+
 import Packages from "../components/home/packages/Packages.jsx";
 const Home = () => {
   return (
@@ -20,9 +21,9 @@ const Home = () => {
       <ServicesGrid />
 
       <ServicesSection />
-      
+      <DesignPackage />
       <Packages />
-      <Pricing />
+      
       <HowItWorks />
       <TrustedBrands />
 

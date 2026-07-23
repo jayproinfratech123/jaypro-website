@@ -11,7 +11,7 @@ import Home from "./pages/Home.jsx";
 import About from "./pages/About";
 import Services from "./pages/Services.jsx";
 import Portfolio from "./pages/Portfolio.jsx";
-import Pricing from "./pages/Pricing.jsx";
+
 import Blogs from "./pages/Blogs.jsx";
 import Contact from "./pages/Contact.jsx";
 import Login from "./pages/Login.jsx";
@@ -59,7 +59,7 @@ function App() {
          <Route path="/about" element={<About />} />
         <Route path="/services" element={<Services />} />
         <Route path="/portfolio" element={<Portfolio />} />
-        <Route path="/pricing" element={<Pricing />} />
+        
         <Route path="/blogs" element={<Blogs />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />

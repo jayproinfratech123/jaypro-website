@@ -11,17 +11,31 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Connect MongoDB Atlas
+// Check if MongoDB URI exists
+if (!process.env.MONGO_URI) {
+  console.error("❌ MONGO_URI is missing in .env");
+  process.exit(1);
+}
+
+// Show MongoDB URI without exposing password
+const maskedURI = process.env.MONGO_URI.replace(
+  /\/\/([^:]+):([^@]+)@/,
+  "//$1:********@"
+);
+
+console.log("Mongo URI:", maskedURI);
+
+// Connect Database
 connectDB();
 
-// Test route
+// Test Route
 app.get("/", (req, res) => {
-  res.send("Backend is properly working");
+  res.send("🚀 Backend is working successfully!");
 });
 
 // Port
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-  console.log(`🚀 Server is running on port ${PORT}`);
+  console.log(`🚀 BuildCraft Pro API running on port ${PORT}`);
 });
