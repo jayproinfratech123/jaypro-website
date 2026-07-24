@@ -14,7 +14,7 @@ export default function CityTabs({ selectedCity, setSelectedCity }) {
             className={`px-5 py-2 rounded-md font-medium text-base transition-all duration-300 border-2
               ${
                 selectedCity === city
-                  ? "bg-[#F45A17] text-white border-[#F45A17] shadow-lg"
+                  ? "bg-red-600 text-white border-[#F45A17] shadow-lg"
                   : "bg-white text-black border-transparent hover:border-[#F45A17]"
               }`}
           >

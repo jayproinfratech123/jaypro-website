@@ -13,9 +13,11 @@ import TrustedBrands from "../components/TrustedBrands";
 import HowItWorks from "../components/home/HowItWorks";
 
 import Packages from "../components/home/packages/Packages.jsx";
+import LeadPopup from "../components/LeadPopup";
 const Home = () => {
   return (
     <>
+    <LeadPopup />
       <Hero />
 
       <ServicesGrid />

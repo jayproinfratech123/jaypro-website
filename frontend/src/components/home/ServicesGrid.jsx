@@ -75,7 +75,7 @@ const handleChange = (e) => {
           {/* LEFT SIDE - IMAGE */}
           <div className="hidden lg:block relative h-full">
             <img
-              src="/home-front.jpeg"  // 👉 put image in public/images
+              src="/construction.webp"  // 👉 put image in public/images
               alt="Consultation"
               className="w-full h-full object-cover"
             />
