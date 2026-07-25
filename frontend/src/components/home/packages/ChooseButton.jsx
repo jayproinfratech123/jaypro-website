@@ -10,8 +10,8 @@ const ChooseButton = ({
       onClick={onClick}
       className={`
         ${fullWidth ? "w-full" : ""}
-        bg-[#F45A17]
-        hover:bg-[#d94f13]
+        bg-red-600
+        hover:bg-red-600
         text-white
         font-semibold
         px-6

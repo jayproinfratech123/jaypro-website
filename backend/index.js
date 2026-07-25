@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
+import authRoutes from "./routes/authRoutes.js";
 
 dotenv.config();
 
@@ -17,14 +18,6 @@ if (!process.env.MONGO_URI) {
   process.exit(1);
 }
 
-// Show MongoDB URI without exposing password
-const maskedURI = process.env.MONGO_URI.replace(
-  /\/\/([^:]+):([^@]+)@/,
-  "//$1:********@"
-);
-
-console.log("Mongo URI:", maskedURI);
-
 // Connect Database
 connectDB();
 
@@ -32,6 +25,9 @@ connectDB();
 app.get("/", (req, res) => {
   res.send("🚀 Backend is working successfully!");
 });
+
+// Register Auth Routes
+app.use("/api/auth", authRoutes);
 
 // Port
 const PORT = process.env.PORT || 5000;

@@ -52,7 +52,7 @@ const PackageModal = ({
           </p>
 
           <div className="text-center mt-3">
-            <span className="inline-block bg-[#F45A17] text-white px-5 py-2 rounded-lg font-semibold">
+            <span className="inline-block bg-red-600 text-white px-5 py-2 rounded-lg font-semibold">
               {selectedPackage}
             </span>
           </div>

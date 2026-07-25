@@ -47,9 +47,9 @@ const Navbar = () => {
               key={link.to}
               to={link.to}
               className={({ isActive }) =>
-                `font-body text-sm font-medium transition hover:text-amber-600 ${
+                `font-body text-sm font-medium transition hover:text-red-600 ${
                   isActive
-                    ? "text-amber-600"
+                    ? "text-red-600"
                     : "text-blueprint-900"
                 }`
               }
@@ -72,7 +72,7 @@ const Navbar = () => {
                   ? "/admin"
                   : "/dashboard"
               }
-              className="rounded-xl bg-orange-500 px-5 py-2 text-sm font-semibold text-white transition hover:bg-orange-600"
+              className="rounded-xl bg-red-500 px-5 py-2 text-sm font-semibold text-white transition hover:bg-orange-600"
             >
               Dashboard
             </Link>
@@ -81,7 +81,7 @@ const Navbar = () => {
 
             <Link
               to="/login"
-              className="rounded-xl bg-orange-500 px-5 py-2 text-sm font-semibold text-white transition hover:bg-orange-600"
+              className="rounded-xl bg-red-600 px-5 py-2 text-sm font-semibold text-white transition hover:bg-orange-600"
             >
               Login
             </Link>

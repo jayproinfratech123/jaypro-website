@@ -8,7 +8,7 @@ const PackageCategory = ({ section }) => {
       <tr className="bg-white">
         <td
           colSpan={4}
-          className="px-8 py-6 text-3xl font-semibold text-[#f11106]"
+          className="px-8 py-6 text-3xl font-semibold text-red-600"
         >
           {section.category}
         </td>

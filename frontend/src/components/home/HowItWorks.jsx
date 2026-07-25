@@ -96,7 +96,8 @@ export default function HowItWorks() {
 
             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
               Our
-              <span className="text-red-500"> Construction </span>
+              <span className="text-red-600
+              00"> Construction </span>
               Process
             </h2>
 
@@ -137,7 +138,7 @@ export default function HowItWorks() {
       >
         {/* Step Number */}
         <div className="absolute -top-5 left-1/2 -translate-x-1/2">
-          <div className="w-11 h-11 rounded-full bg-red-500 text-white font-bold flex items-center justify-center shadow-lg">
+          <div className="w-11 h-11 rounded-full bg-red-600 text-white font-bold flex items-center justify-center shadow-lg">
             {step.number}
           </div>
         </div>
@@ -145,7 +146,7 @@ export default function HowItWorks() {
         <div className="pt-6 text-center">
 
           {/* Icon */}
-          <div className="w-12 h-12 rounded-full border-2 border-red-100 flex items-center justify-center mx-auto text-red-500 bg-white shadow mb-3">
+          <div className="w-12 h-12 rounded-full border-2 border-red-100 flex items-center justify-center mx-auto text-red-600 bg-white shadow mb-3">
             {step.icon}
           </div>
 
@@ -160,7 +161,7 @@ export default function HowItWorks() {
           </p>
 
           {/* Bottom Line */}
-          <div className="w-8 h-1 bg-red-500 rounded-full mx-auto mt-3"></div>
+          <div className="w-8 h-1 bg-red-600 rounded-full mx-auto mt-3"></div>
 
         </div>
       </motion.div>

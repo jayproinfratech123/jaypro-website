@@ -14,8 +14,8 @@ export default function CityTabs({ selectedCity, setSelectedCity }) {
             className={`px-5 py-2 rounded-md font-medium text-base transition-all duration-300 border-2
               ${
                 selectedCity === city
-                  ? "bg-red-600 text-white border-[#F45A17] shadow-lg"
-                  : "bg-white text-black border-transparent hover:border-[#F45A17]"
+                  ? "bg-red-600 text-white border-red-600 shadow-lg"
+                  : "bg-white text-black border-transparent hover:border-red-600"
               }`}
           >
             {city.toUpperCase()}
@@ -26,7 +26,7 @@ export default function CityTabs({ selectedCity, setSelectedCity }) {
       {/* Heading */}
       <h3 className="text-center text-4xl font-bold text-[#1F2937] mt-5">
         Package For{" "}
-        <span className="text-[#f42217]">
+        <span className="text-red-600">
           {selectedCity}
         </span>
       </h3>

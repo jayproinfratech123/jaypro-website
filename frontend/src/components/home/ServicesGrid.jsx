@@ -105,7 +105,7 @@ const handleChange = (e) => {
           <div className="p-8 lg:p-12">
 
             <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">
-              <span className="text-red-500">Book Your </span> Slot Now
+              <span className="text-red-600">Book Your </span> Slot Now
             </h2>
 
             <form className="space-y-6" onSubmit={handleSubmit}>
@@ -120,9 +120,9 @@ const handleChange = (e) => {
                     value={formData.name}
                     onChange={handleChange}
                     placeholder="Enter Your Name"
-                    className="w-full h-14 rounded-xl border border-gray-300 pl-5 pr-12 text-gray-700 outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-200"
+                    className="w-full h-14 rounded-xl border border-gray-300 pl-5 pr-12 text-gray-700 outline-none focus:border-red-500 focus:ring-2 focus:ring-orange-200"
                   />
-                  <User className="absolute right-4 top-1/2 -translate-y-1/2 text-orange-500 w-5 h-5" />
+                  <User className="absolute right-4 top-1/2 -translate-y-1/2 text-red-600 w-5 h-5" />
                 </div>
 
                 <div className="relative">
@@ -132,9 +132,9 @@ const handleChange = (e) => {
                     value={formData.mobile}
                     onChange={handleChange}
                     placeholder="Enter Mobile Number"
-                    className="w-full h-14 rounded-xl border border-gray-300 pl-5 pr-12 text-gray-700 outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-200"
+                    className="w-full h-14 rounded-xl border border-gray-300 pl-5 pr-12 text-gray-700 outline-none focus:border-red-500 focus:ring-2 focus:ring-orange-200"
                   />
-                  <Phone className="absolute right-4 top-1/2 -translate-y-1/2 text-orange-500 w-5 h-5" />
+                  <Phone className="absolute right-4 top-1/2 -translate-y-1/2 text-red-600 w-5 h-5" />
                 </div>
 
               </div>
@@ -143,13 +143,13 @@ const handleChange = (e) => {
               <div className="grid md:grid-cols-2 gap-6">
 
                 <div className="relative">
-                  <Briefcase className="absolute left-4 top-1/2 -translate-y-1/2 text-orange-500 w-5 h-5" />
+                  <Briefcase className="absolute left-4 top-1/2 -translate-y-1/2 text-red-600 w-5 h-5" />
 
                   <select
                     name="purpose"
                     value={formData.purpose}
                     onChange={handleChange}
-                    className="appearance-none w-full h-14 rounded-xl border border-gray-300 pl-12 pr-12 outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-200"
+                    className="appearance-none w-full h-14 rounded-xl border border-gray-300 pl-12 pr-12 outline-none focus:border-red-600 focus:ring-2 focus:ring-orange-200"
                   >
                     <option value="">Select Purpose</option>
                     <option>House Construction</option>
@@ -162,17 +162,17 @@ const handleChange = (e) => {
                     <option>3D Elevation</option>
                   </select>
 
-                  <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-orange-500 w-5 h-5" />
+                  <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-red-600 w-5 h-5" />
                 </div>
 
                 <div className="relative">
-                  <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-orange-500 w-5 h-5" />
+                  <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-red-600 w-5 h-5" />
 
                   <select
                     name="location"
                     value={formData.location}
                     onChange={handleChange}
-                    className="appearance-none w-full h-14 rounded-xl border border-gray-300 pl-12 pr-12 outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-200"
+                    className="appearance-none w-full h-14 rounded-xl border border-gray-300 pl-12 pr-12 outline-none focus:border-red-600 focus:ring-2 focus:ring-orange-200"
                   >
                     <option value="">Visit Location</option>
                     <option>Patna</option>
@@ -183,14 +183,14 @@ const handleChange = (e) => {
                     <option>Varanasi</option>
                   </select>
 
-                  <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-orange-500 w-5 h-5" />
+                  <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-red-600 w-5 h-5" />
                 </div>
 
               </div>
 
               {/* Address */}
               <div className="relative">
-                <MapPin className="absolute left-4 top-5 text-orange-500 w-5 h-5" />
+                <MapPin className="absolute left-4 top-5 text-red-600 w-5 h-5" />
 
                 <textarea
                   rows="3"
@@ -198,7 +198,7 @@ const handleChange = (e) => {
                   value={formData.address}
                   onChange={handleChange}
                   placeholder="Enter Address"
-                  className="w-full rounded-xl border border-gray-300 pl-12 pr-5 py-4 resize-none outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-200"
+                  className="w-full rounded-xl border border-gray-300 pl-12 pr-5 py-4 resize-none outline-none focus:border-red-600 focus:ring-2 focus:ring-orange-200"
                 />
               </div>
 
@@ -209,7 +209,7 @@ const handleChange = (e) => {
                 </label>
 
                 <div className="relative">
-                  <IndianRupee className="absolute left-4 top-1/2 -translate-y-1/2 text-orange-500 w-5 h-5" />
+                  <IndianRupee className="absolute left-4 top-1/2 -translate-y-1/2 text-red-600 w-5 h-5" />
 
                   <input
                     type="text"
@@ -224,7 +224,7 @@ const handleChange = (e) => {
 
               <button
                 type="submit"
-                className="w-full h-14 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold text-lg shadow-lg hover:shadow-xl hover:scale-[1.01] duration-300"
+                className="w-full h-14 rounded-xl bg-gradient-to-r from-red-600 to-red-600 text-white font-semibold text-lg shadow-lg hover:shadow-xl hover:scale-[1.01] duration-300"
               >
                 Book Now
               </button>

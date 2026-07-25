@@ -1,26 +1,28 @@
 import React, { useEffect, useState } from "react";
 import emailjs from "@emailjs/browser";
+
 const LeadPopup = () => {
   const [open, setOpen] = useState(false);
 
   const [form, setForm] = useState({
     name: "",
     phone: "",
-    email: "",
     location: "",
   });
 
   useEffect(() => {
-  const alreadySubmitted = localStorage.getItem("leadFormSubmitted");
+    // Show only once
+    const alreadySubmitted = localStorage.getItem("leadFormSubmitted");
 
-  if (!alreadySubmitted) {
+    if (alreadySubmitted) return;
+
+    // Show popup after 30 seconds
     const timer = setTimeout(() => {
       setOpen(true);
-    }, 500);
+    }, 30000);
 
     return () => clearTimeout(timer);
-  }
-}, []);
+  }, []);
 
   const handleChange = (e) => {
     setForm({
@@ -29,48 +31,43 @@ const LeadPopup = () => {
     });
   };
 
-const handleSubmit = (e) => {
-  e.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-  emailjs
-    .send(
-      "service_eh0nl85",
-      "template_zi735cj",
-      {
-        name: form.name,
-        phone: form.phone,
-        email: form.email,
-        location: form.location,
-      },
-      "Dq2RxY5wtIuKDeAKb"
-    )
-    .then((result) => {
-      console.log(result.text);
+    emailjs
+      .send(
+        "service_m0j83bm",
+        "template_z4e8qsc",
+        {
+          name: form.name,
+          phone: form.phone,
+          location: form.location,
+        },
+        "KO0vW07GvHuCaBrbK"
+      )
+      .then(() => {
+        localStorage.setItem("leadFormSubmitted", "true");
 
-      localStorage.setItem("leadFormSubmitted", "true");
+        alert("Thank you! Our team will contact you soon.");
 
-      alert("Thank you! Our team will contact you soon.");
+        setOpen(false);
 
-      setOpen(false);
-
-      setForm({
-        name: "",
-        phone: "",
-        email: "",
-        location: "",
+        setForm({
+          name: "",
+          phone: "",
+          location: "",
+        });
+      })
+      .catch(() => {
+        alert("Something went wrong. Please try again.");
       });
-    })
-    .catch((error) => {
-      console.log(error.text);
-      alert("Something went wrong. Please try again.");
-    });
-};
+  };
 
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-[9999] bg-black/60 flex items-center justify-center p-5">
-      <div className="bg-white rounded-3xl w-full max-w-md p-7 relative">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 p-5">
+      <div className="relative w-full max-w-md rounded-3xl bg-white p-7">
 
         <button
           onClick={() => setOpen(false)}
@@ -79,18 +76,15 @@ const handleSubmit = (e) => {
           ×
         </button>
 
-        <h2 className="text-3xl font-bold text-center">
+        <h2 className="text-center text-3xl font-bold">
           Get Free Consultation
         </h2>
 
-        <p className="text-center text-gray-500 mt-2">
+        <p className="mt-2 text-center text-gray-500">
           Fill your details
         </p>
 
-        <form
-          onSubmit={handleSubmit}
-          className="space-y-4 mt-7"
-        >
+        <form onSubmit={handleSubmit} className="mt-7 space-y-4">
           <input
             type="text"
             name="name"
@@ -98,7 +92,7 @@ const handleSubmit = (e) => {
             required
             value={form.name}
             onChange={handleChange}
-            className="w-full border rounded-xl p-3"
+            className="w-full rounded-xl border p-3"
           />
 
           <input
@@ -108,36 +102,26 @@ const handleSubmit = (e) => {
             required
             value={form.phone}
             onChange={handleChange}
-            className="w-full border rounded-xl p-3"
-          />
-
-          <input
-            type="email"
-            name="email"
-            placeholder="Email Address"
-            required
-            value={form.email}
-            onChange={handleChange}
-            className="w-full border rounded-xl p-3"
+            className="w-full rounded-xl border p-3"
           />
 
           <input
             type="text"
             name="location"
-            placeholder="Location"
+            placeholder="City"
             required
             value={form.location}
             onChange={handleChange}
-            className="w-full border rounded-xl p-3"
+            className="w-full rounded-xl border p-3"
           />
 
           <button
-            className="w-full bg-[#F45A17] text-white rounded-xl py-3 font-semibold"
+            type="submit"
+            className="w-full rounded-xl bg-[#F45A17] py-3 font-semibold text-white"
           >
             Submit
           </button>
         </form>
-
       </div>
     </div>
   );

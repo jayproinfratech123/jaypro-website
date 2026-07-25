@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import MobileHeroForm from "./MobileHeroForm";
 import {
   Home,
   Building2,
@@ -123,7 +124,8 @@ const Hero = () => {
           </h1>
 
           {/* Tabs */}
-          <div className="mb-6 flex flex-wrap justify-center gap-2">
+          {/* Tabs - Desktop Only */}
+<div className="hidden md:flex mb-6 flex-wrap justify-center gap-2">
 
             {tabs.map((tab, index) => {
               const Icon = tab.icon;
@@ -147,77 +149,89 @@ const Hero = () => {
           </div>
 
           {/* Calculator */}
-          <div className="w-full max-w-6xl rounded-2xl border border-white/20 bg-white/20 p-2 backdrop-blur-md mt-7">
+       
 
-            <div className="grid gap-4 md:grid-cols-6 ">
 
-              {/* Depth */}
-              <input
-                type="number"
-                placeholder="Depth"
-                value={depth}
-                onChange={(e) => setDepth(e.target.value)}
-                className="rounded-lg bg-white px-4 py-3 text-black outline-none"
-              />
+{/* Calculator */}
+<div className="w-full">
 
-              {/* Width */}
-              <input
-                type="number"
-                placeholder="Width"
-                value={width}
-                onChange={(e) => setWidth(e.target.value)}
-                className="rounded-lg bg-white px-4 py-3 text-black outline-none"
-              />
+  {/* Mobile */}
+  <div className="block md:hidden">
+    <MobileHeroForm />
+  </div>
 
-              {/* Floor */}
-              <select
-                value={floor}
-                onChange={(e) => setFloor(e.target.value)}
-                className="rounded-lg bg-white px-4 py-3 text-black outline-none"
-              >
-                <option value="">Floor</option>
-                <option value="Ground Floor">Ground Floor</option>
-                <option value="1 Floor">1 Floor</option>
-                <option value="2 Floor">2 Floor</option>
-                <option value="3 Floor">3 Floor</option>
-              </select>
+  {/* Desktop */}
+  <div className="hidden md:block">
+    <div className="w-full max-w-6xl rounded-2xl border border-white/20 bg-white/20 p-2 backdrop-blur-md mt-7">
 
-              {/* Building Area */}
-              <input
-                readOnly
-                value={buildingArea}
-                placeholder="Building Area"
-                className="rounded-lg bg-white px-4 py-3 text-black outline-none"
-              />
+      <div className="grid gap-4 md:grid-cols-6">
 
-              {/* Direction */}
-              <select
-                value={north}
-                onChange={(e) => setNorth(e.target.value)}
-                className="rounded-lg bg-white px-4 py-3 text-black outline-none"
-              >
-                <option value="">Direction</option>
-                <option value="North">North</option>
-                <option value="South">South</option>
-                <option value="East">East</option>
-                <option value="West">West</option>
-              </select>
+        <input
+          type="number"
+          placeholder="Depth"
+          value={depth}
+          onChange={(e) => setDepth(e.target.value)}
+          className="rounded-lg bg-white px-4 py-3 text-black outline-none"
+        />
 
-              {/* Calculate Button */}
-              <button
-                onClick={handleCalculate}
-                className="rounded-lg bg-red-600 font-semibold text-white transition hover:bg-red-700"
-              >
-                CALCULATE PRICE
-              </button>
+        <input
+          type="number"
+          placeholder="Width"
+          value={width}
+          onChange={(e) => setWidth(e.target.value)}
+          className="rounded-lg bg-white px-4 py-3 text-black outline-none"
+        />
+
+        <select
+          value={floor}
+          onChange={(e) => setFloor(e.target.value)}
+          className="rounded-lg bg-white px-4 py-3 text-black outline-none"
+        >
+          <option value="">Floor</option>
+          <option value="Ground Floor">Ground Floor</option>
+          <option value="1 Floor">1 Floor</option>
+          <option value="2 Floor">2 Floor</option>
+          <option value="3 Floor">3 Floor</option>
+        </select>
+
+        <input
+          readOnly
+          value={buildingArea}
+          placeholder="Building Area"
+          className="rounded-lg bg-white px-4 py-3 text-black outline-none"
+        />
+
+        <select
+          value={north}
+          onChange={(e) => setNorth(e.target.value)}
+          className="rounded-lg bg-white px-4 py-3 text-black outline-none"
+        >
+          <option value="">Direction</option>
+          <option value="North">North</option>
+          <option value="South">South</option>
+          <option value="East">East</option>
+          <option value="West">West</option>
+        </select>
+
+        <button
+          onClick={handleCalculate}
+          className="rounded-lg bg-red-600 font-semibold text-white transition hover:bg-red-700"
+        >
+          CALCULATE PRICE
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>
+             
 
             </div>
 
           </div>
 
-        </div>
-
-      </div>
 
     </section>
   );

@@ -99,7 +99,7 @@ const MobileCards = ({
               <div className="p-4 bg-white">
                 <button
                   onClick={() => setSelectedPackage(pkg.name)}
-                  className="w-full bg-[#F45A17] hover:bg-[#d94f13] text-white font-semibold py-3 rounded-lg transition"
+                  className="w-full bg-red-600 hover:bg-red-600 text-white font-semibold py-3 rounded-lg transition"
                 >
                   Choose {pkg.name}
                 </button>
