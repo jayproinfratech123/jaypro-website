@@ -116,7 +116,7 @@ const Hero = () => {
 
       <div className="relative z-10 container mx-auto px-4">
 
-        <div className="flex min-h-screen flex-col items-center justify-center">
+      <div className="flex min-h-[125vh] md:min-h-screen flex-col items-center justify-start pt-16 md:justify-center md:pt-0">
 
           {/* Main Heading */}
           <h1 className="mb-8 text-center text-3xl font-bold text-white md:text-5xl">
@@ -156,9 +156,9 @@ const Hero = () => {
 <div className="w-full">
 
   {/* Mobile */}
-  <div className="block md:hidden">
-    <MobileHeroForm />
-  </div>
+  <div className="block md:hidden mt-56">
+  <MobileHeroForm />
+</div>
 
   {/* Desktop */}
   <div className="hidden md:block">

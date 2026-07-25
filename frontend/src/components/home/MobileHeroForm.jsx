@@ -59,7 +59,7 @@ const MobileHeroForm = () => {
   };
 
   return (
-    <div className="mx-auto w-full max-w-sm rounded-3xl bg-white p-6 shadow-2xl">
+    <div className="mx-auto mt-32 w-full max-w-sm rounded-3xl bg-white p-6 shadow-2xl">
 
       <h2 className="mb-6 text-center text-2xl font-bold text-slate-800">
         Get a Free Consultation
