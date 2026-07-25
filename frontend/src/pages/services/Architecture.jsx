@@ -78,7 +78,7 @@ const Architecture = () => {
               Home
             </a>
 
-            <button className="bg-gradient-to-r from-red-500 to-red-600 text-white px-7 py-3 rounded-full font-semibold hover:scale-105 duration-300">
+            <button className="bg-gradient-to-r from-red-600 to-red-600 text-white px-7 py-3 rounded-full font-semibold hover:scale-105 duration-300">
 
               Book Consultation
 

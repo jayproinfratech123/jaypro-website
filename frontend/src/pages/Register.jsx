@@ -46,7 +46,7 @@ const Register = () => {
           </button>
         </form>
         <p className="mt-6 text-center text-sm text-charcoal/60">
-          Already have an account? <Link to="/login" className="font-semibold text-amber-600">Login</Link>
+          Already have an account? <Link to="/login" className="font-semibold text-red-600">Login</Link>
         </p>
       </div>
     </section>

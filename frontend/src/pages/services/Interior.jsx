@@ -60,7 +60,7 @@ const Interior = () => {
               <div className="rounded-3xl overflow-hidden shadow-2xl">
 
                 {/* Header */}
-                <div className="bg-[#F85A24] py-4">
+                <div className="bg-red-600 py-4">
                   <h2 className="text-center text-white text-lg font-semibold px-3">
                     Get Appointment For Site Visit
                   </h2>
@@ -72,13 +72,13 @@ const Interior = () => {
                   <input
                     type="text"
                     placeholder="Name*"
-                    className="w-full h-12 rounded-lg border border-gray-300 px-4 mb-4 outline-none focus:ring-2 focus:ring-orange-500"
+                    className="w-full h-12 rounded-lg border border-gray-300 px-4 mb-4 outline-none focus:ring-2 focus:ring-red-600"
                   />
 
                   <input
                     type="tel"
                     placeholder="Mobile Number*"
-                    className="w-full h-12 rounded-lg border border-gray-300 px-4 mb-4 outline-none focus:ring-2 focus:ring-orange-500"
+                    className="w-full h-12 rounded-lg border border-gray-300 px-4 mb-4 outline-none focus:ring-2 focus:ring-red-600"
                   />
 
                   <button className="w-full h-12 rounded-full bg-[#3F3F38] hover:bg-black text-white text-lg font-semibold transition">

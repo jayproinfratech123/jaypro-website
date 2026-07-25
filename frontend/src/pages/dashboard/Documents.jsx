@@ -13,7 +13,7 @@ const Documents = () => (
       {placeholderDocs.map((doc) => (
         <div key={doc.name} className="flex items-center justify-between p-5">
           <div className="flex items-center gap-3">
-            <FileText className="h-5 w-5 text-red-500" />
+            <FileText className="h-5 w-5 text-red-600" />
             <div>
               <p className="text-sm font-medium text-blueprint-900">{doc.name}</p>
               <p className="text-xs text-charcoal/50">{doc.type}</p>

@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 const MobileHeroForm = () => {
   const navigate = useNavigate();
 
+  // Example price per sq.ft.
+  // Change these values according to your requirement
   const priceList = {
     "2D LAYOUT PLAN": 15,
     "3D FRONT ELEVATION": 25,
@@ -11,6 +13,7 @@ const MobileHeroForm = () => {
     "PRESENTATION PLAN": 20,
   };
 
+  // Form State
   const [form, setForm] = useState({
     name: "",
     mobile: "",
@@ -19,53 +22,65 @@ const MobileHeroForm = () => {
     depth: "",
     width: "",
     floor: "",
-    direction: "",
   });
 
+  // Handle input changes
   const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+
+    setForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
+  // Calculate Building Area
   const buildingArea =
     form.depth && form.width
       ? Number(form.depth) * Number(form.width)
       : 0;
 
+  // Calculate Total Price
   const totalPrice =
     buildingArea * (priceList[form.purpose] || 0);
 
+  // Handle Calculate Price
   const handleCalculate = () => {
+    // Validate required fields
     if (
-  !form.name ||
-  !form.mobile ||
-  !form.city ||
-  !form.purpose ||
-  !form.depth ||
-  !form.width ||
-  !form.floor
-) {
+      !form.name ||
+      !form.mobile ||
+      !form.city ||
+      !form.purpose ||
+      !form.depth ||
+      !form.width ||
+      !form.floor
+    ) {
       alert("Please fill all required fields.");
       return;
     }
 
+    // Navigate to Estimate Page
+    // Send all form data to Estimate page
     navigate("/estimate", {
-  state: {
-    ...form,
-  },
-});
+      state: {
+        ...form,
+        buildingArea,
+        totalPrice,
+      },
+    });
   };
 
   return (
     <div className="mx-auto mt-32 w-full max-w-sm rounded-3xl bg-white p-6 shadow-2xl">
 
+      {/* ================= HEADING ================= */}
+
       <h2 className="mb-6 text-center text-2xl font-bold text-slate-800">
         Get a Free Consultation
       </h2>
 
-      {/* Full Name */}
+      {/* ================= FULL NAME ================= */}
 
       <input
         type="text"
@@ -76,7 +91,7 @@ const MobileHeroForm = () => {
         className="mb-4 w-full rounded-full border border-gray-300 px-5 py-4 outline-none focus:border-red-500"
       />
 
-      {/* Mobile */}
+      {/* ================= MOBILE NUMBER ================= */}
 
       <input
         type="tel"
@@ -87,7 +102,7 @@ const MobileHeroForm = () => {
         className="mb-4 w-full rounded-full border border-gray-300 px-5 py-4 outline-none focus:border-red-500"
       />
 
-      {/* City */}
+      {/* ================= CITY ================= */}
 
       <input
         type="text"
@@ -98,7 +113,7 @@ const MobileHeroForm = () => {
         className="mb-4 w-full rounded-full border border-gray-300 px-5 py-4 outline-none focus:border-red-500"
       />
 
-      {/* Purpose */}
+      {/* ================= PURPOSE ================= */}
 
       <select
         name="purpose"
@@ -106,67 +121,88 @@ const MobileHeroForm = () => {
         onChange={handleChange}
         className="mb-5 w-full rounded-full border border-gray-300 px-5 py-4 outline-none focus:border-red-500"
       >
-        <option value="">Select Purpose</option>
-        <option value="2D LAYOUT PLAN">2D LAYOUT PLAN</option>
+        <option value="">
+          Select Purpose *
+        </option>
+
+        <option value="2D LAYOUT PLAN">
+          2D LAYOUT PLAN
+        </option>
+
         <option value="3D FRONT ELEVATION">
           3D FRONT ELEVATION
         </option>
+
         <option value="STRUCTURAL DRAWINGS">
           STRUCTURAL DRAWINGS
         </option>
+
         <option value="PRESENTATION PLAN">
           PRESENTATION PLAN
         </option>
       </select>
 
-      {/* Show only after Purpose selected */}
+      {/* ================= ADDITIONAL FIELDS ================= */}
 
       {form.purpose && (
         <>
-          {/* Depth */}
+          {/* ================= DEPTH ================= */}
 
           <input
             type="number"
             name="depth"
-            placeholder="Depth (ft)"
+            placeholder="Depth (ft) *"
             value={form.depth}
             onChange={handleChange}
+            min="1"
             className="mb-4 w-full rounded-full border border-gray-300 px-5 py-4 outline-none focus:border-red-500"
           />
 
-          {/* Width */}
+          {/* ================= WIDTH ================= */}
 
           <input
             type="number"
             name="width"
-            placeholder="Width (ft)"
+            placeholder="Width (ft) *"
             value={form.width}
             onChange={handleChange}
+            min="1"
             className="mb-4 w-full rounded-full border border-gray-300 px-5 py-4 outline-none focus:border-red-500"
           />
 
-          {/* Floor */}
+          {/* ================= FLOOR ================= */}
 
           <select
             name="floor"
             value={form.floor}
             onChange={handleChange}
-            className="mb-4 w-full rounded-full border border-gray-300 px-5 py-4 outline-none focus:border-red-500"
+            className="mb-5 w-full rounded-full border border-gray-300 px-5 py-4 outline-none focus:border-red-500"
           >
-            <option value="">Select Floor</option>
-            <option value="Ground Floor">Ground Floor</option>
-            <option value="1 Floor">1 Floor</option>
-            <option value="2 Floor">2 Floor</option>
-            <option value="3 Floor">3 Floor</option>
+            <option value="">
+              Select Floor *
+            </option>
+
+            <option value="Ground Floor">
+              Ground Floor
+            </option>
+
+            <option value="1 Floor">
+              1 Floor
+            </option>
+
+            <option value="2 Floor">
+              2 Floor
+            </option>
+
+            <option value="3 Floor">
+              3 Floor
+            </option>
           </select>
 
-          {/* Direction */}
-
-          
-
-          {/* Button */}
+          {/* ================= CALCULATE PRICE BUTTON ================= */}
 
           <button
+            type="button"
             onClick={handleCalculate}
             className="w-full rounded-full bg-red-600 py-4 text-lg font-bold text-white transition hover:bg-red-700"
           >

@@ -42,7 +42,7 @@ const TrustedBrands = () => {
           {brands.map((brand) => (
             <div
               key={brand.name}
-              className="bg-white border-4 border-red-500 rounded-md p-6 h-40 flex items-center justify-center hover:shadow-xl transition duration-300"
+              className="bg-white border-4 border-red-600 rounded-md p-6 h-40 flex items-center justify-center hover:shadow-xl transition duration-300"
             >
               <img
                 src={brand.image}

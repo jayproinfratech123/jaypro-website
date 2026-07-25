@@ -35,7 +35,7 @@ const About = () => {
   <div className="relative z-10 h-full flex items-center justify-center px-6">
     <div className="text-center text-white max-w-4xl">
 
-      <p className="uppercase tracking-[6px] text-red-400 font-semibold mb-4">
+      <p className="uppercase tracking-[6px] text-red-600 font-semibold mb-4">
         Welcome To
       </p>
 

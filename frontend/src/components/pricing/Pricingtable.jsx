@@ -32,7 +32,7 @@ const PricingTable = ({ setSelectedPackage }) => {
 
                 <button
                   onClick={() => setSelectedPackage(pkg.name)}
-                  className="mt-5 rounded-lg bg-red-500 px-6 py-3 font-semibold text-white transition hover:bg-red-600"
+                  className="mt-5 rounded-lg bg-red-600 px-6 py-3 font-semibold text-white transition hover:bg-red-600"
                 >
                   Choose Plan
                 </button>

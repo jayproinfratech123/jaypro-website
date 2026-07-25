@@ -99,7 +99,7 @@ const handleSubmit = async (e) => {
     <section className="container-xl py-14 -mt-20">
       <div className="mb-14 max-w-xl">
         <span className="section-label">
-          <span className="h-px w-6 bg-red-500" />
+          <span className="h-px w-6 bg-red-600" />
           Pricing
         </span>
 
@@ -119,12 +119,12 @@ const handleSubmit = async (e) => {
             key={pkg.name}
             className={`flex flex-col rounded-lg border p-6 ${
               pkg.popular
-                ? "border-red-500 shadow-lg"
+                ? "border-red-600 shadow-lg"
                 : "border-gray-200"
             }`}
           >
             {pkg.popular && (
-              <span className="mb-3 w-fit rounded-full bg-red-500 px-3 py-1 text-xs font-semibold text-white">
+              <span className="mb-3 w-fit rounded-full bg-red-600 px-3 py-1 text-xs font-semibold text-white">
                 Most Popular
               </span>
             )}
@@ -148,8 +148,8 @@ const handleSubmit = async (e) => {
               onClick={() => setSelectedPackage(pkg.name)}
               className={`rounded-md py-3 font-semibold transition ${
                 pkg.popular
-                  ? "bg-red-500 text-white hover:bg-red-600"
-                  : "border border-red-500 text-red-500 hover:bg-red-500 hover:text-white"
+                  ? "bg-red-600 text-white hover:bg-red-600"
+                  : "border border-red-600 text-red-600 hover:bg-red-600 hover:text-white"
               }`}
             >
               Choose {pkg.name}
@@ -174,7 +174,7 @@ const handleSubmit = async (e) => {
               Get Free House Design Consultation
             </h2>
 
-            <p className="mt-2 text-center text-amber-600 font-semibold">
+            <p className="mt-2 text-center text-red-600 font-semibold">
               Selected Package: {selectedPackage}
             </p>
 
@@ -190,7 +190,7 @@ const handleSubmit = async (e) => {
   placeholder="Enter Your Name"
   value={name}
   onChange={(e) => setName(e.target.value)}
-  className="w-full rounded-md border p-3 outline-none focus:border-red-500"
+  className="w-full rounded-md border p-3 outline-none focus:border-red-600"
 />
 
               <input
@@ -198,7 +198,7 @@ const handleSubmit = async (e) => {
   placeholder="Enter Phone Number"
   value={phone}
   onChange={(e) => setPhone(e.target.value)}
-  className="w-full rounded-md border p-3 outline-none focus:border-red-500"
+  className="w-full rounded-md border p-3 outline-none focus:border-red-600"
 />
 
               <input
@@ -206,12 +206,12 @@ const handleSubmit = async (e) => {
   placeholder="Enter Your City"
   value={city}
   onChange={(e) => setCity(e.target.value)}
-  className="w-full rounded-md border p-3 outline-none focus:border-red-500"
+  className="w-full rounded-md border p-3 outline-none focus:border-red-600"
 />
 
               <button
                 type="submit"
-                className="w-full rounded-md bg-red-500 py-3 font-semibold text-white hover:bg-red-600"
+                className="w-full rounded-md bg-red-600 py-3 font-semibold text-white hover:bg-red-600"
               >
                 Request Free Callback
               </button>

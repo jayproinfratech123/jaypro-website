@@ -117,7 +117,7 @@ const LeadPopup = () => {
 
           <button
             type="submit"
-            className="w-full rounded-xl bg-[#F45A17] py-3 font-semibold text-white"
+            className="w-full rounded-xl bg-red-600 py-3 font-semibold text-white"
           >
             Submit
           </button>

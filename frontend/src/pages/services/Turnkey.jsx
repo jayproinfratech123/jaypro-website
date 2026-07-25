@@ -80,7 +80,7 @@ export default function TurnkeyTimeline() {
 
             {/* Circle */}
             <div className="absolute left-0 top-2 z-20">
-              <div className="w-16 h-16 rounded-full bg-white border-[3px] border-red-500 flex items-center justify-center text-2xl font-semibold text-gray-900 shadow-sm">
+              <div className="w-16 h-16 rounded-full bg-white border-[3px] border-red-600 flex items-center justify-center text-2xl font-semibold text-gray-900 shadow-sm">
                 {step.id}
               </div>
             </div>
@@ -111,7 +111,7 @@ export default function TurnkeyTimeline() {
                     className="flex items-start gap-5"
                   >
 
-                    <span className="mt-4 w-3 h-3 rounded-sm bg-red-500 shrink-0"></span>
+                    <span className="mt-4 w-3 h-3 rounded-sm bg-red-600 shrink-0"></span>
 
                     <p className="text-[18px] leading-10 text-gray-700 font-normal">
                       {point}
@@ -135,12 +135,12 @@ export default function TurnkeyTimeline() {
   transition={{ duration: 0.6 }}
   className="mt-10"
 >
-  <div className="bg-[#F95A24] rounded-sm py-6 px-8 flex items-center justify-center gap-5">
+  <div className="bg-red-600 rounded-sm py-6 px-8 flex items-center justify-center gap-5">
     {/* Check Icon */}
     <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center">
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        className="w-6 h-6 text-[#F95A24]"
+        className="w-6 h-6 text-red-600"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
