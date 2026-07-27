@@ -6,9 +6,29 @@ const WhatsAppButton = () => {
       href="https://wa.me/919835852462"
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-5 right-5 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-green-500 shadow-2xl hover:bg-green-600 transition duration-300 hover:scale-110"
+      aria-label="WhatsApp"
+      className="
+        fixed
+        z-[9999]
+        flex
+        items-center
+        justify-center
+        h-14
+        w-14
+        rounded-full
+        bg-green-500
+        shadow-xl
+        transition-all
+        duration-300
+        hover:scale-110
+        hover:bg-green-600
+      "
+      style={{
+        right: "max(16px, env(safe-area-inset-right))",
+        bottom: "max(16px, env(safe-area-inset-bottom))",
+      }}
     >
-      <FaWhatsapp className="text-white text-4xl" />
+      <FaWhatsapp className="text-white text-3xl" />
     </a>
   );
 };
