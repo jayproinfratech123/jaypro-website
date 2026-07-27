@@ -52,7 +52,7 @@ const Hero = () => {
   const mobileImages = [
     "/second.png",
     "/third.webp",
-    "/forths.webp",
+    "/fifth.webp",
   ];
 
   const [currentImage, setCurrentImage] = useState(0);
@@ -128,7 +128,7 @@ const Hero = () => {
                 key={index}
                 src={image}
                 alt={`Mobile Background ${index + 1}`}
-                className="h-[50vh] min-w-full w-full object-cover object-center flex-shrink-0"
+               className="h-[50vh] min-w-full w-full object-cover object-top flex-shrink-0"
               />
             ))}
           </div>
