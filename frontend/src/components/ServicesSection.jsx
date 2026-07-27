@@ -74,10 +74,10 @@ const services = [
 
 export default function ServicesSection() {
   return (
-    <section className="bg-gray-100 py-20">
+    <section className="bg-gray-100 pt-6 pb-20">
       <div className="max-w-7xl mx-auto px-5">
         {/* Heading */}
-        <div className="text-center mb-14">
+        <div className="text-center mb-6">
           <h2 className="text-4xl font-bold text-gray-900">
             Explore Our Services
           </h2>
@@ -88,14 +88,14 @@ export default function ServicesSection() {
         </div>
 
         {/* Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
+       <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 justify-items-center">
           {services.map((service) => (
             <div
   key={service.id}
   className="
     w-full
     max-w-[340px]
-    h-[260px]
+    h-[220px]
     mx-auto
     bg-white
     rounded-xl
@@ -114,19 +114,19 @@ export default function ServicesSection() {
               <div
   className={`${service.topBg} h-14 relative flex justify-center`}
 >
-                <div className="absolute top-4 w-14 h-14 rounded-full bg-white shadow-md flex items-center justify-center text-2xl text-red-500 border-[3px] border-white">
+               <div className="absolute top-4 w-10 h-10 md:w-14 md:h-14 rounded-full bg-white shadow-md flex items-center justify-center text-lg md:text-2xl text-red-500 border-[3px] border-white">
                   {service.icon}
                 </div>
               </div>
 
               {/* Body */}
               <div className="pt-12 pb-8 text-center px-6">
-                <h3 className="text-3xl font-bold text-gray-900">
+                <h3 className="text-lg md:text-3xl font-bold text-gray-900">
                   {service.title}
                 </h3>
 
                 {service.subtitle && (
-                  <p className="text-xl text-gray-700 mt-1">
+                  <p className="text-sm md:text-xl text-gray-700 mt-1">
                     {service.subtitle}
                   </p>
                 )}

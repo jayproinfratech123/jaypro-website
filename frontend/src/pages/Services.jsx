@@ -1,4 +1,4 @@
-import ServicesGrid from "../components/home/ServicesGrid.jsx";
+
 
 const moreServices = [
   "Commercial Building", "Villa Design", "Apartment Design", "Farm House", "Office Design",
@@ -13,7 +13,7 @@ const Services = () => (
         <h1 className="font-display text-4xl font-bold">Everything your build needs</h1>
       </div>
     </section>
-    <ServicesGrid />
+   
     <section className="container-xl pb-24">
       <h2 className="mb-6 font-display text-2xl font-bold text-blueprint-900">More specializations</h2>
       <div className="flex flex-wrap gap-3">

@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 const items = [
-  { title: "Modern Villa — Whitefield", category: "Villa", img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800" },
+  { title: "Modern Villa — Whitefield", category: "Villa", img: "modern-villa.webp" },
   { title: "Duplex Renovation — Koramangala", category: "Renovation", img: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=800" },
   { title: "Farmhouse Retreat", category: "Farm House", img: "https://images.unsplash.com/photo-1602343168117-bb8ffe3e2e9f?q=80&w=800" },
   { title: "Urban Apartment Interiors", category: "Interior", img: "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?q=80&w=800" },

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import MobileHeroForm from "./MobileHeroForm";
+
 import {
   Home,
   Building2,
@@ -50,9 +50,9 @@ const Hero = () => {
   // MOBILE SLIDER IMAGES
   // ==============================
   const mobileImages = [
-    "/second.png",
+    "/first.png",
+    "/second.webp",
     "/third.webp",
-    "/fifth.webp",
   ];
 
   const [currentImage, setCurrentImage] = useState(0);
@@ -104,7 +104,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative min-h-screen overflow-hidden pt-24 md:pt-0">
+    <section className="relative overflow-hidden pt-24 md:min-h-screen md:pt-0">
 
       {/* =========================================
           RESPONSIVE BACKGROUND
@@ -114,27 +114,41 @@ const Hero = () => {
         {/* =====================================
             MOBILE IMAGE SLIDER
         ===================================== */}
-        <div className="absolute inset-0 block md:hidden overflow-hidden">
+      <div className="absolute top-0 left-0 right-0 block md:hidden overflow-hidden">
 
-          {/* Images Container */}
-          <div
-            className="flex h-[50vh] w-full transition-transform duration-700 ease-in-out"
-            style={{
-              transform: `translateX(-${currentImage * 100}%)`,
-            }}
-          >
-            {mobileImages.map((image, index) => (
-              <img
-                key={index}
-                src={image}
-                alt={`Mobile Background ${index + 1}`}
-               className="h-[50vh] min-w-full w-full object-cover object-top flex-shrink-0"
-              />
-            ))}
-          </div>
+  <div
+    className="flex aspect-[1690/931] w-full transition-transform duration-700 ease-in-out"
+    style={{
+      transform: `translateX(-${currentImage * 100}%)`,
+    }}
+  >
+    {mobileImages.map((image, index) => (
+      <img
+        key={index}
+        src={image}
+        alt={`Mobile Background ${index + 1}`}
+        className="aspect-[1690/931] min-w-full w-full object-cover flex-shrink-0"
+      />
+    ))}
+  </div>
 
-          {/* Optional Dark Overlay */}
-          <div className="absolute inset-0 bg-black/20 pointer-events-none"></div>
+  <div className="absolute inset-0 bg-black/0 pointer-events-none"></div>
+
+  <div className="absolute bottom-5 left-1/2 z-20 flex -translate-x-1/2 gap-2">
+    {mobileImages.map((_, index) => (
+      <button
+        key={index}
+        onClick={() => setCurrentImage(index)}
+        className={`h-2.5 w-2.5 rounded-full transition-all duration-300 ${
+          currentImage === index
+            ? "w-7 bg-red-600"
+            : "bg-white/70"
+        }`}
+      />
+    ))}
+  </div>
+
+
 
           {/* Slider Dots */}
           <div className="absolute bottom-5 left-1/2 z-20 flex -translate-x-1/2 gap-2">
@@ -185,9 +199,9 @@ const Hero = () => {
       {/* =========================================
           MAIN CONTENT
       ========================================= */}
-      <div className="relative z-10 w-full">
+      <div className="relative z-10 w-full -mt-6 md:mt-6 lg:mt-0">
 
-        <div className="flex min-h-[130vh] md:min-h-screen flex-col items-center justify-start pt-[42vh] md:justify-center md:pt-0">
+      <div className="flex flex-col items-center justify-start pt-[19vh] md:min-h-screen md:justify-center md:pt-0">
 
 
           {/* =====================================
@@ -220,14 +234,12 @@ const Hero = () => {
           {/* =====================================
               CALCULATOR
           ===================================== */}
-          <div className="w-full">
+          <div className="hidden md:block lg:block w-full">
 
             {/* =================================
                 MOBILE FORM
             ================================= */}
-            <div className="block md:hidden mt-56">
-              <MobileHeroForm />
-            </div>
+            
 
 
             {/* =================================
