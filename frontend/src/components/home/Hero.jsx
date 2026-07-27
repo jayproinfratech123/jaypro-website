@@ -199,7 +199,7 @@ const Hero = () => {
       {/* =========================================
           MAIN CONTENT
       ========================================= */}
-      <div className="relative z-10 w-full -mt-6 md:mt-6 lg:mt-0">
+      <div className="relative z-10 w-full flex justify-center -mt-6 md:mt-6 lg:mt-0">
 
       <div className="flex flex-col items-center justify-start pt-[19vh] md:min-h-screen md:justify-center md:pt-0">
 
@@ -207,7 +207,7 @@ const Hero = () => {
           {/* =====================================
               TABS - DESKTOP ONLY
           ===================================== */}
-          <div className="hidden md:flex mb-6 flex-wrap justify-center gap-2">
+         <div className="hidden md:flex w-full justify-center mb-6 gap-2">
 
             {tabs.map((tab, index) => {
               const Icon = tab.icon;
@@ -245,9 +245,9 @@ const Hero = () => {
             {/* =================================
                 DESKTOP FORM
             ================================= */}
-            <div className="hidden md:block">
+           <div className="hidden md:flex justify-center w-full">
 
-              <div className="w-full max-w-6xl rounded-2xl border border-white/20 bg-white/20 p-2 backdrop-blur-md mt-7">
+  <div className="w-full max-w-6xl rounded-2xl border border-white/20 bg-white/15 backdrop-blur-xl p-3">
 
                 <div className="grid gap-4 md:grid-cols-6">
 
