@@ -20,7 +20,7 @@ const Navbar = () => {
   return (
     <header className="sticky top-0 z-50 border-b border-black/5 bg-concrete-50/90 backdrop-blur">
 
-      <nav className="container-xl flex h-24 items-center justify-between">
+      <nav className="container-xl flex h-23 items-center justify-between">
 
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2">
