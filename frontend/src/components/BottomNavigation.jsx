@@ -11,7 +11,7 @@ const BottomNavigation = () => {
   return (
     <div className="fixed bottom-0 left-0 right-0 lg:hidden bg-[#1d1811] border-t border-gray-700 z-50">
 
-      <div className="relative flex h-[58px] items-end px-1">
+      <div className="relative grid grid-cols-5 h-[60px] items-end w-full">
 
         {/* Home */}
         <Link
