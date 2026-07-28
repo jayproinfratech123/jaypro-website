@@ -30,14 +30,14 @@ const LeadForm = () => {
 
   return (
     <section className="bg-white py-4 px-4 -mt-2">
-      <div className="mx-auto w-full max-w-lg rounded-2xl border border-gray-200 bg-white p-6 shadow-[0_6px_16px_rgba(0,0,0,0.1)]">
+      <div className="mx-auto w-full max-w-lg md:max-w-xl rounded-2xl border border-gray-200 bg-white p-6 shadow-[0_6px_16px_rgba(0,0,0,0.1)]">
 
-        <h2 className="text-center text-2xl sm:text-3xl md:text-5xl font-bold whitespace-nowrap">
-  Book Free Consultation
+<h2 className="text-center text-2xl sm:text-3xl md:text-3xl lg:text-3xl font-bold whitespace-nowrap">
+  Talk to Our Experts
 </h2>
 
-        <p className="mt-2 text-center text-gray-500">
-          Fill the details below and our team will contact you.
+        <p className="mt-1.5 text-center text-gray-550 text-xs font-bold">
+          Form Submit Karo, Team Aapse Contact Karegi.
         </p>
 
         <form

@@ -20,17 +20,17 @@ const Navbar = () => {
   return (
     <header className="sticky top-0 z-50 border-b border-black/5 bg-concrete-50/90 backdrop-blur">
 
-      <nav className="container-xl flex h-23 items-center justify-between">
+      <nav className="container-xl flex h-[72px] items-center justify-between">
 
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2">
           <img
-            src="/jayproinfratech-logo.png"
-            alt="Jaypro Infratech"
-            className="h-14 w-auto"
-          />
+  src="/jayproinfratech-logo.png"
+  alt="Jaypro Infratech"
+  className="h-12 lg:h-14 w-auto object-contain"
+/>
 
-          <span className="font-display text-lg font-bold text-black">
+          <span className="font-display text-base lg:text-lg font-bold text-black">
             Jaypro{" "}
             <span className="text-red-500">
               Infratech
@@ -40,7 +40,7 @@ const Navbar = () => {
 
 
         {/* Desktop Menu */}
-        <div className="hidden items-center gap-8 lg:flex">
+        <div className="hidden items-center gap-6 lg:flex">
 
           {navLinks.map((link) => (
             <NavLink
@@ -81,7 +81,7 @@ const Navbar = () => {
 
             <Link
               to="/login"
-              className="rounded-xl bg-red-600 px-5 py-2 text-sm font-semibold text-white transition hover:bg-orange-600"
+             className="rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white"
             >
               Login
             </Link>
