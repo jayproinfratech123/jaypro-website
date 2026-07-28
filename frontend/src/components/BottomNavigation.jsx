@@ -19,7 +19,7 @@ const BottomNavigation = () => {
           className="flex-1 flex flex-col items-center justify-center text-white"
         >
           <Home className="w-6 h-6" />
-<span className="text-[10px] mt-1">Home</span>
+<span className="text-[10px] mt-1 mb-1.5">Home</span>
         </Link>
 
         {/* Naksha */}
@@ -28,13 +28,13 @@ const BottomNavigation = () => {
           className="flex-1 flex flex-col items-center justify-center text-gray-300"
         >
           <ScrollText className="w-6 h-6" />
-<span className="text-[10px] mt-1">Naksha</span>
+<span className="text-[10px] mt-1 mb-1.5">Naksha</span>
         </Link>
 
         {/* Call */}
         <div className="flex-1 flex flex-col items-center justify-end relative mb-6">
           <a
-  href="tel:+919876543210"
+  href="tel:+919835852462"
   className="absolute -top-8 w-16 h-16 rounded-full bg-red-600 flex items-center justify-center shadow-xl"
 >
   <Phone className="w-8 h-8 text-white" fill="white" />
@@ -48,10 +48,10 @@ const BottomNavigation = () => {
         {/* Construction */}
         <Link
           to="/services/turnkey"
-          className="flex-1 flex flex-col items-center justify-center text-gray-300"
+          className="flex-1 flex flex-col items-center justify-center text-gray-300 mb-1.5"
         >
           <Building2 className="w-6 h-6" />
-<span className="text-[8px] mt-1 whitespace-nowrap">
+<span className="text-[10px] mt-1 whitespace-nowrap">
   Construction
 </span>
         </Link>
@@ -59,7 +59,7 @@ const BottomNavigation = () => {
         {/* Vastu */}
         <Link
           to="/services/vastu"
-          className="flex-1 flex flex-col items-center justify-center text-gray-300"
+          className="flex-1 flex flex-col items-center justify-center text-gray-300 mb-1.5"
         >
           <Compass className="w-6 h-6" />
 <span className="text-[10px] mt-1">

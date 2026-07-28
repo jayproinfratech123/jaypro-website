@@ -29,10 +29,10 @@ const LeadForm = () => {
   };
 
   return (
-    <section className="bg-white py-6 px-4">
-      <div className="mx-auto w-full max-w-lg rounded-2xl border border-gray-200 bg-white p-6 shadow-xl">
+    <section className="bg-white py-4 px-4 -mt-2">
+      <div className="mx-auto w-full max-w-lg rounded-2xl border border-gray-200 bg-white p-6 shadow-[0_6px_16px_rgba(0,0,0,0.1)]">
 
-        <h2 className="text-center text-lg sm:text-xl md:text-2xl font-bold whitespace-nowrap">
+        <h2 className="text-center text-2xl sm:text-3xl md:text-5xl font-bold whitespace-nowrap">
   Book Free Consultation
 </h2>
 
