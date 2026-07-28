@@ -6,6 +6,7 @@ import Navbar from "./components/layout/Navbar.jsx";
 import Footer from "./components/layout/Footer.jsx";
 import ProtectedRoute from "./components/common/ProtectedRoute.jsx";
 import WhatsAppButton from "./components/WhatsAppButton.jsx";
+import BottomNavigation from "./components/BottomNavigation.jsx";
 
 // Public Pages
 import Home from "./pages/Home.jsx";
@@ -46,7 +47,7 @@ import AdminBlogs from "./pages/admin/AdminBlogs.jsx";
 function App() {
   return (
     <>
-      {/* Toast Notifications */}
+      {/* Toast */}
       <Toaster
         position="top-center"
         reverseOrder={false}
@@ -55,177 +56,106 @@ function App() {
       {/* Navbar */}
       <Navbar />
 
-      <Routes>
-        {/* ==================== PUBLIC PAGES ==================== */}
+      {/* Main Content */}
+      <main className="min-h-screen pb-24">
+        <Routes>
 
-        <Route
-          path="/"
-          element={<Home />}
-        />
+          {/* Public Pages */}
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/portfolio" element={<Portfolio />} />
+          <Route path="/blogs" element={<Blogs />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
 
-        <Route
-          path="/about"
-          element={<About />}
-        />
-
-        <Route
-          path="/services"
-          element={<Services />}
-        />
-
-        <Route
-          path="/portfolio"
-          element={<Portfolio />}
-        />
-
-        <Route
-          path="/blogs"
-          element={<Blogs />}
-        />
-
-        <Route
-          path="/contact"
-          element={<Contact />}
-        />
-
-        <Route
-          path="/privacy-policy"
-          element={<PrivacyPolicy />}
-        />
-
-        <Route
-          path="/login"
-          element={<Login />}
-        />
-
-        <Route
-          path="/register"
-          element={<Register />}
-        />
-
-        {/* ==================== SERVICE PAGES ==================== */}
-
-        <Route
-          path="/services/architecture"
-          element={<Architecture />}
-        />
-
-        <Route
-          path="/services/interior"
-          element={<Interior />}
-        />
-
-        <Route
-          path="/services/turnkey"
-          element={<Turnkey />}
-        />
-
-        <Route
-          path="/services/vastu"
-          element={<Vastu />}
-        />
-
-        {/* Construction Estimate Page */}
-        <Route
-          path="/estimate"
-          element={<EstimatePage />}
-        />
-
-        <Route
-          path="/services/estimate"
-          element={<EstimatePage />}
-        />
-
-        <Route
-          path="/services/contractor"
-          element={<Contractor />}
-        />
-
-        {/* ==================== CUSTOMER DASHBOARD ==================== */}
-
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <CustomerDashboard />
-            </ProtectedRoute>
-          }
-        >
+          {/* Service Pages */}
           <Route
-            index
-            element={<DashboardHome />}
+            path="/services/architecture"
+            element={<Architecture />}
           />
 
           <Route
-            path="projects"
-            element={<MyProjects />}
+            path="/services/interior"
+            element={<Interior />}
           />
 
           <Route
-            path="tracking"
-            element={<LiveTracking />}
+            path="/services/turnkey"
+            element={<Turnkey />}
           />
 
           <Route
-            path="documents"
-            element={<Documents />}
+            path="/services/vastu"
+            element={<Vastu />}
           />
 
           <Route
-            path="payments"
-            element={<Payments />}
+            path="/estimate"
+            element={<EstimatePage />}
           />
 
           <Route
-            path="chat"
-            element={<Chat />}
-          />
-        </Route>
-
-        {/* ==================== ADMIN DASHBOARD ==================== */}
-
-        <Route
-          path="/admin"
-          element={
-            <ProtectedRoute roles={["admin"]}>
-              <AdminDashboard />
-            </ProtectedRoute>
-          }
-        >
-          <Route
-            index
-            element={<AdminHome />}
+            path="/services/estimate"
+            element={<EstimatePage />}
           />
 
           <Route
-            path="projects"
-            element={<AdminProjects />}
+            path="/services/contractor"
+            element={<Contractor />}
           />
 
+          {/* Customer Dashboard */}
           <Route
-            path="customers"
-            element={<AdminCustomers />}
-          />
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <CustomerDashboard />
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<DashboardHome />} />
+            <Route path="projects" element={<MyProjects />} />
+            <Route path="tracking" element={<LiveTracking />} />
+            <Route path="documents" element={<Documents />} />
+            <Route path="payments" element={<Payments />} />
+            <Route path="chat" element={<Chat />} />
+          </Route>
 
+          {/* Admin Dashboard */}
           <Route
-            path="blogs"
-            element={<AdminBlogs />}
+            path="/admin"
+            element={
+              <ProtectedRoute roles={["admin"]}>
+                <AdminDashboard />
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<AdminHome />} />
+            <Route path="projects" element={<AdminProjects />} />
+            <Route path="customers" element={<AdminCustomers />} />
+            <Route path="blogs" element={<AdminBlogs />} />
+          </Route>
+
+          {/* 404 */}
+          <Route
+            path="*"
+            element={<NotFound />}
           />
-        </Route>
 
-        {/* ==================== 404 PAGE ==================== */}
-
-        <Route
-          path="*"
-          element={<NotFound />}
-        />
-      </Routes>
+        </Routes>
+      </main>
 
       {/* Footer */}
       <Footer />
 
+      {/* Bottom Navigation (Mobile Only) */}
+      <BottomNavigation />
+
       {/* WhatsApp Floating Button */}
-      <WhatsAppButton />
+      
     </>
   );
 }

@@ -13,22 +13,22 @@ const WhatsAppButton = () => {
         flex
         items-center
         justify-center
-        h-14
         w-14
+        h-14
         rounded-full
-        bg-green-500
-        shadow-xl
-        transition-all
+        bg-[#25D366]
+        text-white
+        shadow-2xl
+        transition-transform
         duration-300
         hover:scale-110
-        hover:bg-green-600
       "
       style={{
-        right: "max(16px, env(safe-area-inset-right))",
-        bottom: "max(16px, env(safe-area-inset-bottom))",
+        right: "20px",
+        bottom: "100px", // Above the bottom navigation
       }}
     >
-      <FaWhatsapp className="text-white text-3xl" />
+      <FaWhatsapp size={30} />
     </a>
   );
 };
