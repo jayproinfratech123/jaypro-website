@@ -23,9 +23,9 @@ const brands = [
 
 const TrustedBrands = () => {
   return (
-    <section className="py-16 bg-gray-100">
+    <section className="py-12 bg-gray-100">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center mb-14">
+        <div className="text-center mb-6">
           <h2 className="text-4xl font-bold text-gray-900">
             Our Trusted Brands
           </h2>
@@ -47,7 +47,7 @@ const TrustedBrands = () => {
               <img
                 src={brand.image}
                 alt={brand.name}
-                className="max-h-23 object-contain w-full"
+                className="max-h-20 object-contain w-full"
               />
             </div>
           ))}

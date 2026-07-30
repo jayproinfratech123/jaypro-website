@@ -6,7 +6,7 @@ import { useAuth } from "../../context/AuthContext.jsx";
 const navLinks = [
   { to: "/", label: "Home" },
   { to: "/about", label: "About" },
-  { to: "/services", label: "Services" },
+  { to: "/#services", label: "Services", hash: true },
   { to: "/portfolio", label: "Portfolio" },
   { to: "/pricing", label: "Pricing" },
   { to: "/blogs", label: "Blogs" },
@@ -42,21 +42,29 @@ const Navbar = () => {
         {/* Desktop Menu */}
         <div className="hidden items-center gap-6 lg:flex">
 
-          {navLinks.map((link) => (
-            <NavLink
-              key={link.to}
-              to={link.to}
-              className={({ isActive }) =>
-                `font-body text-sm font-medium transition hover:text-red-600 ${
-                  isActive
-                    ? "text-red-600"
-                    : "text-blueprint-900"
-                }`
-              }
-            >
-              {link.label}
-            </NavLink>
-          ))}
+          {navLinks.map((link) =>
+  link.hash ? (
+    <a
+      key={link.label}
+      href={link.to}
+      className="cursor-pointer font-body text-sm font-medium text-blueprint-900 transition hover:text-red-600"
+    >
+      {link.label}
+    </a>
+  ) : (
+    <NavLink
+      key={link.to}
+      to={link.to}
+      className={({ isActive }) =>
+        `cursor-pointer font-body text-sm font-medium transition hover:text-red-600 ${
+          isActive ? "text-red-600" : "text-blueprint-900"
+        }`
+      }
+    >
+      {link.label}
+    </NavLink>
+  )
+)}
 
         </div>
 
@@ -115,18 +123,27 @@ const Navbar = () => {
           <div className="container-xl flex flex-col gap-4 py-6">
 
 
-            {navLinks.map((link) => (
-
-              <NavLink
-                key={link.to}
-                to={link.to}
-                onClick={() => setOpen(false)}
-                className="font-medium text-blueprint-900"
-              >
-                {link.label}
-              </NavLink>
-
-            ))}
+            {navLinks.map((link) =>
+  link.hash ? (
+    <a
+      key={link.label}
+      href={link.to}
+      onClick={() => setOpen(false)}
+      className="cursor-pointer font-medium text-blueprint-900"
+    >
+      {link.label}
+    </a>
+  ) : (
+    <NavLink
+      key={link.to}
+      to={link.to}
+      onClick={() => setOpen(false)}
+      className="cursor-pointer font-medium text-blueprint-900"
+    >
+      {link.label}
+    </NavLink>
+  )
+)}
 
 
             <div className="mt-2 flex flex-col gap-3">

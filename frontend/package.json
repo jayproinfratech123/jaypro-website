@@ -22,7 +22,7 @@
     "react-router-dom": "^6.24.1",
     "recharts": "^2.12.7",
     "socket.io-client": "^4.7.5",
-    "swiper": "^14.0.6",
+    "swiper": "^14.0.7",
     "zod": "^3.23.8",
     "zustand": "^4.5.4"
   },

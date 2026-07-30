@@ -1,13 +1,36 @@
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext.jsx";
 
-const ProtectedRoute = ({ children, roles }) => {
+const ProtectedRoute = ({ children, roles = [] }) => {
   const { user, loading } = useAuth();
 
-  if (loading) return <div className="flex h-screen items-center justify-center">Loading...</div>;
-  if (!user) return <Navigate to="/login" replace />;
-  if (roles && !roles.includes(user.role)) return <Navigate to="/" replace />;
+  // Loading State
+  if (loading) {
+    return (
+      <div
+        className="flex h-screen items-center justify-center"
+        role="status"
+        aria-live="polite"
+        aria-label="Loading content"
+      >
+        <p className="text-lg font-medium text-gray-700">
+          Loading...
+        </p>
+      </div>
+    );
+  }
 
+  // User Not Logged In
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
+  // User Doesn't Have Required Role
+  if (roles.length > 0 && !roles.includes(user.role)) {
+    return <Navigate to="/" replace />;
+  }
+
+  // Authorized
   return children;
 };
 

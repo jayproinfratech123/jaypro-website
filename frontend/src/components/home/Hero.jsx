@@ -1,4 +1,10 @@
-import { useState, useEffect } from "react";
+import React, {
+  useState,
+  useEffect,
+  useMemo,
+  useCallback,
+} from "react";
+
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -11,75 +17,115 @@ import {
 const Hero = () => {
   const navigate = useNavigate();
 
-  const tabs = [
-    {
-      title: "2D LAYOUT PLAN",
-      icon: Home,
-      path: "/2d-layout",
-    },
-    {
-      title: "3D FRONT ELEVATION",
-      icon: Home,
-      path: "/3d-elevation",
-    },
-    {
-      title: "STRUCTURAL DRAWINGS",
-      icon: Building2,
-      path: "/structural-drawings",
-    },
-    {
-      title: "PRESENTATION PLAN",
-      icon: Presentation,
-      path: "/presentation-plan",
-    },
-    {
-      title: "MORE",
-      icon: MoreHorizontal,
-      path: "/services",
-    },
-  ];
+  // ==========================================
+  // SERVICES
+  // ==========================================
 
-  const priceList = {
-    "2D LAYOUT PLAN": 15,
-    "3D FRONT ELEVATION": 25,
-    "STRUCTURAL DRAWINGS": 12,
-    "PRESENTATION PLAN": 20,
-  };
+  const tabs = useMemo(
+    () => [
+      {
+        title: "2D LAYOUT PLAN",
+        icon: Home,
+        path: "/2d-layout",
+      },
+      {
+        title: "3D FRONT ELEVATION",
+        icon: Home,
+        path: "/3d-elevation",
+      },
+      {
+        title: "STRUCTURAL DRAWINGS",
+        icon: Building2,
+        path: "/structural-drawings",
+      },
+      {
+        title: "PRESENTATION PLAN",
+        icon: Presentation,
+        path: "/presentation-plan",
+      },
+      {
+        title: "MORE",
+        icon: MoreHorizontal,
+        path: "/services",
+      },
+    ],
+    []
+  );
 
-  // ==============================
+  // ==========================================
+  // PRICE LIST
+  // ==========================================
+
+  const priceList = useMemo(
+    () => ({
+      "2D LAYOUT PLAN": 15,
+      "3D FRONT ELEVATION": 25,
+      "STRUCTURAL DRAWINGS": 12,
+      "PRESENTATION PLAN": 20,
+    }),
+    []
+  );
+
+  // ==========================================
   // MOBILE SLIDER IMAGES
-  // ==============================
-  const mobileImages = [
-    "/first.png",
-    "/second.webp",
-    "/third.webp",
-  ];
+  // ==========================================
+
+  const mobileImages = useMemo(
+    () => [
+      "/landing-page-home.webp",
+      "/landing-page-dream-home.webp",
+      "/landing-page-design.webp",
+    ],
+    []
+  );
+
+  // ==========================================
+  // STATES
+  // ==========================================
 
   const [currentImage, setCurrentImage] = useState(0);
 
-  // Automatically change image every 4 seconds
+  const [selectedService, setSelectedService] = useState("");
+
+  const [depth, setDepth] = useState("");
+
+  const [width, setWidth] = useState("");
+
+  const [floor, setFloor] = useState("");
+
+  const [north, setNorth] = useState("");
+
+  // ==========================================
+  // CALCULATED VALUES
+  // ==========================================
+
+  const buildingArea = useMemo(() => {
+    if (!depth || !width) return 0;
+
+    return Number(depth) * Number(width);
+  }, [depth, width]);
+
+  const totalPrice = useMemo(() => {
+    return buildingArea * (priceList[selectedService] || 0);
+  }, [buildingArea, priceList, selectedService]);
+
+  // ==========================================
+  // AUTO IMAGE SLIDER
+  // ==========================================
+
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImage((prev) => (prev + 1) % mobileImages.length);
     }, 4000);
 
     return () => clearInterval(interval);
-  }, [mobileImages.length]);
+  }, [mobileImages]);
 
-  const [selectedService, setSelectedService] = useState("");
+  // ==========================================
+  // CALCULATE
+  // ==========================================
 
-  const [depth, setDepth] = useState("");
-  const [width, setWidth] = useState("");
-  const [floor, setFloor] = useState("");
-  const [north, setNorth] = useState("");
-
-  const buildingArea =
-    depth && width ? Number(depth) * Number(width) : 0;
-
-  const totalPrice =
-    buildingArea * (priceList[selectedService] || 0);
-
-  const handleCalculate = () => {
+  const handleCalculate = useCallback(() => {
     if (!selectedService) {
       alert("Please select a service");
       return;
@@ -101,7 +147,16 @@ const Hero = () => {
         totalPrice,
       },
     });
-  };
+  }, [
+    navigate,
+    selectedService,
+    depth,
+    width,
+    buildingArea,
+    floor,
+    north,
+    totalPrice,
+  ]);
 
   return (
     <section className="relative overflow-hidden pt-24 md:min-h-screen md:pt-0">
@@ -124,29 +179,36 @@ const Hero = () => {
   >
     {mobileImages.map((image, index) => (
       <img
-        key={index}
-        src={image}
-        alt={`Mobile Background ${index + 1}`}
-        className="aspect-[1690/931] min-w-full w-full object-cover flex-shrink-0"
-      />
+  key={image}
+  src={image}
+  alt={`Luxury house design ${index + 1} by JayPro Infratech`}
+  className="aspect-[1690/931] min-w-full w-full object-cover flex-shrink-0"
+  loading={index === 0 ? "eager" : "lazy"}
+  fetchPriority={index === 0 ? "high" : "auto"}
+  decoding="async"
+  draggable={false}
+/>
     ))}
   </div>
 
   <div className="absolute inset-0 bg-black/0 pointer-events-none"></div>
 
   <div className="absolute bottom-5 left-1/2 z-20 flex -translate-x-1/2 gap-2">
-    {mobileImages.map((_, index) => (
-      <button
-        key={index}
-        onClick={() => setCurrentImage(index)}
-        className={`h-2.5 w-2.5 rounded-full transition-all duration-300 ${
-          currentImage === index
-            ? "w-7 bg-red-600"
-            : "bg-white/70"
-        }`}
-      />
-    ))}
-  </div>
+  {mobileImages.map((_, index) => (
+    <button
+      key={index}
+      type="button"
+      aria-label={`Go to image ${index + 1}`}
+      aria-current={currentImage === index}
+      onClick={() => setCurrentImage(index)}
+      className={`h-2.5 w-2.5 rounded-full transition-all duration-300 ${
+        currentImage === index
+          ? "w-7 bg-red-600"
+          : "bg-white/70"
+      }`}
+    />
+  ))}
+</div>
 
 
 
@@ -178,14 +240,17 @@ const Hero = () => {
 
           <source
             media="(max-width:1024px)"
-            srcSet="/bg-tablate.png"
+            srcSet="/bg-tablate.webp"
           />
 
           <img
-            src="/bg-image.png"
-            alt="Background"
-            className="w-full h-full object-cover"
-          />
+  src="/bg-image-desktop.webp"
+  alt="Modern luxury house designed by JayPro Infratech"
+  className="h-full w-full object-cover"
+  loading="eager"
+  fetchPriority="high"
+  decoding="async"
+/>
 
         </picture>
 
@@ -214,6 +279,8 @@ const Hero = () => {
 
               return (
                 <button
+  type="button"
+  aria-label={tab.title}
                   key={index}
                   onClick={() => setSelectedService(tab.title)}
                   className={`flex items-center gap-2 rounded-lg px-4 py-2 text-xs font-semibold transition md:text-sm ${
@@ -253,7 +320,10 @@ const Hero = () => {
 
                   {/* Depth */}
                   <input
-                    type="number"
+  type="number"
+  aria-label="Plot Depth"
+  inputMode="numeric"
+  autoComplete="off"
                     placeholder="Depth"
                     value={depth}
                     onChange={(e) => setDepth(e.target.value)}
@@ -263,7 +333,10 @@ const Hero = () => {
 
                   {/* Width */}
                   <input
-                    type="number"
+  type="number"
+  aria-label="Plot Width"
+  inputMode="numeric"
+  autoComplete="off"
                     placeholder="Width"
                     value={width}
                     onChange={(e) => setWidth(e.target.value)}
@@ -273,6 +346,7 @@ const Hero = () => {
 
                   {/* Floor */}
                   <select
+  aria-label="Select Floor"
                     value={floor}
                     onChange={(e) => setFloor(e.target.value)}
                     className="rounded-lg bg-white px-4 py-3 text-black outline-none"
@@ -295,7 +369,8 @@ const Hero = () => {
 
                   {/* Building Area */}
                   <input
-                    readOnly
+  readOnly
+  aria-label="Building Area"
                     value={buildingArea}
                     placeholder="Building Area"
                     className="rounded-lg bg-white px-4 py-3 text-black outline-none"
@@ -303,7 +378,8 @@ const Hero = () => {
 
 
                   {/* Direction */}
-                  <select
+                 <select
+  aria-label="Select Direction"
                     value={north}
                     onChange={(e) => setNorth(e.target.value)}
                     className="rounded-lg bg-white px-4 py-3 text-black outline-none"
@@ -328,7 +404,9 @@ const Hero = () => {
 
                   {/* Calculate Button */}
                   <button
-                    onClick={handleCalculate}
+  type="button"
+  aria-label="Calculate Construction Price"
+  onClick={handleCalculate}
                     className="rounded-lg bg-red-600 font-semibold text-white transition hover:bg-red-700"
                   >
                     CALCULATE PRICE

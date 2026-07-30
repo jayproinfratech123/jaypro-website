@@ -74,16 +74,19 @@ const services = [
 
 export default function ServicesSection() {
   return (
-    <section className="bg-gray-100 pt-6 pb-20">
+    <section
+  id="services"
+  className="bg-gray-100 pt-6 pb-20 scroll-mt-24"
+>
       <div className="max-w-7xl mx-auto px-5">
         {/* Heading */}
-        <div className="text-center mb-6">
-          <h2 className="text-4xl font-bold text-gray-900">
-            Explore Our Services
-          </h2>
+        <div className="text-center mb-3">
+          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 text-center leading-tight -mt-2">
+  Explore Our Services
+</h2>
 
-          <p className="text-gray-500 mt-3 text-lg">
-            View Our Wide Range Of Home Design Services
+          <p className="text-gray-500 mt-1 text-lg">
+            Hamari Services Ke Baare Mein Jaane
           </p>
         </div>
 

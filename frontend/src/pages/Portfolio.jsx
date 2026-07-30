@@ -5,12 +5,36 @@ import { Autoplay } from "swiper/modules";
 import "swiper/css";
 
 const items = [
-  { title: "Modern Villa — Whitefield", category: "Villa", img: "modern-villa.webp" },
-  { title: "Duplex Renovation — Koramangala", category: "Renovation", img: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=800" },
-  { title: "Farmhouse Retreat", category: "Farm House", img: "https://images.unsplash.com/photo-1602343168117-bb8ffe3e2e9f?q=80&w=800" },
-  { title: "Urban Apartment Interiors", category: "Interior", img: "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?q=80&w=800" },
-  { title: "Corporate Office Fitout", category: "Commercial", img: "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=800" },
-  { title: "Rooftop Landscape Garden", category: "Landscape", img: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?q=80&w=800" },
+  {
+    title: "Modern Villa",
+    category: "Villa",
+    img: "/images/portfolio/villa1.jpg",
+  },
+  {
+    title: "Luxury Interior",
+    category: "Interior",
+    img: "/images/portfolio/interior1.jpg",
+  },
+  {
+    title: "Duplex House",
+    category: "Villa",
+    img: "/images/portfolio/villa2.jpg",
+  },
+  {
+    title: "Farm House",
+    category: "Farm House",
+    img: "/images/portfolio/farmhouse1.jpg",
+  },
+  {
+    title: "Commercial Building",
+    category: "Commercial",
+    img: "/images/portfolio/commercial1.jpg",
+  },
+  {
+    title: "Luxury Residence",
+    category: "Villa",
+    img: "/images/portfolio/villa3.jpg",
+  },
 ];
 
 const categories = [
@@ -32,14 +56,17 @@ const Portfolio = () => {
       : items.filter((i) => i.category === filter);
 
   return (
-    <section className="container-xl py-24">
+    <section className="container-xl pt-0 pb-8">
 
-      <span className="section-label">
-        <span className="h-px w-6 bg-red-600" />
-        Portfolio
-      </span>
+      <span
+  style={{ color: "#dc2626" }}
+  className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wider"
+>
+  <span className="h-px w-6 bg-red-600" />
+  Portfolio
+</span>
 
-      <h1 className="font-display text-4xl font-bold text-blueprint-900">
+      <h1 className="mt-0 font-display text-4xl font-bold text-blueprint-900">
         Projects we're proud of
       </h1>
 

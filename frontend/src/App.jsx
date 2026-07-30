@@ -27,6 +27,7 @@ import Turnkey from "./pages/services/Turnkey.jsx";
 import Vastu from "./pages/services/Vastu.jsx";
 import EstimatePage from "./pages/services/Estimate.jsx";
 import Contractor from "./pages/services/Contractor.jsx";
+import TermsConditions from "./pages/TermsConditions";
 
 // Customer Dashboard
 import CustomerDashboard from "./pages/dashboard/CustomerDashboard.jsx";
@@ -138,6 +139,10 @@ function App() {
             <Route path="customers" element={<AdminCustomers />} />
             <Route path="blogs" element={<AdminBlogs />} />
           </Route>
+          <Route
+  path="/terms-and-conditions"
+  element={<TermsConditions />}
+/>
 
           {/* 404 */}
           <Route
@@ -150,12 +155,13 @@ function App() {
 
       {/* Footer */}
       <Footer />
+      
 
       {/* Bottom Navigation (Mobile Only) */}
       <BottomNavigation />
 
       {/* WhatsApp Floating Button */}
-      
+      <WhatsAppButton />
     </>
   );
 }

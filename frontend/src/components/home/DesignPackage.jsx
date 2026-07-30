@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { Check, X } from "lucide-react";
 
 const packages = [
@@ -26,9 +26,8 @@ const packages = [
       "Tie Beam Detail Design",
       "Slab Beam Detail Design",
       "Slab Reinforcement Details Design",
-      "EStaircase Section Details",
-      "3Septic Tank & Borewell Position",
-      
+      "Staircase Section Details",
+      "Septic Tank & Borewell Position"
     ],
     popular: true,
   },
@@ -54,6 +53,7 @@ const packages = [
 
 const Pricing = () => {
   const [selectedPackage, setSelectedPackage] = useState(null);
+  const [expandedPackage, setExpandedPackage] = useState(null);
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -96,14 +96,20 @@ const handleSubmit = async (e) => {
   }
 };
   return (
-    <section className="container-xl py-14 -mt-20">
+    <section
+  className="container-xl py-14 -mt-20"
+  aria-labelledby="pricing-heading"
+>
       <div className="mb-14 max-w-xl">
         <span className="section-label">
           <span className="h-px w-6 bg-red-600" />
           Pricing
         </span>
 
-        <h1 className="font-display text-4xl font-bold text-blueprint-900">
+        <h1
+  id="pricing-heading"
+  className="font-display text-4xl font-bold text-blueprint-900"
+>
           Design Packages
         </h1>
 
@@ -135,17 +141,54 @@ const handleSubmit = async (e) => {
               {pkg.price}
             </p>
 
-            <ul className="mb-8 flex-1 space-y-3">
-              {pkg.features.map((feature) => (
-                <li key={feature} className="flex items-start gap-2">
-                  <Check className="h-5 w-5 text-green-600 mt-1" />
-                  <span>{feature}</span>
-                </li>
-              ))}
-            </ul>
+            {/* Mobile */}
+<ul className="mb-5 flex-1 space-y-3 lg:hidden">
+  {(expandedPackage === pkg.name
+    ? pkg.features
+    : pkg.features.slice(0, 5)
+  ).map((feature) => (
+    <li key={feature} className="flex items-start gap-2">
+      <Check
+    aria-hidden="true"
+    className="mt-1 h-5 w-5 text-green-600"
+/>
+      <span>{feature}</span>
+    </li>
+  ))}
+</ul>
+
+{/* Desktop & Tablet */}
+<ul className="mb-5 flex-1 space-y-3 hidden lg:block">
+  {pkg.features.map((feature) => (
+    <li key={feature} className="flex items-start gap-2">
+      <Check
+    aria-hidden="true"
+    className="mt-1 h-5 w-5 text-green-600"
+/>
+      <span>{feature}</span>
+    </li>
+  ))}
+</ul>
+{pkg.features.length > 5 && (
+  <button
+    type="button"
+    onClick={() =>
+      setExpandedPackage(
+        expandedPackage === pkg.name ? null : pkg.name
+      )
+    }
+    className="mb-4 w-full rounded-lg border border-red-500 py-3 font-medium text-red-600 transition hover:bg-red-50 lg:hidden"
+  >
+    {expandedPackage === pkg.name
+      ? "View Less ▲"
+      : "View All Features ▼"}
+  </button>
+)}
 
             <button
-              onClick={() => setSelectedPackage(pkg.name)}
+    type="button"
+    aria-label={`Choose ${pkg.name}`}
+    onClick={() => setSelectedPackage(pkg.name)}
               className={`rounded-md py-3 font-semibold transition ${
                 pkg.popular
                   ? "bg-red-600 text-white hover:bg-red-600"
@@ -160,17 +203,30 @@ const handleSubmit = async (e) => {
 
       {/* Popup */}
       {selectedPackage && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+        <div
+    className="fixed inset-0 z-50 flex items-center justify-center bg-black/60"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="consultation-title"
+>
           <div className="relative w-full max-w-md rounded-xl bg-white p-8 shadow-xl">
 
             <button
-              onClick={() => setSelectedPackage(null)}
+    type="button"
+    aria-label="Close consultation popup"
+    onClick={() => setSelectedPackage(null)}
               className="absolute right-4 top-4"
             >
-              <X size={24} />
+              <X
+    size={24}
+    aria-hidden="true"
+/>
             </button>
 
-            <h2 className="text-2xl font-bold text-center">
+            <h2
+    id="consultation-title"
+    className="text-2xl font-bold text-center"
+>
               Get Free House Design Consultation
             </h2>
 

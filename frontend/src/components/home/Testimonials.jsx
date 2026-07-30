@@ -10,7 +10,10 @@ const Testimonials = () => (
   <section className="bg-concrete-100 py-24">
     <div className="container-xl">
       <div className="mb-14 max-w-xl">
-        <span className="section-label"><span className="h-px w-6 bg-amber-500" /> Testimonials</span>
+        <span className="section-label text-red-600">
+  <span className="h-px w-6 bg-red-600" />
+  Testimonials
+</span>
         <h2 className="font-display text-3xl font-bold text-blueprint-900 sm:text-4xl">Homeowners who trust us</h2>
       </div>
       <div className="grid gap-6 md:grid-cols-3">
@@ -18,7 +21,7 @@ const Testimonials = () => (
           <div key={r.name} className="rounded-sm border border-black/5 bg-white p-6">
             <div className="mb-3 flex gap-1">
               {Array.from({ length: r.rating }).map((_, i) => (
-                <Star key={i} className="h-4 w-4 fill-amber-500 text-amber-500" />
+                <Star key={i} className="h-4 w-4 fill-red-600 text-red-600" />
               ))}
             </div>
             <p className="text-sm text-charcoal/70">"{r.text}"</p>
