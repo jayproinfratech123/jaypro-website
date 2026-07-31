@@ -115,7 +115,7 @@ export default function HowItWorks() {
             viewport={{ once: true }}
           >
             <img
-              src="/about-bg-desktop.png"
+              src="/about-bg-desktop.webp"
               alt="Construction"
               className="rounded-2xl shadow-xl w-full"
             />

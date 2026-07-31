@@ -6,7 +6,7 @@ import {
   X,
 } from "lucide-react";
 
-import heroImage from "/architecture-background.png"; // Change image path
+import heroImage from "/architecture-background.webp"; // Change image path
 
 const Architecture = () => {
   const [menuOpen, setMenuOpen] = useState(false);

@@ -11,18 +11,18 @@ const About = () => {
     {/* Desktop */}
     <source
       media="(min-width: 1024px)"
-      srcSet="/turnkey-bg.png"
+      srcSet="/about-bg-desktop.webp"
     />
 
     {/* Tablet */}
     <source
       media="(min-width: 640px)"
-      srcSet="/about-bg-tablate.png"
+      srcSet="/about-bg-tablate.webp"
     />
 
     {/* Mobile */}
     <img
-      src="/about-bg-phone.png"
+      src="/contruction-building.webp"
       alt="About Jaypro Infratech"
       className="absolute inset-0 w-full h-full object-cover"
     />
