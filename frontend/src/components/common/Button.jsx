@@ -5,6 +5,7 @@ const Button = ({
   type = "button",
   ariaLabel,
   disabled = false,
+  title,
   ...props
 }) => {
   const base = variant === "primary" ? "btn-primary" : "btn-outline";
@@ -13,7 +14,8 @@ const Button = ({
     <button
       type={type}
       className={`${base} ${className}`}
-      aria-label={ariaLabel}
+      aria-label={ariaLabel || (typeof children === "string" ? children : undefined)}
+      title={title || (typeof children === "string" ? children : undefined)}
       disabled={disabled}
       {...props}
     >

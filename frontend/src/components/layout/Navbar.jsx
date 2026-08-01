@@ -18,15 +18,31 @@ const Navbar = () => {
   const { user } = useAuth();
 
   return (
-    <header className="sticky top-0 z-50 border-b border-black/5 bg-concrete-50/90 backdrop-blur">
+    <header
+  className="sticky top-0 z-50 border-b border-black/5 bg-concrete-50/90 backdrop-blur"
+  role="banner"
+>
 
-      <nav className="container-xl flex h-[72px] items-center justify-between">
+     <nav
+  className="container-xl flex h-[72px] items-center justify-between"
+  aria-label="Main navigation"
+>
 
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2">
+        <Link
+  to="/"
+  className="flex items-center gap-2"
+  aria-label="Jaypro Infratech Home"
+>
           <img
   src="/jayproinfratech-logo.png"
-  alt="Jaypro Infratech"
+  alt="Jaypro Infratech - Construction Company Logo"
+  title="Jaypro Infratech"
+  width="180"
+  height="56"
+  loading="eager"
+  fetchPriority="high"
+  decoding="async"
   className="h-12 lg:h-14 w-auto object-contain"
 />
 
@@ -101,14 +117,23 @@ const Navbar = () => {
 
         {/* Mobile Menu Button */}
         <button
-          className="lg:hidden"
-          onClick={() => setOpen(!open)}
-          aria-label="Toggle menu"
-        >
+  type="button"
+  className="lg:hidden"
+  onClick={() => setOpen(!open)}
+  aria-label={open ? "Close navigation menu" : "Open navigation menu"}
+  aria-expanded={open}
+  aria-controls="mobile-navigation"
+>
           {
             open
-              ? <X className="h-6 w-6" />
-              : <Menu className="h-6 w-6" />
+              ? <X
+  className="h-6 w-6"
+  aria-hidden="true"
+/>
+              : <Menu
+  className="h-6 w-6"
+  aria-hidden="true"
+/>
           }
         </button>
 
@@ -118,7 +143,10 @@ const Navbar = () => {
       {/* Mobile Menu */}
       {open && (
 
-        <div className="border-t border-black/5 bg-concrete-50 lg:hidden">
+        <div
+  id="mobile-navigation"
+  className="border-t border-black/5 bg-concrete-50 lg:hidden"
+>
 
           <div className="container-xl flex flex-col gap-4 py-6">
 

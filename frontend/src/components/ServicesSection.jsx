@@ -14,7 +14,7 @@ const services = [
     id: 1,
     title: "Architect",
     subtitle: "Design",
-    icon: <FaDraftingCompass />,
+    icon: <FaDraftingCompass aria-hidden="true" />,
     path: "/services/architecture",
     button: "Click Now",
     topBg: "bg-green-50",
@@ -24,7 +24,7 @@ const services = [
     id: 2,
     title: "Interior",
     subtitle: "Design",
-    icon: <FaPaintBrush />,
+    icon: <FaPaintBrush aria-hidden="true" />,
     path: "/services/interior",
     button: "Click Now",
     topBg: "bg-purple-50",
@@ -34,7 +34,7 @@ const services = [
     id: 3,
     title: "Turnkey",
     subtitle: "Construction",
-    icon: <FaBuilding />,
+    icon: <FaBuilding aria-hidden="true" />,
     path: "/services/turnkey",
     button: "Click Now",
     topBg: "bg-purple-50",
@@ -44,7 +44,7 @@ const services = [
     id: 4,
     title: "Vastu",
     subtitle: "Shastra",
-    icon: <FaCompass />,
+    icon: <FaCompass aria-hidden="true" />,
     path: "/services/vastu",
     button: "Free Vastu",
     topBg: "bg-orange-50",
@@ -54,7 +54,7 @@ const services = [
     id: 5,
     title: "Estimate &",
     subtitle: "Cost",
-    icon: <FaCalculator />,
+    icon: <FaCalculator aria-hidden="true" />,
     path: "/services/estimate",
     button: "Get Estimate",
     topBg: "bg-green-50",
@@ -64,7 +64,7 @@ const services = [
     id: 6,
     title: "Contractors",
     subtitle: "",
-    icon: <FaHardHat />,
+    icon: <FaHardHat aria-hidden="true" />,
     path: "/services/contractor",
     button: "Click Now",
     topBg: "bg-green-50",
@@ -75,49 +75,64 @@ const services = [
 export default function ServicesSection() {
   return (
     <section
-  id="services"
-  className="bg-gray-100 pt-6 pb-20 scroll-mt-24"
->
+      id="services"
+      aria-labelledby="services-heading"
+      className="bg-gray-100 pt-6 pb-20 scroll-mt-24"
+    >
       <div className="max-w-7xl mx-auto px-5">
         {/* Heading */}
         <div className="text-center mb-3">
-          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 text-center leading-tight -mt-2">
-  Explore Our Services
-</h2>
+          <h2
+            id="services-heading"
+            className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 text-center leading-tight -mt-2"
+          >
+            Explore Our Services
+          </h2>
 
           <p className="text-gray-500 mt-1 text-lg">
             Hamari Services Ke Baare Mein Jaane
           </p>
+
+          {/* Hidden SEO Content */}
+          <p className="sr-only">
+            Explore our professional architecture, interior design, turnkey
+            construction, Vastu consultation, construction cost estimation,
+            and contractor services.
+          </p>
         </div>
 
         {/* Cards */}
-       <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 justify-items-center">
+        <div
+          className="grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 justify-items-center"
+          role="list"
+        >
           {services.map((service) => (
-            <div
-  key={service.id}
-  className="
-    w-full
-    max-w-[340px]
-    h-[220px]
-    mx-auto
-    bg-white
-    rounded-xl
-    shadow-lg
-    overflow-hidden
-    flex
-    flex-col
-    justify-between
-    transition-all
-    duration-300
-    hover:-translate-y-2
-    hover:shadow-2xl
-  "
->
+            <article
+              key={service.id}
+              role="listitem"
+              className="
+                w-full
+                max-w-[340px]
+                h-[220px]
+                mx-auto
+                bg-white
+                rounded-xl
+                shadow-lg
+                overflow-hidden
+                flex
+                flex-col
+                justify-between
+                transition-all
+                duration-300
+                hover:-translate-y-2
+                hover:shadow-2xl
+              "
+            >
               {/* Top */}
               <div
-  className={`${service.topBg} h-14 relative flex justify-center`}
->
-               <div className="absolute top-4 w-10 h-10 md:w-14 md:h-14 rounded-full bg-white shadow-md flex items-center justify-center text-lg md:text-2xl text-red-500 border-[3px] border-white">
+                className={`${service.topBg} h-14 relative flex justify-center`}
+              >
+                <div className="absolute top-4 w-10 h-10 md:w-14 md:h-14 rounded-full bg-white shadow-md flex items-center justify-center text-lg md:text-2xl text-red-500 border-[3px] border-white">
                   {service.icon}
                 </div>
               </div>
@@ -136,17 +151,23 @@ export default function ServicesSection() {
               </div>
 
               {/* Button */}
-              <Link to={service.path}>
+              <Link
+                to={service.path}
+                aria-label={`View ${service.title} ${service.subtitle} Service`}
+                title={`${service.title} ${service.subtitle}`}
+              >
                 <button
+                  type="button"
+                  aria-label={service.button}
                   className={`w-full bg-gradient-to-r ${service.buttonBg}
                   text-white font-semibold py-3 flex items-center justify-center gap-2
                   hover:opacity-90 transition`}
                 >
-                  <FaArrowRight />
+                  <FaArrowRight aria-hidden="true" />
                   {service.button}
                 </button>
               </Link>
-            </div>
+            </article>
           ))}
         </div>
       </div>

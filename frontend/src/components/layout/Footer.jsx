@@ -9,27 +9,43 @@ import {
 
 const Footer = () => {
   return (
-    <footer className="bg-[#0F172A] text-white">
+    <footer
+      className="bg-[#0F172A] text-white"
+      role="contentinfo"
+      aria-labelledby="footer-company"
+      itemScope
+      itemType="https://schema.org/Organization"
+    >
       <div className="container-xl px-6 py-5">
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
 
           {/* Company */}
-          <div>
-            <h2 className="text-xl font-bold">
+          <section aria-labelledby="footer-company">
+            <h2
+              id="footer-company"
+              className="text-xl font-bold"
+              itemProp="name"
+            >
               JayPro Infratech
             </h2>
 
-            <p className="mt-3 text-sm text-gray-300 leading-6">
+            <p
+              className="mt-3 text-sm text-gray-300 leading-6"
+              itemProp="description"
+            >
               We design elegant homes, villas and commercial buildings with
               innovative architecture, structural planning and premium interior
               solutions.
             </p>
-          </div>
+          </section>
 
           {/* Quick Links */}
-          <div>
-            <h3 className="mb-5 text-lg font-semibold">
+          <nav aria-labelledby="footer-links">
+            <h3
+              id="footer-links"
+              className="mb-5 text-lg font-semibold"
+            >
               Quick Links
             </h3>
 
@@ -70,11 +86,14 @@ const Footer = () => {
                 </a>
               </li>
             </ul>
-          </div>
+          </nav>
 
           {/* Services */}
-          <div>
-            <h3 className="mb-5 text-lg font-semibold">
+          <section aria-labelledby="footer-services">
+            <h3
+              id="footer-services"
+              className="mb-5 text-lg font-semibold"
+            >
               Services
             </h3>
 
@@ -86,122 +105,187 @@ const Footer = () => {
               <li>Construction</li>
               <li>Turnkey Projects</li>
             </ul>
-          </div>
+          </section>
 
           {/* Contact */}
-          {/* Contact */}
-<div>
-  <h3 className="mb-3 text-base font-semibold">
-    Contact
-  </h3>
+          <section
+            aria-labelledby="footer-contact"
+            itemProp="address"
+            itemScope
+            itemType="https://schema.org/PostalAddress"
+          >
+            <h3
+              id="footer-contact"
+              className="mb-3 text-base font-semibold"
+            >
+              Contact
+            </h3>
 
-  <div className="space-y-3 text-sm">
+            <div className="space-y-3 text-sm">
 
-    {/* Address 1 */}
-    <div className="flex items-start gap-2">
-      <MapPin className="mt-1 h-4 w-4 text-red-600 flex-shrink-0" />
-      <p className="text-gray-300">
-        <span className="font-medium text-white">Patna Office</span><br />
-        210, 2nd Floor, Orchid Mall,<br />
-        Opp. A.N. College Main Gate,<br />
-        Boring Road, Patna - 800001
-      </p>
-    </div>
+              {/* Address 1 */}
+              <div className="flex items-start gap-2">
+                <MapPin
+                  className="mt-1 h-4 w-4 text-red-600 flex-shrink-0"
+                  aria-hidden="true"
+                />
+                <address className="not-italic text-gray-300">
+                  <span className="font-medium text-white">
+                    Patna Office
+                  </span>
+                  <br />
+                  <span itemProp="streetAddress">
+                    210, 2nd Floor, Orchid Mall,
+                  </span>
+                  <br />
+                  Opp. A.N. College Main Gate,
+                  <br />
+                  Boring Road,
+                  <span itemProp="addressLocality"> Patna</span> -
+                  <span itemProp="postalCode">800001</span>
+                </address>
+              </div>
 
-    {/* Address 2 */}
-    <div className="flex items-start gap-2">
-      <MapPin className="mt-1 h-4 w-4 text-red-600 flex-shrink-0" />
-      <p className="text-gray-300">
-        <span className="font-medium text-white">Noida Office</span><br />
-        H-169, H-Block, sector-63, Noida, Uttar Pradesh - 201309
-      </p>
-    </div>
+              {/* Address 2 */}
+              <div className="flex items-start gap-2">
+                <MapPin
+                  className="mt-1 h-4 w-4 text-red-600 flex-shrink-0"
+                  aria-hidden="true"
+                />
+                <address className="not-italic text-gray-300">
+                  <span className="font-medium text-white">
+                    Noida Office
+                  </span>
+                  <br />
+                  H-169, H-Block,
+                  <br />
+                  Sector-63,
+                  <span itemProp="addressLocality"> Noida</span>,
+                  Uttar Pradesh -
+                  <span itemProp="postalCode">201309</span>
+                </address>
+              </div>
 
-    {/* Phone Numbers */}
-    <div className="flex items-start gap-2">
-      <Phone className="mt-1 h-4 w-4 text-red-600 flex-shrink-0" />
-      <div className="text-gray-300">
-        <p>+91 98358 52462</p>
-        <p>+91 62997 78784</p>
-      </div>
-    </div>
+              {/* Phone */}
+              <div className="flex items-start gap-2">
+                <Phone
+                  className="mt-1 h-4 w-4 text-red-600 flex-shrink-0"
+                  aria-hidden="true"
+                />
 
-    {/* Email */}
-    <div className="flex items-start gap-2">
-      <Mail className="mt-1 h-4 w-4 text-red-600 flex-shrink-0" />
-      <p className="text-gray-300 break-all">
-        info@jayproinfratech.com
-      </p>
-    </div>
+                <div className="text-gray-300">
+                  <a
+                    href="tel:+919835852462"
+                    className="hover:text-red-600"
+                    itemProp="telephone"
+                  >
+                    +91 98358 52462
+                  </a>
 
-    {/* Social Icons */}
-    <div className="flex gap-2 pt-2">
-      <a
-        href="#"
-        className="rounded-full bg-red-600 p-1.5 hover:bg-red-700"
-      >
-        <Facebook size={15} />
-      </a>
+                  <br />
 
-      <a
-        href="#"
-        className="rounded-full bg-red-600 p-1.5 hover:bg-red-700"
-      >
-        <Instagram size={15} />
-      </a>
+                  <a
+                    href="tel:+916299778784"
+                    className="hover:text-red-600"
+                  >
+                    +91 62997 78784
+                  </a>
+                </div>
+              </div>
 
-      <a
-        href="#"
-        className="rounded-full bg-red-600 p-1.5 hover:bg-red-700"
-      >
-        <Linkedin size={15} />
-      </a>
-    </div>
+              {/* Email */}
+              <div className="flex items-start gap-2">
+                <Mail
+                  className="mt-1 h-4 w-4 text-red-600 flex-shrink-0"
+                  aria-hidden="true"
+                />
 
-  </div>
-</div>
-          
+                <a
+                  href="mailto:info@jayproinfratech.com"
+                  className="text-gray-300 break-all hover:text-red-600"
+                  itemProp="email"
+                >
+                  info@jayproinfratech.com
+                </a>
+              </div>
+
+              {/* Social */}
+              <div
+                className="flex gap-2 pt-2"
+                aria-label="Social media links"
+              >
+                <a
+                  href="#"
+                  aria-label="Facebook"
+                  className="rounded-full bg-red-600 p-1.5 hover:bg-red-700"
+                >
+                  <Facebook size={15} aria-hidden="true" />
+                </a>
+
+                <a
+                  href="#"
+                  aria-label="Instagram"
+                  className="rounded-full bg-red-600 p-1.5 hover:bg-red-700"
+                >
+                  <Instagram size={15} aria-hidden="true" />
+                </a>
+
+                <a
+                  href="#"
+                  aria-label="LinkedIn"
+                  className="rounded-full bg-red-600 p-1.5 hover:bg-red-700"
+                >
+                  <Linkedin size={15} aria-hidden="true" />
+                </a>
+              </div>
+
+            </div>
+          </section>
 
         </div>
 
         <div className="mt-8 border-t border-gray-700 pt-4">
 
-  <div className="flex flex-col items-center justify-between gap-3 text-sm text-gray-400 md:flex-row">
+          <div className="flex flex-col items-center justify-between gap-3 text-sm text-gray-400 md:flex-row">
 
-    <p>
-      © {new Date().getFullYear()} JayPro Infratech. All Rights Reserved.
-    </p>
+            <p>
+              © {new Date().getFullYear()} JayPro Infratech. All Rights Reserved.
+            </p>
 
-    <div className="flex flex-wrap items-center gap-4">
-      <a
-        href="/privacy-policy"
-        className="transition hover:text-red-600"
-      >
-        Privacy Policy
-      </a>
+            <nav aria-label="Legal links">
+              <div className="flex flex-wrap items-center gap-4">
 
-      <span>|</span>
+                <a
+                  href="/privacy-policy"
+                  className="transition hover:text-red-600"
+                >
+                  Privacy Policy
+                </a>
 
-      <a
-        href="/terms-and-conditions"
-        className="transition hover:text-red-600"
-      >
-        Terms & Conditions
-      </a>
+                <span aria-hidden="true">|</span>
 
-      <span>|</span>
+                <a
+                  href="/terms-and-conditions"
+                  className="transition hover:text-red-600"
+                >
+                  Terms & Conditions
+                </a>
 
-      <a
-        href="/refund-policy"
-        className="transition hover:text-red-600"
-      >
-        Refund Policy
-      </a>
-    </div>
+                <span aria-hidden="true">|</span>
 
-  </div>
+                <a
+                  href="/refund-policy"
+                  className="transition hover:text-red-600"
+                >
+                  Refund Policy
+                </a>
 
-</div>
+              </div>
+            </nav>
+
+          </div>
+
+        </div>
 
       </div>
     </footer>

@@ -1,4 +1,4 @@
-export const servicePrice = {
+export const servicePrice = Object.freeze({
   "House Construction": 299,
   "House Design": 199,
   "Interior Design": 599,
@@ -7,18 +7,18 @@ export const servicePrice = {
   "Structural Drawing": 499,
   "Vastu Consultation": 299,
   "3D Elevation": 699,
-};
+});
 
-export const locationCharge = {
+export const locationCharge = Object.freeze({
   Patna: 0,
   Lucknow: 100,
   Noida: 200,
   Delhi: 300,
   Kanpur: 50,
   Varanasi: 0,
-};
+});
 
-const packages = [
+const packages = Object.freeze([
   {
     name: "Premium",
     price: "₹1,950",
@@ -64,6 +64,6 @@ const packages = [
       warranty: "20 Years",
     },
   },
-];
+]);
 
 export default packages;

@@ -83,7 +83,13 @@ const features = [
 
 export default function HowItWorks() {
   return (
-    <section className="py-15 bg-[#faf8f5]">
+    <section
+  className="py-15 bg-[#faf8f5]"
+  aria-labelledby="construction-process-heading"
+  aria-describedby="construction-process-description"
+  itemScope
+  itemType="https://schema.org/HowTo"
+>
       <div className="max-w-5xl mx-auto px-6">
 
         {/* Heading */}
@@ -94,14 +100,22 @@ export default function HowItWorks() {
               HOW IT WORKS
             </p>
 
-            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
+            <h2
+  id="construction-process-heading"
+  className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight"
+  itemProp="name"
+>
               Our
               <span className="text-red-600
               00"> Construction </span>
               Process
             </h2>
 
-            <p className="mt-6 text-gray-600 leading-7 text-lg">
+            <p
+  id="construction-process-description"
+  className="mt-6 text-gray-600 leading-7 text-lg"
+  itemProp="description"
+>
               We make construction simple, transparent and hassle-free.
               From planning to final handover, every step is managed by
               experienced professionals.
@@ -115,10 +129,12 @@ export default function HowItWorks() {
             viewport={{ once: true }}
           >
             <img
-              src="/about-bg-desktop.webp"
-              alt="Construction"
-              className="rounded-2xl shadow-xl w-full"
-            />
+  src="/about-bg-desktop.webp"
+  alt="Home construction process by JayPro Infratech"
+  className="rounded-2xl shadow-xl w-full"
+  loading="lazy"
+  decoding="async"
+/>
           </motion.div>
         </div>
 

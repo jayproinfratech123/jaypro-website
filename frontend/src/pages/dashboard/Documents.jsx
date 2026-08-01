@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { FileText, Download } from "lucide-react";
 
 const placeholderDocs = [
@@ -6,24 +7,75 @@ const placeholderDocs = [
   { name: "Blueprint_FloorPlan.dwg", type: "Blueprint" },
 ];
 
-const Documents = () => (
-  <div>
-    <h1 className="mb-6 font-display text-2xl font-bold text-blueprint-900">Documents</h1>
-    <div className="divide-y divide-black/5 rounded-sm border border-black/5 bg-white">
-      {placeholderDocs.map((doc) => (
-        <div key={doc.name} className="flex items-center justify-between p-5">
-          <div className="flex items-center gap-3">
-            <FileText className="h-5 w-5 text-red-600" />
-            <div>
-              <p className="text-sm font-medium text-blueprint-900">{doc.name}</p>
-              <p className="text-xs text-charcoal/50">{doc.type}</p>
+const Documents = () => {
+  useEffect(() => {
+    // SEO: Set a descriptive title for the documents page
+    document.title = "Documents | JayPro Infratech";
+
+    // SEO: Prevent private dashboard documents from being indexed
+    let robotsMeta = document.querySelector('meta[name="robots"]');
+
+    if (!robotsMeta) {
+      robotsMeta = document.createElement("meta");
+      robotsMeta.name = "robots";
+      document.head.appendChild(robotsMeta);
+    }
+
+    robotsMeta.content = "noindex, nofollow, noarchive";
+
+    return () => {
+      // Restore the default website title when leaving the page
+      document.title = "JayPro Infratech";
+
+      // Remove the page-specific robots directive
+      if (robotsMeta && robotsMeta.parentNode) {
+        robotsMeta.parentNode.removeChild(robotsMeta);
+      }
+    };
+  }, []);
+
+  return (
+    <main>
+      <h1 className="mb-6 font-display text-2xl font-bold text-blueprint-900">
+        Documents
+      </h1>
+
+      <div
+        className="divide-y divide-black/5 rounded-sm border border-black/5 bg-white"
+        aria-label="Project documents"
+      >
+        {placeholderDocs.map((doc) => (
+          <div
+            key={doc.name}
+            className="flex items-center justify-between p-5"
+          >
+            <div className="flex items-center gap-3">
+              <FileText
+                className="h-5 w-5 text-red-600"
+                aria-hidden="true"
+              />
+
+              <div>
+                <p className="text-sm font-medium text-blueprint-900">
+                  {doc.name}
+                </p>
+
+                <p className="text-xs text-charcoal/50">{doc.type}</p>
+              </div>
             </div>
+
+            <button
+              type="button"
+              aria-label={`Download ${doc.name}`}
+              className="text-charcoal/50 hover:text-red-600"
+            >
+              <Download className="h-4 w-4" aria-hidden="true" />
+            </button>
           </div>
-          <button className="text-charcoal/50 hover:text-red-600"><Download className="h-4 w-4" /></button>
-        </div>
-      ))}
-    </div>
-  </div>
-);
+        ))}
+      </div>
+    </main>
+  );
+};
 
 export default Documents;

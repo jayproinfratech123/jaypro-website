@@ -30,29 +30,46 @@ const PackageModal = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/60 overflow-y-auto">
+    <div
+      className="fixed inset-0 z-50 bg-black/60 overflow-y-auto"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="consultation-title"
+      aria-describedby="consultation-description"
+    >
       <div className="min-h-screen flex items-center justify-center p-4">
         <div className="bg-white rounded-2xl w-full max-w-md p-6 relative my-10">
 
           {/* Close Button */}
           <button
+            type="button"
             onClick={() => setSelectedPackage(null)}
+            aria-label="Close consultation form"
             className="absolute top-4 right-4 text-3xl font-bold text-gray-500 hover:text-black"
           >
             ×
           </button>
 
           {/* Heading */}
-          <h2 className="text-2xl font-bold text-center text-red-600">
+          <h2
+            id="consultation-title"
+            className="text-2xl font-bold text-center text-red-600"
+          >
             Get Free Consultation
           </h2>
 
-          <p className="text-center text-gray-500 mt-2">
+          <p
+            id="consultation-description"
+            className="text-center text-gray-500 mt-2"
+          >
             Selected Package
           </p>
 
           <div className="text-center mt-3">
-            <span className="inline-block bg-red-600 text-white px-5 py-2 rounded-lg font-semibold">
+            <span
+              className="inline-block bg-red-600 text-white px-5 py-2 rounded-lg font-semibold"
+              aria-label={`Selected package ${selectedPackage}`}
+            >
               {selectedPackage}
             </span>
           </div>
@@ -61,9 +78,12 @@ const PackageModal = ({
           <form
             onSubmit={handleSubmit}
             className="mt-6 space-y-4"
+            aria-label="Free consultation request form"
           >
             <input
               type="text"
+              name="name"
+              autoComplete="name"
               placeholder="Enter Your Name"
               required
               value={formData.name}
@@ -78,6 +98,9 @@ const PackageModal = ({
 
             <input
               type="tel"
+              name="phone"
+              autoComplete="tel"
+              inputMode="tel"
               placeholder="Enter Phone Number"
               required
               value={formData.phone}
@@ -91,6 +114,8 @@ const PackageModal = ({
             />
 
             <select
+              name="city"
+              autoComplete="address-level2"
               required
               value={formData.city}
               onChange={(e) =>
@@ -112,6 +137,7 @@ const PackageModal = ({
 
             <button
               type="submit"
+              aria-label={`Request a free callback for the ${selectedPackage} package`}
               className="w-full bg-[#F45A17] hover:bg-[#d94f13] text-white py-3 rounded-lg font-semibold transition"
             >
               Request Free Callback

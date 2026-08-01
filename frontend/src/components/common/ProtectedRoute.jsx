@@ -11,6 +11,7 @@ const ProtectedRoute = ({ children, roles = [] }) => {
         className="flex h-screen items-center justify-center"
         role="status"
         aria-live="polite"
+        aria-busy="true"
         aria-label="Loading content"
       >
         <p className="text-lg font-medium text-gray-700">
@@ -22,7 +23,13 @@ const ProtectedRoute = ({ children, roles = [] }) => {
 
   // User Not Logged In
   if (!user) {
-    return <Navigate to="/login" replace />;
+    return (
+      <Navigate
+        to="/login"
+        replace
+        state={{ from: window.location.pathname }}
+      />
+    );
   }
 
   // User Doesn't Have Required Role

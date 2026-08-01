@@ -17,7 +17,10 @@ const MobileCards = ({
   };
 
   return (
-    <div className="lg:hidden space-y-6 overflow-y-auto">
+    <section
+      className="lg:hidden space-y-6 overflow-y-auto"
+      aria-label="Construction package comparison"
+    >
       {packages.map((pkg, packageIndex) => {
         const showAll = expandedCards[packageIndex] || false;
 
@@ -25,39 +28,55 @@ const MobileCards = ({
         const visibleRows = showAll ? rows : rows.slice(0, 2);
 
         return (
-          <div
+          <article
             key={pkg.name}
             className="rounded-2xl border shadow-lg overflow-hidden bg-white"
+            aria-labelledby={`package-title-${packageIndex}`}
           >
             {/* Header */}
-            <div className="bg-black text-white p-5 text-center">
+            <header className="bg-black text-white p-5 text-center">
               {pkg.badge && (
-                <span className="inline-block bg-white text-black px-3 py-1 rounded-md text-sm font-semibold mb-3">
+                <span
+                  className="inline-block bg-white text-black px-3 py-1 rounded-md text-sm font-semibold mb-3"
+                  aria-label={`${pkg.badge} package`}
+                >
                   {pkg.badge}
                 </span>
               )}
 
-              <h3 className="text-2xl font-bold text-red-600">
+              <h3
+                id={`package-title-${packageIndex}`}
+                className="text-2xl font-bold text-red-600"
+                title={pkg.name}
+              >
                 {pkg.name}
               </h3>
 
-              <p className="text-3xl font-bold mt-2">
-                {pkg.price}
-              </p>
-
-              <p className="text-sm text-gray-300">
-                / sq.ft
-              </p>
-            </div>
+              <p
+  className="mt-2 text-3xl font-bold whitespace-nowrap"
+  aria-label={`${pkg.name} package price ${pkg.price} per square foot`}
+>
+  {pkg.price}
+  <span className="text-sm font-normal text-gray-300 ml-1">
+    /sq.ft
+  </span>
+</p>
+            </header>
 
             {/* Package Features */}
             <div className="divide-y">
               {visibleRows.map((section) => (
-                <div key={section.category}>
+                <section
+                  key={section.category}
+                  aria-labelledby={`category-${packageIndex}-${section.category}`}
+                >
                   {/* Category */}
-                  <div className="bg-gray-100 px-4 py-3 font-bold text-red-600">
+                  <h4
+                    id={`category-${packageIndex}-${section.category}`}
+                    className="bg-gray-100 px-4 py-3 font-bold text-red-600"
+                  >
                     {section.category}
-                  </div>
+                  </h4>
 
                   {/* Items */}
                   {section.items.map((item) => (
@@ -69,18 +88,33 @@ const MobileCards = ({
                         {item.title}
                       </span>
 
-                      <span className="text-right text-sm">
+                      <span
+                        className="text-right text-sm"
+                        aria-label={`${item.title}: ${
+                          item.values[packageIndex] === "✔"
+                            ? "Included"
+                            : item.values[packageIndex] === "✖"
+                            ? "Not Included"
+                            : item.values[packageIndex]
+                        }`}
+                      >
                         {item.values[packageIndex] === "✔" ? (
-                          <Check className="text-green-600 w-5 h-5" />
+                          <Check
+                            className="text-green-600 w-5 h-5"
+                            aria-hidden="true"
+                          />
                         ) : item.values[packageIndex] === "✖" ? (
-                          <X className="text-red-600 w-5 h-5" />
+                          <X
+                            className="text-red-600 w-5 h-5"
+                            aria-hidden="true"
+                          />
                         ) : (
                           item.values[packageIndex]
                         )}
                       </span>
                     </div>
                   ))}
-                </div>
+                </section>
               ))}
 
               {/* View All Button */}
@@ -88,6 +122,8 @@ const MobileCards = ({
                 <button
                   onClick={() => toggleCard(packageIndex)}
                   className="w-full border border-red-600 text-red-600 py-3 rounded-lg font-semibold hover:bg-red-50 transition"
+                  aria-expanded={showAll}
+                  aria-controls={`package-features-${packageIndex}`}
                 >
                   {showAll
                     ? "Hide Features ▲"
@@ -96,19 +132,23 @@ const MobileCards = ({
               </div>
 
               {/* Choose Button */}
-              <div className="p-4 bg-white">
+              <div
+                id={`package-features-${packageIndex}`}
+                className="p-4 bg-white"
+              >
                 <button
                   onClick={() => setSelectedPackage(pkg.name)}
                   className="w-full bg-red-600 hover:bg-red-600 text-white font-semibold py-3 rounded-lg transition"
+                  aria-label={`Choose ${pkg.name} construction package`}
                 >
                   Choose {pkg.name}
                 </button>
               </div>
             </div>
-          </div>
+          </article>
         );
       })}
-    </div>
+    </section>
   );
 };
 

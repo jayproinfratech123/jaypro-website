@@ -34,47 +34,56 @@ export default function Packages() {
       : noidaRows;
 
   return (
-    <section className="bg-white py-12 sm:py-16 lg:py-20 overflow-visible">
+    <section
+      id="construction-packages"
+      className="bg-white py-12 sm:py-16 lg:py-20 overflow-visible"
+      aria-labelledby="construction-packages-heading"
+    >
       <div className="w-full max-w-[90%] mx-auto px-1">
 
         {/* Heading */}
         <PackageHeader />
 
         {/* City Tabs */}
-        <div className="mt-6 sm:mt-8">
+        <nav
+          className="mt-6 sm:mt-8"
+          aria-label="Select construction package city"
+        >
           <CityTabs
             selectedCity={selectedCity}
             setSelectedCity={setSelectedCity}
           />
-        </div>
+        </nav>
 
-        {/* Package Table */}
-        <div className="mt-10 rounded-[30px] overflow-hidden bg-white shadow-2xl">
-
+        {/* Package Comparison */}
+        <main
+          className="mt-10 rounded-[30px] overflow-hidden bg-white shadow-2xl"
+          aria-label={`${selectedCity} construction package comparison`}
+        >
           {/* Mobile View */}
           <MobileCards
-  packages={packages}
-  rows={rows}
-  setSelectedPackage={setSelectedPackage}
-/>
+            packages={packages}
+            rows={rows}
+            setSelectedPackage={setSelectedPackage}
+          />
 
           {/* Desktop View */}
           <DesktopTable
-  packages={packages}
-  rows={rows}
-  setSelectedPackage={setSelectedPackage}
-/>
-        </div>
+            packages={packages}
+            rows={rows}
+            setSelectedPackage={setSelectedPackage}
+          />
+        </main>
 
-        {/* Modal */}
+        {/* Consultation Modal */}
         {selectedPackage && (
-  <PackageModal
-    selectedPackage={selectedPackage}
-    setSelectedPackage={setSelectedPackage}
-    formData={formData}
-    setFormData={setFormData}
-  />
-)}
+          <PackageModal
+            selectedPackage={selectedPackage}
+            setSelectedPackage={setSelectedPackage}
+            formData={formData}
+            setFormData={setFormData}
+          />
+        )}
       </div>
     </section>
   );

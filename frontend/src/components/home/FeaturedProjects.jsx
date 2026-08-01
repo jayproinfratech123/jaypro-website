@@ -34,7 +34,7 @@ const projects = [
     tag: "Farm House",
     plotSize: "5000 sq.ft",
     floors: "Ground Floor",
-    img: "/hotel.webp",
+    img: "/hotel-mahananda.webp",
   },
    {
     client: "Rohan Kumar",
@@ -43,6 +43,49 @@ const projects = [
     plotSize: "5000 sq.ft",
     floors: "Ground Floor",
     img: "/personal-residencial-home.webp",
+  },
+  {
+    client: "Rohan Kumar",
+    city: "Patna",
+    tag: "Personal Residence House",
+    plotSize: "5000 sq.ft",
+    floors: "Ground Floor",
+    img: "/residence-home-garden.webp",
+  },
+  {
+    client: "Priya",
+    city: "Patna",
+    tag: "Personal Residence House",
+    plotSize: "5000 sq.ft",
+    floors: "Ground Floor",
+    img: "/recidence-home-car-parking.webp",
+  },
+  {
+    client: "Priya",
+    city: "Patna",
+    tag: "Personal Residence House",
+    plotSize: "5000 sq.ft",
+    floors: "Ground Floor",
+    
+    img: "/residence-home-main-road.webp",
+  },
+  {
+    client: "Geeta Srivastav",
+    city: "Patna",
+    tag: "Hostel",
+    plotSize: "5000 sq.ft",
+    floors: "G+3 Floor",
+    
+    img: "/hostel-design.webp",
+  },
+  {
+    client: "Asmit Singh",
+    city: "Patna",
+    tag: "Hostel",
+    plotSize: "5000 sq.ft",
+    floors: "G+3 Floor",
+    
+    img: "/residence-home-balcony.webp",
   },
 ];
 

@@ -4,13 +4,28 @@ export default function CityTabs({ selectedCity, setSelectedCity }) {
   const cities = ["Patna", "Noida"];
 
   return (
-    <div className="mb-10 mt-3">
+    <section
+      className="mb-10 mt-3"
+      aria-labelledby="city-package-heading"
+    >
+      {/* Hidden Heading for SEO & Accessibility */}
+      <h2 id="city-package-heading" className="sr-only">
+        Select a City to View Construction Packages
+      </h2>
+
       {/* City Buttons */}
-      <div className="flex justify-center items-center gap-6">
+      <nav
+        className="flex justify-center items-center gap-6"
+        aria-label="Select City"
+      >
         {cities.map((city) => (
           <button
             key={city}
+            type="button"
             onClick={() => setSelectedCity(city)}
+            aria-label={`View construction packages for ${city}`}
+            title={`View construction packages for ${city}`}
+            aria-pressed={selectedCity === city}
             className={`px-5 py-2 rounded-md font-medium text-base transition-all duration-300 border-2
               ${
                 selectedCity === city
@@ -21,7 +36,7 @@ export default function CityTabs({ selectedCity, setSelectedCity }) {
             {city.toUpperCase()}
           </button>
         ))}
-      </div>
+      </nav>
 
       {/* Heading */}
       <h3 className="text-center text-4xl font-bold text-[#1F2937] mt-5">
@@ -30,6 +45,6 @@ export default function CityTabs({ selectedCity, setSelectedCity }) {
           {selectedCity}
         </span>
       </h3>
-    </div>
+    </section>
   );
 }

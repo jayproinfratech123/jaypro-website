@@ -6,12 +6,16 @@ const PackageCategory = ({ section }) => {
     <>
       {/* Category Heading */}
       <tr className="bg-white">
-        <td
+        <th
           colSpan={4}
-          className="px-8 py-6 text-3xl font-semibold text-red-600"
+          scope="colgroup"
+          id={`category-${section.category
+            .toLowerCase()
+            .replace(/\s+/g, "-")}`}
+          className="px-8 py-6 text-3xl font-semibold text-red-600 text-left"
         >
           {section.category}
-        </td>
+        </th>
       </tr>
 
       {/* Feature Rows */}
@@ -19,6 +23,7 @@ const PackageCategory = ({ section }) => {
         <PackageTableRow
           key={item.title}
           item={item}
+          category={section.category}
         />
       ))}
     </>

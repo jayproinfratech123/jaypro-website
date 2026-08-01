@@ -24,15 +24,23 @@ const Sidebar = () => {
   return (
     <aside
       className="flex h-full w-64 shrink-0 flex-col border-r border-black/5 bg-white"
-      aria-label="Dashboard Sidebar"
+      aria-labelledby="dashboard-sidebar-heading"
     >
+      {/* Hidden Heading for SEO & Accessibility */}
+      <h2 id="dashboard-sidebar-heading" className="sr-only">
+        Dashboard Sidebar Navigation
+      </h2>
+
       {/* User Info */}
       <header className="border-b border-black/5 p-6">
-        <h2 className="font-display font-semibold text-blueprint-900">
+        <h3 className="font-display font-semibold text-blueprint-900">
           {user?.name || "User"}
-        </h2>
+        </h3>
 
-        <p className="text-xs capitalize text-charcoal/50">
+        <p
+          className="text-xs capitalize text-charcoal/50"
+          aria-label={`User role: ${user?.role || "Customer"}`}
+        >
           {user?.role || "Customer"}
         </p>
       </header>
@@ -42,28 +50,33 @@ const Sidebar = () => {
         className="flex-1 space-y-1 p-4"
         aria-label="Dashboard Navigation"
       >
-        {links.map(({ to, label, icon: Icon, end }) => (
-          <NavLink
-            key={to}
-            to={to}
-            end={end}
-            aria-label={label}
-            className={({ isActive }) =>
-              `flex items-center gap-3 rounded-sm px-3 py-2 text-sm font-medium transition ${
-                isActive
-                  ? "bg-amber-500/10 text-red-600"
-                  : "text-charcoal/70 hover:bg-concrete-100"
-              }`
-            }
-          >
-            <Icon
-              className="h-4 w-4"
-              aria-hidden="true"
-            />
+        <ul className="space-y-1">
+          {links.map(({ to, label, icon: Icon, end }) => (
+            <li key={to}>
+              <NavLink
+                to={to}
+                end={end}
+                aria-label={label}
+                title={label}
+                className={({ isActive }) =>
+                  `flex items-center gap-3 rounded-sm px-3 py-2 text-sm font-medium transition ${
+                    isActive
+                      ? "bg-amber-500/10 text-red-600"
+                      : "text-charcoal/70 hover:bg-concrete-100"
+                  }`
+                }
+              >
+                <Icon
+                  className="h-4 w-4"
+                  aria-hidden="true"
+                  focusable="false"
+                />
 
-            <span>{label}</span>
-          </NavLink>
-        ))}
+                <span>{label}</span>
+              </NavLink>
+            </li>
+          ))}
+        </ul>
       </nav>
 
       {/* Logout */}
@@ -72,11 +85,13 @@ const Sidebar = () => {
           type="button"
           onClick={logout}
           aria-label="Logout"
+          title="Logout"
           className="flex w-full items-center gap-3 rounded-sm px-3 py-2 text-sm font-medium text-charcoal/70 transition hover:bg-concrete-100"
         >
           <LogOut
             className="h-4 w-4"
             aria-hidden="true"
+            focusable="false"
           />
 
           <span>Logout</span>

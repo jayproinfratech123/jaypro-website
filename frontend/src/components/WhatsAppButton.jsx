@@ -6,7 +6,9 @@ const WhatsAppButton = () => {
       href="https://wa.me/919835852462"
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="Chat on WhatsApp"
+      aria-label="Chat with us on WhatsApp"
+      title="Chat on WhatsApp"
+      role="button"
       className="
         fixed
         right-5
@@ -27,7 +29,15 @@ const WhatsAppButton = () => {
         hover:shadow-green-400/50
       "
     >
-      <FaWhatsapp size={30} />
+      <FaWhatsapp
+        size={30}
+        aria-hidden="true"
+        focusable="false"
+      />
+
+      <span className="sr-only">
+        Open WhatsApp chat with our construction experts
+      </span>
     </a>
   );
 };

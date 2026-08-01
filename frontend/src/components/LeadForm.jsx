@@ -29,28 +29,45 @@ const LeadForm = () => {
   };
 
   return (
-    <section className="bg-white py-4 px-4 -mt-2">
+    <section
+      className="bg-white py-4 px-4 -mt-2"
+      aria-labelledby="lead-form-heading"
+    >
       <div className="mx-auto w-full max-w-lg md:max-w-xl rounded-2xl border border-gray-200 bg-white p-6 shadow-[0_6px_16px_rgba(0,0,0,0.1)]">
-
-        <h2 className="text-center text-2xl sm:text-3xl md:text-3xl lg:text-3xl font-bold whitespace-nowrap">
+        {/* SEO Heading */}
+        <h2
+          id="lead-form-heading"
+          className="text-center text-2xl sm:text-3xl md:text-3xl lg:text-3xl font-bold whitespace-nowrap"
+        >
           Talk to Our Experts
         </h2>
 
-        <p className="mt-1.5 text-center text-gray-550 text-xs font-bold">
+        <p
+          id="lead-form-description"
+          className="mt-1.5 text-center text-gray-550 text-xs font-bold"
+        >
           Form Submit Karo, Team Aapse Contact Karegi.
+        </p>
+
+        {/* Hidden SEO Description */}
+        <p className="sr-only">
+          Fill out this construction enquiry form to receive a free consultation,
+          construction estimate, house planning guidance, and assistance from our
+          experts.
         </p>
 
         <form
           onSubmit={handleSubmit}
           className="mt-6 space-y-4"
           autoComplete="on"
+          aria-labelledby="lead-form-heading"
+          aria-describedby="lead-form-description"
+          name="construction-lead-form"
+          title="Construction Lead Form"
         >
           {/* Full Name */}
           <div>
-            <label
-              htmlFor="fullName"
-              className="sr-only"
-            >
+            <label htmlFor="fullName" className="sr-only">
               Full Name
             </label>
 
@@ -61,6 +78,8 @@ const LeadForm = () => {
               placeholder="Full Name"
               autoComplete="name"
               aria-label="Full Name"
+              title="Enter your full name"
+              enterKeyHint="next"
               value={formData.fullName}
               onChange={handleChange}
               required
@@ -70,10 +89,7 @@ const LeadForm = () => {
 
           {/* Mobile */}
           <div>
-            <label
-              htmlFor="mobile"
-              className="sr-only"
-            >
+            <label htmlFor="mobile" className="sr-only">
               Mobile Number
             </label>
 
@@ -85,7 +101,11 @@ const LeadForm = () => {
               autoComplete="tel"
               inputMode="numeric"
               pattern="[0-9]{10}"
+              minLength={10}
+              maxLength={10}
               aria-label="Mobile Number"
+              title="Enter your 10-digit mobile number"
+              enterKeyHint="next"
               value={formData.mobile}
               onChange={handleChange}
               required
@@ -95,10 +115,7 @@ const LeadForm = () => {
 
           {/* City */}
           <div>
-            <label
-              htmlFor="city"
-              className="sr-only"
-            >
+            <label htmlFor="city" className="sr-only">
               City
             </label>
 
@@ -109,6 +126,8 @@ const LeadForm = () => {
               placeholder="City"
               autoComplete="address-level2"
               aria-label="City"
+              title="Enter your city"
+              enterKeyHint="done"
               value={formData.city}
               onChange={handleChange}
               required
@@ -118,12 +137,13 @@ const LeadForm = () => {
 
           <button
             type="submit"
+            aria-label="Submit Lead Form"
+            title="Submit Form"
             className="w-full rounded-lg bg-red-600 py-3 font-semibold text-white hover:bg-red-700"
           >
             Submit
           </button>
         </form>
-
       </div>
     </section>
   );
