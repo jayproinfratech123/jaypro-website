@@ -6,7 +6,7 @@ import {
   Instagram,
   Linkedin,
 } from "lucide-react";
-
+import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <footer
@@ -273,12 +273,12 @@ const Footer = () => {
 
                 <span aria-hidden="true">|</span>
 
-                <a
-                  href="/refund-policy"
-                  className="transition hover:text-red-600"
-                >
-                  Refund Policy
-                </a>
+                <Link
+  to="/refund-policy"
+  className="transition hover:text-red-600"
+>
+  Refund Policy
+</Link>
 
               </div>
             </nav>
