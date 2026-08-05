@@ -1,6 +1,6 @@
 import { Toaster } from "react-hot-toast";
 import { Routes, Route } from "react-router-dom";
-
+import ScrollToTop from "./components/ScrollToTop";
 // Legal Pages
 import RefundPolicy from "./components/legal/RefundPolicy";
 
@@ -55,6 +55,9 @@ function App() {
         position="top-center"
         reverseOrder={false}
       />
+
+      {/* Scroll to top on every page change */}
+      <ScrollToTop />
 
       <Navbar />
 
