@@ -24,14 +24,14 @@ const LeadForm = () => {
 
     try {
       await emailjs.send(
-        "YOUR_SERVICE_ID", // Replace with your Service ID
-        "YOUR_TEMPLATE_ID", // Replace with your Template ID
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
         {
           fullName: formData.fullName,
           mobile: formData.mobile,
           city: formData.city,
         },
-        "YOUR_PUBLIC_KEY" // Replace with your Public Key
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
       );
 
       alert("Form Submitted Successfully!");
@@ -50,16 +50,10 @@ const LeadForm = () => {
   };
 
   return (
-    <section
-      className="bg-white py-4 px-4 -mt-2"
-      aria-labelledby="lead-form-heading"
-    >
-      <div className="mx-auto w-full max-w-lg md:max-w-xl rounded-2xl border border-gray-200 bg-white p-6 shadow-[0_6px_16px_rgba(0,0,0,0.1)]">
+    <section className="w-full py-8">
+      <div className="mx-auto max-w-md rounded-xl bg-white p-6 shadow-lg">
         {/* Heading */}
-        <h2
-          id="lead-form-heading"
-          className="text-center text-2xl sm:text-3xl font-bold"
-        >
+        <h2 className="text-center text-2xl font-bold text-gray-900">
           Talk to Our Experts
         </h2>
 
@@ -83,6 +77,7 @@ const LeadForm = () => {
             value={formData.fullName}
             onChange={handleChange}
             required
+            autoComplete="name"
             className="w-full rounded-lg border border-gray-300 p-3 outline-none focus:border-red-600"
           />
 
@@ -96,6 +91,8 @@ const LeadForm = () => {
             required
             pattern="[0-9]{10}"
             maxLength={10}
+            inputMode="numeric"
+            autoComplete="tel"
             className="w-full rounded-lg border border-gray-300 p-3 outline-none focus:border-red-600"
           />
 
@@ -107,6 +104,7 @@ const LeadForm = () => {
             value={formData.city}
             onChange={handleChange}
             required
+            autoComplete="address-level2"
             className="w-full rounded-lg border border-gray-300 p-3 outline-none focus:border-red-600"
           />
 
@@ -116,7 +114,7 @@ const LeadForm = () => {
             disabled={loading}
             className={`w-full rounded-lg py-3 font-semibold text-white transition ${
               loading
-                ? "bg-gray-400 cursor-not-allowed"
+                ? "cursor-not-allowed bg-gray-400"
                 : "bg-red-600 hover:bg-red-700"
             }`}
           >

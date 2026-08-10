@@ -129,10 +129,9 @@ const PackageModal = ({
               <option value="">Select City</option>
               <option>Patna</option>
               <option>Noida</option>
-              <option>Delhi</option>
               <option>Lucknow</option>
               <option>Ranchi</option>
-              <option>Kolkata</option>
+              <option>Others</option>
             </select>
 
             <button

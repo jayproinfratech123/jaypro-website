@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Check, X } from "lucide-react";
+import emailjs from "@emailjs/browser";
 
 const packages = [
   {
@@ -62,37 +63,27 @@ const handleSubmit = async (e) => {
   e.preventDefault();
 
   try {
-    const response = await fetch("http://localhost:5000/api/leads/create", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name,
-        phone,
-        city,
+    await emailjs.send(
+      import.meta.env.VITE_EMAILJS_SERVICE_ID,
+      import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+      {
+        fullName: name,
+        mobile: phone,
+        city: city,
         package: selectedPackage,
-      }),
-    });
+      },
+      import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+    );
 
-    const data = await response.json();
+    alert("Thank you! Your request has been submitted.");
 
-    if (response.ok) {
-      alert("Thank you! Your request has been submitted.");
-
-      // Clear the form
-      setName("");
-      setPhone("");
-      setCity("");
-
-      // Close the popup
-      setSelectedPackage(null);
-    } else {
-      alert(data.message || "Something went wrong.");
-    }
+    setName("");
+    setPhone("");
+    setCity("");
+    setSelectedPackage(null);
   } catch (error) {
-    console.error(error);
-    alert("Server error. Please try again later.");
+    console.error("EmailJS Error:", error);
+    alert("Something went wrong. Please try again.");
   }
 };
   return (
