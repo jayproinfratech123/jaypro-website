@@ -16,7 +16,7 @@ const Button = ({
       className={`${base} ${className}`}
       aria-label={ariaLabel || (typeof children === "string" ? children : undefined)}
       title={title || (typeof children === "string" ? children : undefined)}
-      disabled={disabled}
+      disabled={disabled }
       {...props}
     >
       {children}
