@@ -31,8 +31,8 @@ jobs:
       - name: Deploy frontend to GoDaddy
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
+          server: ${{ ftp.jayproinfratech.com }}
+          username: ${{ irp0jc3pzrhi }}
+          password: ${{ Jaypor@1234567 }}
           server-dir: public_html/
           local-dir: ./frontend/dist/
