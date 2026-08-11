@@ -16,40 +16,44 @@ const BottomNavigation = () => {
       <h2 className="sr-only">Mobile Navigation</h2>
 
       <div className="relative grid grid-cols-5 h-[60px] items-end w-full">
+
         {/* Home */}
         <Link
           to="/"
           aria-label="Home"
           title="Home"
-          className="flex-1 flex flex-col items-center justify-center text-white"
+          className="flex-1 flex flex-col items-center justify-center text-white mb-1.5"
         >
           <Home
             className="w-6 h-6"
             aria-hidden="true"
           />
-          <span className="text-[10px] mt-1 mb-1.5">
+
+          <span className="text-[10px] mt-1">
             Home
           </span>
         </Link>
 
         {/* Naksha */}
         <Link
-          to="/services/architecture"
-          aria-label="Naksha Services"
-          title="Naksha Services"
-          className="flex-1 flex flex-col items-center justify-center text-gray-300"
+          to="/naksha"
+          aria-label="Naksha"
+          title="Naksha"
+          className="flex-1 flex flex-col items-center justify-center text-gray-300 mb-1.5"
         >
           <ScrollText
             className="w-6 h-6"
             aria-hidden="true"
           />
-          <span className="text-[10px] mt-1 mb-1.5">
+
+          <span className="text-[10px] mt-1">
             Naksha
           </span>
         </Link>
 
         {/* Call */}
         <div className="flex-1 flex flex-col items-center justify-end relative mb-6">
+
           <a
             href="tel:+919835852462"
             aria-label="Call us at +91 98358 52462"
@@ -66,6 +70,7 @@ const BottomNavigation = () => {
           <span className="text-[10px] mt-10 text-white whitespace-nowrap -mb-4">
             Call Us
           </span>
+
         </div>
 
         {/* Construction */}
@@ -79,6 +84,7 @@ const BottomNavigation = () => {
             className="w-6 h-6"
             aria-hidden="true"
           />
+
           <span className="text-[10px] mt-1 whitespace-nowrap">
             Construction
           </span>
@@ -95,10 +101,12 @@ const BottomNavigation = () => {
             className="w-6 h-6"
             aria-hidden="true"
           />
+
           <span className="text-[10px] mt-1">
             Vastu
           </span>
         </Link>
+
       </div>
     </nav>
   );

@@ -1,8 +1,7 @@
 import { Toaster } from "react-hot-toast";
 import { Routes, Route } from "react-router-dom";
+
 import ScrollToTop from "./components/ScrollToTop";
-// Legal Pages
-import RefundPolicy from "./components/legal/RefundPolicy";
 
 // Layout Components
 import Navbar from "./components/layout/Navbar.jsx";
@@ -10,6 +9,11 @@ import Footer from "./components/layout/Footer.jsx";
 import ProtectedRoute from "./components/common/ProtectedRoute.jsx";
 import WhatsAppButton from "./components/WhatsAppButton.jsx";
 import BottomNavigation from "./components/BottomNavigation.jsx";
+
+// Legal Pages
+import RefundPolicy from "./components/legal/RefundPolicy";
+import PrivacyPolicy from "./pages/PrivacyPolocy.jsx";
+import TermsConditions from "./pages/TermsConditions.jsx";
 
 // Public Pages
 import Home from "./pages/Home.jsx";
@@ -20,9 +24,10 @@ import Blogs from "./pages/Blogs.jsx";
 import Contact from "./pages/Contact.jsx";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
-import PrivacyPolicy from "./pages/PrivacyPolocy.jsx";
-import TermsConditions from "./pages/TermsConditions.jsx";
 import NotFound from "./pages/NotFound.jsx";
+
+// Naksha Page
+import Naksha from "./pages/Naksha.jsx";
 
 // Service Pages
 import Architecture from "./pages/services/Architecture.jsx";
@@ -51,6 +56,7 @@ import AdminBlogs from "./pages/admin/AdminBlogs.jsx";
 function App() {
   return (
     <>
+      {/* Toast Notifications */}
       <Toaster
         position="top-center"
         reverseOrder={false}
@@ -59,6 +65,7 @@ function App() {
       {/* Scroll to top on every page change */}
       <ScrollToTop />
 
+      {/* Main Navbar */}
       <Navbar />
 
       <main className="min-h-screen pb-24">
@@ -66,21 +73,47 @@ function App() {
 
           {/* ================= PUBLIC ROUTES ================= */}
 
-          <Route path="/" element={<Home />} />
+          <Route
+            path="/"
+            element={<Home />}
+          />
 
-          <Route path="/about" element={<About />} />
+          <Route
+            path="/about"
+            element={<About />}
+          />
 
-          <Route path="/services" element={<Services />} />
+          <Route
+            path="/services"
+            element={<Services />}
+          />
 
-          <Route path="/portfolio" element={<Portfolio />} />
+          <Route
+            path="/portfolio"
+            element={<Portfolio />}
+          />
 
-          <Route path="/blogs" element={<Blogs />} />
+          <Route
+            path="/blogs"
+            element={<Blogs />}
+          />
 
-          <Route path="/contact" element={<Contact />} />
+          <Route
+            path="/contact"
+            element={<Contact />}
+          />
 
-          <Route path="/login" element={<Login />} />
+          <Route
+            path="/login"
+            element={<Login />}
+          />
 
-          <Route path="/register" element={<Register />} />
+          <Route
+            path="/register"
+            element={<Register />}
+          />
+
+          {/* ================= LEGAL ROUTES ================= */}
 
           <Route
             path="/privacy-policy"
@@ -95,6 +128,13 @@ function App() {
           <Route
             path="/refund-policy"
             element={<RefundPolicy />}
+          />
+
+          {/* ================= NAKSHA ROUTE ================= */}
+
+          <Route
+            path="/naksha"
+            element={<Naksha />}
           />
 
           {/* ================= SERVICE ROUTES ================= */}
@@ -119,6 +159,8 @@ function App() {
             element={<Vastu />}
           />
 
+          {/* ================= ESTIMATE ROUTES ================= */}
+
           <Route
             path="/estimate"
             element={<EstimatePage />}
@@ -128,6 +170,8 @@ function App() {
             path="/services/estimate"
             element={<EstimatePage />}
           />
+
+          {/* ================= CONTRACTOR ROUTE ================= */}
 
           <Route
             path="/services/contractor"
@@ -144,7 +188,10 @@ function App() {
               </ProtectedRoute>
             }
           >
-            <Route index element={<DashboardHome />} />
+            <Route
+              index
+              element={<DashboardHome />}
+            />
 
             <Route
               path="projects"
@@ -182,7 +229,10 @@ function App() {
               </ProtectedRoute>
             }
           >
-            <Route index element={<AdminHome />} />
+            <Route
+              index
+              element={<AdminHome />}
+            />
 
             <Route
               path="projects"
@@ -210,10 +260,13 @@ function App() {
         </Routes>
       </main>
 
+      {/* Footer */}
       <Footer />
 
+      {/* Mobile Bottom Navigation */}
       <BottomNavigation />
 
+      {/* WhatsApp Button */}
       <WhatsAppButton />
     </>
   );
