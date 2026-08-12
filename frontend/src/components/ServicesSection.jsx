@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 import {
   FaDraftingCompass,
   FaPaintBrush,
@@ -20,6 +21,7 @@ const services = [
     topBg: "bg-green-50",
     buttonBg: "from-green-600 to-green-500",
   },
+
   {
     id: 2,
     title: "Interior",
@@ -30,6 +32,7 @@ const services = [
     topBg: "bg-purple-50",
     buttonBg: "from-indigo-700 to-violet-500",
   },
+
   {
     id: 3,
     title: "Turnkey",
@@ -40,6 +43,7 @@ const services = [
     topBg: "bg-purple-50",
     buttonBg: "from-fuchsia-600 to-purple-500",
   },
+
   {
     id: 4,
     title: "Vastu",
@@ -50,6 +54,7 @@ const services = [
     topBg: "bg-orange-50",
     buttonBg: "from-orange-500 to-amber-500",
   },
+
   {
     id: 5,
     title: "Estimate &",
@@ -60,6 +65,7 @@ const services = [
     topBg: "bg-green-50",
     buttonBg: "from-green-600 to-green-500",
   },
+
   {
     id: 6,
     title: "Contractors",
@@ -73,104 +79,216 @@ const services = [
 ];
 
 export default function ServicesSection() {
+  const navigate = useNavigate();
+
+const handleServiceClick = (service) => {
+  const serviceName = `${service.title} ${service.subtitle}`.trim();
+
+  navigate(service.path, {
+    state: {
+      openLeadForm: true,
+      service: serviceName,
+    },
+  });
+};
+
   return (
-    <section
-      id="services"
-      aria-labelledby="services-heading"
-      className="bg-gray-100 pt-8 pb-20 scroll-mt-24"
-    >
-      <div className="max-w-7xl mx-auto px-5">
-        {/* Heading */}
-        <div className="text-center mb-4">
-          <h2
-            id="services-heading"
-            className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 text-center leading-tight -mt-1"
-          >
-            Explore Our Services
-          </h2>
+    <>
+      <section
+        id="services"
+        aria-labelledby="services-heading"
+        className="scroll-mt-24 bg-gray-100 pb-20 pt-8"
+      >
+        <div className="mx-auto max-w-7xl px-5">
 
-          <p className="text-gray-500 mt-4 text-lg">
-            Hamari Services Ke Baare Mein Jaane
-          </p>
+          {/* ==========================================
+              HEADING
+          ========================================== */}
 
-          {/* Hidden SEO Content */}
-          <p className="sr-only">
-            Explore our professional architecture, interior design, turnkey
-            construction, Vastu consultation, construction cost estimation,
-            and contractor services.
-          </p>
-        </div>
+          <div className="mb-4 text-center">
 
-        {/* Cards */}
-        <div
-          className="grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 justify-items-center"
-          role="list"
-        >
-          {services.map((service) => (
-            <article
-              key={service.id}
-              role="listitem"
+            <h2
+              id="services-heading"
               className="
-                w-full
-                max-w-[340px]
-                h-[220px]
-                mx-auto
-                bg-white
-                rounded-xl
-                shadow-lg
-                overflow-hidden
-                flex
-                flex-col
-                justify-between
-                transition-all
-                duration-300
-                hover:-translate-y-2
-                hover:shadow-2xl
+                text-xl
+                font-bold
+                leading-tight
+                text-gray-900
+                sm:text-2xl
+                md:text-3xl
+                lg:text-4xl
               "
             >
-              {/* Top */}
-              <div
-                className={`${service.topBg} h-14 relative flex justify-center`}
+              Explore Our Services
+            </h2>
+
+            <p className="mt-4 text-lg text-gray-500">
+              Hamari Services Ke Baare Mein Jaane
+            </p>
+
+            <p className="sr-only">
+              Explore our professional architecture design,
+              interior design, turnkey construction, Vastu
+              consultation, construction cost estimation,
+              and contractor services.
+            </p>
+
+          </div>
+
+          {/* ==========================================
+              SERVICE CARDS
+          ========================================== */}
+
+          <div
+            className="
+              grid
+              grid-cols-2
+              justify-items-center
+              gap-4
+              md:gap-6
+              lg:grid-cols-3
+            "
+            role="list"
+          >
+
+            {services.map((service) => (
+
+              <article
+                key={service.id}
+                role="listitem"
+                className="
+                  mx-auto
+                  flex
+                  h-[220px]
+                  w-full
+                  max-w-[340px]
+                  flex-col
+                  justify-between
+                  overflow-hidden
+                  rounded-xl
+                  bg-white
+                  shadow-lg
+                  transition-all
+                  duration-300
+                  hover:-translate-y-2
+                  hover:shadow-2xl
+                "
               >
-                <div className="absolute top-4 w-10 h-10 md:w-14 md:h-14 rounded-full bg-white shadow-md flex items-center justify-center text-lg md:text-2xl text-red-500 border-[3px] border-white">
-                  {service.icon}
+
+                {/* ==========================================
+                    TOP SECTION
+                ========================================== */}
+
+                <div
+                  className={`
+                    ${service.topBg}
+                    relative
+                    flex
+                    h-14
+                    justify-center
+                  `}
+                >
+
+                  <div
+                    className="
+                      absolute
+                      top-4
+                      flex
+                      h-10
+                      w-10
+                      items-center
+                      justify-center
+                      rounded-full
+                      border-[3px]
+                      border-white
+                      bg-white
+                      text-lg
+                      text-red-500
+                      shadow-md
+                      md:h-14
+                      md:w-14
+                      md:text-2xl
+                    "
+                  >
+                    {service.icon}
+                  </div>
+
                 </div>
-              </div>
 
-              {/* Body */}
-              <div className="pt-12 pb-8 text-center px-6">
-                <h3 className="text-lg md:text-3xl font-bold text-gray-900">
-                  {service.title}
-                </h3>
+                {/* ==========================================
+                    BODY
+                ========================================== */}
 
-                {service.subtitle && (
-                  <p className="text-sm md:text-xl text-gray-700 mt-1">
-                    {service.subtitle}
-                  </p>
-                )}
-              </div>
+                <div
+                  className="
+                    px-6
+                    pb-8
+                    pt-12
+                    text-center
+                  "
+                >
 
-              {/* Button */}
-              <Link
-                to={service.path}
-                aria-label={`View ${service.title} ${service.subtitle} Service`}
-                title={`${service.title} ${service.subtitle}`}
-              >
+                  <h3
+                    className="
+                      text-lg
+                      font-bold
+                      text-gray-900
+                      md:text-3xl
+                    "
+                  >
+                    {service.title}
+                  </h3>
+
+                  {service.subtitle && (
+                    <p
+                      className="
+                        mt-1
+                        text-sm
+                        text-gray-700
+                        md:text-xl
+                      "
+                    >
+                      {service.subtitle}
+                    </p>
+                  )}
+
+                </div>
+
+                {/* ==========================================
+                    BUTTON
+                ========================================== */}
+
                 <button
                   type="button"
-                  aria-label={service.button}
-                  className={`w-full bg-gradient-to-r ${service.buttonBg}
-                  text-white font-semibold py-3 flex items-center justify-center gap-2
-                  hover:opacity-90 transition`}
+                  onClick={() => handleServiceClick(service)}
+                  className={`
+                    flex
+                    w-full
+                    items-center
+                    justify-center
+                    gap-2
+                    bg-gradient-to-r
+                    ${service.buttonBg}
+                    py-3
+                    font-semibold
+                    text-white
+                    transition
+                    hover:opacity-90
+                  `}
                 >
                   <FaArrowRight aria-hidden="true" />
+
                   {service.button}
                 </button>
-              </Link>
-            </article>
-          ))}
+
+              </article>
+
+            ))}
+
+          </div>
+
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }

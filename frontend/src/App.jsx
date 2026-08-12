@@ -3,19 +3,28 @@ import { Routes, Route } from "react-router-dom";
 
 import ScrollToTop from "./components/ScrollToTop";
 
-// Layout Components
+// ==========================================
+// LAYOUT COMPONENTS
+// ==========================================
+
 import Navbar from "./components/layout/Navbar.jsx";
 import Footer from "./components/layout/Footer.jsx";
 import ProtectedRoute from "./components/common/ProtectedRoute.jsx";
 import WhatsAppButton from "./components/WhatsAppButton.jsx";
 import BottomNavigation from "./components/BottomNavigation.jsx";
 
-// Legal Pages
+// ==========================================
+// LEGAL PAGES
+// ==========================================
+
 import RefundPolicy from "./components/legal/RefundPolicy";
 import PrivacyPolicy from "./pages/PrivacyPolocy.jsx";
 import TermsConditions from "./pages/TermsConditions.jsx";
 
-// Public Pages
+// ==========================================
+// PUBLIC PAGES
+// ==========================================
+
 import Home from "./pages/Home.jsx";
 import About from "./pages/About.jsx";
 import Services from "./pages/Services.jsx";
@@ -26,18 +35,33 @@ import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import NotFound from "./pages/NotFound.jsx";
 
-// Naksha Page
+// ==========================================
+// NAKSHA PAGE
+// ==========================================
+
 import Naksha from "./pages/Naksha.jsx";
 
-// Service Pages
+// ==========================================
+// SERVICE PAGES
+// ==========================================
+
 import Architecture from "./pages/services/Architecture.jsx";
 import Interior from "./pages/services/Interior.jsx";
-import Turnkey from "./pages/services/Turnkey.jsx";
+import Turnkey from "./pages/services/Trunkey.jsx";
 import Vastu from "./pages/services/Vastu.jsx";
 import EstimatePage from "./pages/services/Estimate.jsx";
 import Contractor from "./pages/services/Contractor.jsx";
 
-// Customer Dashboard
+// ==========================================
+// SERVICE LEAD FORM
+// ==========================================
+
+import ServiceLeadForm from "./components/ServiceLeadForm.jsx";
+
+// ==========================================
+// CUSTOMER DASHBOARD
+// ==========================================
+
 import CustomerDashboard from "./pages/dashboard/CustomerDashboard.jsx";
 import DashboardHome from "./pages/dashboard/DashboardHome.jsx";
 import MyProjects from "./pages/dashboard/MyProjects.jsx";
@@ -46,32 +70,48 @@ import Documents from "./pages/dashboard/Documents.jsx";
 import Payments from "./pages/dashboard/Payments.jsx";
 import Chat from "./pages/dashboard/Chat.jsx";
 
-// Admin Dashboard
+// ==========================================
+// ADMIN DASHBOARD
+// ==========================================
+
 import AdminDashboard from "./pages/admin/AdminDashboard.jsx";
 import AdminHome from "./pages/admin/AdminHome.jsx";
 import AdminProjects from "./pages/admin/AdminProjects.jsx";
 import AdminCustomers from "./pages/admin/AdminCustomers.jsx";
 import AdminBlogs from "./pages/admin/AdminBlogs.jsx";
 
+
 function App() {
   return (
     <>
-      {/* Toast Notifications */}
+      {/* ==========================================
+          TOAST NOTIFICATIONS
+      ========================================== */}
+
       <Toaster
         position="top-center"
         reverseOrder={false}
       />
 
-      {/* Scroll to top on every page change */}
+      {/* ==========================================
+          SCROLL TO TOP
+      ========================================== */}
+
       <ScrollToTop />
 
-      {/* Main Navbar */}
+      {/* ==========================================
+          MAIN NAVBAR
+      ========================================== */}
+
       <Navbar />
 
       <main className="min-h-screen pb-24">
+
         <Routes>
 
-          {/* ================= PUBLIC ROUTES ================= */}
+          {/* ==========================================
+              PUBLIC ROUTES
+          ========================================== */}
 
           <Route
             path="/"
@@ -113,7 +153,9 @@ function App() {
             element={<Register />}
           />
 
-          {/* ================= LEGAL ROUTES ================= */}
+          {/* ==========================================
+              LEGAL ROUTES
+          ========================================== */}
 
           <Route
             path="/privacy-policy"
@@ -130,14 +172,36 @@ function App() {
             element={<RefundPolicy />}
           />
 
-          {/* ================= NAKSHA ROUTE ================= */}
+          {/* ==========================================
+              NAKSHA ROUTE
+          ========================================== */}
 
           <Route
             path="/naksha"
             element={<Naksha />}
           />
 
-          {/* ================= SERVICE ROUTES ================= */}
+          {/* ==========================================
+              SERVICE LEAD FORM
+              
+              Flow:
+              Service Click
+                    ↓
+              ServiceLeadForm
+                    ↓
+              Submit
+                    ↓
+              Selected Service Page
+          ========================================== */}
+
+          <Route
+            path="/service-lead-form"
+            element={<ServiceLeadForm />}
+          />
+
+          {/* ==========================================
+              SERVICE ROUTES
+          ========================================== */}
 
           <Route
             path="/services/architecture"
@@ -159,7 +223,9 @@ function App() {
             element={<Vastu />}
           />
 
-          {/* ================= ESTIMATE ROUTES ================= */}
+          {/* ==========================================
+              ESTIMATE ROUTES
+          ========================================== */}
 
           <Route
             path="/estimate"
@@ -171,14 +237,18 @@ function App() {
             element={<EstimatePage />}
           />
 
-          {/* ================= CONTRACTOR ROUTE ================= */}
+          {/* ==========================================
+              CONTRACTOR ROUTE
+          ========================================== */}
 
           <Route
             path="/services/contractor"
             element={<Contractor />}
           />
 
-          {/* ================= CUSTOMER DASHBOARD ================= */}
+          {/* ==========================================
+              CUSTOMER DASHBOARD
+          ========================================== */}
 
           <Route
             path="/dashboard"
@@ -188,6 +258,7 @@ function App() {
               </ProtectedRoute>
             }
           >
+
             <Route
               index
               element={<DashboardHome />}
@@ -217,9 +288,12 @@ function App() {
               path="chat"
               element={<Chat />}
             />
+
           </Route>
 
-          {/* ================= ADMIN DASHBOARD ================= */}
+          {/* ==========================================
+              ADMIN DASHBOARD
+          ========================================== */}
 
           <Route
             path="/admin"
@@ -229,6 +303,7 @@ function App() {
               </ProtectedRoute>
             }
           >
+
             <Route
               index
               element={<AdminHome />}
@@ -248,9 +323,12 @@ function App() {
               path="blogs"
               element={<AdminBlogs />}
             />
+
           </Route>
 
-          {/* ================= 404 ================= */}
+          {/* ==========================================
+              404 PAGE
+          ========================================== */}
 
           <Route
             path="*"
@@ -258,16 +336,27 @@ function App() {
           />
 
         </Routes>
+
       </main>
 
-      {/* Footer */}
+      {/* ==========================================
+          FOOTER
+      ========================================== */}
+
       <Footer />
 
-      {/* Mobile Bottom Navigation */}
+      {/* ==========================================
+          MOBILE BOTTOM NAVIGATION
+      ========================================== */}
+
       <BottomNavigation />
 
-      {/* WhatsApp Button */}
+      {/* ==========================================
+          WHATSAPP BUTTON
+      ========================================== */}
+
       <WhatsAppButton />
+
     </>
   );
 }
