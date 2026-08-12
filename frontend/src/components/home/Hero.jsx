@@ -336,34 +336,18 @@ const Hero = () => {
 
             {/* SEO LABEL */}
 
-            <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-red-400">
-              Jaypro Infratech
-            </p>
-
+            
             {/* =================================
                 MAIN H1
             ================================= */}
 
-            <h1 className="max-w-2xl text-3xl font-bold leading-tight md:text-4xl lg:text-5xl xl:text-6xl">
-              House Construction &amp;
-              <br />
-              Architecture Design
-            </h1>
+           
 
             {/* =================================
                 SEO DESCRIPTION
             ================================= */}
 
-            <p className="mt-5 max-w-xl text-base leading-7 text-white/90 md:text-lg">
-              Build your dream home with
-              Jaypro Infratech. We provide
-              complete house construction,
-              architectural design, 2D floor
-              plans, 3D front elevation,
-              structural drawings and interior
-              design services for residential
-              and commercial projects.
-            </p>
+           
 
             {/* =================================
                 SERVICES
@@ -375,33 +359,18 @@ const Hero = () => {
 
               <div className="flex items-center gap-2">
 
-                <span
-                  className="font-bold text-red-400"
-                  aria-hidden="true"
-                >
-                  ✓
-                </span>
+                
 
-                <span>
-                  House Construction with Material
-                </span>
-
+              
               </div>
 
               {/* Service 2 */}
 
               <div className="flex items-center gap-2">
 
-                <span
-                  className="font-bold text-red-400"
-                  aria-hidden="true"
-                >
-                  ✓
-                </span>
+              
 
-                <span>
-                  2D Floor Plan &amp; Architecture
-                </span>
+               
 
               </div>
 
@@ -409,16 +378,9 @@ const Hero = () => {
 
               <div className="flex items-center gap-2">
 
-                <span
-                  className="font-bold text-red-400"
-                  aria-hidden="true"
-                >
-                  ✓
-                </span>
+              
 
-                <span>
-                  3D Front Elevation Design
-                </span>
+                
 
               </div>
 
@@ -426,16 +388,9 @@ const Hero = () => {
 
               <div className="flex items-center gap-2">
 
-                <span
-                  className="font-bold text-red-400"
-                  aria-hidden="true"
-                >
-                  ✓
-                </span>
+                
 
-                <span>
-                  Structural Design &amp; Drawings
-                </span>
+               
 
               </div>
 
@@ -443,16 +398,9 @@ const Hero = () => {
 
               <div className="flex items-center gap-2">
 
-                <span
-                  className="font-bold text-red-400"
-                  aria-hidden="true"
-                >
-                  ✓
-                </span>
+               
 
-                <span>
-                  Interior Design Services
-                </span>
+                
 
               </div>
 
@@ -460,16 +408,9 @@ const Hero = () => {
 
               <div className="flex items-center gap-2">
 
-                <span
-                  className="font-bold text-red-400"
-                  aria-hidden="true"
-                >
-                  ✓
-                </span>
+                
 
-                <span>
-                  Complete Building Solutions
-                </span>
+                
 
               </div>
 
@@ -479,13 +420,7 @@ const Hero = () => {
                 SEO CONTENT
             ================================= */}
 
-            <p className="mt-6 max-w-xl text-sm leading-6 text-white/80 md:text-base">
-              From architectural planning and floor
-              plan design to construction, structural
-              drawings, elevation design and interiors,
-              Jaypro Infratech offers complete solutions
-              for building your dream property.
-            </p>
+         
 
             {/* =================================
                 CTA
@@ -493,12 +428,7 @@ const Hero = () => {
 
             <div className="mt-7">
 
-              <a
-                href="#lead-form"
-                className="inline-flex items-center rounded-lg bg-red-600 px-6 py-3 font-semibold text-white transition hover:bg-red-700"
-              >
-                Get Free Consultation
-              </a>
+              
 
             </div>
 

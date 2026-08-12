@@ -14,7 +14,7 @@ jobs:
     steps:
 
       # ==========================================
-      # 1. GET CODE
+      # 1. CHECKOUT CODE
       # ==========================================
 
       - name: Checkout repository
@@ -43,7 +43,7 @@ jobs:
 
 
       # ==========================================
-      # 4. BUILD REACT/VITE
+      # 4. BUILD REACT WEBSITE
       # ==========================================
 
       - name: Build React website
@@ -52,7 +52,19 @@ jobs:
 
 
       # ==========================================
-      # 5. INSTALL FTP DEPLOY CLI
+      # 5. CHECK BUILD FILES
+      # ==========================================
+
+      - name: Check build output
+        run: |
+          echo "===== FRONTEND DIST ====="
+          ls -lah ./frontend/dist/
+          echo "===== INDEX.HTML ====="
+          ls -lah ./frontend/dist/index.html
+
+
+      # ==========================================
+      # 6. INSTALL FTP DEPLOY
       # ==========================================
 
       - name: Install FTP Deploy
@@ -60,7 +72,7 @@ jobs:
 
 
       # ==========================================
-      # 6. DEPLOY TO GODADDY
+      # 7. DEPLOY TO GODADDY
       # ==========================================
 
       - name: Deploy to GoDaddy
@@ -72,4 +84,5 @@ jobs:
             --protocol ftp \
             --port 21 \
             --local-dir "./frontend/dist/" \
-            --server-dir "public_html/"
+            --server-dir "public_html/" \
+            --log-level verbose
