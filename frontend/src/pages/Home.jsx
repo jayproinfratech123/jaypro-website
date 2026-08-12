@@ -20,7 +20,7 @@ const Home = () => {
   return (
     <>
       <Hero />
-        <LeadForm />
+      
 
       <LeadPopup />
       <ServicesSection />

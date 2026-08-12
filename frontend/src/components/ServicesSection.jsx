@@ -77,19 +77,19 @@ export default function ServicesSection() {
     <section
       id="services"
       aria-labelledby="services-heading"
-      className="bg-gray-100 pt-6 pb-20 scroll-mt-24"
+      className="bg-gray-100 pt-8 pb-20 scroll-mt-24"
     >
       <div className="max-w-7xl mx-auto px-5">
         {/* Heading */}
-        <div className="text-center mb-3">
+        <div className="text-center mb-4">
           <h2
             id="services-heading"
-            className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 text-center leading-tight -mt-2"
+            className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 text-center leading-tight -mt-1"
           >
             Explore Our Services
           </h2>
 
-          <p className="text-gray-500 mt-1 text-lg">
+          <p className="text-gray-500 mt-4 text-lg">
             Hamari Services Ke Baare Mein Jaane
           </p>
 

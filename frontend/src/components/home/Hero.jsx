@@ -1,70 +1,142 @@
-import React, {
-  useState,
-  useEffect,
-  useMemo,
-  useCallback,
-} from "react";
-
-import { useNavigate } from "react-router-dom";
-
-import {
-  Home,
-  Building2,
-  Presentation,
-  MoreHorizontal,
-} from "lucide-react";
+import React, { useEffect, useMemo, useState } from "react";
+import LeadForm from "../LeadForm";
 
 const Hero = () => {
-  const navigate = useNavigate();
-
   // ==========================================
-  // SERVICES
+  // SEO
   // ==========================================
 
-  const tabs = useMemo(
-    () => [
-      {
-        title: "2D LAYOUT PLAN",
-        icon: Home,
-        path: "/2d-layout",
-      },
-      {
-        title: "3D FRONT ELEVATION",
-        icon: Home,
-        path: "/3d-elevation",
-      },
-      {
-        title: "STRUCTURAL DRAWINGS",
-        icon: Building2,
-        path: "/structural-drawings",
-      },
-      {
-        title: "PRESENTATION PLAN",
-        icon: Presentation,
-        path: "/presentation-plan",
-      },
-      {
-        title: "MORE",
-        icon: MoreHorizontal,
-        path: "/services",
-      },
-    ],
-    []
-  );
+  useEffect(() => {
+    const title =
+      "House Construction & Architecture Design | Jaypro Infratech";
 
-  // ==========================================
-  // PRICE LIST
-  // ==========================================
+    const description =
+      "Jaypro Infratech provides house construction, architectural design, 2D floor plans, 3D front elevation, structural drawings and interior design services for residential and commercial projects.";
 
-  const priceList = useMemo(
-    () => ({
-      "2D LAYOUT PLAN": 15,
-      "3D FRONT ELEVATION": 25,
-      "STRUCTURAL DRAWINGS": 12,
-      "PRESENTATION PLAN": 20,
-    }),
-    []
-  );
+    const keywords =
+      "house construction, house construction company, architecture design, architectural design, 2D floor plan, 3D front elevation, structural drawings, building construction, interior design, residential construction, commercial construction, Jaypro Infratech";
+
+    const canonicalUrl =
+      "https://jayproinfratech.com/";
+
+    document.title = title;
+
+    const setMeta = (
+      name,
+      content,
+      attribute = "name"
+    ) => {
+      let meta = document.head.querySelector(
+        `meta[${attribute}="${name}"]`
+      );
+
+      if (!meta) {
+        meta = document.createElement("meta");
+        meta.setAttribute(attribute, name);
+        document.head.appendChild(meta);
+      }
+
+      meta.setAttribute("content", content);
+    };
+
+    // ==========================================
+    // PRIMARY SEO
+    // ==========================================
+
+    setMeta("description", description);
+
+    setMeta("keywords", keywords);
+
+    setMeta("robots", "index, follow");
+
+    // ==========================================
+    // OPEN GRAPH SEO
+    // ==========================================
+
+    setMeta(
+      "og:title",
+      title,
+      "property"
+    );
+
+    setMeta(
+      "og:description",
+      description,
+      "property"
+    );
+
+    setMeta(
+      "og:type",
+      "website",
+      "property"
+    );
+
+    setMeta(
+      "og:url",
+      canonicalUrl,
+      "property"
+    );
+
+    setMeta(
+      "og:image",
+      "https://jayproinfratech.com/bg-image-desktop.webp",
+      "property"
+    );
+
+    setMeta(
+      "og:image:alt",
+      "Modern house designed by Jaypro Infratech",
+      "property"
+    );
+
+    // ==========================================
+    // TWITTER SEO
+    // ==========================================
+
+    setMeta(
+      "twitter:card",
+      "summary_large_image"
+    );
+
+    setMeta(
+      "twitter:title",
+      title
+    );
+
+    setMeta(
+      "twitter:description",
+      description
+    );
+
+    setMeta(
+      "twitter:image",
+      "https://jayproinfratech.com/bg-image-desktop.webp"
+    );
+
+    // ==========================================
+    // CANONICAL URL
+    // ==========================================
+
+    let canonical = document.head.querySelector(
+      'link[rel="canonical"]'
+    );
+
+    if (!canonical) {
+      canonical = document.createElement("link");
+
+      canonical.setAttribute(
+        "rel",
+        "canonical"
+      );
+
+      document.head.appendChild(canonical);
+    }
+
+    canonical.setAttribute(
+      "href",
+      canonicalUrl
+    );
+  }, []);
 
   // ==========================================
   // MOBILE SLIDER IMAGES
@@ -80,34 +152,11 @@ const Hero = () => {
   );
 
   // ==========================================
-  // STATES
+  // CURRENT IMAGE
   // ==========================================
 
-  const [currentImage, setCurrentImage] = useState(0);
-
-  const [selectedService, setSelectedService] = useState("");
-
-  const [depth, setDepth] = useState("");
-
-  const [width, setWidth] = useState("");
-
-  const [floor, setFloor] = useState("");
-
-  const [north, setNorth] = useState("");
-
-  // ==========================================
-  // CALCULATED VALUES
-  // ==========================================
-
-  const buildingArea = useMemo(() => {
-    if (!depth || !width) return 0;
-
-    return Number(depth) * Number(width);
-  }, [depth, width]);
-
-  const totalPrice = useMemo(() => {
-    return buildingArea * (priceList[selectedService] || 0);
-  }, [buildingArea, priceList, selectedService]);
+  const [currentImage, setCurrentImage] =
+    useState(0);
 
   // ==========================================
   // AUTO IMAGE SLIDER
@@ -115,308 +164,356 @@ const Hero = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentImage((prev) => (prev + 1) % mobileImages.length);
+      setCurrentImage(
+        (prev) =>
+          (prev + 1) % mobileImages.length
+      );
     }, 4000);
 
-    return () => clearInterval(interval);
+    return () =>
+      clearInterval(interval);
   }, [mobileImages]);
 
-  // ==========================================
-  // CALCULATE
-  // ==========================================
-
-  const handleCalculate = useCallback(() => {
-    if (!selectedService) {
-      alert("Please select a service");
-      return;
-    }
-
-    if (!depth || !width) {
-      alert("Please enter Depth & Width");
-      return;
-    }
-
-    navigate("/estimate", {
-      state: {
-        selectedService,
-        depth,
-        width,
-        buildingArea,
-        floor,
-        north,
-        totalPrice,
-      },
-    });
-  }, [
-    navigate,
-    selectedService,
-    depth,
-    width,
-    buildingArea,
-    floor,
-    north,
-    totalPrice,
-  ]);
-
   return (
-    <section className="relative overflow-hidden pt-24 md:min-h-screen md:pt-0">
+    <section
+      className="relative m-0 overflow-hidden p-0 md:min-h-screen"
+      aria-label="Jaypro Infratech house construction and architecture services"
+    >
 
       {/* =========================================
-          RESPONSIVE BACKGROUND
-      ========================================= */}
-      <div className="absolute inset-0 -z-10">
+          MOBILE VERSION
+
+          IMAGE SLIDER
+          ↓
+          LEAD FORM
+
+          NO TOP MARGIN
+          NO TOP PADDING
+      ========================================== */}
+
+      <div className="m-0 block w-full p-0 md:hidden">
 
         {/* =====================================
             MOBILE IMAGE SLIDER
         ===================================== */}
-      <div className="absolute top-0 left-0 right-0 block md:hidden overflow-hidden">
 
-  <div
-    className="flex aspect-[1690/931] w-full transition-transform duration-700 ease-in-out"
-    style={{
-      transform: `translateX(-${currentImage * 100}%)`,
-    }}
-  >
-    {mobileImages.map((image, index) => (
-      <img
-  key={image}
-  src={image}
-  alt={`Luxury house design ${index + 1} by JayPro Infratech`}
-  className="aspect-[1690/931] min-w-full w-full object-cover flex-shrink-0"
-  loading={index === 0 ? "eager" : "lazy"}
-  fetchPriority={index === 0 ? "high" : "auto"}
-  decoding="async"
-  draggable={false}
-/>
-    ))}
-  </div>
+        <div className="relative m-0 w-full overflow-hidden p-0">
 
-  <div className="absolute inset-0 bg-black/0 pointer-events-none"></div>
+          <div
+            className="m-0 flex w-full p-0 transition-transform duration-700 ease-in-out"
+            style={{
+              transform: `translateX(-${
+                currentImage * 100
+              }%)`,
+            }}
+          >
 
-  <div className="absolute bottom-5 left-1/2 z-20 flex -translate-x-1/2 gap-2">
-  {mobileImages.map((_, index) => (
-    <button
-      key={index}
-      type="button"
-      aria-label={`Go to image ${index + 1}`}
-      aria-current={currentImage === index}
-      onClick={() => setCurrentImage(index)}
-      className={`h-2.5 w-2.5 rounded-full transition-all duration-300 ${
-        currentImage === index
-          ? "w-7 bg-red-600"
-          : "bg-white/70"
-      }`}
-    />
-  ))}
-</div>
+            {mobileImages.map(
+              (image, index) => (
+                <img
+                  key={image}
+                  src={image}
+                  alt={`House design ${
+                    index + 1
+                  } by Jaypro Infratech`}
+                  className="m-0 block aspect-[1690/931] min-w-full w-full flex-shrink-0 object-cover p-0"
+                  loading={
+                    index === 0
+                      ? "eager"
+                      : "lazy"
+                  }
+                  fetchPriority={
+                    index === 0
+                      ? "high"
+                      : "auto"
+                  }
+                  decoding="async"
+                  draggable={false}
+                />
+              )
+            )}
 
+          </div>
 
+          {/* =====================================
+              MOBILE SLIDER DOTS
+          ===================================== */}
 
-          {/* Slider Dots */}
-          <div className="absolute bottom-5 left-1/2 z-20 flex -translate-x-1/2 gap-2">
+          <div className="absolute bottom-4 left-1/2 z-20 flex -translate-x-1/2 gap-2">
 
-            {mobileImages.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentImage(index)}
-                className={`h-2.5 w-2.5 rounded-full transition-all duration-300 ${
-                  currentImage === index
-                    ? "w-7 bg-red-600"
-                    : "bg-white/70"
-                }`}
-                aria-label={`Go to image ${index + 1}`}
-              />
-            ))}
+            {mobileImages.map(
+              (_, index) => (
+                <button
+                  key={index}
+                  type="button"
+                  onClick={() =>
+                    setCurrentImage(index)
+                  }
+                  className={`h-2.5 w-2.5 rounded-full transition-all duration-300 ${
+                    currentImage === index
+                      ? "w-7 bg-red-600"
+                      : "bg-white/70"
+                  }`}
+                  aria-label={`Go to image ${
+                    index + 1
+                  }`}
+                  aria-current={
+                    currentImage === index
+                  }
+                />
+              )
+            )}
 
           </div>
 
         </div>
 
+        {/* =====================================
+            MOBILE LEAD FORM
+            DIRECTLY BELOW SLIDER
+        ===================================== */}
+
+        <div
+          id="lead-form"
+          className="m-0 w-full bg-gray-50 p-0"
+        >
+          <LeadForm />
+        </div>
+
+      </div>
+
+      {/* =====================================================
+          TABLET + LAPTOP + DESKTOP VERSION
+
+          LEFT SEO CONTENT
+          +
+          RIGHT LEAD FORM
+      ===================================================== */}
+
+      <div className="relative hidden min-h-screen md:block">
 
         {/* =====================================
             TABLET & DESKTOP BACKGROUND
         ===================================== */}
-        <picture className="hidden md:block h-full w-full">
 
-          <source
-            media="(max-width:1024px)"
-            srcSet="/bg-tablate.webp"
-          />
+        <div className="absolute inset-0 -z-10">
 
-          <img
-  src="/bg-image-desktop.webp"
-  alt="Modern luxury house designed by JayPro Infratech"
-  className="h-full w-full object-cover"
-  loading="eager"
-  fetchPriority="high"
-  decoding="async"
-/>
+          <picture className="block h-full w-full">
 
-        </picture>
+            <source
+              media="(max-width:1024px)"
+              srcSet="/bg-tablate.webp"
+            />
 
+            <img
+              src="/bg-image-desktop.webp"
+              alt="Modern house designed by Jaypro Infratech"
+              className="h-full w-full object-cover"
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
+            />
 
-        {/* Desktop Overlay */}
-        <div className="hidden md:block absolute inset-0 bg-black/30"></div>
+          </picture>
 
-      </div>
+          {/* Dark Overlay */}
 
+          <div className="absolute inset-0 bg-black/40" />
 
-      {/* =========================================
-          MAIN CONTENT
-      ========================================= */}
-      <div className="relative z-10 w-full flex justify-center -mt-6 md:mt-6 lg:mt-0">
+        </div>
 
-      <div className="flex flex-col items-center justify-start pt-[19vh] md:min-h-screen md:justify-center md:pt-0">
+        {/* =====================================
+            MAIN DESKTOP CONTENT
+        ===================================== */}
 
+        <div className="relative z-10 flex min-h-screen w-full items-center justify-between gap-8 px-6 py-10 lg:px-10 xl:px-16">
 
           {/* =====================================
-              TABS - DESKTOP ONLY
+              LEFT SEO CONTENT
           ===================================== */}
-         <div className="hidden md:flex w-full justify-center mb-6 gap-2">
 
-            {tabs.map((tab, index) => {
-              const Icon = tab.icon;
+          <div className="w-full max-w-2xl text-white">
 
-              return (
-                <button
-  type="button"
-  aria-label={tab.title}
-                  key={index}
-                  onClick={() => setSelectedService(tab.title)}
-                  className={`flex items-center gap-2 rounded-lg px-4 py-2 text-xs font-semibold transition md:text-sm ${
-                    selectedService === tab.title
-                      ? "bg-red-600 text-white"
-                      : "bg-white text-black hover:bg-red-600 hover:text-white"
-                  }`}
+            {/* SEO LABEL */}
+
+            <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-red-400">
+              Jaypro Infratech
+            </p>
+
+            {/* =================================
+                MAIN H1
+            ================================= */}
+
+            <h1 className="max-w-2xl text-3xl font-bold leading-tight md:text-4xl lg:text-5xl xl:text-6xl">
+              House Construction &amp;
+              <br />
+              Architecture Design
+            </h1>
+
+            {/* =================================
+                SEO DESCRIPTION
+            ================================= */}
+
+            <p className="mt-5 max-w-xl text-base leading-7 text-white/90 md:text-lg">
+              Build your dream home with
+              Jaypro Infratech. We provide
+              complete house construction,
+              architectural design, 2D floor
+              plans, 3D front elevation,
+              structural drawings and interior
+              design services for residential
+              and commercial projects.
+            </p>
+
+            {/* =================================
+                SERVICES
+            ================================= */}
+
+            <div className="mt-6 grid max-w-xl grid-cols-1 gap-3 text-sm sm:grid-cols-2 md:text-base">
+
+              {/* Service 1 */}
+
+              <div className="flex items-center gap-2">
+
+                <span
+                  className="font-bold text-red-400"
+                  aria-hidden="true"
                 >
-                  <Icon size={15} />
-                  {tab.title}
-                </button>
-              );
-            })}
+                  ✓
+                </span>
 
-          </div>
+                <span>
+                  House Construction with Material
+                </span>
 
+              </div>
 
-          {/* =====================================
-              CALCULATOR
-          ===================================== */}
-          <div className="hidden md:block lg:block w-full">
+              {/* Service 2 */}
 
-            {/* =================================
-                MOBILE FORM
-            ================================= */}
-            
+              <div className="flex items-center gap-2">
 
+                <span
+                  className="font-bold text-red-400"
+                  aria-hidden="true"
+                >
+                  ✓
+                </span>
 
-            {/* =================================
-                DESKTOP FORM
-            ================================= */}
-           <div className="hidden md:flex justify-center w-full">
+                <span>
+                  2D Floor Plan &amp; Architecture
+                </span>
 
-  <div className="w-full max-w-6xl rounded-2xl border border-white/20 bg-white/15 backdrop-blur-xl p-3">
+              </div>
 
-                <div className="grid gap-4 md:grid-cols-6">
+              {/* Service 3 */}
 
-                  {/* Depth */}
-                  <input
-  type="number"
-  aria-label="Plot Depth"
-  inputMode="numeric"
-  autoComplete="off"
-                    placeholder="Depth"
-                    value={depth}
-                    onChange={(e) => setDepth(e.target.value)}
-                    className="rounded-lg bg-white px-4 py-3 text-black outline-none"
-                  />
+              <div className="flex items-center gap-2">
 
+                <span
+                  className="font-bold text-red-400"
+                  aria-hidden="true"
+                >
+                  ✓
+                </span>
 
-                  {/* Width */}
-                  <input
-  type="number"
-  aria-label="Plot Width"
-  inputMode="numeric"
-  autoComplete="off"
-                    placeholder="Width"
-                    value={width}
-                    onChange={(e) => setWidth(e.target.value)}
-                    className="rounded-lg bg-white px-4 py-3 text-black outline-none"
-                  />
+                <span>
+                  3D Front Elevation Design
+                </span>
 
+              </div>
 
-                  {/* Floor */}
-                  <select
-  aria-label="Select Floor"
-                    value={floor}
-                    onChange={(e) => setFloor(e.target.value)}
-                    className="rounded-lg bg-white px-4 py-3 text-black outline-none"
-                  >
-                    <option value="">Floor</option>
-                    <option value="Ground Floor">
-                      Ground Floor
-                    </option>
-                    <option value="1 Floor">
-                      1 Floor
-                    </option>
-                    <option value="2 Floor">
-                      2 Floor
-                    </option>
-                    <option value="3 Floor">
-                      3 Floor
-                    </option>
-                  </select>
+              {/* Service 4 */}
 
+              <div className="flex items-center gap-2">
 
-                  {/* Building Area */}
-                  <input
-  readOnly
-  aria-label="Building Area"
-                    value={buildingArea}
-                    placeholder="Building Area"
-                    className="rounded-lg bg-white px-4 py-3 text-black outline-none"
-                  />
+                <span
+                  className="font-bold text-red-400"
+                  aria-hidden="true"
+                >
+                  ✓
+                </span>
 
+                <span>
+                  Structural Design &amp; Drawings
+                </span>
 
-                  {/* Direction */}
-                 <select
-  aria-label="Select Direction"
-                    value={north}
-                    onChange={(e) => setNorth(e.target.value)}
-                    className="rounded-lg bg-white px-4 py-3 text-black outline-none"
-                  >
-                    <option value="">
-                      Direction
-                    </option>
-                    <option value="North">
-                      North
-                    </option>
-                    <option value="South">
-                      South
-                    </option>
-                    <option value="East">
-                      East
-                    </option>
-                    <option value="West">
-                      West
-                    </option>
-                  </select>
+              </div>
 
+              {/* Service 5 */}
 
-                  {/* Calculate Button */}
-                  <button
-  type="button"
-  aria-label="Calculate Construction Price"
-  onClick={handleCalculate}
-                    className="rounded-lg bg-red-600 font-semibold text-white transition hover:bg-red-700"
-                  >
-                    CALCULATE PRICE
-                  </button>
+              <div className="flex items-center gap-2">
 
-                </div>
+                <span
+                  className="font-bold text-red-400"
+                  aria-hidden="true"
+                >
+                  ✓
+                </span>
+
+                <span>
+                  Interior Design Services
+                </span>
+
+              </div>
+
+              {/* Service 6 */}
+
+              <div className="flex items-center gap-2">
+
+                <span
+                  className="font-bold text-red-400"
+                  aria-hidden="true"
+                >
+                  ✓
+                </span>
+
+                <span>
+                  Complete Building Solutions
+                </span>
 
               </div>
 
             </div>
+
+            {/* =================================
+                SEO CONTENT
+            ================================= */}
+
+            <p className="mt-6 max-w-xl text-sm leading-6 text-white/80 md:text-base">
+              From architectural planning and floor
+              plan design to construction, structural
+              drawings, elevation design and interiors,
+              Jaypro Infratech offers complete solutions
+              for building your dream property.
+            </p>
+
+            {/* =================================
+                CTA
+            ================================= */}
+
+            <div className="mt-7">
+
+              <a
+                href="#lead-form"
+                className="inline-flex items-center rounded-lg bg-red-600 px-6 py-3 font-semibold text-white transition hover:bg-red-700"
+              >
+                Get Free Consultation
+              </a>
+
+            </div>
+
+          </div>
+
+          {/* =====================================
+              RIGHT SIDE LEAD FORM
+          ===================================== */}
+
+          <div
+            id="lead-form-desktop"
+            className="w-full max-w-sm shrink-0 lg:max-w-[330px] xl:max-w-[350px]"
+          >
+
+            <LeadForm />
 
           </div>
 

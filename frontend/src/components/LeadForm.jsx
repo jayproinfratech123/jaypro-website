@@ -50,26 +50,42 @@ const LeadForm = () => {
   };
 
   return (
-    <section className="w-full py-8">
-      <div className="mx-auto max-w-md rounded-xl bg-white p-6 shadow-lg">
+    <section className="w-full m-0 px-0 py-5 sm:py-6 md:py-8">
+      <div
+        className="
+          mx-auto
+          w-full
+          max-w-[calc(100vw-24px)]
+          sm:max-w-sm
+          md:max-w-xs
+          lg:max-w-[330px]
+          xl:max-w-[350px]
+          rounded-xl
+          bg-white
+          p-5
+          shadow-lg
+        "
+      >
         {/* Heading */}
-        <h2 className="text-center text-2xl font-bold text-gray-900">
+
+        <h2 className="text-center text-xl font-bold text-gray-900 sm:text-2xl">
           Talk to Our Experts
         </h2>
 
         <p
           id="lead-form-description"
-          className="mt-2 text-center text-gray-600 text-sm font-medium"
+          className="mt-2 text-center text-sm font-medium text-gray-600"
         >
           Submit the form and our team will contact you.
         </p>
 
         <form
           onSubmit={handleSubmit}
-          className="mt-6 space-y-4"
+          className="mt-5 space-y-3"
           autoComplete="on"
         >
           {/* Full Name */}
+
           <input
             type="text"
             name="fullName"
@@ -82,6 +98,7 @@ const LeadForm = () => {
           />
 
           {/* Mobile */}
+
           <input
             type="tel"
             name="mobile"
@@ -97,6 +114,7 @@ const LeadForm = () => {
           />
 
           {/* City */}
+
           <input
             type="text"
             name="city"
@@ -109,6 +127,7 @@ const LeadForm = () => {
           />
 
           {/* Submit */}
+
           <button
             type="submit"
             disabled={loading}
@@ -118,7 +137,9 @@ const LeadForm = () => {
                 : "bg-red-600 hover:bg-red-700"
             }`}
           >
-            {loading ? "Submitting..." : "Submit"}
+            {loading
+              ? "Submitting..."
+              : "Submit"}
           </button>
         </form>
       </div>
