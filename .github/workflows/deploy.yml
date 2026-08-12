@@ -1,4 +1,4 @@
-name: Deploy React Frontend to GoDaddy
+name: Deploy React Website to GoDaddy
 
 on:
   push:
@@ -6,29 +6,50 @@ on:
       - main
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+
+      # ==========================================
+      # 1. GET CODE
+      # ==========================================
+
+      - name: Checkout
         uses: actions/checkout@v4
+
+      # ==========================================
+      # 2. SETUP NODE
+      # ==========================================
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 20
           cache: npm
           cache-dependency-path: frontend/package-lock.json
 
-      - name: Install frontend dependencies
-        working-directory: frontend
+      # ==========================================
+      # 3. INSTALL DEPENDENCIES
+      # ==========================================
+
+      - name: Install dependencies
+        working-directory: ./frontend
         run: npm ci
 
-      - name: Build React frontend
-        working-directory: frontend
+      # ==========================================
+      # 4. BUILD REACT/VITE PROJECT
+      # ==========================================
+
+      - name: Build project
+        working-directory: ./frontend
         run: npm run build
 
-      - name: Deploy frontend to GoDaddy
+      # ==========================================
+      # 5. DEPLOY TO GODADDY
+      # ==========================================
+
+      - name: Deploy to GoDaddy
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
