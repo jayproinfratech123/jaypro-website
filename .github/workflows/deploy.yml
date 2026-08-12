@@ -7,9 +7,6 @@ on:
 
   workflow_dispatch:
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -25,7 +22,7 @@ jobs:
 
 
       # ==========================================
-      # 2. SETUP NODE
+      # 2. SETUP NODE 24
       # ==========================================
 
       - name: Setup Node.js
@@ -37,7 +34,7 @@ jobs:
 
 
       # ==========================================
-      # 3. INSTALL DEPENDENCIES
+      # 3. INSTALL FRONTEND DEPENDENCIES
       # ==========================================
 
       - name: Install dependencies
@@ -46,7 +43,7 @@ jobs:
 
 
       # ==========================================
-      # 4. BUILD REACT/VITE PROJECT
+      # 4. BUILD REACT / VITE WEBSITE
       # ==========================================
 
       - name: Build project
@@ -55,16 +52,24 @@ jobs:
 
 
       # ==========================================
-      # 5. DEPLOY TO GODADDY
+      # 5. INSTALL FTP DEPLOY PACKAGE
+      # ==========================================
+
+      - name: Install FTP Deploy
+        run: npm install --global @samkirkland/ftp-deploy
+
+
+      # ==========================================
+      # 6. DEPLOY TO GODADDY
       # ==========================================
 
       - name: Deploy to GoDaddy
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftp
-          port: 21
-          server-dir: public_html/
-          local-dir: ./frontend/dist/
+        run: |
+          ftp-deploy \
+            --server "${{ secrets.FTP_SERVER }}" \
+            --username "${{ secrets.FTP_USERNAME }}" \
+            --password "${{ secrets.FTP_PASSWORD }}" \
+            --protocol ftp \
+            --port 21 \
+            --local-dir "./frontend/dist/" \
+            --server-dir "public_html/"
