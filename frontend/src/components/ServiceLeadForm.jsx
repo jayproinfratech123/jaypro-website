@@ -1,26 +1,24 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { User, Phone, MapPin, X } from "lucide-react";
-import emailjs from "@emailjs/browser";
+
+const GOOGLE_SHEET_URL =
+  "https://script.google.com/macros/s/AKfycbz1Olatmq1V_az3NVXEBJRNgEvO24HjelKFXI69N2iPHExUvicHHen9J7wbBHB4OELp/exec";
 
 const ServiceLeadForm = ({
   service = "Service",
-  onSuccess,
   onClose,
 }) => {
-  const navigate = useNavigate();
-
   const [formData, setFormData] = useState({
-    name: "",
+    fullName: "",
     mobile: "",
     city: "",
   });
 
   const [loading, setLoading] = useState(false);
 
-  // ==========================================
+  // =====================================================
   // INPUT CHANGE
-  // ==========================================
+  // =====================================================
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -31,24 +29,45 @@ const ServiceLeadForm = ({
     }));
   };
 
-  // ==========================================
+  // =====================================================
+  // MOBILE CHANGE
+  // =====================================================
+
+  const handleMobileChange = (e) => {
+    const value = e.target.value.replace(/\D/g, "");
+
+    if (value.length <= 10) {
+      setFormData((prev) => ({
+        ...prev,
+        mobile: value,
+      }));
+    }
+  };
+
+  // =====================================================
   // SUBMIT
-  // ==========================================
+  // =====================================================
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.name.trim()) {
+    if (loading) return;
+
+    const name = formData.fullName.trim();
+    const mobile = formData.mobile.trim();
+    const city = formData.city.trim();
+
+    if (!name) {
       alert("Please enter your name.");
       return;
     }
 
-    if (!/^[0-9]{10}$/.test(formData.mobile)) {
+    if (!/^[0-9]{10}$/.test(mobile)) {
       alert("Please enter a valid 10 digit mobile number.");
       return;
     }
 
-    if (!formData.city.trim()) {
+    if (!city) {
       alert("Please enter your city.");
       return;
     }
@@ -56,50 +75,85 @@ const ServiceLeadForm = ({
     setLoading(true);
 
     try {
-      await emailjs.send(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-        {
-          service,
-          name: formData.name,
-          mobile: formData.mobile,
-          city: formData.city,
-        },
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      const data = new URLSearchParams();
+
+      // =================================================
+      // VERY IMPORTANT
+      // SERVICE LEAD
+      // =================================================
+
+      data.append("formType", "serviceLead");
+
+      // =================================================
+      // SELECTED SERVICE
+      // =================================================
+
+      data.append(
+        "service",
+        String(service || "Service").trim()
       );
 
-      alert("Form Submitted Successfully!");
+      // =================================================
+      // CUSTOMER DATA
+      // =================================================
+
+      data.append("name", name);
+      data.append("mobile", mobile);
+      data.append("city", city);
+
+      // =================================================
+      // SOURCE
+      // =================================================
+
+      data.append("source", "ServiceLeadForm");
+
+      console.log("SERVICE LEAD:", {
+        formType: "serviceLead",
+        service,
+        name,
+        mobile,
+        city,
+      });
+
+      await fetch(GOOGLE_SHEET_URL, {
+        method: "POST",
+        body: data,
+        mode: "no-cors",
+      });
+
+      alert(
+        `${service} enquiry submitted successfully!`
+      );
 
       setFormData({
-        name: "",
+        fullName: "",
         mobile: "",
         city: "",
       });
 
-      if (onSuccess) {
-        onSuccess();
+      // Close popup after successful submission
+      if (onClose) {
+        onClose();
       }
-    } catch (error) {
-      console.error("EmailJS Error:", error);
 
-      alert("Something went wrong. Please try again.");
+    } catch (error) {
+      console.error(
+        "Service Lead Error:",
+        error
+      );
+
+      alert(
+        "Something went wrong. Please try again."
+      );
+
     } finally {
       setLoading(false);
     }
   };
 
-  // ==========================================
-  // CLOSE
-  // ==========================================
-
-  const handleClose = () => {
-    if (onClose) {
-      onClose();
-      return;
-    }
-
-    navigate("/");
-  };
+  // =====================================================
+  // UI
+  // =====================================================
 
   return (
     <div
@@ -110,73 +164,74 @@ const ServiceLeadForm = ({
         flex
         items-center
         justify-center
-        bg-black/50
-        px-3
-        py-4
+        bg-black/60
+        px-4
+        py-5
       "
+      onClick={onClose}
     >
-      {/* ==========================================
-          FORM BOX
-      ========================================== */}
+
+      {/* =================================================
+          POPUP
+      ================================================= */}
 
       <div
         className="
           relative
           w-full
-          max-w-[340px]
+          max-w-[380px]
           overflow-hidden
-          rounded-xl
+          rounded-2xl
           bg-white
           shadow-2xl
         "
+        onClick={(e) => e.stopPropagation()}
       >
 
-        {/* ==========================================
+        {/* =================================================
             HEADER
-        ========================================== */}
+        ================================================= */}
 
         <div
           className="
             relative
             bg-red-600
-            px-4
-            py-4
+            px-5
+            py-5
             text-white
           "
         >
 
-          {/* CLOSE BUTTON */}
+          {/* CLOSE */}
 
           <button
             type="button"
-            onClick={handleClose}
-            aria-label="Close form"
+            onClick={onClose}
             className="
               absolute
-              right-3
-              top-3
+              right-4
+              top-4
               flex
-              h-7
-              w-7
+              h-8
+              w-8
               items-center
               justify-center
               rounded-full
               bg-white/20
-              transition
               hover:bg-white/30
             "
+            aria-label="Close"
           >
-            <X size={16} />
+            <X size={18} />
           </button>
 
           {/* TITLE */}
 
           <h2
             className="
-              pr-8
-              text-lg
+              pr-10
+              text-xl
               font-bold
-              leading-tight
             "
           >
             Get {service} Consultation
@@ -185,7 +240,7 @@ const ServiceLeadForm = ({
           <p
             className="
               mt-1
-              text-xs
+              text-sm
               text-red-100
             "
           >
@@ -194,26 +249,29 @@ const ServiceLeadForm = ({
 
         </div>
 
-        {/* ==========================================
+        {/* =================================================
             FORM
-        ========================================== */}
+        ================================================= */}
 
         <form
           onSubmit={handleSubmit}
-          className="space-y-3.5 p-4"
+          className="
+            space-y-4
+            p-5
+          "
         >
 
-          {/* ========================================
+          {/* =================================================
               SELECTED SERVICE
-          ======================================== */}
+          ================================================= */}
 
           <div>
 
             <label
               className="
-                mb-1
+                mb-1.5
                 block
-                text-xs
+                text-sm
                 font-semibold
                 text-gray-700
               "
@@ -224,7 +282,7 @@ const ServiceLeadForm = ({
             <div
               className="
                 flex
-                h-10
+                min-h-[44px]
                 items-center
                 rounded-lg
                 border
@@ -241,18 +299,17 @@ const ServiceLeadForm = ({
 
           </div>
 
-          {/* ========================================
+          {/* =================================================
               NAME
-          ======================================== */}
+          ================================================= */}
 
           <div>
 
             <label
-              htmlFor="service-name"
               className="
-                mb-1
+                mb-1.5
                 block
-                text-xs
+                text-sm
                 font-semibold
                 text-gray-700
               "
@@ -263,6 +320,7 @@ const ServiceLeadForm = ({
             <div className="relative">
 
               <User
+                size={18}
                 className="
                   absolute
                   left-3
@@ -270,25 +328,23 @@ const ServiceLeadForm = ({
                   -translate-y-1/2
                   text-red-600
                 "
-                size={16}
               />
 
               <input
-                id="service-name"
                 type="text"
-                name="name"
-                value={formData.name}
+                name="fullName"
+                value={formData.fullName}
                 onChange={handleChange}
                 placeholder="Enter your name"
                 required
                 autoComplete="name"
                 className="
-                  h-10
+                  h-11
                   w-full
                   rounded-lg
                   border
                   border-gray-300
-                  pl-9
+                  pl-10
                   pr-3
                   text-sm
                   outline-none
@@ -302,18 +358,17 @@ const ServiceLeadForm = ({
 
           </div>
 
-          {/* ========================================
+          {/* =================================================
               MOBILE
-          ======================================== */}
+          ================================================= */}
 
           <div>
 
             <label
-              htmlFor="service-mobile"
               className="
-                mb-1
+                mb-1.5
                 block
-                text-xs
+                text-sm
                 font-semibold
                 text-gray-700
               "
@@ -324,6 +379,7 @@ const ServiceLeadForm = ({
             <div className="relative">
 
               <Phone
+                size={18}
                 className="
                   absolute
                   left-3
@@ -331,37 +387,26 @@ const ServiceLeadForm = ({
                   -translate-y-1/2
                   text-red-600
                 "
-                size={16}
               />
 
               <input
-                id="service-mobile"
                 type="tel"
                 name="mobile"
                 value={formData.mobile}
-                onChange={(e) => {
-                  const value = e.target.value.replace(/\D/g, "");
-
-                  if (value.length <= 10) {
-                    setFormData((prev) => ({
-                      ...prev,
-                      mobile: value,
-                    }));
-                  }
-                }}
+                onChange={handleMobileChange}
                 placeholder="10 digit mobile number"
                 required
                 maxLength={10}
+                pattern="[0-9]{10}"
                 inputMode="numeric"
                 autoComplete="tel"
-                pattern="[0-9]{10}"
                 className="
-                  h-10
+                  h-11
                   w-full
                   rounded-lg
                   border
                   border-gray-300
-                  pl-9
+                  pl-10
                   pr-3
                   text-sm
                   outline-none
@@ -375,18 +420,17 @@ const ServiceLeadForm = ({
 
           </div>
 
-          {/* ========================================
+          {/* =================================================
               CITY
-          ======================================== */}
+          ================================================= */}
 
           <div>
 
             <label
-              htmlFor="service-city"
               className="
-                mb-1
+                mb-1.5
                 block
-                text-xs
+                text-sm
                 font-semibold
                 text-gray-700
               "
@@ -397,6 +441,7 @@ const ServiceLeadForm = ({
             <div className="relative">
 
               <MapPin
+                size={18}
                 className="
                   absolute
                   left-3
@@ -404,11 +449,9 @@ const ServiceLeadForm = ({
                   -translate-y-1/2
                   text-red-600
                 "
-                size={16}
               />
 
               <input
-                id="service-city"
                 type="text"
                 name="city"
                 value={formData.city}
@@ -417,12 +460,12 @@ const ServiceLeadForm = ({
                 required
                 autoComplete="address-level2"
                 className="
-                  h-10
+                  h-11
                   w-full
                   rounded-lg
                   border
                   border-gray-300
-                  pl-9
+                  pl-10
                   pr-3
                   text-sm
                   outline-none
@@ -436,21 +479,21 @@ const ServiceLeadForm = ({
 
           </div>
 
-          {/* ========================================
+          {/* =================================================
               SUBMIT
-          ======================================== */}
+          ================================================= */}
 
           <button
             type="submit"
             disabled={loading}
             className={`
-              h-11
+              h-12
               w-full
               rounded-lg
-              text-sm
               font-bold
               text-white
               transition
+
               ${
                 loading
                   ? "cursor-not-allowed bg-gray-400"
@@ -458,12 +501,15 @@ const ServiceLeadForm = ({
               }
             `}
           >
+
             {loading
               ? "Submitting..."
               : `Submit ${service} Enquiry`}
+
           </button>
 
         </form>
+
       </div>
     </div>
   );
