@@ -6,7 +6,7 @@ import { Phone, Menu, X, XCircle } from "lucide-react";
 import heroImage from "/architecture-background.webp";
 
 import SEO from "../../components/SEO";
-import ServiceLeadForm from "../../components/ServiceLeadForm";
+
 
 const Architecture = () => {
 
@@ -199,13 +199,6 @@ const Architecture = () => {
           APPEARS IN FRONT
       ========================================== */}
 
-      {showLeadForm && (
-        <ServiceLeadForm
-          service={serviceName}
-          onSuccess={handleLeadSuccess}
-          onClose={handleFormClose}
-        />
-      )}
 
     </>
   );

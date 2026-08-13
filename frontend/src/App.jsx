@@ -53,12 +53,6 @@ import EstimatePage from "./pages/services/Estimate.jsx";
 import Contractor from "./pages/services/Contractor.jsx";
 
 // ==========================================
-// SERVICE LEAD FORM
-// ==========================================
-
-import ServiceLeadForm from "./components/ServiceLeadForm.jsx";
-
-// ==========================================
 // CUSTOMER DASHBOARD
 // ==========================================
 
@@ -79,7 +73,6 @@ import AdminHome from "./pages/admin/AdminHome.jsx";
 import AdminProjects from "./pages/admin/AdminProjects.jsx";
 import AdminCustomers from "./pages/admin/AdminCustomers.jsx";
 import AdminBlogs from "./pages/admin/AdminBlogs.jsx";
-
 
 function App() {
   return (
@@ -106,7 +99,6 @@ function App() {
       <Navbar />
 
       <main className="min-h-screen pb-24">
-
         <Routes>
 
           {/* ==========================================
@@ -182,25 +174,13 @@ function App() {
           />
 
           {/* ==========================================
-              SERVICE LEAD FORM
-              
-              Flow:
-              Service Click
-                    ↓
-              ServiceLeadForm
-                    ↓
-              Submit
-                    ↓
-              Selected Service Page
-          ========================================== */}
-
-          <Route
-            path="/service-lead-form"
-            element={<ServiceLeadForm />}
-          />
-
-          {/* ==========================================
               SERVICE ROUTES
+              
+              IMPORTANT:
+              LeadForm is NOT handled here.
+
+              ServicesSection opens the existing
+              LeadForm directly.
           ========================================== */}
 
           <Route
@@ -258,7 +238,6 @@ function App() {
               </ProtectedRoute>
             }
           >
-
             <Route
               index
               element={<DashboardHome />}
@@ -288,7 +267,6 @@ function App() {
               path="chat"
               element={<Chat />}
             />
-
           </Route>
 
           {/* ==========================================
@@ -303,7 +281,6 @@ function App() {
               </ProtectedRoute>
             }
           >
-
             <Route
               index
               element={<AdminHome />}
@@ -323,7 +300,6 @@ function App() {
               path="blogs"
               element={<AdminBlogs />}
             />
-
           </Route>
 
           {/* ==========================================
@@ -336,7 +312,6 @@ function App() {
           />
 
         </Routes>
-
       </main>
 
       {/* ==========================================
@@ -356,7 +331,6 @@ function App() {
       ========================================== */}
 
       <WhatsAppButton />
-
     </>
   );
 }

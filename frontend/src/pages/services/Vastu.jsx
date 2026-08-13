@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import ServiceLeadForm from "../../components/ServiceLeadForm.jsx";
 
 const Vastu = () => {
   const location = useLocation();
@@ -471,13 +470,7 @@ const Vastu = () => {
           SERVICE LEAD FORM
       ===================================================== */}
 
-      {showLeadForm && (
-        <ServiceLeadForm
-          service="Vastu Shastra"
-          onSuccess={handleLeadSuccess}
-          onClose={handleLeadClose}
-        />
-      )}
+     
     </>
   );
 };

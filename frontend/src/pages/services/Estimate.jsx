@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ServiceLeadForm from "../../components/ServiceLeadForm.jsx";
+
 
 const Estimate = () => {
   const navigate = useNavigate();
@@ -247,13 +247,7 @@ const Estimate = () => {
             LEAD FORM
             ===================================================== */}
 
-        {showLeadForm && (
-          <ServiceLeadForm
-            service="Estimate & Cost"
-            onClose={handleClose}
-            onSuccess={handleLeadSuccess}
-          />
-        )}
+      
 
       </main>
     </>

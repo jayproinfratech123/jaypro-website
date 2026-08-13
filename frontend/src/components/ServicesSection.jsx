@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 import {
   FaDraftingCompass,
@@ -8,7 +8,20 @@ import {
   FaCalculator,
   FaHardHat,
   FaArrowRight,
+  FaTimes,
 } from "react-icons/fa";
+
+// =====================================================
+// IMPORTANT
+// LeadForm.jsx and ServicesSection.jsx are in the
+// SAME components folder.
+// =====================================================
+
+import LeadForm from "./LeadForm";
+
+// =====================================================
+// SERVICES DATA
+// =====================================================
 
 const services = [
   {
@@ -78,32 +91,50 @@ const services = [
   },
 ];
 
+// =====================================================
+// SERVICES SECTION
+// =====================================================
+
 export default function ServicesSection() {
-  const navigate = useNavigate();
+  const [showLeadForm, setShowLeadForm] = useState(false);
 
-const handleServiceClick = (service) => {
-  const serviceName = `${service.title} ${service.subtitle}`.trim();
+  // ===================================================
+  // OPEN LEAD FORM
+  // ===================================================
 
-  navigate(service.path, {
-    state: {
-      openLeadForm: true,
-      service: serviceName,
-    },
-  });
-};
+  const handleServiceClick = () => {
+    setShowLeadForm(true);
+  };
+
+  // ===================================================
+  // CLOSE LEAD FORM
+  // ===================================================
+
+  const handleCloseLeadForm = () => {
+    setShowLeadForm(false);
+  };
 
   return (
     <>
+      {/* =================================================
+          SERVICES SECTION
+      ================================================= */}
+
       <section
         id="services"
         aria-labelledby="services-heading"
-        className="scroll-mt-24 bg-gray-100 pb-20 pt-8"
+        className="
+          scroll-mt-24
+          bg-gray-100
+          pb-20
+          pt-8
+        "
       >
         <div className="mx-auto max-w-7xl px-5">
 
-          {/* ==========================================
+          {/* =================================================
               HEADING
-          ========================================== */}
+          ================================================= */}
 
           <div className="mb-4 text-center">
 
@@ -122,7 +153,13 @@ const handleServiceClick = (service) => {
               Explore Our Services
             </h2>
 
-            <p className="mt-4 text-lg text-gray-500">
+            <p
+              className="
+                mt-4
+                text-lg
+                text-gray-500
+              "
+            >
               Hamari Services Ke Baare Mein Jaane
             </p>
 
@@ -135,9 +172,9 @@ const handleServiceClick = (service) => {
 
           </div>
 
-          {/* ==========================================
+          {/* =================================================
               SERVICE CARDS
-          ========================================== */}
+          ================================================= */}
 
           <div
             className="
@@ -175,9 +212,9 @@ const handleServiceClick = (service) => {
                 "
               >
 
-                {/* ==========================================
+                {/* =================================================
                     TOP SECTION
-                ========================================== */}
+                ================================================= */}
 
                 <div
                   className={`
@@ -215,9 +252,9 @@ const handleServiceClick = (service) => {
 
                 </div>
 
-                {/* ==========================================
+                {/* =================================================
                     BODY
-                ========================================== */}
+                ================================================= */}
 
                 <div
                   className="
@@ -254,13 +291,13 @@ const handleServiceClick = (service) => {
 
                 </div>
 
-                {/* ==========================================
-                    BUTTON
-                ========================================== */}
+                {/* =================================================
+                    SERVICE BUTTON
+                ================================================= */}
 
                 <button
                   type="button"
-                  onClick={() => handleServiceClick(service)}
+                  onClick={handleServiceClick}
                   className={`
                     flex
                     w-full
@@ -274,11 +311,17 @@ const handleServiceClick = (service) => {
                     text-white
                     transition
                     hover:opacity-90
+                    focus:outline-none
+                    focus:ring-2
+                    focus:ring-red-500
+                    focus:ring-offset-2
                   `}
                 >
+
                   <FaArrowRight aria-hidden="true" />
 
                   {service.button}
+
                 </button>
 
               </article>
@@ -289,6 +332,89 @@ const handleServiceClick = (service) => {
 
         </div>
       </section>
+
+      {/* =====================================================
+          EXISTING LEAD FORM POPUP
+      ===================================================== */}
+
+      {showLeadForm && (
+
+        <div
+          className="
+            fixed
+            inset-0
+            z-[99999]
+            flex
+            items-center
+            justify-center
+            overflow-y-auto
+            bg-black/60
+            px-4
+            py-5
+          "
+          onClick={handleCloseLeadForm}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Lead enquiry form"
+        >
+
+          {/* =================================================
+              POPUP CONTAINER
+          ================================================= */}
+
+          <div
+            className="
+              relative
+              w-full
+              max-w-[380px]
+            "
+            onClick={(e) => e.stopPropagation()}
+          >
+
+            {/* =================================================
+                CLOSE BUTTON
+            ================================================= */}
+
+            <button
+              type="button"
+              onClick={handleCloseLeadForm}
+              className="
+                absolute
+                right-2
+                top-2
+                z-[100000]
+                flex
+                h-8
+                w-8
+                items-center
+                justify-center
+                rounded-full
+                bg-white
+                text-gray-700
+                shadow-md
+                transition
+                hover:bg-gray-100
+                focus:outline-none
+                focus:ring-2
+                focus:ring-red-500
+              "
+              aria-label="Close lead form"
+            >
+              <FaTimes size={16} />
+            </button>
+
+            {/* =================================================
+                YOUR EXISTING LEAD FORM
+            ================================================= */}
+
+            <LeadForm />
+
+          </div>
+
+        </div>
+
+      )}
+
     </>
   );
 }

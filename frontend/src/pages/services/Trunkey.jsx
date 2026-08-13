@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
-import ServiceLeadForm from "../../components/ServiceLeadForm.jsx";
+
 
 const steps = [
   {
@@ -531,13 +531,7 @@ export default function Trunkey() {
           SERVICE LEAD FORM
       ===================================================== */}
 
-      {showLeadForm && (
-        <ServiceLeadForm
-          service="Turnkey Construction"
-          onSuccess={handleLeadSuccess}
-          onClose={handleLeadClose}
-        />
-      )}
+      
     </>
   );
 }

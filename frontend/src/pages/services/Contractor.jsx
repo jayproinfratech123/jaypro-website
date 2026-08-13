@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import ServiceLeadForm from "../../components/ServiceLeadForm.jsx";
+
 
 const Contractor = () => {
   const location = useLocation();
@@ -473,13 +473,7 @@ const Contractor = () => {
           SERVICE LEAD FORM
       ===================================================== */}
 
-      {showLeadForm && (
-        <ServiceLeadForm
-          service="Contractor Services"
-          onSuccess={handleLeadSuccess}
-          onClose={handleLeadClose}
-        />
-      )}
+    
     </>
   );
 };
