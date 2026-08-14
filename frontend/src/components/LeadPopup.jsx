@@ -246,13 +246,13 @@ const LeadPopup = () => {
         >
 
           <img
-            src="/lead-from-for-bg.png"
+            src="/happy-family-construction.webp"
             alt="Modern house designed by Jaypro Infratech"
             className="
               h-full
               min-h-[320px]
               w-full
-              object-cover
+              object-cover object-[5%_center]
             "
           />
 
@@ -349,7 +349,7 @@ const LeadPopup = () => {
           >
 
             <img
-              src="/lead-from-for-bg.png"
+              src="/happy-family-construction.webp"
               alt="Modern house designed by Jaypro Infratech"
               className="
                 h-full

@@ -180,8 +180,7 @@ function App() {
           {/* ==========================================
               PRICING
 
-              IMPORTANT:
-              This now loads NavbarPricing.jsx
+              Loads NavbarPricing.jsx
           ========================================== */}
 
           <Route

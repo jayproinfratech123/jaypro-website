@@ -1,5 +1,6 @@
 import React from "react";
 import Navbar from "../components/layout/Navbar.jsx";
+import DesignPackage from "../components/home/DesignPackage.jsx";
 
 const NavbarPricing = () => {
   return (
@@ -132,7 +133,7 @@ const NavbarPricing = () => {
               <br />
 
               <span className="text-red-600">
-                Construction &amp; Architecture
+                Construction  Architecture &amp; Design
               </span>
 
               <br />
@@ -197,17 +198,15 @@ const NavbarPricing = () => {
 
 
       {/* =================================
-          EMPTY SECTION
-          Packages can be added later
+          DESIGN PACKAGE SECTION
       ================================= */}
 
-      <section className="bg-gray-50 px-6 py-20">
+      <section className="bg-gray-50">
 
-        <div className="mx-auto max-w-7xl">
-          {/* Add pricing cards here later */}
-        </div>
+        <DesignPackage />
 
       </section>
+
 
     </div>
   );
