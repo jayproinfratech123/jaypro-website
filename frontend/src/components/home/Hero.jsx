@@ -330,73 +330,82 @@ const Hero = () => {
 
               <h1 className="font-extrabold leading-none tracking-tight text-white">
 
-  <span
-    className="
-      block
-      text-5xl
-      font-black
-      text-white
-      drop-shadow-[0_5px_12px_rgba(0,0,0,0.8)]
-      sm:text-6xl
-      lg:text-7xl
-  "
-  >
-    Your Dream
-  </span>
+                {/* COMPLETE CONSTRUCTION - ONE LINE */}
 
-  <span
-    className="
-      block
-      text-5xl
-      font-black
-      sm:text-6xl
-      lg:text-7xl
-  "
-  >
-    <span
-      className="
-        bg-gradient-to-b
-        from-[#fff4c2]
-        via-[#f5c96a]
-        to-[#c58a20]
-        bg-clip-text
-        text-transparent
-        drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]
-      "
-    >
-      Home
-    </span>{" "}
+                <span
+                  className="
+                    block
+                    whitespace-nowrap
+                    text-4xl
+                    font-black
+                    text-white
+                    drop-shadow-[0_5px_12px_rgba(0,0,0,0.8)]
+                    sm:text-5xl
+                    lg:text-6xl
+                  "
+                >
+                  Complete Construction
+                </span>
 
-    <span className="text-white drop-shadow-[0_5px_12px_rgba(0,0,0,0.8)]">
-      Starts Here
-    </span>
-  </span>
+                {/* WITH MATERIAL - SECOND LINE */}
 
-  <span
-    className="
-      mt-5
-      inline-block
-      border-l-4
-      border-red-600
-      bg-black/90
-      px-5
-      py-2
-      text-xl
-      font-bold
-      text-white
-      shadow-2xl
-      backdrop-blur-sm
-      sm:text-2xl
-      lg:text-3xl
-    "
-  >
-    with{" "}
-    <span className="text-red-500">
-      Jaypro Infratech
-    </span>
-  </span>
+                <span
+                  className="
+                    block
+                    text-4xl
+                    font-black
+                    sm:text-5xl
+                    lg:text-6xl
+                  "
+                >
 
-</h1>
+                  <span
+                    className="
+                      bg-gradient-to-b
+                      from-[#fff4c2]
+                      via-[#f5c96a]
+                      to-[#c58a20]
+                      bg-clip-text
+                      text-transparent
+                      drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]
+                    "
+                  >
+                    with
+                  </span>{" "}
+
+                  <span className="text-white drop-shadow-[0_5px_12px_rgba(0,0,0,0.8)]">
+                    Material
+                  </span>
+
+                </span>
+
+                {/* JAYPRO INFRATECH */}
+
+                <span
+                  className="
+                    mt-5
+                    inline-block
+                    border-l-4
+                    border-red-600
+                    bg-black/90
+                    px-5
+                    py-2
+                    text-xl
+                    font-bold
+                    text-white
+                    shadow-2xl
+                    backdrop-blur-sm
+                    sm:text-2xl
+                    lg:text-3xl
+                  "
+                >
+                  with{" "}
+                  <span className="text-red-500">
+                    Jaypro Infratech
+                  </span>
+                </span>
+
+              </h1>
 
               {/* =================================
                   DESCRIPTION
@@ -432,8 +441,6 @@ const Hero = () => {
 
           {/* =====================================
               RIGHT SIDE LEAD FORM
-              
-              UNCHANGED
           ===================================== */}
 
           <div

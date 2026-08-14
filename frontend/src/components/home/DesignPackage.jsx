@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Check, X } from "lucide-react";
-import emailjs from "@emailjs/browser";
+import { Check } from "lucide-react";
+import LeadForm from "../LeadForm.jsx";
 
 const packages = [
   {
@@ -13,10 +13,11 @@ const packages = [
       "3D Front Elevation",
     ],
   },
-  
-    {
+
+  {
     name: "Gold Package",
     price: "₹8/sqft",
+    popular: true,
     features: [
       "Floor Plan",
       "Plumbing Design",
@@ -28,10 +29,10 @@ const packages = [
       "Slab Beam Detail Design",
       "Slab Reinforcement Details Design",
       "Staircase Section Details",
-      "Septic Tank & Borewell Position"
+      "Septic Tank & Borewell Position",
     ],
-    popular: true,
   },
+
   {
     name: "Platinum Package",
     price: "₹30/sqft",
@@ -52,46 +53,32 @@ const packages = [
   },
 ];
 
-const Pricing = () => {
-  const [selectedPackage, setSelectedPackage] = useState(null);
+const DesignPackage = () => {
   const [expandedPackage, setExpandedPackage] = useState(null);
 
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [city, setCity] = useState("");
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  const [showLeadForm, setShowLeadForm] = useState(false);
 
-  try {
-    await emailjs.send(
-      import.meta.env.VITE_EMAILJS_SERVICE_ID,
-      import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-      {
-        fullName: name,
-        mobile: phone,
-        city: city,
-        package: selectedPackage,
-      },
-      import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-    );
+  const [selectedPackage, setSelectedPackage] = useState("");
 
-    alert("Thank you! Your request has been submitted.");
+  // ==========================================
+  // CHOOSE PACKAGE
+  // ==========================================
 
-    setName("");
-    setPhone("");
-    setCity("");
-    setSelectedPackage(null);
-  } catch (error) {
-    console.error("EmailJS Error:", error);
-    alert("Something went wrong. Please try again.");
-  }
-};
+  const handleChoosePackage = (packageName) => {
+    setSelectedPackage(packageName);
+    setShowLeadForm(true);
+  };
+
   return (
     <section
-  className="container-xl py-14 -mt-20"
-  aria-labelledby="pricing-heading"
-  aria-describedby="pricing-description"
->
+      className="container-xl py-14 -mt-20"
+      aria-labelledby="pricing-heading"
+      aria-describedby="pricing-description"
+    >
+      {/* ==========================================
+          HEADER
+      ========================================== */}
+
       <header className="mb-14 max-w-xl">
         <span className="section-label">
           <span className="h-px w-6 bg-red-600" />
@@ -99,217 +86,206 @@ const handleSubmit = async (e) => {
         </span>
 
         <h1
-  id="pricing-heading"
-  className="font-display text-4xl font-bold text-blueprint-900"
->
+          id="pricing-heading"
+          className="font-display text-4xl font-bold text-blueprint-900"
+        >
           Design Packages
         </h1>
 
         <p
-  id="pricing-description"
-  className="mt-4 text-charcoal/60"
->
+          id="pricing-description"
+          className="mt-4 text-charcoal/60"
+        >
           Choose the perfect package for your dream home project.
         </p>
       </header>
 
-      {/* Pricing Cards */}
-      <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+      {/* ==========================================
+          PACKAGE CARDS
+      ========================================== */}
+
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {packages.map((pkg) => (
           <article
-  key={pkg.name}
-  aria-labelledby={`${pkg.name.replace(/\s+/g, "-").toLowerCase()}-title`}
-  className={`flex flex-col rounded-lg border p-6 ${
-    pkg.popular
-      ? "border-red-600 shadow-lg"
-      : "border-gray-200"
-  }`}
->
+            key={pkg.name}
+            aria-labelledby={`${pkg.name
+              .replace(/\s+/g, "-")
+              .toLowerCase()}-title`}
+            className={`flex flex-col rounded-lg border bg-white p-6 ${
+              pkg.popular
+                ? "border-red-600 shadow-lg"
+                : "border-gray-200 shadow-sm"
+            }`}
+          >
+            {/* MOST POPULAR */}
+
             {pkg.popular && (
               <span className="mb-3 w-fit rounded-full bg-red-600 px-3 py-1 text-xs font-semibold text-white">
                 Most Popular
               </span>
             )}
 
+            {/* PACKAGE NAME */}
+
             <h3
-  id={`${pkg.name.replace(/\s+/g, "-").toLowerCase()}-title`}
-  className="text-2xl font-bold"
->{pkg.name}</h3>
+              id={`${pkg.name
+                .replace(/\s+/g, "-")
+                .toLowerCase()}-title`}
+              className="text-2xl font-bold text-gray-900"
+            >
+              {pkg.name}
+            </h3>
+
+            {/* PRICE */}
 
             <p
-  className="mt-2 mb-6 text-3xl font-bold text-red-600"
-  aria-label={`${pkg.name} price ${pkg.price}`}
->
+              className="mb-6 mt-2 text-3xl font-bold text-red-600"
+              aria-label={`${pkg.name} price ${pkg.price}`}
+            >
               {pkg.price}
             </p>
 
-            {/* Mobile */}
-<ul
-  className="mb-5 flex-1 space-y-3 lg:hidden"
-  aria-label={`${pkg.name} features`}
->
-  {(expandedPackage === pkg.name
-    ? pkg.features
-    : pkg.features.slice(0, 5)
-  ).map((feature) => (
-    <li key={feature} className="flex items-start gap-2">
-      <Check
-    aria-hidden="true"
-    className="mt-1 h-5 w-5 text-green-600"
-/>
-      <span>{feature}</span>
-    </li>
-  ))}
-</ul>
+            {/* ==========================================
+                MOBILE FEATURES
+            ========================================== */}
 
-{/* Desktop & Tablet */}
-<ul
-  className="mb-5 flex-1 space-y-3 hidden lg:block"
-  aria-label={`${pkg.name} features`}
->
-  {pkg.features.map((feature) => (
-    <li key={feature} className="flex items-start gap-2">
-      <Check
-    aria-hidden="true"
-    className="mt-1 h-5 w-5 text-green-600"
-/>
-      <span>{feature}</span>
-    </li>
-  ))}
-</ul>
-{pkg.features.length > 5 && (
-  <button
-    type="button"
-    onClick={() =>
-      setExpandedPackage(
-        expandedPackage === pkg.name ? null : pkg.name
-      )
-    }
-    className="mb-4 w-full rounded-lg border border-red-500 py-3 font-medium text-red-600 transition hover:bg-red-50 lg:hidden"
-  >
-    {expandedPackage === pkg.name
-      ? "View Less ▲"
-      : "View All Features ▼"}
-  </button>
-)}
+            <ul
+              className="mb-5 flex-1 space-y-3 lg:hidden"
+              aria-label={`${pkg.name} features`}
+            >
+              {(expandedPackage === pkg.name
+                ? pkg.features
+                : pkg.features.slice(0, 5)
+              ).map((feature) => (
+                <li
+                  key={feature}
+                  className="flex items-start gap-2"
+                >
+                  <Check
+                    aria-hidden="true"
+                    className="mt-1 h-5 w-5 shrink-0 text-green-600"
+                  />
+
+                  <span className="text-gray-700">
+                    {feature}
+                  </span>
+                </li>
+              ))}
+            </ul>
+
+            {/* ==========================================
+                DESKTOP FEATURES
+            ========================================== */}
+
+            <ul
+              className="mb-5 hidden flex-1 space-y-3 lg:block"
+              aria-label={`${pkg.name} features`}
+            >
+              {pkg.features.map((feature) => (
+                <li
+                  key={feature}
+                  className="flex items-start gap-2"
+                >
+                  <Check
+                    aria-hidden="true"
+                    className="mt-1 h-5 w-5 shrink-0 text-green-600"
+                  />
+
+                  <span className="text-gray-700">
+                    {feature}
+                  </span>
+                </li>
+              ))}
+            </ul>
+
+            {/* ==========================================
+                VIEW ALL - MOBILE
+            ========================================== */}
+
+            {pkg.features.length > 5 && (
+              <button
+                type="button"
+                onClick={() =>
+                  setExpandedPackage(
+                    expandedPackage === pkg.name
+                      ? null
+                      : pkg.name
+                  )
+                }
+                className="mb-4 w-full rounded-lg border border-red-500 py-3 font-medium text-red-600 transition hover:bg-red-50 lg:hidden"
+              >
+                {expandedPackage === pkg.name
+                  ? "View Less ▲"
+                  : "View All Features ▼"}
+              </button>
+            )}
+
+            {/* ==========================================
+                CHOOSE PACKAGE
+            ========================================== */}
 
             <footer className="mt-auto">
-  <button
-    type="button"
-    aria-label={`Choose ${pkg.name} design package`}
-    onClick={() => setSelectedPackage(pkg.name)}
-    className={`w-full rounded-md py-3 font-semibold transition ${
-      pkg.popular
-        ? "bg-red-600 text-white hover:bg-red-600"
-        : "border border-red-600 text-red-600 hover:bg-red-600 hover:text-white"
-    }`}
-  >
-    Choose {pkg.name}
-  </button>
-</footer>
+              <button
+                type="button"
+                aria-label={`Choose ${pkg.name} design package`}
+                onClick={() =>
+                  handleChoosePackage(pkg.name)
+                }
+                className={`w-full rounded-md py-3 font-semibold transition ${
+                  pkg.popular
+                    ? "bg-red-600 text-white hover:bg-red-700"
+                    : "border border-red-600 text-red-600 hover:bg-red-600 hover:text-white"
+                }`}
+              >
+                Choose {pkg.name}
+              </button>
+            </footer>
           </article>
         ))}
       </div>
 
-      {/* Popup */}
-      {selectedPackage && (
-        <div
-    className="fixed inset-0 z-50 flex items-center justify-center bg-black/60"
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="consultation-title"
->
-          <div className="relative w-full max-w-md rounded-xl bg-white p-8 shadow-xl">
+      {/* ==========================================
+          EXISTING LEAD FORM
+      ========================================== */}
 
-<button
-  type="button"
-  title="Close"
-  aria-label="Close consultation popup"
-    onClick={() => setSelectedPackage(null)}
-              className="absolute right-4 top-4"
-            >
-              <X
-    size={24}
-    aria-hidden="true"
-/>
-            </button>
+{showLeadForm && (
+  <div
+    className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm"
+    onClick={() => {
+      setShowLeadForm(false);
+      setSelectedPackage("");
+    }}
+  >
+    <div
+      className="relative w-full max-w-[350px]"
+      onClick={(e) => e.stopPropagation()}
+    >
+      {/* Close Button */}
+      <button
+        type="button"
+        onClick={() => {
+          setShowLeadForm(false);
+          setSelectedPackage("");
+        }}
+        className="absolute -right-2 -top-2 z-20 flex h-8 w-8 items-center justify-center rounded-full bg-white text-lg font-bold text-gray-600 shadow-md transition hover:bg-red-600 hover:text-white"
+        aria-label="Close"
+      >
+        ×
+      </button>
 
-            <h2
-    id="consultation-title"
-    className="text-2xl font-bold text-center"
->
-              Get Free House Design Consultation
-            </h2>
-
-            <p className="mt-2 text-center text-red-600 font-semibold">
-              Selected Package: {selectedPackage}
-            </p>
-
-            <div
-  id="consultation-description"
-  className="mt-6 space-y-2 text-gray-700"
->
-              <p>✔ Free Expert Advice</p>
-              <p>✔ We will contact you soon</p>
-              <p>✔ No Hidden Charges</p>
-            </div>
-
-            <form
-  onSubmit={handleSubmit}
-  className="mt-6 space-y-4"
-  aria-label="Free house consultation form"
->
-  <input
-  type="text"
-  name="name"
-  placeholder="Enter Your Name"
-  value={name}
-  onChange={(e) => setName(e.target.value)}
-  autoComplete="name"
-  required
-  minLength={2}
-  maxLength={60}
-  className="w-full rounded-md border p-3 outline-none focus:border-red-600"
-/>
-
-<input
-  type="tel"
-  name="phone"
-  placeholder="Enter Phone Number"
-  value={phone}
-  onChange={(e) => setPhone(e.target.value)}
-  autoComplete="tel"
-  inputMode="numeric"
-  pattern="[0-9]{10}"
-  required
-  className="w-full rounded-md border p-3 outline-none focus:border-red-600"
-/>
-
-<input
-  type="text"
-  name="city"
-  placeholder="Enter Your City"
-  value={city}
-  onChange={(e) => setCity(e.target.value)}
-  autoComplete="address-level2"
-  required
-  maxLength={80}
-  className="w-full rounded-md border p-3 outline-none focus:border-red-600"
-/>
-
-              <button
-  type="submit"
-  aria-label="Request a free callback"
-                className="w-full rounded-md bg-red-600 py-3 font-semibold text-white hover:bg-red-600"
-              >
-                Request Free Callback
-              </button>
-            </form>
-          </div>
-        </div>
-      )}
-   </section>
- );
+      {/* ONLY FORM */}
+      <LeadForm
+        selectedPackage={selectedPackage}
+        onClose={() => {
+          setShowLeadForm(false);
+          setSelectedPackage("");
+        }}
+      />
+    </div>
+  </div>
+)}
+    </section>
+  );
 };
 
-export default Pricing;
+export default DesignPackage;
