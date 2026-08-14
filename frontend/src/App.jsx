@@ -1,5 +1,9 @@
 import { Toaster } from "react-hot-toast";
-import { Routes, Route } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
 
 import ScrollToTop from "./components/ScrollToTop";
 
@@ -34,6 +38,12 @@ import Contact from "./pages/Contact.jsx";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import NotFound from "./pages/NotFound.jsx";
+
+// ==========================================
+// PRICING PAGE
+// ==========================================
+
+import NavbarPricing from "./pages/NavbarPricing.jsx";
 
 // ==========================================
 // NAKSHA PAGE
@@ -75,6 +85,20 @@ import AdminCustomers from "./pages/admin/AdminCustomers.jsx";
 import AdminBlogs from "./pages/admin/AdminBlogs.jsx";
 
 function App() {
+
+  // ==========================================
+  // CURRENT URL
+  // ==========================================
+
+  const location = useLocation();
+
+  // ==========================================
+  // CHECK PRICING PAGE
+  // ==========================================
+
+  const isPricingPage =
+    location.pathname === "/pricing";
+
   return (
     <>
       {/* ==========================================
@@ -94,15 +118,22 @@ function App() {
 
       {/* ==========================================
           MAIN NAVBAR
+
+          Hidden on Pricing page
       ========================================== */}
 
-      <Navbar />
+      {!isPricingPage && <Navbar />}
+
+      {/* ==========================================
+          MAIN CONTENT
+      ========================================== */}
 
       <main className="min-h-screen pb-24">
+
         <Routes>
 
           {/* ==========================================
-              PUBLIC ROUTES
+              HOME
           ========================================== */}
 
           <Route
@@ -110,35 +141,75 @@ function App() {
             element={<Home />}
           />
 
+          {/* ==========================================
+              ABOUT
+          ========================================== */}
+
           <Route
             path="/about"
             element={<About />}
           />
+
+          {/* ==========================================
+              SERVICES
+          ========================================== */}
 
           <Route
             path="/services"
             element={<Services />}
           />
 
+          {/* ==========================================
+              PORTFOLIO
+          ========================================== */}
+
           <Route
             path="/portfolio"
             element={<Portfolio />}
           />
+
+          {/* ==========================================
+              BLOGS
+          ========================================== */}
 
           <Route
             path="/blogs"
             element={<Blogs />}
           />
 
+          {/* ==========================================
+              PRICING
+
+              IMPORTANT:
+              This now loads NavbarPricing.jsx
+          ========================================== */}
+
+          <Route
+            path="/pricing"
+            element={<NavbarPricing />}
+          />
+
+          {/* ==========================================
+              CONTACT
+          ========================================== */}
+
           <Route
             path="/contact"
             element={<Contact />}
           />
 
+          {/* ==========================================
+              LOGIN
+          ========================================== */}
+
           <Route
             path="/login"
             element={<Login />}
           />
+
+          {/* ==========================================
+              REGISTER
+          ========================================== */}
 
           <Route
             path="/register"
@@ -165,7 +236,7 @@ function App() {
           />
 
           {/* ==========================================
-              NAKSHA ROUTE
+              NAKSHA
           ========================================== */}
 
           <Route
@@ -175,12 +246,6 @@ function App() {
 
           {/* ==========================================
               SERVICE ROUTES
-              
-              IMPORTANT:
-              LeadForm is NOT handled here.
-
-              ServicesSection opens the existing
-              LeadForm directly.
           ========================================== */}
 
           <Route
@@ -204,7 +269,7 @@ function App() {
           />
 
           {/* ==========================================
-              ESTIMATE ROUTES
+              ESTIMATE
           ========================================== */}
 
           <Route
@@ -218,7 +283,7 @@ function App() {
           />
 
           {/* ==========================================
-              CONTRACTOR ROUTE
+              CONTRACTOR
           ========================================== */}
 
           <Route
@@ -238,6 +303,7 @@ function App() {
               </ProtectedRoute>
             }
           >
+
             <Route
               index
               element={<DashboardHome />}
@@ -267,6 +333,7 @@ function App() {
               path="chat"
               element={<Chat />}
             />
+
           </Route>
 
           {/* ==========================================
@@ -281,6 +348,7 @@ function App() {
               </ProtectedRoute>
             }
           >
+
             <Route
               index
               element={<AdminHome />}
@@ -300,10 +368,11 @@ function App() {
               path="blogs"
               element={<AdminBlogs />}
             />
+
           </Route>
 
           {/* ==========================================
-              404 PAGE
+              404
           ========================================== */}
 
           <Route
@@ -312,25 +381,33 @@ function App() {
           />
 
         </Routes>
+
       </main>
 
       {/* ==========================================
           FOOTER
+
+          Hidden on Pricing page
       ========================================== */}
 
-      <Footer />
+      {!isPricingPage && <Footer />}
 
       {/* ==========================================
           MOBILE BOTTOM NAVIGATION
+
+          Hidden on Pricing page
       ========================================== */}
 
-      <BottomNavigation />
+      {!isPricingPage && (
+        <BottomNavigation />
+      )}
 
       {/* ==========================================
           WHATSAPP BUTTON
       ========================================== */}
 
       <WhatsAppButton />
+
     </>
   );
 }

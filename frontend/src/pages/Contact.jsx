@@ -42,13 +42,7 @@ Boring Road, Patna -800001
           </div>
           
 
-          <div className="aspect-video w-full overflow-hidden rounded-sm border border-black/10 bg-concrete-100">
-            <iframe
-              title="Google Map"
-              className="h-full w-full"
-              src="https://share.google/7WzTj96cXle0T7BW2"
-            />
-          </div>
+         
         </div>
 
       </div>

@@ -182,13 +182,6 @@ const Hero = () => {
 
       {/* =========================================
           MOBILE VERSION
-
-          IMAGE SLIDER
-          ↓
-          LEAD FORM
-
-          NO TOP MARGIN
-          NO TOP PADDING
       ========================================== */}
 
       <div className="m-0 block w-full p-0 md:hidden">
@@ -270,7 +263,6 @@ const Hero = () => {
 
         {/* =====================================
             MOBILE LEAD FORM
-            DIRECTLY BELOW SLIDER
         ===================================== */}
 
         <div
@@ -284,10 +276,6 @@ const Hero = () => {
 
       {/* =====================================================
           TABLET + LAPTOP + DESKTOP VERSION
-
-          LEFT SEO CONTENT
-          +
-          RIGHT LEAD FORM
       ===================================================== */}
 
       <div className="relative hidden min-h-screen md:block">
@@ -332,103 +320,111 @@ const Hero = () => {
               LEFT SEO CONTENT
           ===================================== */}
 
-          <div className="w-full max-w-2xl text-white">
+          <div className="flex w-full max-w-2xl items-center justify-center text-white lg:translate-x-48 lg:-translate-y-28">
 
-            {/* SEO LABEL */}
+            <div className="w-full text-center">
 
-            
-            {/* =================================
-                MAIN H1
-            ================================= */}
+              {/* =================================
+                  MAIN H1 - THREE LINES
+              ================================= */}
 
-           
+              <h1 className="font-extrabold leading-none tracking-tight text-white">
 
-            {/* =================================
-                SEO DESCRIPTION
-            ================================= */}
+  <span
+    className="
+      block
+      text-5xl
+      font-black
+      text-white
+      drop-shadow-[0_5px_12px_rgba(0,0,0,0.8)]
+      sm:text-6xl
+      lg:text-7xl
+  "
+  >
+    Your Dream
+  </span>
 
-           
+  <span
+    className="
+      block
+      text-5xl
+      font-black
+      sm:text-6xl
+      lg:text-7xl
+  "
+  >
+    <span
+      className="
+        bg-gradient-to-b
+        from-[#fff4c2]
+        via-[#f5c96a]
+        to-[#c58a20]
+        bg-clip-text
+        text-transparent
+        drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]
+      "
+    >
+      Home
+    </span>{" "}
 
-            {/* =================================
-                SERVICES
-            ================================= */}
+    <span className="text-white drop-shadow-[0_5px_12px_rgba(0,0,0,0.8)]">
+      Starts Here
+    </span>
+  </span>
 
-            <div className="mt-6 grid max-w-xl grid-cols-1 gap-3 text-sm sm:grid-cols-2 md:text-base">
+  <span
+    className="
+      mt-5
+      inline-block
+      border-l-4
+      border-red-600
+      bg-black/90
+      px-5
+      py-2
+      text-xl
+      font-bold
+      text-white
+      shadow-2xl
+      backdrop-blur-sm
+      sm:text-2xl
+      lg:text-3xl
+    "
+  >
+    with{" "}
+    <span className="text-red-500">
+      Jaypro Infratech
+    </span>
+  </span>
 
-              {/* Service 1 */}
+</h1>
 
-              <div className="flex items-center gap-2">
+              {/* =================================
+                  DESCRIPTION
+              ================================= */}
 
-                
-
-              
+              <div className="mt-6">
               </div>
 
-              {/* Service 2 */}
+              {/* =================================
+                  SERVICES
+              ================================= */}
 
-              <div className="flex items-center gap-2">
-
-              
-
-               
-
+              <div className="mt-6 grid max-w-xl grid-cols-1 gap-3 text-sm sm:grid-cols-2 md:text-base">
               </div>
 
-              {/* Service 3 */}
+              {/* =================================
+                  SEO CONTENT
+              ================================= */}
 
-              <div className="flex items-center gap-2">
-
-              
-
-                
-
+              <div>
               </div>
 
-              {/* Service 4 */}
+              {/* =================================
+                  CTA
+              ================================= */}
 
-              <div className="flex items-center gap-2">
-
-                
-
-               
-
+              <div className="mt-7">
               </div>
-
-              {/* Service 5 */}
-
-              <div className="flex items-center gap-2">
-
-               
-
-                
-
-              </div>
-
-              {/* Service 6 */}
-
-              <div className="flex items-center gap-2">
-
-                
-
-                
-
-              </div>
-
-            </div>
-
-            {/* =================================
-                SEO CONTENT
-            ================================= */}
-
-         
-
-            {/* =================================
-                CTA
-            ================================= */}
-
-            <div className="mt-7">
-
-              
 
             </div>
 
@@ -436,6 +432,8 @@ const Hero = () => {
 
           {/* =====================================
               RIGHT SIDE LEAD FORM
+              
+              UNCHANGED
           ===================================== */}
 
           <div

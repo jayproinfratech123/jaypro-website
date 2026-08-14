@@ -5,8 +5,10 @@ import {
   Facebook,
   Instagram,
   Linkedin,
+  Youtube,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+
 const Footer = () => {
   return (
     <footer
@@ -17,7 +19,6 @@ const Footer = () => {
       itemType="https://schema.org/Organization"
     >
       <div className="container-xl px-6 py-5">
-
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
 
           {/* Company */}
@@ -129,17 +130,21 @@ const Footer = () => {
                   className="mt-1 h-4 w-4 text-red-600 flex-shrink-0"
                   aria-hidden="true"
                 />
+
                 <address className="not-italic text-gray-300">
                   <span className="font-medium text-white">
                     Patna Office
                   </span>
                   <br />
+
                   <span itemProp="streetAddress">
                     210, 2nd Floor, Orchid Mall,
                   </span>
                   <br />
+
                   Opp. A.N. College Main Gate,
                   <br />
+
                   Boring Road,
                   <span itemProp="addressLocality"> Patna</span> -
                   <span itemProp="postalCode">800001</span>
@@ -152,13 +157,16 @@ const Footer = () => {
                   className="mt-1 h-4 w-4 text-red-600 flex-shrink-0"
                   aria-hidden="true"
                 />
+
                 <address className="not-italic text-gray-300">
                   <span className="font-medium text-white">
                     Noida Office
                   </span>
                   <br />
+
                   H-169, H-Block,
                   <br />
+
                   Sector-63,
                   <span itemProp="addressLocality"> Noida</span>,
                   Uttar Pradesh -
@@ -209,43 +217,61 @@ const Footer = () => {
                 </a>
               </div>
 
-              {/* Social */}
+              {/* Social Media */}
               <div
                 className="flex gap-2 pt-2"
                 aria-label="Social media links"
               >
+                {/* Facebook */}
                 <a
-                  href="#"
+                  href="https://www.facebook.com/share/19Fv83MAew/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label="Facebook"
-                  className="rounded-full bg-red-600 p-1.5 hover:bg-red-700"
+                  className="rounded-full bg-red-600 p-1.5 hover:bg-red-700 transition"
                 >
                   <Facebook size={15} aria-hidden="true" />
                 </a>
 
+                {/* Instagram */}
                 <a
-                  href="#"
+                  href="https://www.instagram.com/jaypro_infratech/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label="Instagram"
-                  className="rounded-full bg-red-600 p-1.5 hover:bg-red-700"
+                  className="rounded-full bg-red-600 p-1.5 hover:bg-red-700 transition"
                 >
                   <Instagram size={15} aria-hidden="true" />
                 </a>
 
+                {/* YouTube */}
                 <a
-                  href="#"
+                  href="https://www.youtube.com/@jayproinfratech484"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="YouTube"
+                  className="rounded-full bg-red-600 p-1.5 hover:bg-red-700 transition"
+                >
+                  <Youtube size={15} aria-hidden="true" />
+                </a>
+
+                {/* LinkedIn */}
+                <a
+                  href="https://www.linkedin.com/company/jaypro-infratech/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label="LinkedIn"
-                  className="rounded-full bg-red-600 p-1.5 hover:bg-red-700"
+                  className="rounded-full bg-red-600 p-1.5 hover:bg-red-700 transition"
                 >
                   <Linkedin size={15} aria-hidden="true" />
                 </a>
               </div>
-
             </div>
           </section>
-
         </div>
 
+        {/* Bottom Footer */}
         <div className="mt-8 border-t border-gray-700 pt-4">
-
           <div className="flex flex-col items-center justify-between gap-3 text-sm text-gray-400 md:flex-row">
 
             <p>
@@ -274,19 +300,17 @@ const Footer = () => {
                 <span aria-hidden="true">|</span>
 
                 <Link
-  to="/refund-policy"
-  className="transition hover:text-red-600"
->
-  Refund Policy
-</Link>
+                  to="/refund-policy"
+                  className="transition hover:text-red-600"
+                >
+                  Refund Policy
+                </Link>
 
               </div>
             </nav>
 
           </div>
-
         </div>
-
       </div>
     </footer>
   );
