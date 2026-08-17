@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 
+const GOOGLE_SCRIPT_URL =
+  "https://script.google.com/macros/s/AKfycbz1Olatmq1V_az3NVXEBJRNgEvO24HjelKFXI69N2iPHExUvicHHen9J7wbBHB4OELp/exec";
+
 const LeadPopup = () => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const [form, setForm] = useState({
-    name: "",
-    phone: "",
-    location: "",
+    fullName: "",
+    mobile: "",
+    city: "",
     purpose: "",
   });
 
@@ -44,7 +47,7 @@ const LeadPopup = () => {
   };
 
   // ============================================
-  // HANDLE FORM SUBMIT
+  // HANDLE SUBMIT
   // ============================================
 
   const handleSubmit = async (e) => {
@@ -52,19 +55,36 @@ const LeadPopup = () => {
 
     if (loading) return;
 
+    // ==========================================
+    // VALIDATION
+    // ==========================================
+
+    if (!form.fullName.trim()) {
+      alert("Please enter your full name.");
+      return;
+    }
+
+    if (!/^[0-9]{10}$/.test(form.mobile.trim())) {
+      alert("Please enter a valid 10-digit mobile number.");
+      return;
+    }
+
+    if (!form.city.trim()) {
+      alert("Please enter your city.");
+      return;
+    }
+
+    if (!form.purpose) {
+      alert("Please select your purpose.");
+      return;
+    }
+
     setLoading(true);
 
     try {
-      // ==========================================
-      // GOOGLE APPS SCRIPT WEB APP URL
-      // ==========================================
-
-      const GOOGLE_SCRIPT_URL =
-        "https://script.google.com/macros/s/AKfycbz1Olatmq1V_az3NVXEBJRNgEvO24HjelKFXI69N2iPHExUvicHHen9J7wbBHB4OELp/exec";
-
-      // ==========================================
-      // CREATE FORM DATA
-      // ==========================================
+      // ========================================
+      // SEND DATA
+      // ========================================
 
       const submitData = new URLSearchParams();
 
@@ -74,28 +94,43 @@ const LeadPopup = () => {
       );
 
       submitData.append(
-        "name",
-        form.name.trim()
+        "fullName",
+        form.fullName.trim()
       );
 
       submitData.append(
         "mobile",
-        form.phone.trim()
+        form.mobile.trim()
       );
 
       submitData.append(
         "city",
-        form.location.trim()
+        form.city.trim()
       );
 
       submitData.append(
         "purpose",
-        form.purpose
+        form.purpose.trim()
       );
 
-      // ==========================================
-      // SEND DATA
-      // ==========================================
+      // ========================================
+      // DEBUG
+      // ========================================
+
+      console.log(
+        "LeadPopup Data:",
+        {
+          formType: "leadPopup",
+          fullName: form.fullName.trim(),
+          mobile: form.mobile.trim(),
+          city: form.city.trim(),
+          purpose: form.purpose.trim(),
+        }
+      );
+
+      // ========================================
+      // SEND TO GOOGLE APPS SCRIPT
+      // ========================================
 
       const response = await fetch(
         GOOGLE_SCRIPT_URL,
@@ -112,11 +147,11 @@ const LeadPopup = () => {
         result
       );
 
-      // ==========================================
+      // ========================================
       // SUCCESS
-      // ==========================================
+      // ========================================
 
-      if (result.success) {
+      if (result.success === true) {
         localStorage.setItem(
           "leadFormSubmitted",
           "true"
@@ -129,27 +164,30 @@ const LeadPopup = () => {
         setOpen(false);
 
         setForm({
-          name: "",
-          phone: "",
-          location: "",
+          fullName: "",
+          mobile: "",
+          city: "",
           purpose: "",
         });
       } else {
         throw new Error(
           result.error ||
-            result.message ||
-            "Submission failed"
+            "Submission failed."
         );
       }
+
     } catch (error) {
+
       console.error(
-        "Google Apps Script Error:",
+        "LeadPopup Error:",
         error
       );
 
       alert(
-        "Something went wrong. Please try again."
+        error.message ||
+          "Something went wrong. Please try again."
       );
+
     } finally {
       setLoading(false);
     }
@@ -172,7 +210,7 @@ const LeadPopup = () => {
         flex
         items-center
         justify-center
-        bg-black/1
+        bg-black/40
         px-3
         py-4
         backdrop-blur-sm
@@ -182,9 +220,9 @@ const LeadPopup = () => {
       aria-labelledby="lead-popup-title"
     >
 
-      {/* ========================================
-          SMALL MAIN POPUP
-      ======================================== */}
+      {/* ======================================
+          POPUP
+      ====================================== */}
 
       <div
         className="
@@ -199,9 +237,9 @@ const LeadPopup = () => {
         "
       >
 
-        {/* ======================================
+        {/* ====================================
             CLOSE BUTTON
-        ====================================== */}
+        ==================================== */}
 
         <button
           type="button"
@@ -231,9 +269,9 @@ const LeadPopup = () => {
           ×
         </button>
 
-        {/* ======================================
+        {/* ====================================
             LEFT IMAGE
-        ====================================== */}
+        ==================================== */}
 
         <div
           className="
@@ -252,11 +290,10 @@ const LeadPopup = () => {
               h-full
               min-h-[320px]
               w-full
-              object-cover object-[5%_center]
+              object-cover
+              object-[5%_center]
             "
           />
-
-          {/* IMAGE DARK OVERLAY */}
 
           <div
             className="
@@ -268,8 +305,6 @@ const LeadPopup = () => {
               to-transparent
             "
           />
-
-          {/* IMAGE TEXT */}
 
           <div
             className="
@@ -317,12 +352,11 @@ const LeadPopup = () => {
             </p>
 
           </div>
-
         </div>
 
-        {/* ======================================
+        {/* ====================================
             RIGHT FORM
-        ====================================== */}
+        ==================================== */}
 
         <div
           className="
@@ -333,9 +367,7 @@ const LeadPopup = () => {
           "
         >
 
-          {/* ==================================
-              MOBILE IMAGE
-          ================================== */}
+          {/* MOBILE IMAGE */}
 
           <div
             className="
@@ -397,9 +429,7 @@ const LeadPopup = () => {
 
           </div>
 
-          {/* ==================================
-              FORM HEADING
-          ================================== */}
+          {/* HEADING */}
 
           <div className="pr-6">
 
@@ -440,21 +470,7 @@ const LeadPopup = () => {
 
           </div>
 
-          {/* ==================================
-              SEO TEXT
-          ================================== */}
-
-          <p className="sr-only">
-            Submit your details to receive a
-            free house construction consultation,
-            project estimate, architecture planning,
-            interior design guidance, and expert
-            consultation.
-          </p>
-
-          {/* ==================================
-              FORM
-          ================================== */}
+          {/* FORM */}
 
           <form
             onSubmit={handleSubmit}
@@ -462,14 +478,12 @@ const LeadPopup = () => {
             autoComplete="on"
           >
 
-            {/* ==================================
-                NAME
-            ================================== */}
+            {/* FULL NAME */}
 
             <div>
 
               <label
-                htmlFor="lead-name"
+                htmlFor="lead-full-name"
                 className="
                   mb-0.5
                   block
@@ -482,13 +496,13 @@ const LeadPopup = () => {
               </label>
 
               <input
-                id="lead-name"
+                id="lead-full-name"
                 type="text"
-                name="name"
+                name="fullName"
                 placeholder="Enter your full name"
                 autoComplete="name"
                 required
-                value={form.name}
+                value={form.fullName}
                 onChange={handleChange}
                 className="
                   h-9
@@ -511,14 +525,12 @@ const LeadPopup = () => {
 
             </div>
 
-            {/* ==================================
-                MOBILE
-            ================================== */}
+            {/* MOBILE NUMBER */}
 
             <div>
 
               <label
-                htmlFor="lead-phone"
+                htmlFor="lead-mobile"
                 className="
                   mb-0.5
                   block
@@ -531,9 +543,9 @@ const LeadPopup = () => {
               </label>
 
               <input
-                id="lead-phone"
+                id="lead-mobile"
                 type="tel"
-                name="phone"
+                name="mobile"
                 placeholder="Enter 10-digit mobile number"
                 autoComplete="tel"
                 inputMode="numeric"
@@ -541,7 +553,7 @@ const LeadPopup = () => {
                 minLength={10}
                 maxLength={10}
                 required
-                value={form.phone}
+                value={form.mobile}
                 onChange={handleChange}
                 className="
                   h-9
@@ -564,9 +576,7 @@ const LeadPopup = () => {
 
             </div>
 
-            {/* ==================================
-                CITY
-            ================================== */}
+            {/* CITY */}
 
             <div>
 
@@ -586,11 +596,11 @@ const LeadPopup = () => {
               <input
                 id="lead-city"
                 type="text"
-                name="location"
+                name="city"
                 placeholder="Enter your city"
                 autoComplete="address-level2"
                 required
-                value={form.location}
+                value={form.city}
                 onChange={handleChange}
                 className="
                   h-9
@@ -613,9 +623,7 @@ const LeadPopup = () => {
 
             </div>
 
-            {/* ==================================
-                PURPOSE
-            ================================== */}
+            {/* PURPOSE */}
 
             <div>
 
@@ -657,10 +665,7 @@ const LeadPopup = () => {
                 "
               >
 
-                <option
-                  value=""
-                  disabled
-                >
+                <option value="" disabled>
                   Select Purpose
                 </option>
 
@@ -684,9 +689,7 @@ const LeadPopup = () => {
 
             </div>
 
-            {/* ==================================
-                SUBMIT BUTTON
-            ================================== */}
+            {/* SUBMIT */}
 
             <button
               type="submit"
@@ -709,18 +712,14 @@ const LeadPopup = () => {
                 }
               `}
             >
-
               {loading
                 ? "Submitting..."
                 : "Get Free Consultation →"}
-
             </button>
 
           </form>
 
-          {/* ==================================
-              TRUST TEXT
-          ================================== */}
+          {/* TRUST TEXT */}
 
           <p
             className="
@@ -736,9 +735,7 @@ const LeadPopup = () => {
           </p>
 
         </div>
-
       </div>
-
     </div>
   );
 };

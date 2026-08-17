@@ -41,6 +41,11 @@ Boring Road, Patna -800001
 
           </div>
           
+          <div className="flex items-center gap-3">
+            <MapPin className="h-5 w-5 text-red-600" />
+            H-169, H Block, Sector 63, Noida, Uttar Pradesh 201309
+
+          </div>
 
          
         </div>

@@ -8,32 +8,32 @@ const items = [
   {
     title: "Modern Villa",
     category: "Villa",
-    img: "/images/portfolio/villa1.jpg",
+    img: "/modern-villa.webp",
   },
   {
     title: "Luxury Interior",
     category: "Interior",
-    img: "/images/portfolio/interior1.jpg",
+    img: "/luxury-interior.webp",
   },
   {
     title: "Duplex House",
     category: "Villa",
-    img: "/images/portfolio/villa2.jpg",
+    img: "/duplex-house.webp",
   },
   {
     title: "Farm House",
     category: "Farm House",
-    img: "/images/portfolio/farmhouse1.jpg",
+    img: "/farm-house.webp",
   },
   {
     title: "Commercial Building",
     category: "Commercial",
-    img: "/images/portfolio/commercial1.jpg",
+    img: "/commercial-house.webp",
   },
   {
     title: "Luxury Residence",
     category: "Villa",
-    img: "/images/portfolio/villa3.jpg",
+    img: "/luxury-residence.webp",
   },
 ];
 

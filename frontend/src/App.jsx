@@ -5,6 +5,7 @@ import {
   useLocation,
 } from "react-router-dom";
 
+import Packages from "./pages/Packages";
 import ScrollToTop from "./components/ScrollToTop";
 
 // ==========================================
@@ -85,7 +86,6 @@ import AdminCustomers from "./pages/admin/AdminCustomers.jsx";
 import AdminBlogs from "./pages/admin/AdminBlogs.jsx";
 
 function App() {
-
   // ==========================================
   // CURRENT URL
   // ==========================================
@@ -96,8 +96,7 @@ function App() {
   // CHECK PRICING PAGE
   // ==========================================
 
-  const isPricingPage =
-    location.pathname === "/pricing";
+  const isPricingPage = location.pathname === "/pricing";
 
   return (
     <>
@@ -129,7 +128,6 @@ function App() {
       ========================================== */}
 
       <main className="min-h-screen pb-24">
-
         <Routes>
 
           {/* ==========================================
@@ -169,9 +167,16 @@ function App() {
           />
 
           {/* ==========================================
-              BLOGS
+              BLOG
           ========================================== */}
 
+          {/* Main Blog URL */}
+          <Route
+            path="/blog"
+            element={<Blogs />}
+          />
+
+          {/* Old /blogs URL also works */}
           <Route
             path="/blogs"
             element={<Blogs />}
@@ -179,8 +184,6 @@ function App() {
 
           {/* ==========================================
               PRICING
-
-              Loads NavbarPricing.jsx
           ========================================== */}
 
           <Route
@@ -286,6 +289,11 @@ function App() {
           ========================================== */}
 
           <Route
+            path="/packages"
+            element={<Packages />}
+          />
+
+          <Route
             path="/services/contractor"
             element={<Contractor />}
           />
@@ -302,7 +310,6 @@ function App() {
               </ProtectedRoute>
             }
           >
-
             <Route
               index
               element={<DashboardHome />}
@@ -332,7 +339,6 @@ function App() {
               path="chat"
               element={<Chat />}
             />
-
           </Route>
 
           {/* ==========================================
@@ -347,7 +353,6 @@ function App() {
               </ProtectedRoute>
             }
           >
-
             <Route
               index
               element={<AdminHome />}
@@ -367,7 +372,6 @@ function App() {
               path="blogs"
               element={<AdminBlogs />}
             />
-
           </Route>
 
           {/* ==========================================
@@ -380,7 +384,6 @@ function App() {
           />
 
         </Routes>
-
       </main>
 
       {/* ==========================================
@@ -397,16 +400,13 @@ function App() {
           Hidden on Pricing page
       ========================================== */}
 
-      {!isPricingPage && (
-        <BottomNavigation />
-      )}
+      {!isPricingPage && <BottomNavigation />}
 
       {/* ==========================================
           WHATSAPP BUTTON
       ========================================== */}
 
       <WhatsAppButton />
-
     </>
   );
 }

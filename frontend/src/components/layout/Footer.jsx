@@ -21,7 +21,7 @@ const Footer = () => {
       <div className="container-xl px-6 py-5">
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
 
-          {/* Company */}
+          {/* ================= COMPANY ================= */}
           <section aria-labelledby="footer-company">
             <h2
               id="footer-company"
@@ -41,7 +41,7 @@ const Footer = () => {
             </p>
           </section>
 
-          {/* Quick Links */}
+          {/* ================= QUICK LINKS ================= */}
           <nav aria-labelledby="footer-links">
             <h3
               id="footer-links"
@@ -51,45 +51,101 @@ const Footer = () => {
             </h3>
 
             <ul className="space-y-3 text-gray-300">
+
+              {/* HOME */}
               <li>
-                <a href="#home" className="hover:text-red-600">
+                <Link
+                  to="/"
+                  onClick={() => {
+                    window.scrollTo({
+                      top: 0,
+                      behavior: "smooth",
+                    });
+                  }}
+                  className="hover:text-red-600 transition"
+                >
                   Home
-                </a>
+                </Link>
               </li>
 
+              {/* ABOUT */}
               <li>
-                <a href="#about" className="hover:text-red-600">
+                <Link
+                  to="/about"
+                  onClick={() => {
+                    window.scrollTo({
+                      top: 0,
+                      behavior: "smooth",
+                    });
+                  }}
+                  className="hover:text-red-600 transition"
+                >
                   About
-                </a>
+                </Link>
               </li>
 
+              {/* SERVICES */}
               <li>
-                <a href="#services" className="hover:text-red-600">
+                <Link
+                  to="/#services"
+                  className="hover:text-red-600 transition"
+                >
                   Services
-                </a>
+                </Link>
               </li>
 
+              {/* PORTFOLIO */}
               <li>
-                <a href="#portfolio" className="hover:text-red-600">
+                <Link
+                  to="/portfolio"
+                  onClick={() => {
+                    window.scrollTo({
+                      top: 0,
+                      behavior: "smooth",
+                    });
+                  }}
+                  className="hover:text-red-600 transition"
+                >
                   Portfolio
-                </a>
+                </Link>
               </li>
 
+              {/* PRICING */}
               <li>
-                <a href="#pricing" className="hover:text-red-600">
+                <Link
+                  to="/pricing"
+                  onClick={() => {
+                    window.scrollTo({
+                      top: 0,
+                      behavior: "smooth",
+                    });
+                  }}
+                  className="hover:text-red-600 transition"
+                >
                   Pricing
-                </a>
+                </Link>
               </li>
 
+              {/* CONTACT */}
               <li>
-                <a href="#contact" className="hover:text-red-600">
+                <Link
+                  to="/contact"
+                  onClick={() => {
+                    window.scrollTo({
+                      top: 0,
+                      behavior: "smooth",
+                    });
+                  }}
+                  className="hover:text-red-600 transition"
+                >
                   Contact
-                </a>
+                </Link>
               </li>
+
             </ul>
           </nav>
 
-          {/* Services */}
+          {/* ================= SERVICES ================= */}
           <section aria-labelledby="footer-services">
             <h3
               id="footer-services"
@@ -108,7 +164,7 @@ const Footer = () => {
             </ul>
           </section>
 
-          {/* Contact */}
+          {/* ================= CONTACT DETAILS ================= */}
           <section
             aria-labelledby="footer-contact"
             itemProp="address"
@@ -124,7 +180,7 @@ const Footer = () => {
 
             <div className="space-y-3 text-sm">
 
-              {/* Address 1 */}
+              {/* PATNA ADDRESS */}
               <div className="flex items-start gap-2">
                 <MapPin
                   className="mt-1 h-4 w-4 text-red-600 flex-shrink-0"
@@ -151,7 +207,7 @@ const Footer = () => {
                 </address>
               </div>
 
-              {/* Address 2 */}
+              {/* NOIDA ADDRESS */}
               <div className="flex items-start gap-2">
                 <MapPin
                   className="mt-1 h-4 w-4 text-red-600 flex-shrink-0"
@@ -174,7 +230,7 @@ const Footer = () => {
                 </address>
               </div>
 
-              {/* Phone */}
+              {/* PHONE */}
               <div className="flex items-start gap-2">
                 <Phone
                   className="mt-1 h-4 w-4 text-red-600 flex-shrink-0"
@@ -182,6 +238,7 @@ const Footer = () => {
                 />
 
                 <div className="text-gray-300">
+
                   <a
                     href="tel:+919835852462"
                     className="hover:text-red-600"
@@ -198,10 +255,11 @@ const Footer = () => {
                   >
                     +91 62997 78784
                   </a>
+
                 </div>
               </div>
 
-              {/* Email */}
+              {/* EMAIL */}
               <div className="flex items-start gap-2">
                 <Mail
                   className="mt-1 h-4 w-4 text-red-600 flex-shrink-0"
@@ -217,12 +275,13 @@ const Footer = () => {
                 </a>
               </div>
 
-              {/* Social Media */}
+              {/* SOCIAL MEDIA */}
               <div
                 className="flex gap-2 pt-2"
                 aria-label="Social media links"
               >
-                {/* Facebook */}
+
+                {/* FACEBOOK */}
                 <a
                   href="https://www.facebook.com/share/19Fv83MAew/"
                   target="_blank"
@@ -233,7 +292,7 @@ const Footer = () => {
                   <Facebook size={15} aria-hidden="true" />
                 </a>
 
-                {/* Instagram */}
+                {/* INSTAGRAM */}
                 <a
                   href="https://www.instagram.com/jaypro_infratech/"
                   target="_blank"
@@ -244,7 +303,7 @@ const Footer = () => {
                   <Instagram size={15} aria-hidden="true" />
                 </a>
 
-                {/* YouTube */}
+                {/* YOUTUBE */}
                 <a
                   href="https://www.youtube.com/@jayproinfratech484"
                   target="_blank"
@@ -255,7 +314,7 @@ const Footer = () => {
                   <Youtube size={15} aria-hidden="true" />
                 </a>
 
-                {/* LinkedIn */}
+                {/* LINKEDIN */}
                 <a
                   href="https://www.linkedin.com/company/jaypro-infratech/"
                   target="_blank"
@@ -265,13 +324,15 @@ const Footer = () => {
                 >
                   <Linkedin size={15} aria-hidden="true" />
                 </a>
+
               </div>
             </div>
           </section>
         </div>
 
-        {/* Bottom Footer */}
+        {/* ================= BOTTOM FOOTER ================= */}
         <div className="mt-8 border-t border-gray-700 pt-4">
+
           <div className="flex flex-col items-center justify-between gap-3 text-sm text-gray-400 md:flex-row">
 
             <p>
@@ -279,26 +340,30 @@ const Footer = () => {
             </p>
 
             <nav aria-label="Legal links">
+
               <div className="flex flex-wrap items-center gap-4">
 
-                <a
-                  href="/privacy-policy"
+                {/* PRIVACY POLICY */}
+                <Link
+                  to="/privacy-policy"
                   className="transition hover:text-red-600"
                 >
                   Privacy Policy
-                </a>
+                </Link>
 
                 <span aria-hidden="true">|</span>
 
-                <a
-                  href="/terms-and-conditions"
+                {/* TERMS */}
+                <Link
+                  to="/terms-and-conditions"
                   className="transition hover:text-red-600"
                 >
                   Terms & Conditions
-                </a>
+                </Link>
 
                 <span aria-hidden="true">|</span>
 
+                {/* REFUND POLICY */}
                 <Link
                   to="/refund-policy"
                   className="transition hover:text-red-600"
@@ -307,6 +372,7 @@ const Footer = () => {
                 </Link>
 
               </div>
+
             </nav>
 
           </div>
