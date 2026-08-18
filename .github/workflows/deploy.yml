@@ -12,9 +12,9 @@ jobs:
     steps:
       # 1. Checkout repository
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
-      # 2. Setup Node.js
+      # 2. Setup Node.js 24
       - name: Setup Node.js
         uses: actions/setup-node@v5
         with:
@@ -23,35 +23,37 @@ jobs:
           cache-dependency-path: frontend/package-lock.json
 
       # 3. Install frontend dependencies
-      - name: Install dependencies
+      - name: Install frontend dependencies
         working-directory: ./frontend
         run: npm ci
 
-      # 4. Build frontend
+      # 4. Build React/Vite frontend
       - name: Build frontend
         working-directory: ./frontend
         run: npm run build
 
       # 5. Deploy only frontend/dist to GoDaddy
       - name: Deploy frontend to GoDaddy
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
+
+          # FTP connection
           protocol: ftp
           port: 21
 
-          # Upload only the Vite production build
+          # Upload ONLY the production build
           local-dir: ./frontend/dist/
 
-          # GoDaddy website root
+          # GoDaddy website directory
           server-dir: /home/irp0jc3pzrhi/public_html/
 
-          # Do not delete existing server files
+          # Do not delete files that are not in the local build
           dangerous-clean-slate: false
 
-          # Files/folders to ignore
+          # Ignore unnecessary files
           exclude: |
             **/.git*
             **/.git*/**
