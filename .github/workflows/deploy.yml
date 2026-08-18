@@ -1,0 +1,58 @@
+name: Deploy Jaypro Website
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout repository
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      # 3. Install frontend dependencies
+      - name: Install dependencies
+        working-directory: ./frontend
+        run: npm ci
+
+      # 4. Build frontend
+      - name: Build frontend
+        working-directory: ./frontend
+        run: npm run build
+
+      # 5. Deploy only frontend/dist to GoDaddy
+      - name: Deploy frontend to GoDaddy
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftp
+          port: 21
+
+          # Upload only the Vite production build
+          local-dir: ./frontend/dist/
+
+          # GoDaddy website root
+          server-dir: /public_html/
+
+          # Do not delete existing server files
+          dangerous-clean-slate: false
+
+          # Files/folders to ignore
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
