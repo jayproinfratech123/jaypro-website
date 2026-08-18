@@ -80,10 +80,10 @@ const DesignPackage = () => {
       ========================================== */}
 
       <header className="mb-14 max-w-xl">
-        <span className="section-label">
-          <span className="h-px w-6 bg-red-600" />
-          Pricing
-        </span>
+        <span className="section-label !text-red-600">
+  <span className="h-px w-6 bg-red-600" />
+  Pricing
+</span>
 
         <h1
           id="pricing-heading"

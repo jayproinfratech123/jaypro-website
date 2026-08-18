@@ -96,9 +96,9 @@ const FeaturedProjects = () => {
         {/* Heading */}
         <div className="mb-14 max-w-xl">
           <span className="section-label">
-            <span className="h-px w-6 bg-red-500" />
-            Portfolio
-          </span>
+  <span className="h-px w-6 bg-red-500" />
+  <span className="text-red-500">Portfolio</span>
+</span>
 
           <h2 className="font-display text-3xl font-bold text-blueprint-900 sm:text-4xl">
             Recently Delivered

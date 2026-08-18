@@ -44,9 +44,7 @@ const Hero = () => {
     // ==========================================
 
     setMeta("description", description);
-
     setMeta("keywords", keywords);
-
     setMeta("robots", "index, follow");
 
     // ==========================================
@@ -180,9 +178,9 @@ const Hero = () => {
       aria-label="Jaypro Infratech house construction and architecture services"
     >
 
-      {/* =========================================
+      {/* =====================================================
           MOBILE VERSION
-      ========================================== */}
+      ===================================================== */}
 
       <div className="m-0 block w-full p-0 md:hidden">
 
@@ -193,7 +191,15 @@ const Hero = () => {
         <div className="relative m-0 w-full overflow-hidden p-0">
 
           <div
-            className="m-0 flex w-full p-0 transition-transform duration-700 ease-in-out"
+            className="
+              m-0
+              flex
+              w-full
+              p-0
+              transition-transform
+              duration-700
+              ease-in-out
+            "
             style={{
               transform: `translateX(-${
                 currentImage * 100
@@ -209,7 +215,16 @@ const Hero = () => {
                   alt={`House design ${
                     index + 1
                   } by Jaypro Infratech`}
-                  className="m-0 block aspect-[1690/931] min-w-full w-full flex-shrink-0 object-cover p-0"
+                  className="
+                    m-0
+                    block
+                    aspect-[1690/931]
+                    min-w-full
+                    w-full
+                    flex-shrink-0
+                    object-cover
+                    p-0
+                  "
                   loading={
                     index === 0
                       ? "eager"
@@ -232,7 +247,17 @@ const Hero = () => {
               MOBILE SLIDER DOTS
           ===================================== */}
 
-          <div className="absolute bottom-4 left-1/2 z-20 flex -translate-x-1/2 gap-2">
+          <div
+            className="
+              absolute
+              bottom-4
+              left-1/2
+              z-20
+              flex
+              -translate-x-1/2
+              gap-2
+            "
+          >
 
             {mobileImages.map(
               (_, index) => (
@@ -242,11 +267,18 @@ const Hero = () => {
                   onClick={() =>
                     setCurrentImage(index)
                   }
-                  className={`h-2.5 w-2.5 rounded-full transition-all duration-300 ${
-                    currentImage === index
-                      ? "w-7 bg-red-600"
-                      : "bg-white/70"
-                  }`}
+                  className={`
+                    h-2.5
+                    w-2.5
+                    rounded-full
+                    transition-all
+                    duration-300
+                    ${
+                      currentImage === index
+                        ? "w-7 bg-red-600"
+                        : "bg-white/70"
+                    }
+                  `}
                   aria-label={`Go to image ${
                     index + 1
                   }`}
@@ -314,23 +346,57 @@ const Hero = () => {
             MAIN DESKTOP CONTENT
         ===================================== */}
 
-        <div className="relative z-10 flex min-h-screen w-full items-center justify-between gap-8 px-6 py-10 lg:px-10 xl:px-16">
+        <div
+          className="
+            relative
+            z-10
+            flex
+            min-h-screen
+            w-full
+            items-center
+            justify-between
+            gap-8
+            px-6
+            py-10
+            lg:px-10
+            xl:px-16
+          "
+        >
 
           {/* =====================================
               LEFT SEO CONTENT
           ===================================== */}
 
-          <div className="flex w-full max-w-2xl items-center justify-center text-white lg:translate-x-48 lg:-translate-y-28">
+          <div
+            className="
+              flex
+              w-full
+              max-w-2xl
+              items-center
+              justify-center
+              text-white
+              lg:translate-x-48
+              lg:-translate-y-28
+            "
+          >
 
             <div className="w-full text-center">
 
               {/* =================================
-                  MAIN H1 - THREE LINES
+                  MAIN H1
               ================================= */}
 
-              <h1 className="font-extrabold leading-none tracking-tight text-white">
+              <h1
+                className="
+                  font-extrabold
+                  leading-none
+                  tracking-tight
+                "
+              >
 
-                {/* COMPLETE CONSTRUCTION - ONE LINE */}
+                {/* =================================
+                    COMPLETE CONSTRUCTION
+                ================================= */}
 
                 <span
                   className="
@@ -347,62 +413,43 @@ const Hero = () => {
                   Complete Construction
                 </span>
 
-                {/* WITH MATERIAL - SECOND LINE */}
+                {/* =================================
+                    WITH JAYPRO INFRATECH
+                ================================= */}
 
                 <span
-                  className="
-                    block
-                    text-4xl
-                    font-black
-                    sm:text-5xl
-                    lg:text-6xl
-                  "
-                >
+  className="
+    mt-3
+    block
+    text-3xl
+    font-black
+    sm:text-4xl
+    lg:text-5xl
+  "
+>
 
-                  <span
-                    className="
-                      bg-gradient-to-b
-                      from-[#fff4c2]
-                      via-[#f5c96a]
-                      to-[#c58a20]
-                      bg-clip-text
-                      text-transparent
-                      drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]
-                    "
-                  >
+                  {/* WITH - BLACK */}
+
+                  <span className="text-white">
                     with
-                  </span>{" "}
-
-                  <span className="text-white drop-shadow-[0_5px_12px_rgba(0,0,0,0.8)]">
-                    Material
                   </span>
 
-                </span>
+                  {" "}
 
-                {/* JAYPRO INFRATECH */}
+                  {/* JAYPRO - BLACK */}
 
-                <span
-                  className="
-                    mt-5
-                    inline-block
-                    border-l-4
-                    border-red-600
-                    bg-black/90
-                    px-5
-                    py-2
-                    text-xl
-                    font-bold
-                    text-white
-                    shadow-2xl
-                    backdrop-blur-sm
-                    sm:text-2xl
-                    lg:text-3xl
-                  "
-                >
-                  with{" "}
-                  <span className="text-red-500">
-                    Jaypro Infratech
+                  <span className="text-white">
+                    Jaypro
                   </span>
+
+                  {" "}
+
+                  {/* INFRATECH - RED */}
+
+                  <span className="text-red-600">
+                    Infratech
+                  </span>
+
                 </span>
 
               </h1>
@@ -418,7 +465,18 @@ const Hero = () => {
                   SERVICES
               ================================= */}
 
-              <div className="mt-6 grid max-w-xl grid-cols-1 gap-3 text-sm sm:grid-cols-2 md:text-base">
+              <div
+                className="
+                  mt-6
+                  grid
+                  max-w-xl
+                  grid-cols-1
+                  gap-3
+                  text-sm
+                  sm:grid-cols-2
+                  md:text-base
+                "
+              >
               </div>
 
               {/* =================================
@@ -445,11 +503,15 @@ const Hero = () => {
 
           <div
             id="lead-form-desktop"
-            className="w-full max-w-sm shrink-0 lg:max-w-[330px] xl:max-w-[350px]"
+            className="
+              w-full
+              max-w-sm
+              shrink-0
+              lg:max-w-[330px]
+              xl:max-w-[350px]
+            "
           >
-
             <LeadForm />
-
           </div>
 
         </div>

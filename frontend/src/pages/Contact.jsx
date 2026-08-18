@@ -4,10 +4,10 @@ import { Phone, Mail, MapPin } from "lucide-react";
 const Contact = () => {
   return (
     <section className="container-xl py-24">
-      <span className="section-label">
-        <span className="h-px w-6 bg-red-500" />
-        Contact
-      </span>
+      <span className="section-label text-red-600">
+  <span className="h-px w-6 bg-red-600" />
+  Contact
+</span>
 
       <h1 className="font-display text-4xl font-bold text-blueprint-900">
         Let's talk about your build

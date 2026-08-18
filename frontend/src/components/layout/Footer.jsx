@@ -86,13 +86,19 @@ const Footer = () => {
 
               {/* SERVICES */}
               <li>
-                <Link
-                  to="/#services"
-                  className="hover:text-red-600 transition"
-                >
-                  Services
-                </Link>
-              </li>
+  <Link
+    to="/services"
+    onClick={() => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }}
+    className="hover:text-red-600 transition"
+  >
+    Services
+  </Link>
+</li>
 
               {/* PORTFOLIO */}
               <li>

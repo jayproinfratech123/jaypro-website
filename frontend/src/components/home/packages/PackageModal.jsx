@@ -7,50 +7,52 @@ const PackageModal = ({
 }) => {
   return (
     <div
-      className="fixed inset-0 z-50 bg-black/60 overflow-y-auto"
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm"
       role="dialog"
       aria-modal="true"
-      aria-labelledby="consultation-title"
+      onClick={() => setSelectedPackage(null)}
     >
-      <div className="min-h-screen flex items-center justify-center p-4">
-        <div className="bg-white rounded-2xl w-full max-w-md p-6 relative my-10">
+      <div
+        className="relative w-full max-w-[350px]"
+        onClick={(e) => e.stopPropagation()}
+      >
 
-          {/* Close Button */}
-          <button
-            type="button"
-            onClick={() => setSelectedPackage(null)}
-            aria-label="Close consultation form"
-            className="absolute top-4 right-4 text-3xl font-bold text-gray-500 hover:text-black z-10"
-          >
-            ×
-          </button>
+        {/* Close Button */}
+        <button
+          type="button"
+          onClick={() => setSelectedPackage(null)}
+          className="
+            absolute
+            -right-2
+            -top-2
+            z-20
+            flex
+            h-8
+            w-8
+            items-center
+            justify-center
+            rounded-full
+            bg-white
+            text-lg
+            font-bold
+            text-gray-600
+            shadow-md
+            transition
+            hover:bg-red-600
+            hover:text-white
+          "
+          aria-label="Close"
+        >
+          ×
+        </button>
 
-          {/* Heading */}
-          <h2
-            id="consultation-title"
-            className="text-2xl font-bold text-center text-red-600"
-          >
-            Get Free Consultation
-          </h2>
+        {/* ONLY LEAD FORM */}
+        <LeadForm
+          selectedPackage={selectedPackage}
+          onSuccess={() => setSelectedPackage(null)}
+          onClose={() => setSelectedPackage(null)}
+        />
 
-          <p className="text-center text-gray-500 mt-2">
-            Selected Package
-          </p>
-
-          {/* Selected Package */}
-          <div className="text-center mt-3 mb-5">
-            <span className="inline-block bg-red-600 text-white px-5 py-2 rounded-lg font-semibold">
-              {selectedPackage}
-            </span>
-          </div>
-
-          {/* YOUR EXISTING LEAD FORM */}
-          <LeadForm
-            selectedPackage={selectedPackage}
-            onSuccess={() => setSelectedPackage(null)}
-          />
-
-        </div>
       </div>
     </div>
   );

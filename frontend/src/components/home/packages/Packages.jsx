@@ -15,13 +15,9 @@ import {
 
 export default function Packages() {
   const [selectedCity, setSelectedCity] = useState("Patna");
-  const [selectedPackage, setSelectedPackage] = useState(null);
 
-  const [formData, setFormData] = useState({
-    name: "",
-    phone: "",
-    city: "",
-  });
+  // This controls ONLY the Lead Form
+  const [selectedPackage, setSelectedPackage] = useState(null);
 
   const packages =
     selectedCity === "Patna"
@@ -41,10 +37,14 @@ export default function Packages() {
     >
       <div className="w-full max-w-[90%] mx-auto px-1">
 
-        {/* Heading */}
+        {/* ==========================================
+            HEADER
+        ========================================== */}
         <PackageHeader />
 
-        {/* City Tabs */}
+        {/* ==========================================
+            CITY TABS
+        ========================================== */}
         <nav
           className="mt-6 sm:mt-8"
           aria-label="Select construction package city"
@@ -55,35 +55,40 @@ export default function Packages() {
           />
         </nav>
 
-        {/* Package Comparison */}
+        {/* ==========================================
+            CONSTRUCTION PACKAGES
+        ========================================== */}
         <main
           className="mt-10 rounded-[30px] overflow-hidden bg-white shadow-2xl"
           aria-label={`${selectedCity} construction package comparison`}
         >
-          {/* Mobile View */}
+
+          {/* Mobile */}
           <MobileCards
             packages={packages}
             rows={rows}
             setSelectedPackage={setSelectedPackage}
           />
 
-          {/* Desktop View */}
+          {/* Desktop */}
           <DesktopTable
             packages={packages}
             rows={rows}
             setSelectedPackage={setSelectedPackage}
           />
+
         </main>
 
-        {/* Consultation Modal */}
+        {/* ==========================================
+            LEAD FORM
+        ========================================== */}
         {selectedPackage && (
           <PackageModal
             selectedPackage={selectedPackage}
             setSelectedPackage={setSelectedPackage}
-            formData={formData}
-            setFormData={setFormData}
           />
         )}
+
       </div>
     </section>
   );

@@ -3,37 +3,26 @@ import React from "react";
 const ChooseButton = ({
   packageName,
   onClick,
-  fullWidth = false,
-  type = "button",
-  disabled = false,
-  className = "",
-  ...props
 }) => {
   return (
     <button
-      type={type}
+      type="button"
       onClick={onClick}
-      disabled={disabled}
-      aria-label={`Choose ${packageName} package`}
-      title={`Choose ${packageName} package`}
-      className={`
-        ${fullWidth ? "w-full" : ""}
-        bg-red-600
-        hover:bg-red-600
-        text-white
-        font-semibold
-        px-6
-        py-3
+      className="
+        w-full
         rounded-lg
+        bg-red-600
+        px-5
+        py-3
+        font-semibold
+        text-white
         transition
-        duration-300
-        shadow-md
+        hover:bg-red-700
         hover:shadow-lg
-        ${className}
-      `}
-      {...props}
+        active:scale-95
+      "
     >
-      <span>Choose {packageName}</span>
+      Choose {packageName}
     </button>
   );
 };

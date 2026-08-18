@@ -11,7 +11,7 @@ const TeamSection = () => {
 
         {/* Section Heading */}
         <div className="text-center max-w-3xl mx-auto mb-14">
-          <span className="inline-block text-sm font-semibold uppercase tracking-widest text-orange-600 mb-3">
+          <span className="inline-block text-sm font-semibold uppercase tracking-widest text-red-600 mb-3">
             Our Team
           </span>
 
