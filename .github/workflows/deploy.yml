@@ -46,7 +46,7 @@ jobs:
           local-dir: ./frontend/dist/
 
           # GoDaddy website root
-          server-dir: /public_html/
+          server-dir: /home/irp0jc3pzrhi/public_html/
 
           # Do not delete existing server files
           dangerous-clean-slate: false
