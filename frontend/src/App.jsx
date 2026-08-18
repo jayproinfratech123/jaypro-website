@@ -86,10 +86,6 @@ import AdminCustomers from "./pages/admin/AdminCustomers.jsx";
 import AdminBlogs from "./pages/admin/AdminBlogs.jsx";
 
 function App() {
-  // ==========================================
-  // CURRENT URL
-  // ==========================================
-
   const location = useLocation();
 
   // ==========================================
@@ -116,9 +112,7 @@ function App() {
       <ScrollToTop />
 
       {/* ==========================================
-          MAIN NAVBAR
-
-          Hidden on Pricing page
+          NAVBAR
       ========================================== */}
 
       {!isPricingPage && <Navbar />}
@@ -130,26 +124,20 @@ function App() {
       <main className="min-h-screen pb-24">
         <Routes>
 
-          {/* ==========================================
-              HOME
-          ========================================== */}
-
+          {/* HOME */}
           <Route
             path="/"
             element={<Home />}
           />
 
-          {/* ==========================================
-              ABOUT
-          ========================================== */}
-
+          {/* ABOUT */}
           <Route
             path="/about"
             element={<About />}
           />
 
           {/* ==========================================
-              SERVICES
+              SERVICES MAIN PAGE
           ========================================== */}
 
           <Route
@@ -157,62 +145,42 @@ function App() {
             element={<Services />}
           />
 
-          {/* ==========================================
-              PORTFOLIO
-          ========================================== */}
-
+          {/* PORTFOLIO */}
           <Route
             path="/portfolio"
             element={<Portfolio />}
           />
 
-          {/* ==========================================
-              BLOG
-          ========================================== */}
-
-          {/* Main Blog URL */}
+          {/* BLOG */}
           <Route
             path="/blog"
             element={<Blogs />}
           />
 
-          {/* Old /blogs URL also works */}
           <Route
             path="/blogs"
             element={<Blogs />}
           />
 
-          {/* ==========================================
-              PRICING
-          ========================================== */}
-
+          {/* PRICING */}
           <Route
             path="/pricing"
             element={<NavbarPricing />}
           />
 
-          {/* ==========================================
-              CONTACT
-          ========================================== */}
-
+          {/* CONTACT */}
           <Route
             path="/contact"
             element={<Contact />}
           />
 
-          {/* ==========================================
-              LOGIN
-          ========================================== */}
-
+          {/* LOGIN */}
           <Route
             path="/login"
             element={<Login />}
           />
 
-          {/* ==========================================
-              REGISTER
-          ========================================== */}
-
+          {/* REGISTER */}
           <Route
             path="/register"
             element={<Register />}
@@ -237,17 +205,14 @@ function App() {
             element={<RefundPolicy />}
           />
 
-          {/* ==========================================
-              NAKSHA
-          ========================================== */}
-
+          {/* NAKSHA */}
           <Route
             path="/naksha"
             element={<Naksha />}
           />
 
           {/* ==========================================
-              SERVICE ROUTES
+              SERVICE DETAIL PAGES
           ========================================== */}
 
           <Route
@@ -270,10 +235,7 @@ function App() {
             element={<Vastu />}
           />
 
-          {/* ==========================================
-              ESTIMATE
-          ========================================== */}
-
+          {/* ESTIMATE */}
           <Route
             path="/estimate"
             element={<EstimatePage />}
@@ -284,10 +246,7 @@ function App() {
             element={<EstimatePage />}
           />
 
-          {/* ==========================================
-              CONTRACTOR
-          ========================================== */}
-
+          {/* CONTRACTOR */}
           <Route
             path="/packages"
             element={<Packages />}
@@ -386,25 +345,15 @@ function App() {
         </Routes>
       </main>
 
-      {/* ==========================================
-          FOOTER
-
-          Hidden on Pricing page
-      ========================================== */}
+      {/* FOOTER */}
 
       {!isPricingPage && <Footer />}
 
-      {/* ==========================================
-          MOBILE BOTTOM NAVIGATION
-
-          Hidden on Pricing page
-      ========================================== */}
+      {/* MOBILE BOTTOM NAVIGATION */}
 
       {!isPricingPage && <BottomNavigation />}
 
-      {/* ==========================================
-          WHATSAPP BUTTON
-      ========================================== */}
+      {/* WHATSAPP */}
 
       <WhatsAppButton />
     </>

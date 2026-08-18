@@ -3,10 +3,17 @@ import { Link, NavLink } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { useAuth } from "../../context/AuthContext.jsx";
 
+// ==========================================
+// NAVIGATION LINKS
+// ==========================================
+
 const navLinks = [
   { to: "/", label: "Home" },
   { to: "/about", label: "About" },
-  { to: "/#services", label: "Services", hash: true },
+
+  // Services now opens the Services.jsx page
+  { to: "/services", label: "Services" },
+
   { to: "/portfolio", label: "Portfolio" },
   { to: "/pricing", label: "Pricing" },
   { to: "/packages", label: "Packages" },
@@ -27,8 +34,10 @@ const Navbar = () => {
         className="container-xl flex h-[72px] items-center justify-between"
         aria-label="Main navigation"
       >
+        {/* ==========================================
+            LOGO
+        ========================================== */}
 
-        {/* Logo */}
         <Link
           to="/"
           className="flex items-center gap-2"
@@ -43,10 +52,10 @@ const Navbar = () => {
             loading="eager"
             fetchPriority="high"
             decoding="async"
-            className="h-12 lg:h-14 w-auto object-contain"
+            className="h-12 w-auto object-contain lg:h-14"
           />
 
-          <span className="font-display text-base lg:text-lg font-bold text-black">
+          <span className="font-display text-base font-bold text-black lg:text-lg">
             Jaypro{" "}
             <span className="text-red-500">
               Infratech
@@ -54,40 +63,33 @@ const Navbar = () => {
           </span>
         </Link>
 
-        {/* Desktop Menu */}
+        {/* ==========================================
+            DESKTOP MENU
+        ========================================== */}
+
         <div className="hidden items-center gap-6 lg:flex">
-
-          {navLinks.map((link) =>
-            link.hash ? (
-              <a
-                key={link.label}
-                href={link.to}
-                className="cursor-pointer font-body text-sm font-medium text-blueprint-900 transition hover:text-red-600"
-              >
-                {link.label}
-              </a>
-            ) : (
-              <NavLink
-                key={link.to}
-                to={link.to}
-                className={({ isActive }) =>
-                  `cursor-pointer font-body text-sm font-medium transition hover:text-red-600 ${
-                    isActive
-                      ? "text-red-600"
-                      : "text-blueprint-900"
-                  }`
-                }
-              >
-                {link.label}
-              </NavLink>
-            )
-          )}
-
+          {navLinks.map((link) => (
+            <NavLink
+              key={link.to}
+              to={link.to}
+              className={({ isActive }) =>
+                `cursor-pointer font-body text-sm font-medium transition hover:text-red-600 ${
+                  isActive
+                    ? "text-red-600"
+                    : "text-blueprint-900"
+                }`
+              }
+            >
+              {link.label}
+            </NavLink>
+          ))}
         </div>
 
-        {/* Desktop Login / Dashboard */}
-        <div className="hidden items-center gap-3 lg:flex">
+        {/* ==========================================
+            DESKTOP LOGIN / DASHBOARD
+        ========================================== */}
 
+        <div className="hidden items-center gap-3 lg:flex">
           {user ? (
             <Link
               to={
@@ -102,15 +104,17 @@ const Navbar = () => {
           ) : (
             <Link
               to="/login"
-              className="rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white"
+              className="rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-700"
             >
               Login
             </Link>
           )}
-
         </div>
 
-        {/* Mobile Menu Button */}
+        {/* ==========================================
+            MOBILE MENU BUTTON
+        ========================================== */}
+
         <button
           type="button"
           className="lg:hidden"
@@ -135,10 +139,12 @@ const Navbar = () => {
             />
           )}
         </button>
-
       </nav>
 
-      {/* Mobile Menu */}
+      {/* ==========================================
+          MOBILE MENU
+      ========================================== */}
+
       {open && (
         <div
           id="mobile-navigation"
@@ -146,36 +152,28 @@ const Navbar = () => {
         >
           <div className="container-xl flex flex-col gap-4 py-6">
 
-            {navLinks.map((link) =>
-              link.hash ? (
-                <a
-                  key={link.label}
-                  href={link.to}
-                  onClick={() => setOpen(false)}
-                  className="cursor-pointer font-medium text-blueprint-900"
-                >
-                  {link.label}
-                </a>
-              ) : (
-                <NavLink
-                  key={link.to}
-                  to={link.to}
-                  onClick={() => setOpen(false)}
-                  className={({ isActive }) =>
-                    `cursor-pointer font-medium transition hover:text-red-600 ${
-                      isActive
-                        ? "text-red-600"
-                        : "text-blueprint-900"
-                    }`
-                  }
-                >
-                  {link.label}
-                </NavLink>
-              )
-            )}
+            {navLinks.map((link) => (
+              <NavLink
+                key={link.to}
+                to={link.to}
+                onClick={() => setOpen(false)}
+                className={({ isActive }) =>
+                  `cursor-pointer font-medium transition hover:text-red-600 ${
+                    isActive
+                      ? "text-red-600"
+                      : "text-blueprint-900"
+                  }`
+                }
+              >
+                {link.label}
+              </NavLink>
+            ))}
+
+            {/* ==========================================
+                MOBILE LOGIN / DASHBOARD
+            ========================================== */}
 
             <div className="mt-2 flex flex-col gap-3">
-
               {user ? (
                 <Link
                   to={
@@ -197,13 +195,10 @@ const Navbar = () => {
                   Login
                 </Link>
               )}
-
             </div>
-
           </div>
         </div>
       )}
-
     </header>
   );
 };
