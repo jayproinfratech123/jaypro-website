@@ -19,11 +19,13 @@ const ArchitectureAds = () => {
   // =========================================================
   // POPUP FORM STATE
   // =========================================================
+
   const [showLeadPopup, setShowLeadPopup] = useState(false);
 
   // =========================================================
   // SEO
   // =========================================================
+
   useEffect(() => {
     const title =
       "Architecture Design & House Plan Services | Jaypro Infratech";
@@ -46,10 +48,7 @@ const ArchitectureAds = () => {
 
     metaDescription.setAttribute("content", description);
 
-    // =======================================================
     // CANONICAL
-    // =======================================================
-
     let canonical = document.querySelector(
       'link[rel="canonical"]'
     );
@@ -65,10 +64,7 @@ const ArchitectureAds = () => {
       `${window.location.origin}/architecture-design`
     );
 
-    // =======================================================
     // ROBOTS
-    // =======================================================
-
     let robots = document.querySelector(
       'meta[name="robots"]'
     );
@@ -159,6 +155,327 @@ const ArchitectureAds = () => {
     <div className="min-h-screen bg-white text-gray-900">
 
       {/* =====================================================
+          POPUP CSS ONLY
+
+          IMPORTANT:
+          These styles affect ONLY the popup LeadForm.
+
+          Hero LeadForm is NOT affected.
+      ===================================================== */}
+
+      <style>{`
+
+        /* =====================================================
+           POPUP FULL SCREEN OVERLAY
+        ===================================================== */
+
+        .architecture-lead-popup-wrapper {
+          position: fixed !important;
+          inset: 0 !important;
+
+          width: 100vw !important;
+          height: 100vh !important;
+
+          margin: 0 !important;
+          padding: 0 !important;
+
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+
+          background: rgba(0, 0, 0, 0.70) !important;
+
+          z-index: 99999 !important;
+
+          box-sizing: border-box !important;
+        }
+
+
+        /* =====================================================
+           IMPORTANT FIX
+
+           DO NOT USE FIXED 420px WHITE BOX.
+
+           Popup width follows LeadForm.
+        ===================================================== */
+
+        .architecture-lead-popup-box {
+          position: relative !important;
+
+          display: block !important;
+
+          width: fit-content !important;
+          max-width: calc(100vw - 20px) !important;
+
+          height: fit-content !important;
+          max-height: calc(100vh - 20px) !important;
+
+          margin: 0 !important;
+          padding: 0 !important;
+
+          background: transparent !important;
+
+          border: none !important;
+          border-radius: 0 !important;
+
+          box-shadow: none !important;
+
+          overflow: visible !important;
+
+          box-sizing: border-box !important;
+        }
+
+
+        /* =====================================================
+           POPUP FORM WRAPPER
+
+           NO WHITE BACKGROUND HERE.
+        ===================================================== */
+
+        .architecture-popup-form {
+          position: relative !important;
+
+          display: block !important;
+
+          width: fit-content !important;
+          max-width: calc(100vw - 20px) !important;
+
+          height: auto !important;
+          max-height: calc(100vh - 20px) !important;
+
+          margin: 0 !important;
+          padding: 0 !important;
+
+          background: transparent !important;
+
+          border: none !important;
+
+          overflow-x: hidden !important;
+          overflow-y: auto !important;
+
+          box-sizing: border-box !important;
+        }
+
+
+        /* =====================================================
+           IMPORTANT
+
+           REMOVE OUTER SPACE FROM LEADFORM ROOT
+
+           But DON'T remove internal field spacing.
+        ===================================================== */
+
+        .architecture-popup-form > * {
+          box-sizing: border-box !important;
+
+          margin-top: 0 !important;
+          margin-bottom: 0 !important;
+          margin-left: 0 !important;
+          margin-right: 0 !important;
+        }
+
+
+        /* =====================================================
+           FIRST CHILD OF LEADFORM
+
+           MAKE IT FIT CONTENT.
+        ===================================================== */
+
+        .architecture-popup-form > div:first-child,
+        .architecture-popup-form > form:first-child,
+        .architecture-popup-form > section:first-child {
+          position: relative !important;
+
+          width: fit-content !important;
+          max-width: calc(100vw - 20px) !important;
+
+          margin: 0 !important;
+
+          box-sizing: border-box !important;
+        }
+
+
+        /* =====================================================
+           IF LEADFORM ROOT HAS A CARD
+
+           REMOVE ONLY OUTER SPACE.
+        ===================================================== */
+
+        .architecture-popup-form
+          > div:first-child
+          > div:first-child,
+
+        .architecture-popup-form
+          > form:first-child
+          > div:first-child,
+
+        .architecture-popup-form
+          > section:first-child
+          > div:first-child {
+          box-sizing: border-box !important;
+
+          margin-top: 0 !important;
+          margin-bottom: 0 !important;
+          margin-left: 0 !important;
+          margin-right: 0 !important;
+        }
+
+
+        /* =====================================================
+           FORM
+
+           Don't force unnecessary width.
+        ===================================================== */
+
+        .architecture-popup-form form {
+          box-sizing: border-box !important;
+
+          margin-top: 0 !important;
+          margin-bottom: 0 !important;
+          margin-left: 0 !important;
+          margin-right: 0 !important;
+
+          max-width: 100% !important;
+        }
+
+
+        /* =====================================================
+           IMAGES
+        ===================================================== */
+
+        .architecture-popup-form img {
+          display: block !important;
+          max-width: 100% !important;
+        }
+
+
+        /* =====================================================
+           CLOSE BUTTON
+
+           SITS ON TOP OF FORM
+        ===================================================== */
+
+        .architecture-popup-close {
+          position: absolute !important;
+
+          top: 8px !important;
+          right: 8px !important;
+
+          width: 36px !important;
+          height: 36px !important;
+
+          padding: 0 !important;
+          margin: 0 !important;
+
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+
+          z-index: 100001 !important;
+
+          border: none !important;
+          border-radius: 9999px !important;
+
+          background: #ffffff !important;
+
+          color: #374151 !important;
+
+          cursor: pointer !important;
+
+          box-shadow:
+            0 4px 12px rgba(0, 0, 0, 0.20) !important;
+
+          box-sizing: border-box !important;
+        }
+
+
+        .architecture-popup-close:hover {
+          background: #fee2e2 !important;
+          color: #b91c1c !important;
+        }
+
+
+        /* =====================================================
+           MOBILE
+
+           FORM TAKES ONLY REQUIRED WIDTH.
+        ===================================================== */
+
+        @media (max-width: 640px) {
+
+          .architecture-lead-popup-wrapper {
+            align-items: center !important;
+            justify-content: center !important;
+
+            padding: 10px !important;
+          }
+
+
+          .architecture-lead-popup-box {
+            width: 100% !important;
+            max-width: 100% !important;
+
+            height: auto !important;
+            max-height: calc(100vh - 20px) !important;
+
+            margin: 0 !important;
+            padding: 0 !important;
+
+            background: transparent !important;
+
+            overflow: visible !important;
+          }
+
+
+          .architecture-popup-form {
+            width: 100% !important;
+            max-width: 100% !important;
+
+            max-height: calc(100vh - 20px) !important;
+
+            margin: 0 !important;
+            padding: 0 !important;
+
+            background: transparent !important;
+          }
+
+
+          .architecture-popup-form > div:first-child,
+          .architecture-popup-form > form:first-child,
+          .architecture-popup-form > section:first-child {
+            width: 100% !important;
+            max-width: 100% !important;
+
+            margin: 0 !important;
+          }
+
+        }
+
+
+        /* =====================================================
+           VERY SMALL MOBILE
+        ===================================================== */
+
+        @media (max-width: 400px) {
+
+          .architecture-lead-popup-wrapper {
+            padding: 5px !important;
+          }
+
+          .architecture-lead-popup-box {
+            max-width: 100% !important;
+          }
+
+          .architecture-popup-form {
+            max-width: 100% !important;
+          }
+
+        }
+
+      `}</style>
+
+
+      {/* =====================================================
           HERO SECTION
       ===================================================== */}
 
@@ -166,7 +483,7 @@ const ArchitectureAds = () => {
         className="
           relative
           overflow-hidden
-          text-black
+          text-white
           lg:min-h-[720px]
           lg:bg-[url('/under-construction-home.webp')]
           lg:bg-cover
@@ -183,10 +500,10 @@ const ArchitectureAds = () => {
             absolute
             inset-0
             hidden
-            
             lg:block
           "
         />
+
 
         {/* ===================================================
             MOBILE + TABLET
@@ -200,9 +517,7 @@ const ArchitectureAds = () => {
           "
         >
 
-          {/* =================================================
-              PHONE / TABLET IMAGE
-          ================================================= */}
+          {/* MOBILE IMAGE */}
 
           <div
             className="
@@ -229,36 +544,25 @@ const ArchitectureAds = () => {
               decoding="async"
             />
 
-            <div
-              className="
-                pointer-events-none
-                absolute
-                inset-0
-                
-              "
-            />
-
           </div>
 
-          {/* =================================================
-              MOBILE + TABLET LEAD FORM
-          ================================================= */}
 
-  <div
-  id="lead-form-mobile"
-  className="
-    relative
-    z-20
-    w-full
-    bg-white
-    text-black
-    px-3
-    py-4
-    sm:px-5
-    sm:py-5
-    text-black
-  "
->
+          {/* MOBILE LEAD FORM */}
+
+          <div
+            id="lead-form-mobile"
+            className="
+              relative
+              z-20
+              w-full
+              bg-white
+              px-3
+              py-4
+              text-black
+              sm:px-5
+              sm:py-5
+            "
+          >
 
             <div
               className="
@@ -268,8 +572,6 @@ const ArchitectureAds = () => {
               "
             >
 
-              {/* HERO FORM - DO NOT CHANGE */}
-
               <LeadForm />
 
             </div>
@@ -277,6 +579,7 @@ const ArchitectureAds = () => {
           </div>
 
         </div>
+
 
         {/* =====================================================
             DESKTOP HERO CONTENT
@@ -310,7 +613,7 @@ const ArchitectureAds = () => {
             "
           >
 
-            {/* DESKTOP LEFT */}
+            {/* LEFT */}
 
             <div className="lg:-translate-y-40">
 
@@ -326,6 +629,7 @@ const ArchitectureAds = () => {
                   lg:text-5xl
                 "
               >
+
                 Design Your Dream Home With
 
                 <span
@@ -337,16 +641,13 @@ const ArchitectureAds = () => {
                 >
                   Professional Architecture
                 </span>
+
               </h1>
 
             </div>
 
-            {/* =================================================
-                DESKTOP HERO LEAD FORM
 
-                THIS FORM WILL ALWAYS REMAIN VISIBLE.
-                DO NOT ADD onSuccess HERE.
-            ================================================= */}
+            {/* DESKTOP FORM */}
 
             <div
               id="lead-form-desktop"
@@ -395,104 +696,68 @@ const ArchitectureAds = () => {
           <button
             type="button"
             onClick={openLeadPopup}
-            className="
-              px-4
-              py-6
-              text-center
-              transition
-              hover:bg-red-50
-            "
+            className="px-4 py-6 text-center transition hover:bg-red-50"
           >
+
             <FaDraftingCompass
-              className="
-                mx-auto
-                mb-2
-                text-2xl
-                text-red-600
-              "
+              className="mx-auto mb-2 text-2xl text-red-600"
             />
 
             <p className="text-sm font-bold">
               Professional Design
             </p>
+
           </button>
 
 
           <button
             type="button"
             onClick={openLeadPopup}
-            className="
-              px-4
-              py-6
-              text-center
-              transition
-              hover:bg-red-50
-            "
+            className="px-4 py-6 text-center transition hover:bg-red-50"
           >
+
             <FaRulerCombined
-              className="
-                mx-auto
-                mb-2
-                text-2xl
-                text-red-600
-              "
+              className="mx-auto mb-2 text-2xl text-red-600"
             />
 
             <p className="text-sm font-bold">
               Detailed Drawings
             </p>
+
           </button>
 
 
           <button
             type="button"
             onClick={openLeadPopup}
-            className="
-              px-4
-              py-6
-              text-center
-              transition
-              hover:bg-red-50
-            "
+            className="px-4 py-6 text-center transition hover:bg-red-50"
           >
+
             <FaBuilding
-              className="
-                mx-auto
-                mb-2
-                text-2xl
-                text-red-600
-              "
+              className="mx-auto mb-2 text-2xl text-red-600"
             />
 
             <p className="text-sm font-bold">
               Residential Planning
             </p>
+
           </button>
 
 
           <button
             type="button"
             onClick={openLeadPopup}
-            className="
-              px-4
-              py-6
-              text-center
-              transition
-              hover:bg-red-50
-            "
+            className="px-4 py-6 text-center transition hover:bg-red-50"
           >
+
             <FaHardHat
-              className="
-                mx-auto
-                mb-2
-                text-2xl
-                text-red-600
-              "
+              className="mx-auto mb-2 text-2xl text-red-600"
             />
 
             <p className="text-sm font-bold">
               Construction Ready
             </p>
+
           </button>
 
         </div>
@@ -516,13 +781,7 @@ const ArchitectureAds = () => {
           "
         >
 
-          <div
-            className="
-              mx-auto
-              max-w-3xl
-              text-center
-            "
-          >
+          <div className="mx-auto max-w-3xl text-center">
 
             <span
               className="
@@ -733,11 +992,7 @@ const ArchitectureAds = () => {
                 >
 
                   <FaCheckCircle
-                    className="
-                      mt-1
-                      shrink-0
-                      text-green-500
-                    "
+                    className="mt-1 shrink-0 text-green-500"
                   />
 
                   <p className="font-medium text-gray-700">
@@ -792,13 +1047,7 @@ const ArchitectureAds = () => {
               className="text-5xl text-red-200"
             />
 
-            <h3
-              className="
-                mt-6
-                text-3xl
-                font-extrabold
-              "
-            >
+            <h3 className="mt-6 text-3xl font-extrabold">
               Your Plot.
               <br />
               Your Requirements.
@@ -841,30 +1090,11 @@ const ArchitectureAds = () => {
           FINAL CTA
       ===================================================== */}
 
-      <section
-        className="
-          bg-red-600
-          py-14
-          text-white
-        "
-      >
+      <section className="bg-red-900 py-14 text-white">
 
-        <div
-          className="
-            mx-auto
-            max-w-5xl
-            px-5
-            text-center
-          "
-        >
+        <div className="mx-auto max-w-5xl px-5 text-center">
 
-          <h2
-            className="
-              text-3xl
-              font-extrabold
-              sm:text-4xl
-            "
-          >
+          <h2 className="text-3xl font-extrabold sm:text-4xl">
             Ready to Plan Your Dream Home?
           </h2>
 
@@ -974,7 +1204,7 @@ const ArchitectureAds = () => {
               justify-center
               gap-2
               rounded-lg
-              bg-red-800
+              bg-red-900
               py-3
               font-bold
               text-white
@@ -994,7 +1224,7 @@ const ArchitectureAds = () => {
               justify-center
               gap-2
               rounded-lg
-              bg-red-600
+              bg-red-900
               py-3
               font-bold
               text-white
@@ -1016,18 +1246,7 @@ const ArchitectureAds = () => {
       {showLeadPopup && (
 
         <div
-          className="
-            fixed
-            inset-0
-            z-[100]
-            flex
-            items-center
-            justify-center
-            bg-black/70
-            backdrop-blur-sm
-            p-0
-            sm:p-2
-          "
+          className="architecture-lead-popup-wrapper"
           onMouseDown={(e) => {
             if (e.target === e.currentTarget) {
               closeLeadPopup();
@@ -1035,75 +1254,40 @@ const ArchitectureAds = () => {
           }}
         >
 
+          {/* =================================================
+              POPUP CONTENT
+          ================================================= */}
+
           <div
-            className="
-              relative
-              w-auto
-              max-w-[calc(100vw-16px)]
-              overflow-hidden
-              rounded-2xl
-              shadow-2xl
-            "
+            className="architecture-lead-popup-box"
             onMouseDown={(e) => e.stopPropagation()}
           >
 
-            {/* CLOSE BUTTON */}
+            {/* =================================================
+                CLOSE BUTTON
+            ================================================= */}
 
             <button
               type="button"
               onClick={closeLeadPopup}
               aria-label="Close lead form"
-              className="
-                absolute
-                right-2
-                top-2
-                z-[110]
-                flex
-                h-9
-                w-9
-                items-center
-                justify-center
-                rounded-full
-                bg-white
-                text-gray-700
-                shadow-lg
-                transition
-                hover:bg-red-100
-                hover:text-red-700
-              "
+              className="architecture-popup-close"
             >
               <FaTimes />
             </button>
 
 
             {/* =================================================
-                POPUP FORM
+                ONLY LEAD FORM
 
-                IMPORTANT:
-                onSuccess closes ONLY the popup.
-
-                HERO FORM IS NOT AFFECTED.
+                NO WHITE OUTER CARD
+                NO EXTRA PADDING
+                NO EXTRA MARGIN
             ================================================= */}
 
-            <div
-  id="lead-form-desktop"
-  className="
-    relative
-    z-20
-    w-full
-    max-w-[360px]
-    text-black
-    lg:mx-0
-    lg:translate-x-60
-    lg:translate-y-25
-    lg:scale-[0.75]
-    lg:origin-top-right
-    text-black
-    
-  "
->
-  <LeadForm />
-</div>
+            <div className="architecture-popup-form">
+              <LeadForm />
+            </div>
 
           </div>
 
