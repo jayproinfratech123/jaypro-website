@@ -520,32 +520,27 @@ const ArchitectureAds = () => {
           {/* MOBILE IMAGE */}
 
           <div
-            className="
-              relative
-              h-[330px]
-              w-full
-              overflow-hidden
-              sm:h-[380px]
-            "
-          >
-
-            <img
-              src="/under-construction-home.webp"
-              alt="Architecture and house construction by Jaypro Infratech"
-              className="
-                block
-                h-full
-                w-full
-                object-cover
-                object-center
-              "
-              loading="eager"
-              fetchPriority="high"
-              decoding="async"
-            />
-
-          </div>
-
+  className="
+    relative
+    w-full
+    overflow-hidden
+    bg-white
+  "
+>
+  <img
+    src="/under-const-home.webp"
+    alt="Architecture and house construction by Jaypro Infratech"
+    className="
+      block
+      w-full
+      h-auto
+      object-contain
+    "
+    loading="eager"
+    fetchPriority="high"
+    decoding="async"
+  />
+</div>
 
           {/* MOBILE LEAD FORM */}
 
