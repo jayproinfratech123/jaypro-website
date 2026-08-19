@@ -3,7 +3,7 @@ import { useState } from "react";
 const GOOGLE_SHEET_URL =
   "https://script.google.com/macros/s/AKfycbz1Olatmq1V_az3NVXEBJRNgEvO24HjelKFXI69N2iPHExUvicHHen9J7wbBHB4OELp/exec";
 
-const LeadForm = () => {
+const LeadForm = ({ onSuccess, onClose }) => {
   const [formData, setFormData] = useState({
     fullName: "",
     mobile: "",
@@ -13,14 +13,22 @@ const LeadForm = () => {
 
   const [loading, setLoading] = useState(false);
 
+  // ==========================================
+  // HANDLE INPUT CHANGE
+  // ==========================================
+
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target;   
 
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
+
+  // ==========================================
+  // HANDLE FORM SUBMIT
+  // ==========================================
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,12 +40,15 @@ const LeadForm = () => {
     try {
       const data = new URLSearchParams();
 
-data.append("formType", "websiteLead");
+      data.append("formType", "websiteLead");
+      data.append("fullName", formData.fullName);
+      data.append("mobile", formData.mobile);
+      data.append("city", formData.city);
+      data.append("purpose", formData.purpose);
 
-data.append("fullName", formData.fullName);
-data.append("mobile", formData.mobile);
-data.append("city", formData.city);
-data.append("purpose", formData.purpose);
+      // ==========================================
+      // SEND DATA TO GOOGLE SHEET
+      // ==========================================
 
       await fetch(GOOGLE_SHEET_URL, {
         method: "POST",
@@ -45,7 +56,15 @@ data.append("purpose", formData.purpose);
         mode: "no-cors",
       });
 
+      // ==========================================
+      // SUCCESS MESSAGE
+      // ==========================================
+
       alert("Form Submitted Successfully!");
+
+      // ==========================================
+      // RESET FORM
+      // ==========================================
 
       setFormData({
         fullName: "",
@@ -53,9 +72,24 @@ data.append("purpose", formData.purpose);
         city: "",
         purpose: "",
       });
+
+      // ==========================================
+      // IMPORTANT
+      // Notify parent component
+      // ==========================================
+
+      if (typeof onSuccess === "function") {
+        onSuccess();
+      }
     } catch (error) {
-      console.error("Google Apps Script Error:", error);
-      alert("Something went wrong. Please try again.");
+      console.error(
+        "Google Apps Script Error:",
+        error
+      );
+
+      alert(
+        "Something went wrong. Please try again."
+      );
     } finally {
       setLoading(false);
     }
@@ -65,6 +99,7 @@ data.append("purpose", formData.purpose);
     <section className="w-full m-0 px-0 py-5 sm:py-6 md:py-8">
       <div
         className="
+          relative
           mx-auto
           w-full
           max-w-[calc(100vw-24px)]
@@ -78,7 +113,42 @@ data.append("purpose", formData.purpose);
           shadow-lg
         "
       >
-        {/* Heading */}
+        {/* ==========================================
+            CLOSE BUTTON
+        ========================================== */}
+
+        {typeof onClose === "function" && (
+          <button
+            type="button"
+            onClick={onClose}
+            disabled={loading}
+            className="
+              absolute
+              right-3
+              top-3
+              z-10
+              flex
+              h-8
+              w-8
+              items-center
+              justify-center
+              rounded-full
+              text-gray-500
+              transition
+              hover:bg-gray-100
+              hover:text-black
+              disabled:cursor-not-allowed
+              disabled:opacity-50
+            "
+            aria-label="Close form"
+          >
+            ✕
+          </button>
+        )}
+
+        {/* ==========================================
+            HEADING
+        ========================================== */}
 
         <h2 className="text-center text-xl font-bold text-gray-900 sm:text-2xl">
           Talk to Our Experts
@@ -91,14 +161,18 @@ data.append("purpose", formData.purpose);
           Submit the form and our team will contact you.
         </p>
 
-        {/* Form */}
+        {/* ==========================================
+            FORM
+        ========================================== */}
 
         <form
           onSubmit={handleSubmit}
           className="mt-5 space-y-3"
           autoComplete="on"
         >
-          {/* Full Name */}
+          {/* ==========================================
+              FULL NAME
+          ========================================== */}
 
           <input
             type="text"
@@ -108,6 +182,7 @@ data.append("purpose", formData.purpose);
             onChange={handleChange}
             required
             autoComplete="name"
+            disabled={loading}
             className="
               w-full
               rounded-lg
@@ -115,11 +190,15 @@ data.append("purpose", formData.purpose);
               border-gray-300
               p-3
               outline-none
+              transition
               focus:border-red-600
+              disabled:bg-gray-100
             "
           />
 
-          {/* Mobile */}
+          {/* ==========================================
+              MOBILE
+          ========================================== */}
 
           <input
             type="tel"
@@ -132,6 +211,7 @@ data.append("purpose", formData.purpose);
             maxLength={10}
             inputMode="numeric"
             autoComplete="tel"
+            disabled={loading}
             className="
               w-full
               rounded-lg
@@ -139,11 +219,15 @@ data.append("purpose", formData.purpose);
               border-gray-300
               p-3
               outline-none
+              transition
               focus:border-red-600
+              disabled:bg-gray-100
             "
           />
 
-          {/* City */}
+          {/* ==========================================
+              CITY
+          ========================================== */}
 
           <input
             type="text"
@@ -153,6 +237,7 @@ data.append("purpose", formData.purpose);
             onChange={handleChange}
             required
             autoComplete="address-level2"
+            disabled={loading}
             className="
               w-full
               rounded-lg
@@ -160,17 +245,22 @@ data.append("purpose", formData.purpose);
               border-gray-300
               p-3
               outline-none
+              transition
               focus:border-red-600
+              disabled:bg-gray-100
             "
           />
 
-          {/* Purpose */}
+          {/* ==========================================
+              PURPOSE
+          ========================================== */}
 
           <select
             name="purpose"
             value={formData.purpose}
             onChange={handleChange}
             required
+            disabled={loading}
             className="
               w-full
               rounded-lg
@@ -180,7 +270,9 @@ data.append("purpose", formData.purpose);
               p-3
               text-gray-700
               outline-none
+              transition
               focus:border-red-600
+              disabled:bg-gray-100
             "
           >
             <option value="" disabled>
@@ -204,7 +296,9 @@ data.append("purpose", formData.purpose);
             </option>
           </select>
 
-          {/* Submit Button */}
+          {/* ==========================================
+              SUBMIT BUTTON
+          ========================================== */}
 
           <button
             type="submit"
@@ -223,7 +317,9 @@ data.append("purpose", formData.purpose);
               }
             `}
           >
-            {loading ? "Submitting..." : "Submit"}
+            {loading
+              ? "Submitting..."
+              : "Submit"}
           </button>
         </form>
       </div>

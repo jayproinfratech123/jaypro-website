@@ -16,16 +16,11 @@ const Hero = () => {
     const keywords =
       "house construction, house construction company, architecture design, architectural design, 2D floor plan, 3D front elevation, structural drawings, building construction, interior design, residential construction, commercial construction, Jaypro Infratech";
 
-    const canonicalUrl =
-      "https://jayproinfratech.com/";
+    const canonicalUrl = "https://jayproinfratech.com/";
 
     document.title = title;
 
-    const setMeta = (
-      name,
-      content,
-      attribute = "name"
-    ) => {
+    const setMeta = (name, content, attribute = "name") => {
       let meta = document.head.querySelector(
         `meta[${attribute}="${name}"]`
       );
@@ -51,11 +46,7 @@ const Hero = () => {
     // OPEN GRAPH SEO
     // ==========================================
 
-    setMeta(
-      "og:title",
-      title,
-      "property"
-    );
+    setMeta("og:title", title, "property");
 
     setMeta(
       "og:description",
@@ -174,7 +165,13 @@ const Hero = () => {
 
   return (
     <section
-      className="relative m-0 overflow-hidden p-0 md:min-h-screen"
+      className="
+        relative
+        m-0
+        overflow-hidden
+        p-0
+        md:min-h-screen
+      "
       aria-label="Jaypro Infratech house construction and architecture services"
     >
 
@@ -188,7 +185,15 @@ const Hero = () => {
             MOBILE IMAGE SLIDER
         ===================================== */}
 
-        <div className="relative m-0 w-full overflow-hidden p-0">
+        <div
+          className="
+            relative
+            m-0
+            w-full
+            overflow-hidden
+            p-0
+          "
+        >
 
           <div
             className="
@@ -299,7 +304,12 @@ const Hero = () => {
 
         <div
           id="lead-form"
-          className="m-0 w-full bg-gray-50 p-0"
+          className="
+            m-0
+            w-full
+            bg-gray-50
+            p-0
+          "
         >
           <LeadForm />
         </div>
@@ -310,15 +320,34 @@ const Hero = () => {
           TABLET + LAPTOP + DESKTOP VERSION
       ===================================================== */}
 
-      <div className="relative hidden min-h-screen md:block">
+      <div
+        className="
+          relative
+          hidden
+          min-h-screen
+          md:block
+        "
+      >
 
         {/* =====================================
             TABLET & DESKTOP BACKGROUND
         ===================================== */}
 
-        <div className="absolute inset-0 -z-10">
+        <div
+          className="
+            absolute
+            inset-0
+            -z-10
+          "
+        >
 
-          <picture className="block h-full w-full">
+          <picture
+            className="
+              block
+              h-full
+              w-full
+            "
+          >
 
             <source
               media="(max-width:1024px)"
@@ -328,7 +357,11 @@ const Hero = () => {
             <img
               src="/bg-image-desktop.webp"
               alt="Modern house designed by Jaypro Infratech"
-              className="h-full w-full object-cover"
+              className="
+                h-full
+                w-full
+                object-cover
+              "
               loading="eager"
               fetchPriority="high"
               decoding="async"
@@ -336,9 +369,15 @@ const Hero = () => {
 
           </picture>
 
-          {/* Dark Overlay */}
+          {/* DARK OVERLAY */}
 
-          <div className="absolute inset-0 bg-black/40" />
+          <div
+            className="
+              absolute
+              inset-0
+              bg-black/40
+            "
+          />
 
         </div>
 
@@ -355,143 +394,101 @@ const Hero = () => {
             w-full
             items-center
             justify-between
-            gap-8
+            gap-6
             px-6
             py-10
             lg:px-10
-            xl:px-16
+            xl:px-14
           "
         >
 
           {/* =====================================
-              LEFT SEO CONTENT
+              LEFT / CENTER SEO CONTENT
           ===================================== */}
 
-          <div
-            className="
-              flex
-              w-full
-              max-w-2xl
-              items-center
-              justify-center
-              text-white
-              lg:translate-x-48
-              lg:-translate-y-28
-            "
-          >
+<div
+  className="
+    flex
+    flex-1
+    items-center
+    justify-center
+    text-white
+    -translate-y-10
+    lg:-translate-y-32
+  "
+>
 
-            <div className="w-full text-center">
-
-              {/* =================================
-                  MAIN H1
-              ================================= */}
+            <div
+              className="
+                w-full
+                max-w-2xl
+                text-center
+                lg:translate-x-16
+                xl:translate-x-20
+              "
+            >
 
               <h1
                 className="
                   font-extrabold
-                  leading-none
+                  leading-tight
                   tracking-tight
+                  drop-shadow-[0_5px_12px_rgba(0,0,0,0.8)]
                 "
               >
 
-                {/* =================================
-                    COMPLETE CONSTRUCTION
-                ================================= */}
+                {/* =====================================
+                    COMPLETE HEADING
+                ===================================== */}
 
                 <span
                   className="
                     block
-                    whitespace-nowrap
-                    text-4xl
+                    text-3xl
                     font-black
                     text-white
-                    drop-shadow-[0_5px_12px_rgba(0,0,0,0.8)]
-                    sm:text-5xl
-                    lg:text-6xl
+                    sm:text-4xl
+                    lg:text-5xl
                   "
                 >
-                  Complete Construction
+                  From Design to Construction
                 </span>
 
-                {/* =================================
-                    WITH JAYPRO INFRATECH
-                ================================= */}
-
                 <span
-  className="
-    mt-3
-    block
-    text-3xl
-    font-black
-    sm:text-4xl
-    lg:text-5xl
-  "
->
+                  className="
+                    mt-3
+                    block
+                    text-2xl
+                    font-bold
+                    text-white
+                    sm:text-3xl
+                    lg:text-4xl
+                  "
+                >
+                  with Materials —{" "}
 
-                  {/* WITH - BLACK */}
+                  {/* =================================
+                      JAYPRO INFRATECH
+                      WHITE TEXT + RED BACKGROUND
+                  ================================= */}
 
-                  <span className="text-white">
-                    with
-                  </span>
-
-                  {" "}
-
-                  {/* JAYPRO - BLACK */}
-
-                  <span className="text-white">
-                    Jaypro
-                  </span>
-
-                  {" "}
-
-                  {/* INFRATECH - RED */}
-
-                  <span className="text-red-600">
-                    Infratech
+                  <span
+                    className="
+                      inline-block
+                      bg-red-600
+                      px-3
+                      py-1
+                      text-white
+                      leading-none
+                      shadow-lg
+                    "
+                  >
+                    Jaypro Infratech
                   </span>
 
                 </span>
 
               </h1>
-
-              {/* =================================
-                  DESCRIPTION
-              ================================= */}
-
-              <div className="mt-6">
-              </div>
-
-              {/* =================================
-                  SERVICES
-              ================================= */}
-
-              <div
-                className="
-                  mt-6
-                  grid
-                  max-w-xl
-                  grid-cols-1
-                  gap-3
-                  text-sm
-                  sm:grid-cols-2
-                  md:text-base
-                "
-              >
-              </div>
-
-              {/* =================================
-                  SEO CONTENT
-              ================================= */}
-
-              <div>
-              </div>
-
-              {/* =================================
-                  CTA
-              ================================= */}
-
-              <div className="mt-7">
-              </div>
 
             </div>
 
@@ -505,10 +502,10 @@ const Hero = () => {
             id="lead-form-desktop"
             className="
               w-full
-              max-w-sm
+              max-w-[300px]
               shrink-0
-              lg:max-w-[330px]
-              xl:max-w-[350px]
+              lg:max-w-[310px]
+              xl:max-w-[330px]
             "
           >
             <LeadForm />

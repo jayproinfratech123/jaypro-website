@@ -124,7 +124,7 @@ const Services = () => {
           className="absolute inset-0 bg-cover bg-center"
           style={{
             backgroundImage:
-              "url('/images/services-hero.jpg')",
+              "url('/bg-image-service.png')",
           }}
           aria-hidden="true"
         />

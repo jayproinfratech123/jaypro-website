@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import {
   FaDraftingCompass,
@@ -12,9 +13,7 @@ import {
 } from "react-icons/fa";
 
 // =====================================================
-// IMPORTANT
-// LeadForm.jsx and ServicesSection.jsx are in the
-// SAME components folder.
+// LEAD FORM
 // =====================================================
 
 import LeadForm from "./LeadForm";
@@ -96,13 +95,18 @@ const services = [
 // =====================================================
 
 export default function ServicesSection() {
+  const navigate = useNavigate();
+
   const [showLeadForm, setShowLeadForm] = useState(false);
+
+  const [selectedService, setSelectedService] = useState(null);
 
   // ===================================================
   // OPEN LEAD FORM
   // ===================================================
 
-  const handleServiceClick = () => {
+  const handleServiceClick = (service) => {
+    setSelectedService(service);
     setShowLeadForm(true);
   };
 
@@ -112,6 +116,31 @@ export default function ServicesSection() {
 
   const handleCloseLeadForm = () => {
     setShowLeadForm(false);
+    setSelectedService(null);
+  };
+
+  // ===================================================
+  // FORM SUCCESS
+  // ===================================================
+
+  const handleLeadSuccess = () => {
+    console.log(
+      "Lead submitted successfully for:",
+      selectedService?.title
+    );
+
+    const destination = selectedService?.path;
+
+    // Close popup first
+    setShowLeadForm(false);
+
+    // Clear selected service
+    setSelectedService(null);
+
+    // Navigate to selected service page
+    if (destination) {
+      navigate(destination);
+    }
   };
 
   return (
@@ -162,6 +191,8 @@ export default function ServicesSection() {
             >
               Hamari Services Ke Baare Mein Jaane
             </p>
+
+            {/* SEO TEXT */}
 
             <p className="sr-only">
               Explore our professional architecture design,
@@ -297,7 +328,7 @@ export default function ServicesSection() {
 
                 <button
                   type="button"
-                  onClick={handleServiceClick}
+                  onClick={() => handleServiceClick(service)}
                   className={`
                     flex
                     w-full
@@ -334,7 +365,7 @@ export default function ServicesSection() {
       </section>
 
       {/* =====================================================
-          EXISTING LEAD FORM POPUP
+          LEAD FORM POPUP
       ===================================================== */}
 
       {showLeadForm && (
@@ -404,10 +435,13 @@ export default function ServicesSection() {
             </button>
 
             {/* =================================================
-                YOUR EXISTING LEAD FORM
+                LEAD FORM
             ================================================= */}
 
-            <LeadForm />
+            <LeadForm
+              onSuccess={handleLeadSuccess}
+              onClose={handleCloseLeadForm}
+            />
 
           </div>
 
@@ -417,4 +451,4 @@ export default function ServicesSection() {
 
     </>
   );
-}
+}       

@@ -1,206 +1,98 @@
-import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-
-import { Phone, Menu, X, XCircle } from "lucide-react";
-
-import heroImage from "/architecture-background.webp";
-
-import SEO from "../../components/SEO";
-
-
 const Architecture = () => {
-
-  const location = useLocation();
-  const navigate = useNavigate();
-
-  // ==========================================
-  // LEAD FORM STATE
-  // ==========================================
-
-  const [showLeadForm, setShowLeadForm] = useState(
-    location.state?.openLeadForm === true
-  );
-
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  // ==========================================
-  // SERVICE NAME
-  // ==========================================
-
-  const serviceName =
-    location.state?.service || "Architecture Design";
-
-  // ==========================================
-  // FORM SUBMITTED
-  // ==========================================
-
-  const handleLeadSuccess = () => {
-
-    setShowLeadForm(false);
-
-    // Remove router state after successful submission
-    navigate(location.pathname, {
-      replace: true,
-      state: {},
-    });
-
-  };
-
-  // ==========================================
-  // FORM CLOSED USING X
-  // GO HOME
-  // ==========================================
-
-  const handleFormClose = () => {
-
-    setShowLeadForm(false);
-
-    navigate("/", {
-      replace: true,
-    });
-
-  };
-
   return (
-    <>
-      {/* ==========================================
-          SEO
-      ========================================== */}
+    <div className="min-h-screen bg-white">
 
-      <SEO
-        title="Architecture Design Services in Patna | Jaypro Infratech"
-        description="Professional architecture and building design services in Patna by Jaypro Infratech."
-      />
+      <section className="bg-gray-900 px-6 py-32 text-center text-white">
+        <h1 className="text-4xl font-bold md:text-6xl">
+          Architecture Design Services
+        </h1>
 
-      {/* ==========================================
-          YOUR COMPLETE ARCHITECTURE PAGE
-      ========================================== */}
+        <p className="mx-auto mt-6 max-w-3xl text-lg">
+          Professional architecture design, floor planning and
+          building design services for your dream project.
+        </p>
+      </section>
 
-      <div className="min-h-screen bg-white">
+      <section className="px-6 py-20">
+        <div className="mx-auto max-w-7xl">
 
-        {/* ==========================================
-            HEADER
-        ========================================== */}
+          <h2 className="text-3xl font-bold text-gray-900">
+            Architecture Design Services
+          </h2>
 
-        <header className="relative z-50">
+          <p className="mt-5 text-gray-600">
+            Professional architecture and building design services
+            for your dream home.
+          </p>
 
-          {/* YOUR EXISTING HEADER CODE */}
+          <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
 
-        </header>
-
-
-        {/* ==========================================
-            HERO
-        ========================================== */}
-
-        <section
-          className="
-            relative
-            min-h-[600px]
-            bg-cover
-            bg-center
-          "
-          style={{
-            backgroundImage: `url(${heroImage})`,
-          }}
-        >
-
-          <div className="absolute inset-0 bg-black/50" />
-
-          <div
-            className="
-              relative
-              z-10
-              flex
-              min-h-[600px]
-              items-center
-              justify-center
-              px-6
-              text-center
-              text-white
-            "
-          >
-
-            <div>
-
-              <h1
-                className="
-                  text-4xl
-                  font-bold
-                  md:text-6xl
-                "
-              >
-                Architecture Design Services
-              </h1>
-
-              <p
-                className="
-                  mx-auto
-                  mt-6
-                  max-w-3xl
-                  text-lg
-                  md:text-xl
-                "
-              >
-                Professional architecture design,
-                floor planning and building design
-                services for your dream project.
+            <div className="rounded-xl border p-6 shadow-sm">
+              <h3 className="text-xl font-bold">
+                Floor Plan Design
+              </h3>
+              <p className="mt-3 text-gray-600">
+                Customized floor plans designed according to your
+                requirements and plot dimensions.
               </p>
+            </div>
 
+            <div className="rounded-xl border p-6 shadow-sm">
+              <h3 className="text-xl font-bold">
+                3D Front Elevation
+              </h3>
+              <p className="mt-3 text-gray-600">
+                Modern and attractive front elevation designs for
+                your dream home.
+              </p>
+            </div>
+
+            <div className="rounded-xl border p-6 shadow-sm">
+              <h3 className="text-xl font-bold">
+                Structural Design
+              </h3>
+              <p className="mt-3 text-gray-600">
+                Professional structural planning for safe and
+                durable construction.
+              </p>
+            </div>
+
+            <div className="rounded-xl border p-6 shadow-sm">
+              <h3 className="text-xl font-bold">
+                Electrical Plan
+              </h3>
+              <p className="mt-3 text-gray-600">
+                Detailed electrical planning for residential
+                building projects.
+              </p>
+            </div>
+
+            <div className="rounded-xl border p-6 shadow-sm">
+              <h3 className="text-xl font-bold">
+                Plumbing Plan
+              </h3>
+              <p className="mt-3 text-gray-600">
+                Efficient plumbing layouts designed for practical
+                construction.
+              </p>
+            </div>
+
+            <div className="rounded-xl border p-6 shadow-sm">
+              <h3 className="text-xl font-bold">
+                Vastu Planning
+              </h3>
+              <p className="mt-3 text-gray-600">
+                Vastu-oriented planning for a comfortable and
+                well-organized home.
+              </p>
             </div>
 
           </div>
 
-        </section>
+        </div>
+      </section>
 
-
-        {/* ==========================================
-            YOUR OTHER ARCHITECTURE CONTENT
-        ========================================== */}
-
-        <section className="px-6 py-20">
-
-          <div className="mx-auto max-w-7xl">
-
-            <h2 className="text-3xl font-bold">
-              Architecture Design Services
-            </h2>
-
-            <p className="mt-5 text-gray-600">
-              Add your existing Architecture page
-              content here.
-            </p>
-
-            {/*
-
-              KEEP ALL YOUR EXISTING
-              ARCHITECTURE PAGE CONTENT HERE.
-
-            */}
-
-          </div>
-
-        </section>
-
-
-        {/* ==========================================
-            FOOTER
-        ========================================== */}
-
-        <footer>
-          {/* YOUR EXISTING FOOTER */}
-        </footer>
-
-      </div>
-
-
-      {/* ==========================================
-          SERVICE LEAD FORM
-          APPEARS IN FRONT
-      ========================================== */}
-
-
-    </>
+    </div>
   );
 };
 

@@ -11,7 +11,7 @@ import ScrollToTop from "./components/ScrollToTop";
 // ==========================================
 // LAYOUT COMPONENTS
 // ==========================================
-
+import ArchitectureAds from "./pages/ArchitectureAds";
 import Navbar from "./components/layout/Navbar.jsx";
 import Footer from "./components/layout/Footer.jsx";
 import ProtectedRoute from "./components/common/ProtectedRoute.jsx";
@@ -144,6 +144,10 @@ function App() {
             path="/services"
             element={<Services />}
           />
+          <Route
+  path="/architecture-design"
+  element={<ArchitectureAds />}
+/>
 
           {/* PORTFOLIO */}
           <Route
