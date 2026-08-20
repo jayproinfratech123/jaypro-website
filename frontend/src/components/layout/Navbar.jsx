@@ -15,7 +15,7 @@ const navLinks = [
   { to: "/services", label: "Services" },
 
   { to: "/portfolio", label: "Portfolio" },
-  { to: "/pricing", label: "Pricing" },
+  // { to: "/pricing", label: "Pricing" },
   { to: "/packages", label: "Packages" },
   { to: "/blogs", label: "Blogs" },
   { to: "/contact", label: "Contact" },

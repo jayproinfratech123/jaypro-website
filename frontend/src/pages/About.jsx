@@ -18,13 +18,6 @@ export default function About() {
   // =====================================================
   // RESPONSIVE IMAGES
   // =====================================================
-  // Put your images inside:
-  // public/images/
-  //
-  // Desktop = lg and above
-  // Tablet  = md to lg
-  // Phone   = below md
-  // =====================================================
 
   const images = {
     hero: {
@@ -41,7 +34,7 @@ export default function About() {
 
     quality: {
       desktop: "/residence-home-with-garden.png",
-      tablet: "/residence-home-with-garden-tablate.webpg",
+      tablet: "/residence-home-with-garden-tablate.webp",
       mobile: "/residence-home-garden-mobile.webp",
     },
   };
@@ -131,9 +124,7 @@ export default function About() {
         className="relative min-h-[720px] overflow-hidden text-white"
         aria-labelledby="about-page-heading"
       >
-        {/* =================================================
-            HERO DESKTOP IMAGE
-        ================================================== */}
+        {/* DESKTOP IMAGE */}
 
         <img
           src={images.hero.desktop}
@@ -141,9 +132,7 @@ export default function About() {
           className="absolute inset-0 hidden h-full w-full object-cover lg:block"
         />
 
-        {/* =================================================
-            HERO TABLET IMAGE
-        ================================================== */}
+        {/* TABLET IMAGE */}
 
         <img
           src={images.hero.tablet}
@@ -151,9 +140,7 @@ export default function About() {
           className="absolute inset-0 hidden h-full w-full object-cover md:block lg:hidden"
         />
 
-        {/* =================================================
-            HERO MOBILE IMAGE
-        ================================================== */}
+        {/* MOBILE IMAGE */}
 
         <img
           src={images.hero.mobile}
@@ -161,38 +148,32 @@ export default function About() {
           className="absolute inset-0 block h-full w-full object-cover md:hidden"
         />
 
-        {/* =================================================
-            DARK OVERLAY
-        ================================================== */}
+        {/* DARK OVERLAY */}
 
         <div
-          className="absolute inset-0 bg-black/20"
+          className="absolute inset-0 bg-black/0"
           aria-hidden="true"
         />
 
-        {/* =================================================
-            LEFT GRADIENT
-        ================================================== */}
+        {/* LEFT GRADIENT */}
 
         <div
-          className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/60 to-black/10"
+          className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/ to-black/"
           aria-hidden="true"
         />
 
-        {/* =================================================
-            HERO CONTENT
-        ================================================== */}
+        {/* HERO CONTENT */}
 
         <div className="relative mx-auto flex min-h-[720px] max-w-7xl items-center px-5 py-24 sm:px-6 lg:px-8">
           <div className="max-w-4xl">
 
-            {/* Small Heading */}
+            {/* SMALL HEADING */}
 
-            <p className="mb-5 text-sm font-bold uppercase tracking-[0.25em] text-red-500 sm:text-base">
+            <p className="mb-5 inline bg-red-500 text-sm font-bold uppercase tracking-[0.25em] text-white sm:text-base">
               About Jaypro Infratech
             </p>
 
-            {/* Main Heading */}
+            {/* MAIN HEADING */}
 
             <h1
               id="about-page-heading"
@@ -206,7 +187,7 @@ export default function About() {
               </span>
             </h1>
 
-            {/* Description */}
+            {/* DESCRIPTION */}
 
             <p className="mt-7 max-w-2xl text-sm leading-7 text-gray-200 sm:text-base md:text-lg">
               Jaypro Infratech is a construction, architecture and interior
@@ -216,7 +197,7 @@ export default function About() {
               innovation and transparency.
             </p>
 
-            {/* Services Tags */}
+            {/* SERVICES TAGS */}
 
             <div className="mt-7 flex flex-wrap gap-3">
 
@@ -234,7 +215,7 @@ export default function About() {
 
             </div>
 
-            {/* Buttons */}
+            {/* BUTTONS */}
 
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
 
@@ -258,9 +239,7 @@ export default function About() {
           </div>
         </div>
 
-        {/* =================================================
-            STATS BAR
-        ================================================== */}
+        {/* STATS BAR */}
 
         <div className="absolute bottom-0 left-0 right-0 border-t border-white/20 bg-black/50 backdrop-blur-md">
 
@@ -321,10 +300,6 @@ export default function About() {
 
         <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 sm:px-6 lg:grid-cols-2 lg:px-8">
 
-          {/* =================================================
-              LEFT CONTENT
-          ================================================== */}
-
           <div>
 
             <p className="text-sm font-bold uppercase tracking-[0.2em] text-red-600">
@@ -355,8 +330,6 @@ export default function About() {
               works closely with you throughout the journey.
             </p>
 
-            {/* Highlights */}
-
             <div className="mt-7 grid gap-3 sm:grid-cols-2">
 
               {[
@@ -386,15 +359,11 @@ export default function About() {
 
           </div>
 
-          {/* =================================================
-              RIGHT IMAGE - DESKTOP
-          ================================================== */}
+          {/* COMPANY IMAGE */}
 
           <div className="relative">
 
             <div className="overflow-hidden rounded-2xl shadow-2xl">
-
-              {/* Desktop */}
 
               <img
                 src={images.company.desktop}
@@ -402,15 +371,11 @@ export default function About() {
                 className="hidden h-[420px] w-full object-cover transition duration-500 hover:scale-105 lg:block"
               />
 
-              {/* Tablet */}
-
               <img
                 src={images.company.tablet}
                 alt="Luxury modern residence"
-                className="hidden h-[420px] w-full object-cover transition duration-500 hover:scale-105 md:block md:lg:hidden"
+                className="hidden h-[420px] w-full object-cover transition duration-500 hover:scale-105 md:block lg:hidden"
               />
-
-              {/* Mobile */}
 
               <img
                 src={images.company.mobile}
@@ -420,7 +385,7 @@ export default function About() {
 
             </div>
 
-            {/* Experience Card */}
+            {/* EXPERIENCE CARD */}
 
             <div className="absolute -bottom-6 left-5 rounded-xl bg-red-600 px-6 py-5 text-white shadow-xl sm:left-8">
 
@@ -447,8 +412,6 @@ export default function About() {
 
         <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
 
-          {/* Heading */}
-
           <div className="mx-auto max-w-3xl text-center">
 
             <p className="text-sm font-bold uppercase tracking-[0.2em] text-red-600">
@@ -465,8 +428,6 @@ export default function About() {
             </p>
 
           </div>
-
-          {/* Service Cards */}
 
           <div className="mt-12 grid gap-6 md:grid-cols-3">
 
@@ -512,15 +473,9 @@ export default function About() {
 
         <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 sm:px-6 lg:grid-cols-2 lg:px-8">
 
-          {/* =================================================
-              IMAGE
-          ================================================== */}
-
           <div className="relative order-2 lg:order-1">
 
             <div className="overflow-hidden rounded-2xl">
-
-              {/* Desktop */}
 
               <img
                 src={images.quality.desktop}
@@ -528,15 +483,11 @@ export default function About() {
                 className="hidden h-[450px] w-full object-cover lg:block"
               />
 
-              {/* Tablet */}
-
               <img
                 src={images.quality.tablet}
                 alt="Modern construction project"
                 className="hidden h-[450px] w-full object-cover md:block lg:hidden"
               />
-
-              {/* Mobile */}
 
               <img
                 src={images.quality.mobile}
@@ -546,7 +497,7 @@ export default function About() {
 
             </div>
 
-            {/* Trusted Quality Card */}
+            {/* TRUSTED QUALITY CARD */}
 
             <div className="absolute bottom-6 right-6 rounded-xl bg-white p-5 shadow-xl">
 
@@ -575,13 +526,9 @@ export default function About() {
 
           </div>
 
-          {/* =================================================
-              CONTENT
-          ================================================== */}
-
           <div className="order-1 lg:order-2">
 
-            <p className="text-sm font-bold uppercase tracking-[0.2em] text-red-600">
+            <p className="text-lg font-bold uppercase tracking-[0.2em] text-red-600 sm:text-xl">
               Why Jaypro Infratech
             </p>
 
@@ -596,8 +543,6 @@ export default function About() {
               solutions while keeping quality, communication and customer
               satisfaction at the center of every project.
             </p>
-
-            {/* Benefits */}
 
             <div className="mt-7 space-y-4">
 
@@ -628,54 +573,56 @@ export default function About() {
 
       {/* =====================================================
           FINAL CTA
+          CLEAN BACKGROUND - NO GRID LINES
       ====================================================== */}
 
-      <section className="relative overflow-hidden bg-[#14264d] py-16 text-white sm:py-20">
+      <section className="relative overflow-hidden bg-gray-50 py-16 text-gray-900 sm:py-20">
 
-        {/* Background Decoration */}
+        {/* SUBTLE DECORATIVE CIRCLE */}
 
         <div
-          className="absolute inset-0 opacity-10"
+          className="absolute -right-32 -top-32 h-80 w-80 rounded-full bg-red-100/60 blur-3xl"
           aria-hidden="true"
-          style={{
-            backgroundImage: `
-              linear-gradient(
-                rgba(255, 255, 255, 0.93) 1px,
-                transparent 1px
-              ),
-              linear-gradient(
-                90deg,
-                rgba(255,255,255,.3) 1px,
-                transparent 1px
-              )
-            `,
-            backgroundSize: "70px 70px",
-          }}
         />
+
+        <div
+          className="absolute -bottom-32 -left-32 h-80 w-80 rounded-full bg-red-50 blur-3xl"
+          aria-hidden="true"
+        />
+
+        {/* CTA CONTENT */}
 
         <div className="relative mx-auto max-w-4xl px-5 text-center sm:px-6">
 
-          <p className="text-sm font-bold uppercase tracking-[0.2em] text-red-500">
+          {/* SMALL HEADING */}
+
+          <p className="text-sm font-bold uppercase tracking-[0.2em] text-red-600">
             Let's Build Together
           </p>
 
-          <h2 className="mt-3 text-3xl font-extrabold sm:text-4xl lg:text-5xl">
+          {/* MAIN HEADING */}
+
+          <h2 className="mt-3 text-3xl font-extrabold text-gray-900 sm:text-4xl lg:text-5xl">
             Ready To Build Your
-            <span className="text-red-500">
+            <span className="text-red-600">
               {" "}Dream Space?
             </span>
           </h2>
 
-          <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-gray-300 sm:text-base">
+          {/* DESCRIPTION */}
+
+          <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-gray-600 sm:text-base">
             Talk to our team about your construction, architecture or interior
             design requirements and take the first step towards your project.
           </p>
+
+          {/* BUTTONS */}
 
           <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
 
             <a
               href="/contact"
-              className="inline-flex items-center justify-center gap-2 rounded-lg bg-red-600 px-7 py-3.5 font-semibold text-white transition hover:bg-red-700"
+              className="inline-flex items-center justify-center gap-2 rounded-lg bg-red-600 px-7 py-3.5 font-semibold text-white shadow-lg shadow-red-600/20 transition duration-300 hover:-translate-y-0.5 hover:bg-red-700"
             >
               Get Free Consultation
               <ArrowRight size={18} />
@@ -683,7 +630,7 @@ export default function About() {
 
             <a
               href="/projects"
-              className="inline-flex items-center justify-center rounded-lg border border-white/30 px-7 py-3.5 font-semibold text-white transition hover:bg-white hover:text-black"
+              className="inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-7 py-3.5 font-semibold text-gray-800 shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-red-600 hover:text-red-600"
             >
               View Our Projects
             </a>

@@ -117,7 +117,7 @@ const Footer = () => {
               </li>
 
               {/* PRICING */}
-              <li>
+              {/* <li>
                 <Link
                   to="/pricing"
                   onClick={() => {
@@ -130,7 +130,7 @@ const Footer = () => {
                 >
                   Pricing
                 </Link>
-              </li>
+              </li> */}
 
               {/* CONTACT */}
               <li>

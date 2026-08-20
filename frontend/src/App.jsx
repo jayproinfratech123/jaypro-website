@@ -11,6 +11,7 @@ import ScrollToTop from "./components/ScrollToTop";
 // ==========================================
 // LAYOUT COMPONENTS
 // ==========================================
+
 import ArchitectureAds from "./pages/ArchitectureAds";
 import Navbar from "./components/layout/Navbar.jsx";
 import Footer from "./components/layout/Footer.jsx";
@@ -62,6 +63,12 @@ import Turnkey from "./pages/services/Trunkey.jsx";
 import Vastu from "./pages/services/Vastu.jsx";
 import EstimatePage from "./pages/services/Estimate.jsx";
 import Contractor from "./pages/services/Contractor.jsx";
+
+// ==========================================
+// ARCHITECTURE SERVICE DETAIL PAGES
+// ==========================================
+
+import TwoDFloorPlan from "./pages/services/architecture/TwoDFloorPlan.jsx";
 
 // ==========================================
 // CUSTOMER DASHBOARD
@@ -122,15 +129,22 @@ function App() {
       ========================================== */}
 
       <main className="min-h-screen pb-24">
+
         <Routes>
 
-          {/* HOME */}
+          {/* ==========================================
+              HOME
+          ========================================== */}
+
           <Route
             path="/"
             element={<Home />}
           />
 
-          {/* ABOUT */}
+          {/* ==========================================
+              ABOUT
+          ========================================== */}
+
           <Route
             path="/about"
             element={<About />}
@@ -144,18 +158,29 @@ function App() {
             path="/services"
             element={<Services />}
           />
-          <Route
-  path="/architecture-design"
-  element={<ArchitectureAds />}
-/>
 
-          {/* PORTFOLIO */}
+          {/* ==========================================
+              GOOGLE ADS ARCHITECTURE LANDING PAGE
+          ========================================== */}
+
+          <Route
+            path="/architecture-design"
+            element={<ArchitectureAds />}
+          />
+
+          {/* ==========================================
+              PORTFOLIO
+          ========================================== */}
+
           <Route
             path="/portfolio"
             element={<Portfolio />}
           />
 
-          {/* BLOG */}
+          {/* ==========================================
+              BLOG
+          ========================================== */}
+
           <Route
             path="/blog"
             element={<Blogs />}
@@ -166,32 +191,44 @@ function App() {
             element={<Blogs />}
           />
 
-          {/* PRICING */}
+          {/* ==========================================
+              PRICING
+          ========================================== */}
+
           <Route
             path="/pricing"
             element={<NavbarPricing />}
           />
 
-          {/* CONTACT */}
+          {/* ==========================================
+              CONTACT
+          ========================================== */}
+
           <Route
             path="/contact"
             element={<Contact />}
           />
 
-          {/* LOGIN */}
+          {/* ==========================================
+              LOGIN
+          ========================================== */}
+
           <Route
             path="/login"
             element={<Login />}
           />
 
-          {/* REGISTER */}
+          {/* ==========================================
+              REGISTER
+          ========================================== */}
+
           <Route
             path="/register"
             element={<Register />}
           />
 
           {/* ==========================================
-              LEGAL ROUTES
+              LEGAL PAGES
           ========================================== */}
 
           <Route
@@ -209,14 +246,17 @@ function App() {
             element={<RefundPolicy />}
           />
 
-          {/* NAKSHA */}
+          {/* ==========================================
+              NAKSHA
+          ========================================== */}
+
           <Route
             path="/naksha"
             element={<Naksha />}
           />
 
           {/* ==========================================
-              SERVICE DETAIL PAGES
+              MAIN SERVICE PAGES
           ========================================== */}
 
           <Route
@@ -239,7 +279,22 @@ function App() {
             element={<Vastu />}
           />
 
-          {/* ESTIMATE */}
+          {/* ==========================================
+              ARCHITECTURE SERVICE DETAIL
+              
+              IMPORTANT:
+              THIS MUST BE OUTSIDE DASHBOARD
+          ========================================== */}
+
+          <Route
+            path="/services/architecture/2d-floor-plan"
+            element={<TwoDFloorPlan />}
+          />
+
+          {/* ==========================================
+              ESTIMATE
+          ========================================== */}
+
           <Route
             path="/estimate"
             element={<EstimatePage />}
@@ -250,7 +305,10 @@ function App() {
             element={<EstimatePage />}
           />
 
-          {/* CONTRACTOR */}
+          {/* ==========================================
+              CONTRACTOR
+          ========================================== */}
+
           <Route
             path="/packages"
             element={<Packages />}
@@ -273,35 +331,49 @@ function App() {
               </ProtectedRoute>
             }
           >
+
+            {/* DASHBOARD HOME */}
+
             <Route
               index
               element={<DashboardHome />}
             />
+
+            {/* PROJECTS */}
 
             <Route
               path="projects"
               element={<MyProjects />}
             />
 
+            {/* LIVE TRACKING */}
+
             <Route
               path="tracking"
               element={<LiveTracking />}
             />
+
+            {/* DOCUMENTS */}
 
             <Route
               path="documents"
               element={<Documents />}
             />
 
+            {/* PAYMENTS */}
+
             <Route
               path="payments"
               element={<Payments />}
             />
 
+            {/* CHAT */}
+
             <Route
               path="chat"
               element={<Chat />}
             />
+
           </Route>
 
           {/* ==========================================
@@ -316,29 +388,39 @@ function App() {
               </ProtectedRoute>
             }
           >
+
+            {/* ADMIN HOME */}
+
             <Route
               index
               element={<AdminHome />}
             />
+
+            {/* ADMIN PROJECTS */}
 
             <Route
               path="projects"
               element={<AdminProjects />}
             />
 
+            {/* ADMIN CUSTOMERS */}
+
             <Route
               path="customers"
               element={<AdminCustomers />}
             />
 
+            {/* ADMIN BLOGS */}
+
             <Route
               path="blogs"
               element={<AdminBlogs />}
             />
+
           </Route>
 
           {/* ==========================================
-              404
+              404 PAGE
           ========================================== */}
 
           <Route
@@ -347,19 +429,27 @@ function App() {
           />
 
         </Routes>
+
       </main>
 
-      {/* FOOTER */}
+      {/* ==========================================
+          FOOTER
+      ========================================== */}
 
       {!isPricingPage && <Footer />}
 
-      {/* MOBILE BOTTOM NAVIGATION */}
+      {/* ==========================================
+          MOBILE BOTTOM NAVIGATION
+      ========================================== */}
 
       {!isPricingPage && <BottomNavigation />}
 
-      {/* WHATSAPP */}
+      {/* ==========================================
+          WHATSAPP
+      ========================================== */}
 
       <WhatsAppButton />
+
     </>
   );
 }

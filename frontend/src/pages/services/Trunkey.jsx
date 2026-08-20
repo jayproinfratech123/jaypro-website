@@ -1,8 +1,13 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { FaTimes } from "react-icons/fa";
 
+import LeadForm from "../../components/LeadForm";
 
+// =====================================================
+// TURNKEY STEPS
+// =====================================================
 
 const steps = [
   {
@@ -69,50 +74,105 @@ const steps = [
   },
 ];
 
+// =====================================================
+// COMPONENT
+// =====================================================
+
 export default function Trunkey() {
   const location = useLocation();
   const navigate = useNavigate();
 
   // =====================================================
-  // SERVICE LEAD FORM
+  // LEAD FORM STATE
+  //
+  // If ServicesSection sends:
+  // state: { openLeadForm: true }
+  //
+  // popup opens immediately.
   // =====================================================
 
-  const [showLeadForm, setShowLeadForm] = useState(false);
+  const [showLeadForm, setShowLeadForm] = useState(
+    location.state?.openLeadForm === true
+  );
 
   // =====================================================
-  // AUTOMATICALLY OPEN FORM
-  // WHEN USER COMES FROM HOME SERVICE CARD
+  // OPEN POPUP WHEN COMING FROM SERVICES
   // =====================================================
 
   useEffect(() => {
     if (location.state?.openLeadForm === true) {
       setShowLeadForm(true);
 
-      // Remove navigation state
-      // so refresh does not reopen the form
+      /*
+        IMPORTANT:
+
+        Remove the router state after reading it.
+
+        This means:
+        - Clicking Turnkey → popup opens
+        - Refreshing after the state is removed → popup does NOT reopen
+      */
+
       navigate(location.pathname, {
         replace: true,
         state: null,
       });
     }
-  }, [location, navigate]);
+  }, [location.state, location.pathname, navigate]);
 
   // =====================================================
-  // FORM SUCCESS
+  // LOCK BACKGROUND SCROLL WHEN POPUP IS OPEN
+  // =====================================================
+
+  useEffect(() => {
+    if (showLeadForm) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [showLeadForm]);
+
+  // =====================================================
+  // SUCCESSFUL FORM SUBMISSION
+  //
+  // IMPORTANT:
+  //
+  // Submit form:
+  // → Close popup
+  // → Stay on Turnkey page
+  // → Enable scrolling
+  //
+  // DO NOT navigate home here.
   // =====================================================
 
   const handleLeadSuccess = () => {
     setShowLeadForm(false);
+
+    // Restore scrolling
+    document.body.style.overflow = "";
   };
 
   // =====================================================
-  // FORM CLOSE
-  // X BUTTON → HOME
+  // CLOSE POPUP
+  //
+  // X BUTTON
+  // OUTSIDE CLICK
+  // ESC KEY
+  //
+  // → HOME PAGE
   // =====================================================
 
   const handleLeadClose = () => {
     setShowLeadForm(false);
 
+    // Restore scrolling
+    document.body.style.overflow = "";
+
+    // Go to Home
     navigate("/", {
       replace: true,
     });
@@ -120,11 +180,36 @@ export default function Trunkey() {
 
   // =====================================================
   // OPEN FORM FROM TURNKEY PAGE
+  //
+  // These buttons inside the Turnkey page
+  // can still open the popup.
   // =====================================================
 
   const openLeadForm = () => {
     setShowLeadForm(true);
   };
+
+  // =====================================================
+  // ESC KEY
+  // =====================================================
+
+  useEffect(() => {
+    const handleEscape = (event) => {
+      if (event.key === "Escape" && showLeadForm) {
+        handleLeadClose();
+      }
+    };
+
+    document.addEventListener("keydown", handleEscape);
+
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [showLeadForm]);
+
+  // =====================================================
+  // PAGE
+  // =====================================================
 
   return (
     <>
@@ -151,7 +236,8 @@ export default function Trunkey() {
             text-center
           "
         >
-          {/* Background */}
+
+          {/* Background Image */}
 
           <div
             className="
@@ -159,6 +245,7 @@ export default function Trunkey() {
               inset-0
               bg-cover
               bg-center
+              bg-no-repeat
             "
             style={{
               backgroundImage:
@@ -166,13 +253,20 @@ export default function Trunkey() {
             }}
           />
 
-          {/* Overlay */}
+          {/* Dark Overlay */}
 
           <div className="absolute inset-0 bg-black/60" />
 
           {/* Hero Content */}
 
-          <div className="relative z-10 max-w-4xl text-white">
+          <div
+            className="
+              relative
+              z-10
+              max-w-4xl
+              text-white
+            "
+          >
 
             <p
               className="
@@ -213,13 +307,18 @@ export default function Trunkey() {
               complete construction project.
             </p>
 
-            {/* Consultation Button */}
+            {/* =================================================
+                HERO BUTTON
+            ================================================= */}
 
             <button
               type="button"
               onClick={openLeadForm}
               className="
                 mt-8
+                inline-flex
+                items-center
+                justify-center
                 rounded-full
                 bg-red-600
                 px-8
@@ -228,14 +327,21 @@ export default function Trunkey() {
                 text-white
                 shadow-lg
                 transition
-                hover:bg-red-700
+                duration-300
                 hover:scale-105
+                hover:bg-red-700
+                focus:outline-none
+                focus:ring-2
+                focus:ring-red-400
+                focus:ring-offset-2
+                focus:ring-offset-gray-900
               "
             >
               Get Turnkey Consultation
             </button>
 
           </div>
+
         </section>
 
         {/* =====================================================
@@ -246,9 +352,7 @@ export default function Trunkey() {
 
           <div className="relative mx-auto max-w-5xl px-5">
 
-            {/* =================================================
-                VERTICAL TIMELINE
-            ================================================= */}
+            {/* Vertical Timeline */}
 
             <div
               className="
@@ -324,7 +428,7 @@ export default function Trunkey() {
                 </div>
 
                 {/* =================================================
-                    LEFT
+                    LEFT CONTENT
                 ================================================= */}
 
                 <div className="pl-24 lg:pl-28">
@@ -356,7 +460,7 @@ export default function Trunkey() {
                 </div>
 
                 {/* =================================================
-                    RIGHT
+                    RIGHT CONTENT
                 ================================================= */}
 
                 <div className="max-w-xl">
@@ -401,7 +505,7 @@ export default function Trunkey() {
                   </ul>
 
                   {/* =================================================
-                      CONSULTATION BUTTON
+                      STEP BUTTON
                   ================================================= */}
 
                   <button
@@ -423,6 +527,7 @@ export default function Trunkey() {
                       duration-300
                       hover:scale-105
                       hover:bg-red-700
+                      focus:outline-none
                     "
                   >
                     Get Turnkey Consultation
@@ -433,9 +538,9 @@ export default function Trunkey() {
               </motion.div>
             ))}
 
-            {/* =================================================
+            {/* =====================================================
                 COMPLETION BANNER
-            ================================================= */}
+            ===================================================== */}
 
             <motion.div
               initial={{
@@ -472,7 +577,7 @@ export default function Trunkey() {
                 "
               >
 
-                {/* CHECK */}
+                {/* CHECK ICON */}
 
                 <div
                   className="
@@ -528,10 +633,98 @@ export default function Trunkey() {
       </main>
 
       {/* =====================================================
-          SERVICE LEAD FORM
+          LEAD FORM POPUP
       ===================================================== */}
 
-      
+      {showLeadForm && (
+
+        <div
+          className="
+            fixed
+            inset-0
+            z-[99999]
+            flex
+            items-center
+            justify-center
+            overflow-y-auto
+            bg-black/70
+            px-4
+            py-5
+          "
+          role="dialog"
+          aria-modal="true"
+          aria-label="Turnkey construction enquiry form"
+          onClick={handleLeadClose}
+        >
+
+          {/* =================================================
+              POPUP CONTAINER
+          ================================================= */}
+
+          <div
+            className="
+              relative
+              my-auto
+              w-full
+              max-w-[400px]
+            "
+            onClick={(event) => {
+              event.stopPropagation();
+            }}
+          >
+
+            {/* =================================================
+                CLOSE BUTTON
+            ================================================= */}
+
+            <button
+              type="button"
+              onClick={handleLeadClose}
+              className="
+                absolute
+                right-2
+                top-2
+                z-[100000]
+                flex
+                h-9
+                w-9
+                items-center
+                justify-center
+                rounded-full
+                bg-white
+                text-gray-700
+                shadow-lg
+                transition
+                hover:bg-gray-100
+                hover:text-red-600
+                focus:outline-none
+                focus:ring-2
+                focus:ring-red-500
+              "
+              aria-label="Close lead form"
+            >
+              <FaTimes size={16} />
+            </button>
+
+            {/* =================================================
+                LEAD FORM
+            ================================================= */}
+
+            <div className="overflow-hidden rounded-xl bg-white shadow-2xl">
+
+              <LeadForm
+                onSuccess={handleLeadSuccess}
+                onClose={handleLeadClose}
+              />
+
+            </div>
+
+          </div>
+
+        </div>
+
+      )}
+
     </>
   );
 }

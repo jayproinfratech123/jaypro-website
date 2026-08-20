@@ -1,25 +1,30 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { FaTimes } from "react-icons/fa";
 
+import LeadForm from "../../components/LeadForm";
 
 const Vastu = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  // =====================================================
+  // LEAD FORM STATE
+  // =====================================================
+
   const [showLeadForm, setShowLeadForm] = useState(false);
 
   // =====================================================
-  // OPEN SERVICE LEAD FORM AUTOMATICALLY
-  // WHEN USER COMES FROM SERVICES SECTION
+  // OPEN LEAD FORM AUTOMATICALLY
+  // WHEN COMING FROM HOME SERVICE CARD
   // =====================================================
 
   useEffect(() => {
     if (location.state?.openLeadForm === true) {
       setShowLeadForm(true);
 
-      // Remove navigation state
-      // This prevents the form from opening again
-      // when the page is refreshed.
+      // Remove router state immediately.
+      // This prevents popup from reopening after refresh.
       navigate(location.pathname, {
         replace: true,
         state: null,
@@ -28,25 +33,76 @@ const Vastu = () => {
   }, [location, navigate]);
 
   // =====================================================
-  // FORM SUBMITTED SUCCESSFULLY
+  // LOCK PAGE SCROLL WHILE POPUP IS OPEN
+  // =====================================================
+
+  useEffect(() => {
+    if (showLeadForm) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [showLeadForm]);
+
+  // =====================================================
+  // FORM SUCCESS
+  //
+  // FORM SUBMITTED:
+  // Popup closes
+  // Vastu page remains open
+  // User can scroll the complete Vastu page
   // =====================================================
 
   const handleLeadSuccess = () => {
     setShowLeadForm(false);
+
+    // Make sure scrolling is enabled
+    document.body.style.overflow = "";
   };
 
   // =====================================================
   // CLOSE FORM
-  // X BUTTON → HOME PAGE
+  //
+  // X BUTTON / CLICK OUTSIDE
+  // → GO TO HOME PAGE
   // =====================================================
 
   const handleLeadClose = () => {
     setShowLeadForm(false);
 
+    // Make sure scrolling is enabled
+    document.body.style.overflow = "";
+
+    // Go to HOME
     navigate("/", {
       replace: true,
     });
   };
+
+  // =====================================================
+  // ESC KEY
+  //
+  // Pressing ESC also behaves like X:
+  // → Go to Home
+  // =====================================================
+
+  useEffect(() => {
+    const handleEscape = (event) => {
+      if (event.key === "Escape" && showLeadForm) {
+        handleLeadClose();
+      }
+    };
+
+    document.addEventListener("keydown", handleEscape);
+
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [showLeadForm]);
 
   return (
     <>
@@ -69,7 +125,7 @@ const Vastu = () => {
             RESPONSIVE BACKGROUND IMAGES
         ================================================= */}
 
-        {/* Mobile Image */}
+        {/* MOBILE IMAGE */}
 
         <div
           className="
@@ -85,7 +141,7 @@ const Vastu = () => {
           }}
         />
 
-        {/* Tablet Image */}
+        {/* TABLET IMAGE */}
 
         <div
           className="
@@ -103,7 +159,7 @@ const Vastu = () => {
           }}
         />
 
-        {/* Desktop Image */}
+        {/* DESKTOP IMAGE */}
 
         <div
           className="
@@ -242,9 +298,7 @@ const Vastu = () => {
 
                 <div className="space-y-4">
 
-                  {/* ================================
-                      BENEFIT 1
-                  ================================= */}
+                  {/* BENEFIT 1 */}
 
                   <div className="flex gap-3">
 
@@ -290,9 +344,7 @@ const Vastu = () => {
 
                   </div>
 
-                  {/* ================================
-                      BENEFIT 2
-                  ================================= */}
+                  {/* BENEFIT 2 */}
 
                   <div className="flex gap-3">
 
@@ -338,9 +390,7 @@ const Vastu = () => {
 
                   </div>
 
-                  {/* ================================
-                      BENEFIT 3
-                  ================================= */}
+                  {/* BENEFIT 3 */}
 
                   <div className="flex gap-3">
 
@@ -386,9 +436,7 @@ const Vastu = () => {
 
                   </div>
 
-                  {/* ================================
-                      BENEFIT 4
-                  ================================= */}
+                  {/* BENEFIT 4 */}
 
                   <div className="flex gap-3">
 
@@ -467,10 +515,217 @@ const Vastu = () => {
       </section>
 
       {/* =====================================================
-          SERVICE LEAD FORM
+          EXTRA CONTENT
+          This ensures there is a complete scrollable page
       ===================================================== */}
 
-     
+      <section className="bg-white px-5 py-20">
+
+        <div className="mx-auto max-w-6xl">
+
+          <div className="text-center">
+
+            <p
+              className="
+                text-sm
+                font-bold
+                uppercase
+                tracking-widest
+                text-red-600
+              "
+            >
+              Jaypro Infratech
+            </p>
+
+            <h2
+              className="
+                mt-3
+                text-3xl
+                font-bold
+                text-gray-900
+                sm:text-4xl
+              "
+            >
+              Vastu Planning Services
+            </h2>
+
+            <p
+              className="
+                mx-auto
+                mt-5
+                max-w-3xl
+                text-lg
+                leading-8
+                text-gray-600
+              "
+            >
+              Get professional Vastu-oriented planning for
+              your home and building project. Our team helps
+              you plan spaces according to your requirements
+              and Vastu principles.
+            </p>
+
+          </div>
+
+          <div
+            className="
+              mt-12
+              grid
+              gap-6
+              md:grid-cols-2
+              lg:grid-cols-3
+            "
+          >
+
+            <div className="rounded-2xl bg-gray-50 p-7 shadow-sm">
+
+              <h3 className="text-xl font-bold text-gray-900">
+                Vastu Floor Planning
+              </h3>
+
+              <p className="mt-3 leading-7 text-gray-600">
+                Plan rooms and spaces according to Vastu
+                principles and your plot requirements.
+              </p>
+
+            </div>
+
+            <div className="rounded-2xl bg-gray-50 p-7 shadow-sm">
+
+              <h3 className="text-xl font-bold text-gray-900">
+                Home Vastu Consultation
+              </h3>
+
+              <p className="mt-3 leading-7 text-gray-600">
+                Get professional guidance for planning a
+                comfortable and balanced home.
+              </p>
+
+            </div>
+
+            <div className="rounded-2xl bg-gray-50 p-7 shadow-sm">
+
+              <h3 className="text-xl font-bold text-gray-900">
+                Plot Planning
+              </h3>
+
+              <p className="mt-3 leading-7 text-gray-600">
+                Plan your building layout according to plot
+                dimensions and project requirements.
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      {/* =====================================================
+          SERVICE LEAD FORM POPUP
+          ===================================================== */}
+
+      {showLeadForm && (
+
+        <div
+          className="
+            fixed
+            inset-0
+            z-[99999]
+            flex
+            items-center
+            justify-center
+            overflow-y-auto
+            bg-black/70
+            px-4
+            py-5
+          "
+          role="dialog"
+          aria-modal="true"
+          aria-label="Vastu consultation form"
+
+          /*
+           * IMPORTANT:
+           * Clicking outside the form sends user to HOME.
+           */
+          onClick={handleLeadClose}
+        >
+
+          {/* =================================================
+              POPUP CONTAINER
+          ================================================= */}
+
+          <div
+            className="
+              relative
+              my-auto
+              w-full
+              max-w-[400px]
+            "
+            onClick={(event) => {
+              event.stopPropagation();
+            }}
+          >
+
+            {/* =================================================
+                CLOSE BUTTON
+                X → HOME
+            ================================================= */}
+
+            <button
+              type="button"
+              onClick={handleLeadClose}
+              className="
+                absolute
+                right-2
+                top-2
+                z-[100000]
+                flex
+                h-9
+                w-9
+                items-center
+                justify-center
+                rounded-full
+                bg-white
+                text-gray-700
+                shadow-lg
+                transition
+                hover:bg-gray-100
+                hover:text-red-600
+                focus:outline-none
+              "
+              aria-label="Close lead form"
+            >
+              <FaTimes size={16} />
+            </button>
+
+            {/* =================================================
+                LEAD FORM
+            ================================================= */}
+
+            <div
+              className="
+                overflow-hidden
+                rounded-xl
+                bg-white
+                shadow-2xl
+              "
+            >
+
+              <LeadForm
+                onSuccess={handleLeadSuccess}
+                onClose={handleLeadClose}
+              />
+
+            </div>
+
+          </div>
+
+        </div>
+
+      )}
+
     </>
   );
 };

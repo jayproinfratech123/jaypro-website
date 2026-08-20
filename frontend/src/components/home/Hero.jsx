@@ -375,7 +375,7 @@ const Hero = () => {
             className="
               absolute
               inset-0
-              bg-black/40
+              bg-black/0
             "
           />
 

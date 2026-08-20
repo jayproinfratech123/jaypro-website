@@ -1,13 +1,20 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { FaTimes } from "react-icons/fa";
 
-
+import LeadForm from "../../components/LeadForm";
 
 const Contractor = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [showLeadForm, setShowLeadForm] = useState(false);
+  // =====================================================
+  // LEAD FORM STATE
+  // =====================================================
+
+  const [showLeadForm, setShowLeadForm] = useState(
+    location.state?.openLeadForm === true
+  );
 
   // =====================================================
   // OPEN FORM AUTOMATICALLY
@@ -18,36 +25,111 @@ const Contractor = () => {
     if (location.state?.openLeadForm === true) {
       setShowLeadForm(true);
 
-      // Remove navigation state.
-      // This prevents the form from opening again
-      // after refreshing the page.
+      /*
+        Remove navigation state immediately.
+
+        Result:
+        - Contractor page opens
+        - Lead popup opens
+        - Refresh will NOT open popup again
+      */
+
       navigate(location.pathname, {
         replace: true,
         state: null,
       });
     }
-  }, [location, navigate]);
+  }, [location.state, location.pathname, navigate]);
+
+  // =====================================================
+  // LOCK PAGE SCROLL WHILE POPUP IS OPEN
+  // =====================================================
+
+  useEffect(() => {
+    if (showLeadForm) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [showLeadForm]);
 
   // =====================================================
   // FORM SUBMITTED SUCCESSFULLY
   // =====================================================
+  //
+  // After successful submission:
+  // - Popup closes
+  // - Contractor page remains open
+  // - User can scroll the complete page
+  //
+  // =====================================================
 
   const handleLeadSuccess = () => {
     setShowLeadForm(false);
+
+    // Make sure page scrolling is restored
+    document.body.style.overflow = "";
   };
 
   // =====================================================
-  // CLOSE FORM
-  // X BUTTON → HOME PAGE
+  // CLOSE POPUP
+  // =====================================================
+  //
+  // X button
+  // Outside popup click
+  // ESC key
+  //
+  // WITHOUT SUBMITTING
+  //
+  // → Redirect to Home
+  //
   // =====================================================
 
   const handleLeadClose = () => {
     setShowLeadForm(false);
 
+    // Restore scrolling
+    document.body.style.overflow = "";
+
+    // Redirect to Home page
     navigate("/", {
       replace: true,
     });
   };
+
+  // =====================================================
+  // OPEN LEAD FORM
+  // =====================================================
+
+  const openLeadForm = () => {
+    setShowLeadForm(true);
+  };
+
+  // =====================================================
+  // ESC KEY
+  // =====================================================
+
+  useEffect(() => {
+    const handleEscape = (event) => {
+      if (event.key === "Escape" && showLeadForm) {
+        handleLeadClose();
+      }
+    };
+
+    document.addEventListener("keydown", handleEscape);
+
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [showLeadForm]);
+
+  // =====================================================
+  // PAGE
+  // =====================================================
 
   return (
     <>
@@ -75,7 +157,9 @@ const Contractor = () => {
           "
         >
 
-          {/* Background */}
+          {/* =================================================
+              BACKGROUND IMAGE
+          ================================================= */}
 
           <div
             className="
@@ -91,18 +175,20 @@ const Contractor = () => {
             }}
           />
 
-          {/* Dark Overlay */}
+          {/* =================================================
+              DARK OVERLAY
+          ================================================= */}
 
           <div
             className="
               absolute
               inset-0
-              bg-black/1
+              bg-black/40
             "
           />
 
           {/* =================================================
-              CONTENT
+              HERO CONTENT
           ================================================= */}
 
           <div
@@ -114,6 +200,8 @@ const Contractor = () => {
               text-white
             "
           >
+
+            {/* BRAND */}
 
             <p
               className="
@@ -128,6 +216,8 @@ const Contractor = () => {
               Jaypro Infratech
             </p>
 
+            {/* TITLE */}
+
             <h1
               className="
                 text-4xl
@@ -138,6 +228,8 @@ const Contractor = () => {
             >
               Contractor Services
             </h1>
+
+            {/* DESCRIPTION */}
 
             <p
               className="
@@ -157,12 +249,12 @@ const Contractor = () => {
             </p>
 
             {/* =================================================
-                CONSULTATION BUTTON
+                HERO CONSULTATION BUTTON
             ================================================= */}
 
             <button
               type="button"
-              onClick={() => setShowLeadForm(true)}
+              onClick={openLeadForm}
               className="
                 mt-8
                 inline-flex
@@ -179,6 +271,11 @@ const Contractor = () => {
                 duration-300
                 hover:scale-105
                 hover:bg-red-700
+                focus:outline-none
+                focus:ring-2
+                focus:ring-red-400
+                focus:ring-offset-2
+                focus:ring-offset-gray-900
               "
             >
               Get Contractor Consultation
@@ -195,6 +292,10 @@ const Contractor = () => {
         <section className="bg-gray-50 px-5 py-20">
 
           <div className="mx-auto max-w-6xl">
+
+            {/* =================================================
+                SECTION HEADING
+            ================================================= */}
 
             <div className="mb-12 text-center">
 
@@ -237,7 +338,9 @@ const Contractor = () => {
               "
             >
 
-              {/* CARD 1 */}
+              {/* =================================================
+                  CARD 1
+              ================================================= */}
 
               <div
                 className="
@@ -291,7 +394,9 @@ const Contractor = () => {
 
               </div>
 
-              {/* CARD 2 */}
+              {/* =================================================
+                  CARD 2
+              ================================================= */}
 
               <div
                 className="
@@ -345,7 +450,9 @@ const Contractor = () => {
 
               </div>
 
-              {/* CARD 3 */}
+              {/* =================================================
+                  CARD 3
+              ================================================= */}
 
               <div
                 className="
@@ -441,11 +548,18 @@ const Contractor = () => {
                 construction project.
               </p>
 
+              {/* =================================================
+                  BOTTOM CONSULTATION BUTTON
+              ================================================= */}
+
               <button
                 type="button"
-                onClick={() => setShowLeadForm(true)}
+                onClick={openLeadForm}
                 className="
                   mt-6
+                  inline-flex
+                  items-center
+                  justify-center
                   rounded-full
                   bg-white
                   px-8
@@ -454,8 +568,14 @@ const Contractor = () => {
                   text-red-600
                   shadow-lg
                   transition
+                  duration-300
                   hover:scale-105
                   hover:bg-gray-100
+                  focus:outline-none
+                  focus:ring-2
+                  focus:ring-white
+                  focus:ring-offset-2
+                  focus:ring-offset-red-600
                 "
               >
                 Get Contractor Consultation
@@ -470,10 +590,103 @@ const Contractor = () => {
       </main>
 
       {/* =====================================================
-          SERVICE LEAD FORM
+          LEAD FORM POPUP
       ===================================================== */}
 
-    
+      {showLeadForm && (
+
+        <div
+          className="
+            fixed
+            inset-0
+            z-[99999]
+            flex
+            items-center
+            justify-center
+            overflow-y-auto
+            bg-black/70
+            px-4
+            py-5
+          "
+          role="dialog"
+          aria-modal="true"
+          aria-label="Contractor enquiry form"
+          onClick={handleLeadClose}
+        >
+
+          {/* =================================================
+              POPUP CONTAINER
+          ================================================= */}
+
+          <div
+            className="
+              relative
+              my-auto
+              w-full
+              max-w-[400px]
+            "
+            onClick={(event) => event.stopPropagation()}
+          >
+
+            {/* =================================================
+                CLOSE BUTTON
+            ================================================= */}
+
+            <button
+              type="button"
+              onClick={handleLeadClose}
+              className="
+                absolute
+                right-2
+                top-2
+                z-[100000]
+                flex
+                h-9
+                w-9
+                items-center
+                justify-center
+                rounded-full
+                bg-white
+                text-gray-700
+                shadow-lg
+                transition
+                hover:bg-gray-100
+                hover:text-red-600
+                focus:outline-none
+                focus:ring-2
+                focus:ring-red-500
+              "
+              aria-label="Close lead form"
+            >
+              <FaTimes size={16} />
+            </button>
+
+            {/* =================================================
+                LEAD FORM
+            ================================================= */}
+
+            <div
+              className="
+                overflow-hidden
+                rounded-xl
+                bg-white
+                shadow-2xl
+              "
+            >
+
+              <LeadForm
+                onSuccess={handleLeadSuccess}
+                onClose={handleLeadClose}
+              />
+
+            </div>
+
+          </div>
+
+        </div>
+
+      )}
+
     </>
   );
 };

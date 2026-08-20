@@ -1,102 +1,286 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import {
   Phone,
-  Menu,
-  X,
   CheckCircle,
   ArrowRight,
+  Sparkles,
+  Sofa,
+  ChefHat,
+  BedDouble,
+  Tv,
+  Layers3,
+  Home,
+  Palette,
+  Ruler,
+  Lightbulb,
+  ShieldCheck,
+  Star,
+  X,
 } from "lucide-react";
 
 import SEO from "../../components/SEO";
-
+import LeadForm from "../../components/LeadForm";
 
 const Interior = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // ==========================================
-  // MOBILE MENU
-  // ==========================================
+  // =====================================================
+  // LEAD FORM POPUP
+  // =====================================================
 
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [showLeadForm, setShowLeadForm] = useState(false);
 
-  // ==========================================
-  // SERVICE LEAD FORM
-  // ==========================================
-
-  const [showLeadForm, setShowLeadForm] = useState(
-    location.state?.openLeadForm === true
-  );
-
-  // ==========================================
+  // =====================================================
   // SERVICE NAME
-  // ==========================================
+  // =====================================================
 
-  const serviceName =
-    location.state?.service || "Interior Design";
+  const serviceName = "Interior Design";
 
-  // ==========================================
-  // FORM SUBMITTED SUCCESSFULLY
-  // FORM CLOSES
-  // INTERIOR PAGE REMAINS OPEN
-  // ==========================================
+  // =====================================================
+  // OPEN LEAD FORM FROM ROUTER STATE / QUERY
+  // =====================================================
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+
+    const shouldOpenFromState =
+      location.state?.openLeadForm === true;
+
+    const shouldOpenFromQuery =
+      params.get("lead") === "true";
+
+    if (shouldOpenFromState || shouldOpenFromQuery) {
+      setShowLeadForm(true);
+
+      navigate(location.pathname, {
+        replace: true,
+        state: null,
+      });
+    }
+  }, [
+    location.pathname,
+    location.search,
+    location.state,
+    navigate,
+  ]);
+
+  // =====================================================
+  // LOCK BODY SCROLL WHILE POPUP IS OPEN
+  // =====================================================
+
+  useEffect(() => {
+    if (showLeadForm) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [showLeadForm]);
+
+  // =====================================================
+  // SUCCESSFUL FORM SUBMISSION
+  // =====================================================
 
   const handleLeadSuccess = () => {
     setShowLeadForm(false);
 
-    // Remove router state
-    // so refreshing the page does not reopen the form
+    document.body.style.overflow = "";
+
     navigate(location.pathname, {
       replace: true,
-      state: {},
+      state: null,
     });
   };
 
-  // ==========================================
-  // X BUTTON
-  // GO TO HOME PAGE
-  // ==========================================
+  // =====================================================
+  // CLOSE FORM
+  // =====================================================
 
   const handleFormClose = () => {
     setShowLeadForm(false);
 
+    document.body.style.overflow = "";
+
     navigate("/", {
       replace: true,
     });
   };
 
-  // ==========================================
-  // CLOSE MOBILE MENU
-  // ==========================================
+  // =====================================================
+  // ESC KEY
+  // =====================================================
 
-  const closeMenu = () => {
-    setMenuOpen(false);
-  };
+  useEffect(() => {
+    const handleEscape = (event) => {
+      if (event.key === "Escape" && showLeadForm) {
+        handleFormClose();
+      }
+    };
 
-  // ==========================================
-  // GO HOME
-  // ==========================================
+    document.addEventListener("keydown", handleEscape);
 
-  const goHome = () => {
-    closeMenu();
-    navigate("/");
-  };
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [showLeadForm]);
 
-  // ==========================================
-  // GO TO SERVICES ON HOME
-  // ==========================================
+  // =====================================================
+  // INTERIOR SERVICES
+  // =====================================================
 
-  const goToServices = () => {
-    closeMenu();
+  const interiorServices = [
+    {
+      icon: <ChefHat size={30} />,
+      title: "Modular Kitchen",
+      description:
+        "Modern modular kitchen designs with practical storage, attractive finishes and efficient layouts.",
+      image: "/interior/modular-kitchen.webp",
+      points: [
+        "Smart storage planning",
+        "Modern cabinet design",
+        "Countertop planning",
+      ],
+    },
 
-    navigate("/", {
-      state: {
-        scrollToServices: true,
-      },
-    });
-  };
+    {
+      icon: <Layers3 size={30} />,
+      title: "Wardrobe Design",
+      description:
+        "Customized wardrobe solutions designed for maximum storage, organization and elegant appearance.",
+      image: "/interior/wardrobe.webp",
+      points: [
+        "Customized storage",
+        "Modern finishes",
+        "Space-efficient design",
+      ],
+    },
+
+    {
+      icon: <Tv size={30} />,
+      title: "TV Unit",
+      description:
+        "Stylish TV unit designs combining entertainment, storage and modern aesthetics.",
+      image: "/interior/tv-unit.webp",
+      points: [
+        "Modern TV wall",
+        "Storage solutions",
+        "Decorative elements",
+      ],
+    },
+
+    {
+      icon: <Lightbulb size={30} />,
+      title: "False Ceiling",
+      description:
+        "Modern false ceiling designs with lighting solutions that enhance the overall appearance of your interiors.",
+      image: "/interior/false-ceiling.webp",
+      points: [
+        "LED lighting planning",
+        "Modern ceiling designs",
+        "Ambient lighting",
+      ],
+    },
+
+    {
+      icon: <BedDouble size={30} />,
+      title: "Bedroom Interior",
+      description:
+        "Comfortable and elegant bedroom interiors designed around your lifestyle and storage requirements.",
+      image: "/interior/bedroom.webp",
+      points: [
+        "Bed wall design",
+        "Wardrobe planning",
+        "Lighting design",
+      ],
+    },
+
+    {
+      icon: <Home size={30} />,
+      title: "Complete Home Interior",
+      description:
+        "Complete interior solutions for your home, from concept and design to execution.",
+      image: "/interior/complete-home.webp",
+      points: [
+        "Complete home planning",
+        "Room-by-room design",
+        "End-to-end support",
+      ],
+    },
+  ];
+
+  // =====================================================
+  // WHY CHOOSE US
+  // =====================================================
+
+  const whyChooseUs = [
+    {
+      icon: <Palette size={28} />,
+      title: "Customized Design",
+      text:
+        "Every interior is planned according to your lifestyle, space and personal preferences.",
+    },
+
+    {
+      icon: <Ruler size={28} />,
+      title: "Smart Space Planning",
+      text:
+        "We focus on making every available space practical, comfortable and visually appealing.",
+    },
+
+    {
+      icon: <ShieldCheck size={28} />,
+      title: "Quality Focus",
+      text:
+        "We focus on durable materials, professional finishing and practical design solutions.",
+    },
+
+    {
+      icon: <Sparkles size={28} />,
+      title: "Modern Designs",
+      text:
+        "Contemporary design concepts that give your home a stylish and premium appearance.",
+    },
+  ];
+
+  // =====================================================
+  // PROCESS
+  // =====================================================
+
+  const process = [
+    {
+      number: "01",
+      title: "Understand",
+      text:
+        "We understand your requirements, lifestyle, budget and available space.",
+    },
+
+    {
+      number: "02",
+      title: "Plan",
+      text:
+        "Our team develops practical layouts and interior concepts for your space.",
+    },
+
+    {
+      number: "03",
+      title: "Design",
+      text:
+        "Detailed designs, materials, colours and finishes are planned.",
+    },
+
+    {
+      number: "04",
+      title: "Execute",
+      text:
+        "The finalized interior design moves towards professional execution.",
+    },
+  ];
 
   return (
     <>
@@ -110,250 +294,20 @@ const Interior = () => {
       />
 
       {/* ==================================================
-          MAIN INTERIOR PAGE
+          MAIN PAGE
       ================================================== */}
 
       <div className="min-h-screen bg-white">
 
         {/* ==================================================
-            HEADER
-        ================================================== */}
-
-        <header className="sticky top-0 z-50 border-b border-gray-200 bg-white shadow-sm">
-
-          <div
-            className="
-              mx-auto
-              flex
-              h-16
-              max-w-7xl
-              items-center
-              justify-between
-              px-5
-            "
-          >
-
-            {/* ==================================================
-                LOGO
-            ================================================== */}
-
-            <button
-              type="button"
-              onClick={goHome}
-              className="text-left"
-              aria-label="Go to home page"
-            >
-              <div className="text-xl font-bold text-red-600">
-                JAYPRO
-              </div>
-
-              <div className="text-xs font-semibold tracking-wide text-gray-700">
-                INFRATECH
-              </div>
-            </button>
-
-            {/* ==================================================
-                DESKTOP NAVIGATION
-            ================================================== */}
-
-            <nav className="hidden items-center gap-8 md:flex">
-
-              <button
-                type="button"
-                onClick={goHome}
-                className="
-                  font-medium
-                  text-gray-700
-                  transition
-                  hover:text-red-600
-                "
-              >
-                Home
-              </button>
-
-              <button
-                type="button"
-                onClick={goToServices}
-                className="
-                  font-medium
-                  text-gray-700
-                  transition
-                  hover:text-red-600
-                "
-              >
-                Services
-              </button>
-
-              <button
-                type="button"
-                onClick={goHome}
-                className="
-                  font-medium
-                  text-gray-700
-                  transition
-                  hover:text-red-600
-                "
-              >
-                About
-              </button>
-
-              <a
-                href="tel:+919999999999"
-                className="
-                  flex
-                  items-center
-                  gap-2
-                  rounded-lg
-                  bg-red-600
-                  px-4
-                  py-2
-                  font-semibold
-                  text-white
-                  transition
-                  hover:bg-red-700
-                "
-              >
-                <Phone size={17} />
-                Call Now
-              </a>
-
-            </nav>
-
-            {/* ==================================================
-                MOBILE MENU BUTTON
-            ================================================== */}
-
-            <button
-              type="button"
-              onClick={() => setMenuOpen((prev) => !prev)}
-              className="
-                flex
-                h-10
-                w-10
-                items-center
-                justify-center
-                rounded-lg
-                text-gray-700
-                transition
-                hover:bg-gray-100
-                md:hidden
-              "
-              aria-label="Toggle menu"
-            >
-              {menuOpen ? (
-                <X size={24} />
-              ) : (
-                <Menu size={24} />
-              )}
-            </button>
-
-          </div>
-
-          {/* ==================================================
-              MOBILE NAVIGATION
-          ================================================== */}
-
-          {menuOpen && (
-            <div
-              className="
-                border-t
-                border-gray-200
-                bg-white
-                px-5
-                py-4
-                md:hidden
-              "
-            >
-
-              <div className="flex flex-col gap-2">
-
-                <button
-                  type="button"
-                  onClick={goHome}
-                  className="
-                    rounded-lg
-                    px-4
-                    py-3
-                    text-left
-                    font-medium
-                    text-gray-700
-                    transition
-                    hover:bg-gray-100
-                  "
-                >
-                  Home
-                </button>
-
-                <button
-                  type="button"
-                  onClick={goToServices}
-                  className="
-                    rounded-lg
-                    px-4
-                    py-3
-                    text-left
-                    font-medium
-                    text-gray-700
-                    transition
-                    hover:bg-gray-100
-                  "
-                >
-                  Services
-                </button>
-
-                <button
-                  type="button"
-                  onClick={goHome}
-                  className="
-                    rounded-lg
-                    px-4
-                    py-3
-                    text-left
-                    font-medium
-                    text-gray-700
-                    transition
-                    hover:bg-gray-100
-                  "
-                >
-                  About
-                </button>
-
-                <a
-                  href="tel:+919999999999"
-                  onClick={closeMenu}
-                  className="
-                    mt-2
-                    flex
-                    items-center
-                    justify-center
-                    gap-2
-                    rounded-lg
-                    bg-red-600
-                    px-4
-                    py-3
-                    font-semibold
-                    text-white
-                  "
-                >
-                  <Phone size={18} />
-                  Call Now
-                </a>
-
-              </div>
-
-            </div>
-          )}
-
-        </header>
-
-        {/* ==================================================
-            HERO SECTION
+            HERO
         ================================================== */}
 
         <section
           className="
             relative
-            min-h-[600px]
+            min-h-[680px]
+            overflow-hidden
             bg-cover
             bg-center
           "
@@ -365,7 +319,35 @@ const Interior = () => {
 
           {/* DARK OVERLAY */}
 
-          <div className="absolute inset-0 bg-black/60" />
+          <div className="absolute inset-0 bg-black/65" />
+
+          {/* RED GLOW */}
+
+          <div
+            className="
+              absolute
+              -right-40
+              top-20
+              h-96
+              w-96
+              rounded-full
+              bg-red-600/20
+              blur-3xl
+            "
+          />
+
+          <div
+            className="
+              absolute
+              -bottom-40
+              -left-40
+              h-96
+              w-96
+              rounded-full
+              bg-red-600/20
+              blur-3xl
+            "
+          />
 
           {/* HERO CONTENT */}
 
@@ -373,37 +355,49 @@ const Interior = () => {
             className="
               relative
               z-10
+              mx-auto
               flex
-              min-h-[600px]
+              min-h-[680px]
+              max-w-7xl
               items-center
-              justify-center
               px-5
-              text-center
-              text-white
+              py-24
+              sm:px-8
             "
           >
 
-            <div className="mx-auto max-w-4xl">
+            <div className="max-w-4xl">
 
-              {/* SMALL LABEL */}
+              {/* BADGE */}
 
               <div
                 className="
-                  mb-5
+                  mb-6
                   inline-flex
                   items-center
-                  gap-2
+                  gap-3
                   rounded-full
+                  border
+                  border-white/20
                   bg-white/10
                   px-5
-                  py-2
-                  backdrop-blur-none
+                  py-2.5
+                  backdrop-blur-md
                 "
               >
 
-                <span className="h-2 w-2 rounded-full bg-red-500" />
+                <span
+                  className="
+                    h-2.5
+                    w-2.5
+                    rounded-full
+                    bg-red-500
+                    shadow-lg
+                    shadow-red-500/50
+                  "
+                />
 
-                <span className="text-sm font-semibold">
+                <span className="text-sm font-semibold text-white">
                   Professional Interior Design
                 </span>
 
@@ -414,16 +408,19 @@ const Interior = () => {
               <h1
                 className="
                   text-4xl
-                  font-bold
+                  font-black
                   leading-tight
+                  tracking-tight
+                  text-white
                   sm:text-5xl
                   md:text-6xl
+                  lg:text-7xl
                 "
               >
-                Interior Design
+                Beautiful Interiors.
 
                 <span className="block text-red-500">
-                  Services
+                  Designed For You.
                 </span>
               </h1>
 
@@ -431,11 +428,10 @@ const Interior = () => {
 
               <p
                 className="
-                  mx-auto
-                  mt-6
+                  mt-7
                   max-w-3xl
                   text-base
-                  leading-relaxed
+                  leading-8
                   text-gray-200
                   sm:text-lg
                   md:text-xl
@@ -447,14 +443,13 @@ const Interior = () => {
                 by Jaypro Infratech.
               </p>
 
-              {/* HERO BUTTONS */}
+              {/* BUTTONS */}
 
               <div
                 className="
-                  mt-8
+                  mt-9
                   flex
                   flex-col
-                  justify-center
                   gap-4
                   sm:flex-row
                 "
@@ -473,17 +468,20 @@ const Interior = () => {
                     py-4
                     font-bold
                     text-white
+                    shadow-xl
+                    shadow-red-600/20
                     transition
+                    hover:-translate-y-1
                     hover:bg-red-700
                   "
                 >
                   Explore Interiors
-
                   <ArrowRight size={20} />
                 </a>
 
-                <a
-                  href="tel:+919999999999"
+                <button
+                  type="button"
+                  onClick={() => setShowLeadForm(true)}
                   className="
                     inline-flex
                     items-center
@@ -491,21 +489,61 @@ const Interior = () => {
                     gap-2
                     rounded-xl
                     border
-                    border-white
+                    border-white/40
                     bg-white/10
                     px-7
                     py-4
                     font-bold
                     text-white
-                    backdrop-blur-sm
+                    backdrop-blur-md
                     transition
                     hover:bg-white
                     hover:text-gray-900
                   "
                 >
-                  <Phone size={20} />
-                  Call Now
-                </a>
+                  Get Free Consultation
+                  <ArrowRight size={20} />
+                </button>
+
+              </div>
+
+              {/* TRUST POINTS */}
+
+              <div
+                className="
+                  mt-10
+                  flex
+                  flex-wrap
+                  gap-x-7
+                  gap-y-4
+                  text-sm
+                  text-gray-200
+                "
+              >
+
+                <span className="flex items-center gap-2">
+                  <CheckCircle
+                    size={17}
+                    className="text-red-500"
+                  />
+                  Customized Designs
+                </span>
+
+                <span className="flex items-center gap-2">
+                  <CheckCircle
+                    size={17}
+                    className="text-red-500"
+                  />
+                  Quality Materials
+                </span>
+
+                <span className="flex items-center gap-2">
+                  <CheckCircle
+                    size={17}
+                    className="text-red-500"
+                  />
+                  Complete Support
+                </span>
 
               </div>
 
@@ -519,78 +557,89 @@ const Interior = () => {
             INTRODUCTION
         ================================================== */}
 
-        <section className="bg-white px-5 py-20">
+        <section className="relative bg-white px-5 py-20 sm:px-8 lg:py-24">
 
-          <div className="mx-auto max-w-7xl">
+          <div className="mx-auto max-w-5xl text-center">
 
-            <div className="mx-auto max-w-4xl text-center">
+            <p
+              className="
+                mb-3
+                text-sm
+                font-bold
+                uppercase
+                tracking-[0.2em]
+                text-red-600
+              "
+            >
+              Jaypro Infratech
+            </p>
 
-              <p
-                className="
-                  mb-3
-                  font-semibold
-                  uppercase
-                  tracking-wider
-                  text-red-600
-                "
-              >
-                Jaypro Infratech
-              </p>
+            <h2
+              className="
+                text-3xl
+                font-extrabold
+                tracking-tight
+                text-gray-900
+                sm:text-4xl
+                md:text-5xl
+              "
+            >
+              Complete Interior Design
+              <span className="text-red-600">
+                {" "}Solutions
+              </span>
+            </h2>
 
-              <h2
-                className="
-                  text-3xl
-                  font-bold
-                  text-gray-900
-                  sm:text-4xl
-                "
-              >
-                Complete Interior Design
-                Solutions
-              </h2>
-
-              <p
-                className="
-                  mt-6
-                  text-lg
-                  leading-relaxed
-                  text-gray-600
-                "
-              >
-                We provide complete interior design
-                solutions for homes, apartments, villas
-                and offices. Our team focuses on creating
-                stylish, practical and comfortable interiors
-                according to your requirements and budget.
-              </p>
-
-            </div>
+            <p
+              className="
+                mx-auto
+                mt-6
+                max-w-3xl
+                text-base
+                leading-8
+                text-gray-600
+                sm:text-lg
+              "
+            >
+              We provide complete interior design solutions
+              for homes, apartments, villas and offices.
+              Our team focuses on creating stylish, practical
+              and comfortable interiors according to your
+              requirements and budget.
+            </p>
 
           </div>
 
         </section>
 
         {/* ==================================================
-            INTERIOR SERVICES
+            SERVICES
         ================================================== */}
 
         <section
           id="interior-services"
-          className="bg-gray-50 px-5 py-20"
+          className="
+            bg-gray-50
+            px-5
+            py-20
+            sm:px-8
+            lg:py-24
+          "
         >
 
           <div className="mx-auto max-w-7xl">
 
             {/* SECTION HEADING */}
 
-            <div className="mb-12 text-center">
+            <div className="mb-14 text-center">
 
               <p
                 className="
                   mb-3
-                  font-semibold
+                  text-sm
+                  font-bold
                   uppercase
-                  tracking-wider
+                  tracking-[0.2em]
                   text-red-600
                 "
               >
@@ -600,12 +649,13 @@ const Interior = () => {
               <h2
                 className="
                   text-3xl
-                  font-bold
+                  font-extrabold
+                  tracking-tight
                   text-gray-900
                   sm:text-4xl
                 "
               >
-                Our Interior Design Services
+                Interior Design Services
               </h2>
 
               <p
@@ -613,6 +663,7 @@ const Interior = () => {
                   mx-auto
                   mt-4
                   max-w-2xl
+                  leading-7
                   text-gray-600
                 "
               >
@@ -628,345 +679,202 @@ const Interior = () => {
             <div
               className="
                 grid
-                gap-6
+                gap-7
                 sm:grid-cols-2
                 lg:grid-cols-3
               "
             >
 
-              {/* ==================================================
-                  MODULAR KITCHEN
-              ================================================== */}
+              {interiorServices.map((service, index) => (
 
-              <div
-                className="
-                  rounded-2xl
-                  bg-white
-                  p-7
-                  shadow-md
-                  transition
-                  hover:-translate-y-1
-                  hover:shadow-xl
-                "
-              >
-
-                <div
+                <article
+                  key={service.title}
                   className="
-                    mb-5
-                    flex
-                    h-14
-                    w-14
-                    items-center
-                    justify-center
-                    rounded-xl
-                    bg-red-50
-                    text-red-600
+                    group
+                    overflow-hidden
+                    rounded-2xl
+                    border
+                    border-gray-200
+                    bg-white
+                    shadow-sm
+                    transition-all
+                    duration-300
+                    hover:-translate-y-2
+                    hover:border-red-200
+                    hover:shadow-2xl
                   "
                 >
-                  <CheckCircle size={30} />
-                </div>
 
-                <h3
-                  className="
-                    text-xl
-                    font-bold
-                    text-gray-900
-                  "
-                >
-                  Modular Kitchen
-                </h3>
+                  {/* IMAGE */}
 
-                <p
-                  className="
-                    mt-3
-                    leading-relaxed
-                    text-gray-600
-                  "
-                >
-                  Modern modular kitchen designs with
-                  practical storage, attractive finishes
-                  and efficient layouts.
-                </p>
+                  <div className="relative h-56 overflow-hidden">
 
-              </div>
+                    <img
+                      src={service.image}
+                      alt={`${service.title} - Jaypro Infratech`}
+                      className="
+                        h-full
+                        w-full
+                        object-cover
+                        transition
+                        duration-700
+                        group-hover:scale-110
+                      "
+                      onError={(event) => {
+                        event.currentTarget.style.display =
+                          "none";
+                      }}
+                    />
 
-              {/* ==================================================
-                  WARDROBE
-              ================================================== */}
+                    {/* IMAGE OVERLAY */}
 
-              <div
-                className="
-                  rounded-2xl
-                  bg-white
-                  p-7
-                  shadow-md
-                  transition
-                  hover:-translate-y-1
-                  hover:shadow-xl
-                "
-              >
+                    <div
+                      className="
+                        absolute
+                        inset-0
+                        bg-gradient-to-t
+                        from-black/75
+                        via-black/20
+                        to-transparent
+                      "
+                    />
 
-                <div
-                  className="
-                    mb-5
-                    flex
-                    h-14
-                    w-14
-                    items-center
-                    justify-center
-                    rounded-xl
-                    bg-red-50
-                    text-red-600
-                  "
-                >
-                  <CheckCircle size={30} />
-                </div>
+                    {/* ICON */}
 
-                <h3
-                  className="
-                    text-xl
-                    font-bold
-                    text-gray-900
-                  "
-                >
-                  Wardrobe Design
-                </h3>
+                    <div
+                      className="
+                        absolute
+                        left-5
+                        top-5
+                        flex
+                        h-12
+                        w-12
+                        items-center
+                        justify-center
+                        rounded-xl
+                        bg-white
+                        text-red-600
+                        shadow-xl
+                      "
+                    >
+                      {service.icon}
+                    </div>
 
-                <p
-                  className="
-                    mt-3
-                    leading-relaxed
-                    text-gray-600
-                  "
-                >
-                  Customized wardrobe solutions designed
-                  for maximum storage and elegant appearance.
-                </p>
+                    {/* NUMBER */}
 
-              </div>
+                    <span
+                      className="
+                        absolute
+                        bottom-4
+                        right-5
+                        text-sm
+                        font-black
+                        text-white/80
+                      "
+                    >
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
 
-              {/* ==================================================
-                  TV UNIT
-              ================================================== */}
+                  </div>
 
-              <div
-                className="
-                  rounded-2xl
-                  bg-white
-                  p-7
-                  shadow-md
-                  transition
-                  hover:-translate-y-1
-                  hover:shadow-xl
-                "
-              >
+                  {/* CONTENT */}
 
-                <div
-                  className="
-                    mb-5
-                    flex
-                    h-14
-                    w-14
-                    items-center
-                    justify-center
-                    rounded-xl
-                    bg-red-50
-                    text-red-600
-                  "
-                >
-                  <CheckCircle size={30} />
-                </div>
+                  <div className="p-6">
 
-                <h3
-                  className="
-                    text-xl
-                    font-bold
-                    text-gray-900
-                  "
-                >
-                  TV Unit
-                </h3>
+                    <h3
+                      className="
+                        text-xl
+                        font-bold
+                        text-gray-900
+                        transition
+                        group-hover:text-red-600
+                      "
+                    >
+                      {service.title}
+                    </h3>
 
-                <p
-                  className="
-                    mt-3
-                    leading-relaxed
-                    text-gray-600
-                  "
-                >
-                  Stylish TV unit designs that combine
-                  entertainment, storage and modern
-                  aesthetics.
-                </p>
+                    <p
+                      className="
+                        mt-3
+                        min-h-[72px]
+                        text-sm
+                        leading-6
+                        text-gray-600
+                      "
+                    >
+                      {service.description}
+                    </p>
 
-              </div>
+                    {/* POINTS */}
 
-              {/* ==================================================
-                  FALSE CEILING
-              ================================================== */}
+                    <div className="mt-5 space-y-2">
 
-              <div
-                className="
-                  rounded-2xl
-                  bg-white
-                  p-7
-                  shadow-md
-                  transition
-                  hover:-translate-y-1
-                  hover:shadow-xl
-                "
-              >
+                      {service.points.map((point) => (
 
-                <div
-                  className="
-                    mb-5
-                    flex
-                    h-14
-                    w-14
-                    items-center
-                    justify-center
-                    rounded-xl
-                    bg-red-50
-                    text-red-600
-                  "
-                >
-                  <CheckCircle size={30} />
-                </div>
+                        <div
+                          key={point}
+                          className="
+                            flex
+                            items-center
+                            gap-2
+                            text-sm
+                            text-gray-700
+                          "
+                        >
 
-                <h3
-                  className="
-                    text-xl
-                    font-bold
-                    text-gray-900
-                  "
-                >
-                  False Ceiling
-                </h3>
+                          <CheckCircle
+                            size={16}
+                            className="
+                              shrink-0
+                              text-red-600
+                            "
+                          />
 
-                <p
-                  className="
-                    mt-3
-                    leading-relaxed
-                    text-gray-600
-                  "
-                >
-                  Modern false ceiling designs with
-                  lighting solutions to enhance the
-                  overall look of your interiors.
-                </p>
+                          <span>{point}</span>
 
-              </div>
+                        </div>
 
-              {/* ==================================================
-                  BEDROOM
-              ================================================== */}
+                      ))}
 
-              <div
-                className="
-                  rounded-2xl
-                  bg-white
-                  p-7
-                  shadow-md
-                  transition
-                  hover:-translate-y-1
-                  hover:shadow-xl
-                "
-              >
+                    </div>
 
-                <div
-                  className="
-                    mb-5
-                    flex
-                    h-14
-                    w-14
-                    items-center
-                    justify-center
-                    rounded-xl
-                    bg-red-50
-                    text-red-600
-                  "
-                >
-                  <CheckCircle size={30} />
-                </div>
+                    {/* CTA */}
 
-                <h3
-                  className="
-                    text-xl
-                    font-bold
-                    text-gray-900
-                  "
-                >
-                  Bedroom Interior
-                </h3>
+                    <button
+                      type="button"
+                      onClick={() => setShowLeadForm(true)}
+                      className="
+                        mt-6
+                        inline-flex
+                        w-full
+                        items-center
+                        justify-center
+                        gap-2
+                        rounded-xl
+                        bg-gray-900
+                        px-5
+                        py-3
+                        font-semibold
+                        text-white
+                        transition
+                        hover:bg-red-600
+                      "
+                    >
+                      Discuss This Design
+                      <ArrowRight
+                        size={18}
+                        className="
+                          transition
+                          group-hover:translate-x-1
+                        "
+                      />
+                    </button>
 
-                <p
-                  className="
-                    mt-3
-                    leading-relaxed
-                    text-gray-600
-                  "
-                >
-                  Comfortable and elegant bedroom interiors
-                  designed around your lifestyle and storage
-                  requirements.
-                </p>
+                  </div>
 
-              </div>
+                </article>
 
-              {/* ==================================================
-                  COMPLETE HOME
-              ================================================== */}
-
-              <div
-                className="
-                  rounded-2xl
-                  bg-white
-                  p-7
-                  shadow-md
-                  transition
-                  hover:-translate-y-1
-                  hover:shadow-xl
-                "
-              >
-
-                <div
-                  className="
-                    mb-5
-                    flex
-                    h-14
-                    w-14
-                    items-center
-                    justify-center
-                    rounded-xl
-                    bg-red-50
-                    text-red-600
-                  "
-                >
-                  <CheckCircle size={30} />
-                </div>
-
-                <h3
-                  className="
-                    text-xl
-                    font-bold
-                    text-gray-900
-                  "
-                >
-                  Complete Home Interior
-                </h3>
-
-                <p
-                  className="
-                    mt-3
-                    leading-relaxed
-                    text-gray-600
-                  "
-                >
-                  Complete interior solutions for your
-                  home, from concept and design to execution.
-                </p>
-
-              </div>
+              ))}
 
             </div>
 
@@ -975,36 +883,37 @@ const Interior = () => {
         </section>
 
         {/* ==================================================
-            WHY CHOOSE US
+            DESIGN PROCESS
         ================================================== */}
 
-        <section className="bg-white px-5 py-20">
+        <section className="bg-white px-5 py-20 sm:px-8 lg:py-24">
 
           <div className="mx-auto max-w-7xl">
 
-            <div className="mb-12 text-center">
+            <div className="mb-14 text-center">
 
               <p
                 className="
                   mb-3
-                  font-semibold
+                  text-sm
+                  font-bold
                   uppercase
-                  tracking-wider
+                  tracking-[0.2em]
                   text-red-600
                 "
               >
-                Why Jaypro
+                Our Process
               </p>
 
               <h2
                 className="
                   text-3xl
-                  font-bold
+                  font-extrabold
                   text-gray-900
                   sm:text-4xl
                 "
               >
-                Why Choose Our Interior Design?
+                From Concept to Beautiful Interior
               </h2>
 
             </div>
@@ -1018,159 +927,249 @@ const Interior = () => {
               "
             >
 
-              {/* ITEM 1 */}
+              {process.map((item) => (
 
-              <div
-                className="
-                  rounded-2xl
-                  bg-gray-50
-                  p-6
-                "
-              >
-
-                <CheckCircle
-                  className="text-red-600"
-                  size={32}
-                />
-
-                <h3
+                <div
+                  key={item.number}
                   className="
-                    mt-4
-                    font-bold
-                    text-gray-900
+                    relative
+                    rounded-2xl
+                    border
+                    border-gray-200
+                    bg-gray-50
+                    p-7
+                    transition
+                    hover:-translate-y-1
+                    hover:border-red-200
+                    hover:shadow-lg
                   "
                 >
-                  Professional Design
-                </h3>
+
+                  <div
+                    className="
+                      text-5xl
+                      font-black
+                      text-red-100
+                    "
+                  >
+                    {item.number}
+                  </div>
+
+                  <h3
+                    className="
+                      mt-3
+                      text-xl
+                      font-bold
+                      text-gray-900
+                    "
+                  >
+                    {item.title}
+                  </h3>
+
+                  <p
+                    className="
+                      mt-3
+                      text-sm
+                      leading-6
+                      text-gray-600
+                    "
+                  >
+                    {item.text}
+                  </p>
+
+                </div>
+
+              ))}
+
+            </div>
+
+          </div>
+
+        </section>
+
+        {/* ==================================================
+            WHY CHOOSE US
+        ================================================== */}
+
+        <section
+          className="
+            bg-gray-950
+            px-5
+            py-20
+            text-white
+            sm:px-8
+            lg:py-24
+          "
+        >
+
+          <div className="mx-auto max-w-7xl">
+
+            <div
+              className="
+                grid
+                gap-12
+                lg:grid-cols-2
+                lg:items-center
+              "
+            >
+
+              {/* LEFT */}
+
+              <div>
 
                 <p
                   className="
-                    mt-2
+                    mb-3
                     text-sm
-                    leading-relaxed
-                    text-gray-600
+                    font-bold
+                    uppercase
+                    tracking-[0.2em]
+                    text-red-500
                   "
                 >
-                  Designs created according to your
-                  needs, lifestyle and available space.
+                  Why Jaypro
                 </p>
+
+                <h2
+                  className="
+                    text-3xl
+                    font-extrabold
+                    sm:text-4xl
+                    md:text-5xl
+                  "
+                >
+                  Interiors Designed
+                  <span className="text-red-500">
+                    {" "}Around You
+                  </span>
+                </h2>
+
+                <p
+                  className="
+                    mt-6
+                    max-w-xl
+                    leading-8
+                    text-gray-400
+                  "
+                >
+                  Your home should reflect your personality,
+                  lifestyle and requirements. Our interior
+                  design approach combines aesthetics,
+                  functionality and practical space planning.
+                </p>
+
+                {/* RATING */}
+
+                <div className="mt-7 flex items-center gap-3">
+
+                  <div className="flex gap-1">
+
+                    {[1, 2, 3, 4, 5].map((item) => (
+                      <Star
+                        key={item}
+                        size={19}
+                        className="fill-red-500 text-red-500"
+                      />
+                    ))}
+
+                  </div>
+
+                  <span className="text-sm text-gray-300">
+                    Professional Design Support
+                  </span>
+
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setShowLeadForm(true)}
+                  className="
+                    mt-8
+                    inline-flex
+                    items-center
+                    gap-2
+                    rounded-xl
+                    bg-red-600
+                    px-7
+                    py-4
+                    font-bold
+                    text-white
+                    transition
+                    hover:bg-red-700
+                  "
+                >
+                  Discuss Your Project
+                  <ArrowRight size={19} />
+                </button>
 
               </div>
 
-              {/* ITEM 2 */}
+              {/* RIGHT */}
 
               <div
                 className="
-                  rounded-2xl
-                  bg-gray-50
-                  p-6
+                  grid
+                  gap-4
+                  sm:grid-cols-2
                 "
               >
 
-                <CheckCircle
-                  className="text-red-600"
-                  size={32}
-                />
+                {whyChooseUs.map((item) => (
 
-                <h3
-                  className="
-                    mt-4
-                    font-bold
-                    text-gray-900
-                  "
-                >
-                  Quality Materials
-                </h3>
+                  <div
+                    key={item.title}
+                    className="
+                      rounded-2xl
+                      border
+                      border-white/10
+                      bg-white/5
+                      p-6
+                      backdrop-blur-sm
+                      transition
+                      hover:-translate-y-1
+                      hover:bg-white/10
+                    "
+                  >
 
-                <p
-                  className="
-                    mt-2
-                    text-sm
-                    leading-relaxed
-                    text-gray-600
-                  "
-                >
-                  We focus on quality materials and
-                  professional finishing.
-                </p>
+                    <div
+                      className="
+                        flex
+                        h-12
+                        w-12
+                        items-center
+                        justify-center
+                        rounded-xl
+                        bg-red-600/15
+                        text-red-500
+                      "
+                    >
+                      {item.icon}
+                    </div>
 
-              </div>
+                    <h3
+                      className="
+                        mt-5
+                        text-lg
+                        font-bold
+                      "
+                    >
+                      {item.title}
+                    </h3>
 
-              {/* ITEM 3 */}
+                    <p
+                      className="
+                        mt-3
+                        text-sm
+                        leading-6
+                        text-gray-400
+                      "
+                    >
+                      {item.text}
+                    </p>
 
-              <div
-                className="
-                  rounded-2xl
-                  bg-gray-50
-                  p-6
-                "
-              >
+                  </div>
 
-                <CheckCircle
-                  className="text-red-600"
-                  size={32}
-                />
-
-                <h3
-                  className="
-                    mt-4
-                    font-bold
-                    text-gray-900
-                  "
-                >
-                  Customized Solutions
-                </h3>
-
-                <p
-                  className="
-                    mt-2
-                    text-sm
-                    leading-relaxed
-                    text-gray-600
-                  "
-                >
-                  Every interior is planned according
-                  to your requirements and preferences.
-                </p>
-
-              </div>
-
-              {/* ITEM 4 */}
-
-              <div
-                className="
-                  rounded-2xl
-                  bg-gray-50
-                  p-6
-                "
-              >
-
-                <CheckCircle
-                  className="text-red-600"
-                  size={32}
-                />
-
-                <h3
-                  className="
-                    mt-4
-                    font-bold
-                    text-gray-900
-                  "
-                >
-                  Complete Support
-                </h3>
-
-                <p
-                  className="
-                    mt-2
-                    text-sm
-                    leading-relaxed
-                    text-gray-600
-                  "
-                >
-                  Our team supports you throughout
-                  the design and execution process.
-                </p>
+                ))}
 
               </div>
 
@@ -1181,13 +1180,53 @@ const Interior = () => {
         </section>
 
         {/* ==================================================
-            CTA SECTION
+            FINAL CTA
         ================================================== */}
 
-        <section className="bg-red-600 px-5 py-20">
+        <section
+          className="
+            relative
+            overflow-hidden
+            bg-red-600
+            px-5
+            py-20
+            sm:px-8
+            lg:py-24
+          "
+        >
+
+          {/* DECORATION */}
 
           <div
             className="
+              absolute
+              -right-32
+              -top-32
+              h-80
+              w-80
+              rounded-full
+              bg-white/10
+              blur-3xl
+            "
+          />
+
+          <div
+            className="
+              absolute
+              -bottom-32
+              -left-32
+              h-80
+              w-80
+              rounded-full
+              bg-black/10
+              blur-3xl
+            "
+          />
+
+          <div
+            className="
+              relative
+              z-10
               mx-auto
               max-w-4xl
               text-center
@@ -1195,14 +1234,31 @@ const Interior = () => {
             "
           >
 
-            <h2
+            <div
               className="
-                text-3xl
-                font-bold
-                sm:text-4xl
+                mx-auto
+                flex
+                h-16
+                w-16
+                items-center
+                justify-center
+                rounded-2xl
+                bg-white/15
               "
             >
-              Plan Your Dream Interior Today
+              <Sparkles size={32} />
+            </div>
+
+            <h2
+              className="
+                mt-6
+                text-3xl
+                font-extrabold
+                sm:text-4xl
+                md:text-5xl
+              "
+            >
+              Ready to Transform Your Home?
             </h2>
 
             <p
@@ -1210,12 +1266,13 @@ const Interior = () => {
                 mx-auto
                 mt-5
                 max-w-2xl
+                leading-7
                 text-red-100
               "
             >
               Talk to our team about your interior
               requirements and get professional guidance
-              for your project.
+              for your dream home.
             </p>
 
             <div
@@ -1271,7 +1328,6 @@ const Interior = () => {
                 "
               >
                 Get Consultation
-
                 <ArrowRight size={20} />
               </button>
 
@@ -1285,27 +1341,23 @@ const Interior = () => {
             FOOTER
         ================================================== */}
 
-        <footer className="bg-gray-950 px-5 py-10 text-white">
+        <footer className="bg-black px-5 py-10 text-white">
 
-          <div className="mx-auto max-w-7xl">
+          <div className="mx-auto max-w-7xl text-center">
 
-            <div className="text-center">
+            <h3 className="text-2xl font-bold">
+              JAYPRO INFRATECH
+            </h3>
 
-              <h3 className="text-2xl font-bold">
-                JAYPRO INFRATECH
-              </h3>
+            <p className="mt-2 text-gray-400">
+              From Design to Construction,
+              Every Step with Jaypro.
+            </p>
 
-              <p className="mt-2 text-gray-400">
-                From Design to Construction,
-                Every Step with Jaypro.
-              </p>
-
-              <p className="mt-6 text-sm text-gray-500">
-                © {new Date().getFullYear()} Jaypro Infratech.
-                All rights reserved.
-              </p>
-
-            </div>
+            <p className="mt-6 text-sm text-gray-500">
+              © {new Date().getFullYear()} Jaypro Infratech.
+              All rights reserved.
+            </p>
 
           </div>
 
@@ -1314,11 +1366,97 @@ const Interior = () => {
       </div>
 
       {/* ==================================================
-          SERVICE LEAD FORM
-          FULL SCREEN FRONT OVERLAY
+          LEAD FORM POPUP
       ================================================== */}
 
-   
+      {showLeadForm && (
+
+        <div
+          className="
+            fixed
+            inset-0
+            z-[99999]
+            flex
+            items-center
+            justify-center
+            overflow-y-auto
+            bg-black/70
+            px-4
+            py-5
+            backdrop-blur-sm
+          "
+          onClick={handleFormClose}
+          role="dialog"
+          aria-modal="true"
+          aria-label={`${serviceName} enquiry form`}
+        >
+
+          {/* POPUP */}
+
+          <div
+            className="
+              relative
+              my-auto
+              w-full
+              max-w-[400px]
+            "
+            onClick={(event) =>
+              event.stopPropagation()
+            }
+          >
+
+            {/* CLOSE */}
+
+            <button
+              type="button"
+              onClick={handleFormClose}
+              className="
+                absolute
+                right-2
+                top-2
+                z-[100000]
+                flex
+                h-9
+                w-9
+                items-center
+                justify-center
+                rounded-full
+                bg-white
+                text-gray-700
+                shadow-lg
+                transition
+                hover:bg-gray-100
+                hover:text-red-600
+                focus:outline-none
+              "
+              aria-label="Close lead form"
+            >
+              <X size={18} />
+            </button>
+
+            {/* FORM */}
+
+            <div
+              className="
+                overflow-hidden
+                rounded-xl
+                bg-white
+                shadow-2xl
+              "
+            >
+
+              <LeadForm
+                onSuccess={handleLeadSuccess}
+                onClose={handleFormClose}
+              />
+
+            </div>
+
+          </div>
+
+        </div>
+
+      )}
 
     </>
   );

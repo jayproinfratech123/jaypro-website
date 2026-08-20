@@ -132,14 +132,14 @@ const Services = () => {
         {/* Dark Overlay */}
 
         <div
-          className="absolute inset-0 bg-black/65"
+          className="absolute inset-0 bg-black/"
           aria-hidden="true"
         />
 
         {/* Gradient Overlay */}
 
         <div
-          className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-black/30"
+          className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/ to-black/0"
           aria-hidden="true"
         />
 
@@ -344,7 +344,7 @@ const Services = () => {
               return (
                 <article
                   key={service.title}
-                  className="group relative overflow-hidden rounded-2xl border border-black/5 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
+                  className="group relative overflow-hidden rounded-2xl border border-black/ bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
                 >
 
                   {/* Number */}
