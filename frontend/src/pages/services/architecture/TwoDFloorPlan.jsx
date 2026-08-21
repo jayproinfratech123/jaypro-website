@@ -1453,41 +1453,39 @@ const TwoDFloorPlan = () => {
                     {/* CTA */}
 
                     <button
-                      type="button"
-                      onClick={() =>
-                        openWhatsApp(plan)
-                      }
-                      className="
-                        mt-5
-                        flex
-                        w-full
-                        items-center
-                        justify-between
-                        rounded-xl
-                        bg-gray-900
-                        px-5
-                        py-3.5
-                        text-sm
-                        font-bold
-                        text-white
-                        transition
-                        hover:bg-red-600
-                      "
-                    >
+  type="button"
+  onClick={() =>
+    window.location.href = `/2d-floor-plans/${plan.id}`
+  }
+  className="
+    mt-5
+    flex
+    w-full
+    items-center
+    justify-between
+    rounded-xl
+    bg-gray-900
+    px-5
+    py-3.5
+    text-sm
+    font-bold
+    text-white
+    transition
+    hover:bg-red-600
+  "
+>
+  <span>
+    View Details
+  </span>
 
-                      <span>
-                        View Details
-                      </span>
-
-                      <FaArrowRight
-                        size={13}
-                        className="
-                          transition-transform
-                          group-hover:translate-x-1
-                        "
-                      />
-
-                    </button>
+  <FaArrowRight
+    size={13}
+    className="
+      transition-transform
+      group-hover:translate-x-1
+    "
+  />
+</button>
 
                   </div>
 

@@ -75,7 +75,7 @@ const Architecture = () => {
       shortTitle: "Front Elevation",
       description:
         "Modern and attractive front elevation designs that give your home a distinctive architectural identity.",
-      image: "/architecture/front-elevation.webp",
+      image: "/front-elevation-main.webp",
       icon: <Building2 size={28} />,
       path: "/services/architecture/front-elevation",
       points: [
@@ -643,7 +643,7 @@ const Architecture = () => {
 
           {/* Heading */}
 
-          <div className="mb-14 text-center">
+          <div className="mb-10 text-center -mt-20">
 
             <p
               className="
@@ -910,7 +910,7 @@ const Architecture = () => {
 
         <div className="mx-auto max-w-7xl">
 
-          <div className="mb-14 text-center">
+          <div className="mb-14 text-center -mt-20">
 
             <p
               className="
@@ -1012,237 +1012,251 @@ const Architecture = () => {
       {/* =================================================
           WHY CHOOSE US
       ================================================= */}
+{/* =================================================
+    WHY CHOOSE US
+================================================= */}
 
-      <section className="bg-gray-950 px-5 py-20 text-white sm:px-8">
+<section className="bg-gray-50 px-5 py-20 sm:px-8 lg:py-24">
 
-        <div className="mx-auto max-w-7xl">
+  <div className="mx-auto max-w-7xl">
 
-          <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
+    <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
 
-            <div>
+      {/* LEFT CONTENT */}
 
-              <p
-                className="
-                  mb-3
-                  text-sm
-                  font-bold
-                  uppercase
-                  tracking-[0.2em]
-                  text-red-500
-                "
-              >
-                Why Jaypro
-              </p>
+      <div>
 
-              <h2
-                className="
-                  text-3xl
-                  font-extrabold
-                  sm:text-4xl
-                "
-              >
-                Design Your Home With
-                <span className="text-red-500">
-                  {" "}Confidence
-                </span>
-              </h2>
+        <p
+          className="
+            mb-3
+            -mt-40
+            text-sm
+            font-bold
+            uppercase
+            tracking-[0.2em]
+            text-red-600
+          "
+        >
+          Why Jaypro
+        </p>
 
-              <p
-                className="
-                  mt-6
-                  max-w-xl
-                  leading-8
-                  text-gray-400
-                "
-              >
-                Good architecture combines aesthetics,
-                functionality and technical planning. Our
-                approach focuses on creating designs that
-                are practical, attractive and suitable for
-                your project requirements.
-              </p>
+        <h2
+          className="
+            text-3xl
+            font-extrabold
+            text-gray-900
+            sm:text-4xl
+          "
+        >
+          Design Your Home With
+          <span className="text-red-600">
+            {" "}Confidence
+          </span>
+        </h2>
 
-              <button
-                type="button"
-                onClick={() => setShowLeadPopup(true)}
-                className="
-                  mt-8
-                  inline-flex
-                  items-center
-                  gap-2
-                  rounded-xl
-                  bg-red-600
-                  px-7
-                  py-4
-                  font-bold
-                  text-white
-                  transition
-                  hover:bg-red-700
-                "
-              >
-                Discuss Your Project
-                <ArrowRight size={19} />
-              </button>
+        <p
+          className="
+            mt-6
+            max-w-xl
+            leading-8
+            text-gray-600
+          "
+        >
+          Good architecture combines aesthetics,
+          functionality and technical planning. Our
+          approach focuses on creating designs that
+          are practical, attractive and suitable for
+          your project requirements.
+        </p>
 
-            </div>
+        <button
+          type="button"
+          onClick={() => setShowLeadPopup(true)}
+          className="
+            mt-8
+            inline-flex
+            items-center
+            gap-2
+            rounded-xl
+            bg-red-600
+            px-7
+            py-4
+            font-bold
+            text-white
+            transition
+            hover:bg-red-700
+            hover:-translate-y-0.5
+          "
+        >
+          Discuss Your Project
+          <ArrowRight size={19} />
+        </button>
 
-            <div className="grid gap-4 sm:grid-cols-2">
+      </div>
 
-              {[
-                "Professional Planning",
-                "Modern Design Concepts",
-                "Detailed Drawings",
-                "Practical Space Planning",
-                "Complete Design Support",
-                "Project-Specific Solutions",
-              ].map((item) => (
+      {/* RIGHT FEATURES */}
 
-                <div
-                  key={item}
-                  className="
-                    flex
-                    items-center
-                    gap-3
-                    rounded-xl
-                    border
-                    border-white/10
-                    bg-white/5
-                    p-5
-                  "
-                >
+      <div className="grid gap-4 sm:grid-cols-2">
 
-                  <CheckCircle
-                    size={20}
-                    className="shrink-0 text-red-500"
-                  />
+        {[
+          "Professional Planning",
+          "Modern Design Concepts",
+          "Detailed Drawings",
+          "Practical Space Planning",
+          "Complete Design Support",
+          "Project-Specific Solutions",
+        ].map((item) => (
 
-                  <span className="text-sm font-medium">
-                    {item}
-                  </span>
+          <div
+            key={item}
+            className="
+              flex
+              items-center
+              gap-3
+              rounded-xl
+              border
+              border-gray-200
+              bg-white
+              p-5
+              shadow-sm
+              transition
+              hover:border-red-200
+              hover:shadow-md
+            "
+          >
 
-                </div>
+            <CheckCircle
+              size={20}
+              className="shrink-0 text-red-600"
+            />
 
-              ))}
-
-            </div>
+            <span className="text-sm font-medium text-gray-800">
+              {item}
+            </span>
 
           </div>
 
-        </div>
+        ))}
 
-      </section>
+      </div>
 
+    </div>
+
+  </div>
+
+</section>
       {/* =================================================
           CTA
       ================================================= */}
 
-      <section className="bg-red-600 px-5 py-20 sm:px-8">
+{/* =================================================
+    CTA
+================================================= */}
 
-        <div className="mx-auto max-w-4xl text-center text-white">
+<section className="bg-white px-5 py-0 sm:px-8">
 
-          <h2
-            className="
-              text-3xl
-              font-extrabold
-              sm:text-4xl
-            "
-          >
-            Ready to Plan Your Dream Home?
-          </h2>
+  <div className="mx-auto max-w-4xl text-center">
 
-          <p className="mx-auto mt-5 max-w-2xl leading-7 text-red-100">
-            Talk to our team about your plot, floor plan,
-            elevation, structural design and complete
-            architectural requirements.
-          </p>
+    <h2
+      className="
+        text-3xl
+        font-extrabold
+        text-gray-900
+        sm:text-4xl
+      "
+    >
+      Ready to Plan Your Dream Home?
+    </h2>
 
-          <div
-            className="
-              mt-8
-              flex
-              flex-col
-              justify-center
-              gap-4
-              sm:flex-row
-            "
-          >
+    <p
+      className="
+        mx-auto
+        mt-5
+        max-w-2xl
+        leading-7
+        text-gray-600
+      "
+    >
+      Talk to our team about your plot, floor plan,
+      elevation, structural design and complete
+      architectural requirements.
+    </p>
 
-            <a
-              href="tel:+919999999999"
-              className="
-                inline-flex
-                items-center
-                justify-center
-                gap-2
-                rounded-xl
-                bg-white
-                px-7
-                py-4
-                font-bold
-                text-red-600
-                transition
-                hover:bg-gray-100
-              "
-            >
-              <Phone size={19} />
-              Call Now
-            </a>
+    <div
+      className="
+        mt-8
+        flex
+        flex-col
+        justify-center
+        gap-4
+        sm:flex-row
+      "
+    >
 
-            <button
-              type="button"
-              onClick={() => setShowLeadPopup(true)}
-              className="
-                inline-flex
-                items-center
-                justify-center
-                gap-2
-                rounded-xl
-                border
-                border-white
-                px-7
-                py-4
-                font-bold
-                text-white
-                transition
-                hover:bg-white
-                hover:text-red-600
-              "
-            >
-              <MessageCircle size={19} />
-              Get Consultation
-            </button>
+      {/* CALL NOW */}
 
-          </div>
+      <a
+        href="tel:+919835852462"
+        className="
+          inline-flex
+          items-center
+          justify-center
+          gap-2
+          rounded-xl
+          bg-red-600
+          px-7
+          py-4
+          font-bold
+          text-white
+          shadow-lg
+          shadow-red-600/20
+          transition
+          hover:bg-red-700
+          hover:-translate-y-0.5
+        "
+      >
+        <Phone size={19} />
+        Call Now
+      </a>
 
-        </div>
+      {/* GET CONSULTATION */}
 
-      </section>
+      <button
+        type="button"
+        onClick={() => setShowLeadPopup(true)}
+        className="
+          inline-flex
+          items-center
+          justify-center
+          gap-2
+          rounded-xl
+          border
+          border-red-600
+          bg-white
+          px-7
+          py-4
+          font-bold
+          text-red-600
+          transition
+          hover:bg-red-600
+          hover:text-white
+          hover:-translate-y-0.5
+        "
+      >
+        <MessageCircle size={19} />
+        Get Consultation
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
 
       {/* =================================================
           FOOTER
       ================================================= */}
 
-      <footer className="bg-black px-5 py-10 text-white">
-
-        <div className="mx-auto max-w-7xl text-center">
-
-          <h3 className="text-2xl font-bold">
-            JAYPRO INFRATECH
-          </h3>
-
-          <p className="mt-2 text-gray-400">
-            From Design to Construction,
-            Every Step with Jaypro.
-          </p>
-
-          <p className="mt-6 text-sm text-gray-500">
-            © {new Date().getFullYear()} Jaypro Infratech.
-            All rights reserved.
-          </p>
-
-        </div>
-
-      </footer>
 
       {/* =====================================================
           LEAD POPUP

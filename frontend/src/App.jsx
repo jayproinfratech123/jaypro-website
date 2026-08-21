@@ -7,18 +7,18 @@ import {
 
 import Packages from "./pages/Packages";
 import ScrollToTop from "./components/ScrollToTop";
-
+import FrontElevation from "./pages/FrontElevation.jsx";
 // ==========================================
 // LAYOUT COMPONENTS
 // ==========================================
-
+import ThreeDFloorPlan from "./pages/ThreeDFloorPlan";
 import ArchitectureAds from "./pages/ArchitectureAds";
 import Navbar from "./components/layout/Navbar.jsx";
 import Footer from "./components/layout/Footer.jsx";
 import ProtectedRoute from "./components/common/ProtectedRoute.jsx";
 import WhatsAppButton from "./components/WhatsAppButton.jsx";
 import BottomNavigation from "./components/BottomNavigation.jsx";
-
+import FloorPlanDetails from "./pages/FloorPlanDetails";
 // ==========================================
 // LEGAL PAGES
 // ==========================================
@@ -180,16 +180,26 @@ function App() {
           {/* ==========================================
               BLOG
           ========================================== */}
-
+<Route
+  path="/services/architecture/3d-floor-plan"
+  element={<ThreeDFloorPlan />}
+/>
           <Route
             path="/blog"
             element={<Blogs />}
           />
-
+<Route
+  path="/2d-floor-plans/:id"
+  element={<FloorPlanDetails />}
+/>
           <Route
             path="/blogs"
             element={<Blogs />}
           />
+          <Route
+  path="/services/architecture/front-elevation"
+  element={<FrontElevation />}
+/>
 
           {/* ==========================================
               PRICING
