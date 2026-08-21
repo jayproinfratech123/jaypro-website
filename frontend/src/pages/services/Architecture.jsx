@@ -58,7 +58,7 @@ const Architecture = () => {
       shortTitle: "3D Floor Plan",
       description:
         "Visualize your complete home layout with an attractive 3D floor plan before starting construction.",
-      image: "/architecture/3d-floor-plan.webp",
+      image: "/3d-floor-plan.webp",
       icon: <Home size={28} />,
       path: "/services/architecture/3d-floor-plan",
       points: [
