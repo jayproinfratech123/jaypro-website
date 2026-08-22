@@ -92,8 +92,8 @@ export default function ServicesSection() {
   // ===================================================
   // SERVICE CLICK
   //
-  // OPEN SERVICE PAGE
-  // + OPEN LEAD POPUP
+  // 1. Go to selected service page
+  // 2. Tell that page to open Lead Form
   // ===================================================
 
   const handleServiceClick = (service) => {
@@ -122,7 +122,6 @@ export default function ServicesSection() {
         ================================================= */}
 
         <div className="mb-4 text-center">
-
           <h2
             id="services-heading"
             className="
@@ -154,7 +153,6 @@ export default function ServicesSection() {
             consultation, construction cost estimation,
             and contractor services.
           </p>
-
         </div>
 
         {/* =================================================
@@ -172,9 +170,7 @@ export default function ServicesSection() {
           "
           role="list"
         >
-
           {services.map((service) => (
-
             <article
               key={service.id}
               role="listitem"
@@ -210,7 +206,6 @@ export default function ServicesSection() {
                   justify-center
                 `}
               >
-
                 <div
                   className="
                     absolute
@@ -225,7 +220,7 @@ export default function ServicesSection() {
                     border-white
                     bg-white
                     text-lg
-                    text-red-500
+                    text-red-600
                     shadow-md
                     md:h-14
                     md:w-14
@@ -234,7 +229,6 @@ export default function ServicesSection() {
                 >
                   {service.icon}
                 </div>
-
               </div>
 
               {/* =================================================
@@ -249,7 +243,6 @@ export default function ServicesSection() {
                   text-center
                 "
               >
-
                 <h3
                   className="
                     text-lg
@@ -273,7 +266,6 @@ export default function ServicesSection() {
                     {service.subtitle}
                   </p>
                 )}
-
               </div>
 
               {/* =================================================
@@ -298,23 +290,17 @@ export default function ServicesSection() {
                   hover:opacity-90
                   focus:outline-none
                   focus:ring-2
-                  focus:ring-red-500
+                  focus:ring-red-600
                   focus:ring-offset-2
                 `}
               >
-
                 <FaArrowRight aria-hidden="true" />
 
                 {service.button}
-
               </button>
-
             </article>
-
           ))}
-
         </div>
-
       </div>
     </section>
   );

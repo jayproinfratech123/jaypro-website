@@ -4,17 +4,17 @@ import {
   Search,
   Filter,
   ChevronDown,
-  ArrowLeft,
   Ruler,
   Compass,
   Home,
   Maximize,
   Eye,
+  ArrowRight,
 } from "lucide-react";
 
 /* =========================================================
    3D FLOOR PLAN DATA
-   ========================================================= */
+========================================================= */
 
 const floorPlans = [
   {
@@ -26,7 +26,7 @@ const floorPlans = [
     area: "900 - 1400 sqft",
     type: "Building",
     floors: "G + 1",
-    image: "/3dfloorplan/3d-floor-plan-01.jpg",
+    image: "/Modern-3D-Floor-Plan.webp",
   },
 
   {
@@ -38,7 +38,7 @@ const floorPlans = [
     area: "800 - 1200 sqft",
     type: "Building",
     floors: "G + 1",
-    image: "/3dfloorplan/3d-floor-plan-02.jpg",
+    image: "/Modern-3D-floor-plan-se.webp",
   },
 
   {
@@ -50,7 +50,7 @@ const floorPlans = [
     area: "1000 - 1500 sqft",
     type: "Building",
     floors: "G + 1",
-    image: "/3dfloorplan/3d-floor-plan-03.jpg",
+    image: "/Modern-3D-floor-plan-th.webp",
   },
 
   {
@@ -62,7 +62,7 @@ const floorPlans = [
     area: "1250 - 1800 sqft",
     type: "Building",
     floors: "G + 1",
-    image: "/3dfloorplan/3d-floor-plan-04.jpg",
+    image: "/Modern-3D-floor-plan-fo.webp",
   },
 
   {
@@ -74,7 +74,7 @@ const floorPlans = [
     area: "1200 - 2000 sqft",
     type: "Duplex",
     floors: "G + 1",
-    image: "/3dfloorplan/3d-floor-plan-05.jpg",
+    image: "/Duplex-3D-Floor-Plan.webp",
   },
 
   {
@@ -86,7 +86,7 @@ const floorPlans = [
     area: "1500 - 2400 sqft",
     type: "Building",
     floors: "G + 1",
-    image: "/3dfloorplan/3d-floor-plan-06.jpg",
+    image: "/Modern-House-3D-Plan.webp",
   },
 
   {
@@ -215,10 +215,6 @@ const ThreeDFloorPlan = () => {
 
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
 
-          {/* BACK */}
-
-
-
           <div
             className="
               flex
@@ -335,6 +331,7 @@ const ThreeDFloorPlan = () => {
           {/* MOBILE FILTER */}
 
           <button
+            type="button"
             onClick={() => setShowFilters(!showFilters)}
             className="
               flex
@@ -385,6 +382,7 @@ const ThreeDFloorPlan = () => {
             {filters.map((filter) => (
 
               <button
+                type="button"
                 key={filter}
                 onClick={() => {
                   setActiveFilter(filter);
@@ -444,9 +442,7 @@ const ThreeDFloorPlan = () => {
 
           </div>
 
-          {/* =================================================
-              PLAN GRID
-          ================================================= */}
+          {/* PLAN GRID */}
 
           {filteredPlans.length > 0 ? (
 
@@ -473,8 +469,6 @@ const ThreeDFloorPlan = () => {
 
           ) : (
 
-            /* NO RESULTS */
-
             <div
               className="
                 rounded-xl
@@ -496,6 +490,7 @@ const ThreeDFloorPlan = () => {
               </p>
 
               <button
+                type="button"
                 onClick={() => {
                   setSearch("");
                   setActiveFilter("All");
@@ -576,6 +571,10 @@ const ThreeDFloorPlan = () => {
             <Link
               to="/contact"
               className="
+                inline-flex
+                items-center
+                justify-center
+                gap-2
                 rounded-lg
                 bg-red-600
                 px-6
@@ -588,6 +587,7 @@ const ThreeDFloorPlan = () => {
               "
             >
               Get Custom Plan
+              <ArrowRight size={16} />
             </Link>
 
             <a
@@ -645,9 +645,7 @@ const FloorPlanCard = ({ plan }) => {
       "
     >
 
-      {/* ===================================================
-          CATEGORY
-      =================================================== */}
+      {/* CATEGORY */}
 
       <div className="bg-green-50 px-3 py-2">
 
@@ -666,6 +664,10 @@ const FloorPlanCard = ({ plan }) => {
 
       {/* ===================================================
           FLOOR PLAN IMAGE
+          
+          IMPORTANT:
+          Recommended source image = 1200 × 1200 px
+          Card display = square
       =================================================== */}
 
       <div
@@ -684,15 +686,17 @@ const FloorPlanCard = ({ plan }) => {
           className="
             h-full
             w-full
-            object-cover
+            object-contain
+            bg-white
+            p-2
             transition
             duration-500
-            group-hover:scale-[1.03]
+            group-hover:scale-[1.02]
           "
           onError={(e) => {
 
             e.currentTarget.src =
-              "https://placehold.co/900x900/f5f5f5/333333?text=3D+Floor+Plan";
+              "https://placehold.co/1200x1200/f5f5f5/333333?text=3D+Floor+Plan";
 
           }}
         />
@@ -724,9 +728,7 @@ const FloorPlanCard = ({ plan }) => {
       </div>
 
 
-      {/* ===================================================
-          PLAN TITLE
-      =================================================== */}
+      {/* PLAN TITLE */}
 
       <div className="border-b border-gray-100 px-4 py-3">
 
@@ -744,13 +746,9 @@ const FloorPlanCard = ({ plan }) => {
       </div>
 
 
-      {/* ===================================================
-          DETAILS
-      =================================================== */}
+      {/* DETAILS */}
 
       <div className="grid grid-cols-2 gap-x-3 gap-y-3 px-4 py-4">
-
-        {/* PLOT SIZE */}
 
         <PlanDetail
           icon={<Ruler size={15} />}
@@ -758,23 +756,17 @@ const FloorPlanCard = ({ plan }) => {
           value={plan.plotSize}
         />
 
-        {/* FACING */}
-
         <PlanDetail
           icon={<Compass size={15} />}
           label="Facing"
           value={plan.facing}
         />
 
-        {/* AREA */}
-
         <PlanDetail
           icon={<Maximize size={15} />}
           label="Area"
           value={plan.area}
         />
-
-        {/* TYPE */}
 
         <PlanDetail
           icon={<Home size={15} />}
@@ -786,14 +778,19 @@ const FloorPlanCard = ({ plan }) => {
 
 
       {/* ===================================================
-          BUTTON
+          VIEW PLAN BUTTON
       =================================================== */}
 
       <div className="border-t border-gray-100 px-4 py-4">
 
-        <button
+        <Link
+          to={`/3d-floor-plan/${plan.id}`}
           className="
+            flex
             w-full
+            items-center
+            justify-center
+            gap-2
             rounded-md
             bg-red-600
             px-4
@@ -802,11 +799,14 @@ const FloorPlanCard = ({ plan }) => {
             font-bold
             text-white
             transition
+            duration-200
             hover:bg-red-700
+            hover:shadow-md
           "
         >
+          <Eye size={16} />
           VIEW PLAN
-        </button>
+        </Link>
 
       </div>
 

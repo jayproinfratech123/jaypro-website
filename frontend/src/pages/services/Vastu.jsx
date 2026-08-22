@@ -1,30 +1,131 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FaTimes } from "react-icons/fa";
 
+import {
+  ArrowRight,
+  CheckCircle2,
+  Compass,
+  FileImage,
+  Home,
+  Lock,
+  ShieldCheck,
+  Sparkles,
+  Upload,
+  Zap,
+} from "lucide-react";
+
 import LeadForm from "../../components/LeadForm";
+
+/* =========================================================
+   SCORE TABLES
+   Maximum = 25 points each
+   Total = 100
+========================================================= */
+
+const SCORE_TABLES = {
+  entrance: {
+    NE: 25,
+    N: 23,
+    E: 22,
+    NW: 17,
+    W: 15,
+    SE: 10,
+    S: 7,
+    SW: 3,
+  },
+
+  kitchen: {
+    SE: 25,
+    NW: 21,
+    E: 17,
+    S: 13,
+    W: 10,
+    N: 8,
+    NE: 4,
+    SW: 4,
+  },
+
+  masterBedroom: {
+    SW: 25,
+    W: 21,
+    S: 19,
+    NW: 15,
+    N: 11,
+    SE: 8,
+    E: 7,
+    NE: 4,
+  },
+
+  pooja: {
+    NE: 25,
+    E: 22,
+    N: 21,
+    NW: 14,
+    W: 11,
+    SE: 8,
+    S: 6,
+    SW: 3,
+  },
+};
+
+/* =========================================================
+   DIRECTION OPTIONS
+========================================================= */
+
+const directions = [
+  { value: "", label: "Select direction" },
+  { value: "N", label: "North" },
+  { value: "NE", label: "North-East" },
+  { value: "E", label: "East" },
+  { value: "SE", label: "South-East" },
+  { value: "S", label: "South" },
+  { value: "SW", label: "South-West" },
+  { value: "W", label: "West" },
+  { value: "NW", label: "North-West" },
+];
 
 const Vastu = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const fileInputRef = useRef(null);
+
   // =====================================================
-  // LEAD FORM STATE
+  // EXISTING LEAD FORM BEHAVIOUR
   // =====================================================
 
   const [showLeadForm, setShowLeadForm] = useState(false);
 
   // =====================================================
-  // OPEN LEAD FORM AUTOMATICALLY
-  // WHEN COMING FROM HOME SERVICE CARD
+  // FLOOR PLAN
+  // =====================================================
+
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState("");
+
+  // =====================================================
+  // VASTU INPUTS
+  // =====================================================
+
+  const [formData, setFormData] = useState({
+    entrance: "",
+    kitchen: "",
+    masterBedroom: "",
+    pooja: "",
+  });
+
+  const [error, setError] = useState("");
+
+  // =====================================================
+  // OPEN LEAD FORM FROM HOME SERVICE CARD
+  // Behaviour retained
   // =====================================================
 
   useEffect(() => {
     if (location.state?.openLeadForm === true) {
       setShowLeadForm(true);
 
-      // Remove router state immediately.
-      // This prevents popup from reopening after refresh.
       navigate(location.pathname, {
         replace: true,
         state: null,
@@ -33,15 +134,13 @@ const Vastu = () => {
   }, [location, navigate]);
 
   // =====================================================
-  // LOCK PAGE SCROLL WHILE POPUP IS OPEN
+  // LOCK PAGE WHILE POPUP OPEN
   // =====================================================
 
   useEffect(() => {
-    if (showLeadForm) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
+    document.body.style.overflow = showLeadForm
+      ? "hidden"
+      : "";
 
     return () => {
       document.body.style.overflow = "";
@@ -49,585 +148,840 @@ const Vastu = () => {
   }, [showLeadForm]);
 
   // =====================================================
-  // FORM SUCCESS
-  //
-  // FORM SUBMITTED:
-  // Popup closes
-  // Vastu page remains open
-  // User can scroll the complete Vastu page
+  // POPUP SUCCESS
   // =====================================================
 
   const handleLeadSuccess = () => {
     setShowLeadForm(false);
-
-    // Make sure scrolling is enabled
     document.body.style.overflow = "";
   };
 
   // =====================================================
-  // CLOSE FORM
-  //
-  // X BUTTON / CLICK OUTSIDE
-  // → GO TO HOME PAGE
+  // POPUP CLOSE
+  // X / OUTSIDE CLICK → HOME
+  // Behaviour retained
   // =====================================================
 
   const handleLeadClose = () => {
     setShowLeadForm(false);
 
-    // Make sure scrolling is enabled
     document.body.style.overflow = "";
 
-    // Go to HOME
     navigate("/", {
       replace: true,
     });
   };
 
   // =====================================================
-  // ESC KEY
-  //
-  // Pressing ESC also behaves like X:
-  // → Go to Home
+  // ESC
   // =====================================================
 
   useEffect(() => {
     const handleEscape = (event) => {
-      if (event.key === "Escape" && showLeadForm) {
+      if (
+        event.key === "Escape" &&
+        showLeadForm
+      ) {
         handleLeadClose();
       }
     };
 
-    document.addEventListener("keydown", handleEscape);
+    document.addEventListener(
+      "keydown",
+      handleEscape
+    );
 
     return () => {
-      document.removeEventListener("keydown", handleEscape);
+      document.removeEventListener(
+        "keydown",
+        handleEscape
+      );
     };
   }, [showLeadForm]);
+
+  // =====================================================
+  // FILE SELECT
+  // =====================================================
+
+  const handleFileChange = (event) => {
+    const file = event.target.files?.[0];
+
+    if (!file) return;
+
+    const allowedTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/webp",
+      "application/pdf",
+    ];
+
+    if (!allowedTypes.includes(file.type)) {
+      setError(
+        "Please upload JPG, PNG, WebP or PDF."
+      );
+      return;
+    }
+
+    if (file.size > 10 * 1024 * 1024) {
+      setError(
+        "Maximum file size is 10MB."
+      );
+      return;
+    }
+
+    setError("");
+    setSelectedFile(file);
+
+    if (previewUrl) {
+      URL.revokeObjectURL(previewUrl);
+    }
+
+    if (file.type.startsWith("image/")) {
+      const url = URL.createObjectURL(file);
+      setPreviewUrl(url);
+    } else {
+      setPreviewUrl("");
+    }
+  };
+
+  // =====================================================
+  // CLEAN PREVIEW
+  // =====================================================
+
+  useEffect(() => {
+    return () => {
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl);
+      }
+    };
+  }, [previewUrl]);
+
+  // =====================================================
+  // CHANGE DIRECTIONS
+  // =====================================================
+
+  const handleDirectionChange = (event) => {
+    const { name, value } = event.target;
+
+    setFormData((previous) => ({
+      ...previous,
+      [name]: value,
+    }));
+
+    setError("");
+  };
+
+  // =====================================================
+  // CALCULATE VASTU SCORE
+  // =====================================================
+
+  const calculateVastuScore = () => {
+    if (!selectedFile) {
+      setError(
+        "Please upload your floor plan first."
+      );
+      return;
+    }
+
+    if (
+      !formData.entrance ||
+      !formData.kitchen ||
+      !formData.masterBedroom ||
+      !formData.pooja
+    ) {
+      setError(
+        "Please select all four directions."
+      );
+      return;
+    }
+
+    const breakdown = {
+      entrance:
+        SCORE_TABLES.entrance[
+          formData.entrance
+        ],
+
+      kitchen:
+        SCORE_TABLES.kitchen[
+          formData.kitchen
+        ],
+
+      masterBedroom:
+        SCORE_TABLES.masterBedroom[
+          formData.masterBedroom
+        ],
+
+      pooja:
+        SCORE_TABLES.pooja[
+          formData.pooja
+        ],
+    };
+
+    const score =
+      breakdown.entrance +
+      breakdown.kitchen +
+      breakdown.masterBedroom +
+      breakdown.pooja;
+
+    const result = {
+      score,
+      breakdown,
+      selections: formData,
+      fileName: selectedFile.name,
+      generatedAt: new Date().toISOString(),
+    };
+
+    // Allows refresh of result page
+    sessionStorage.setItem(
+      "vastuResult",
+      JSON.stringify(result)
+    );
+
+    navigate("/vastu-result", {
+      state: {
+        result,
+      },
+    });
+  };
 
   return (
     <>
       {/* =====================================================
-          VASTU HERO SECTION
+          HERO
       ===================================================== */}
 
       <section
         className="
           relative
-          flex
-          h-[90vh]
-          min-h-[650px]
-          items-center
           overflow-hidden
+          bg-gradient-to-br
+          from-red-950
+          via-red-800
+          to-red-600
         "
       >
-
-        {/* =================================================
-            RESPONSIVE BACKGROUND IMAGES
-        ================================================= */}
-
-        {/* MOBILE IMAGE */}
+        {/* DECORATION */}
 
         <div
           className="
+            pointer-events-none
             absolute
-            inset-0
-            bg-cover
-            bg-center
-            bg-no-repeat
-            md:hidden
+            left-[30%]
+            top-[-200px]
+            h-[700px]
+            w-[700px]
+            rounded-full
+            border
+            border-white/10
           "
-          style={{
-            backgroundImage: "url('/for-phone.png')",
-          }}
         />
-
-        {/* TABLET IMAGE */}
 
         <div
           className="
+            pointer-events-none
             absolute
-            inset-0
-            hidden
-            bg-cover
-            bg-center
-            bg-no-repeat
-            md:block
-            lg:hidden
-          "
-          style={{
-            backgroundImage: "url('/vastu-tablet.webp')",
-          }}
-        />
-
-        {/* DESKTOP IMAGE */}
-
-        <div
-          className="
-            absolute
-            inset-0
-            hidden
-            bg-cover
-            bg-center
-            bg-no-repeat
-            lg:block
-          "
-          style={{
-            backgroundImage: "url('/vastu.webp')",
-          }}
-        />
-
-        {/* =================================================
-            DARK OVERLAY
-        ================================================= */}
-
-        <div
-          className="
-            absolute
-            inset-0
-            bg-transparent
-            md:bg-black/10
+            left-[40%]
+            top-[50px]
+            h-[420px]
+            w-[420px]
+            rounded-full
+            border
+            border-white/10
           "
         />
-
-        {/* =================================================
-            MAIN CONTENT
-        ================================================= */}
 
         <div
           className="
             relative
             z-10
             mx-auto
-            w-full
-            max-w-6xl
+            grid
+            min-h-[700px]
+            max-w-[1400px]
+            items-center
+            gap-12
             px-5
+            py-12
             sm:px-8
+            lg:grid-cols-[0.9fr_1.1fr]
             lg:px-10
           "
         >
+          {/* =================================================
+              LEFT
+          ================================================= */}
 
           <div
             className="
-              grid
-              items-center
-              gap-10
-              lg:grid-cols-2
+              max-w-[590px]
+              text-center
+              lg:text-left
             "
           >
+            <div
+              className="
+                inline-flex
+                items-center
+                gap-2
+                rounded-full
+                border
+                border-white/30
+                bg-white/10
+                px-4
+                py-2
+                text-xs
+                font-bold
+                uppercase
+                tracking-wide
+                text-white
+              "
+            >
+              <Sparkles size={15} />
 
-            {/* =================================================
-                LEFT CONTENT
-            ================================================= */}
+              Free Vastu Score
+            </div>
 
-            <div />
+            <h1
+              className="
+                mt-7
+                text-4xl
+                font-black
+                leading-tight
+                text-white
+                sm:text-5xl
+                lg:text-[58px]
+              "
+            >
+              Upload Your Floor Plan
 
-            {/* =================================================
-                RIGHT SIDE VASTU BENEFITS CARD
-            ================================================= */}
+              <span
+                className="
+                  block
+                  text-red-100
+                "
+              >
+                & Check Vastu Score
+              </span>
+            </h1>
+
+            <p
+              className="
+                mt-6
+                text-base
+                leading-8
+                text-white/90
+                sm:text-lg
+              "
+            >
+              Upload your home floor plan,
+              provide the directions of important
+              spaces and get an instant
+              preliminary Vastu score.
+            </p>
 
             <div
               className="
-                flex
-                justify-center
-                lg:justify-end
+                mt-8
+                grid
+                gap-4
+                sm:grid-cols-3
               "
             >
+              <HeroBenefit
+                icon={<CheckCircle2 size={18} />}
+                text="Instant Score"
+              />
 
-              <div
-                className="
-                  w-full
-                  max-w-[320px]
-                  rounded-2xl
-                  border-0
-                  bg-transparent
-                  p-5
-                  text-black
-                  shadow-none
-                  backdrop-blur-0
+              <HeroBenefit
+                icon={<Zap size={18} />}
+                text="Quick Check"
+              />
 
-                  md:border
-                  md:border-white/20
-                  md:bg-black/30
-                  md:p-6
-                  md:text-white
-                  md:shadow-2xl
-                  md:backdrop-blur-md
-                "
-              >
-
-                {/* =================================================
-                    ICON
-                ================================================= */}
-
-                <div
-                  className="
-                    mb-4
-                    flex
-                    h-12
-                    w-12
-                    items-center
-                    justify-center
-                    rounded-full
-                    bg-yellow-400
-                  "
-                >
-                  <span className="text-xl text-black">
-                    ☯
-                  </span>
-                </div>
-
-                {/* =================================================
-                    HEADING
-                ================================================= */}
-
-                <h3
-                  className="
-                    mb-4
-                    text-2xl
-                    font-semibold
-                    text-black
-                    md:text-white
-                  "
-                >
-                  Vastu Benefits
-                </h3>
-
-                {/* =================================================
-                    BENEFITS
-                ================================================= */}
-
-                <div className="space-y-4">
-
-                  {/* BENEFIT 1 */}
-
-                  <div className="flex gap-3">
-
-                    <span
-                      className="
-                        mt-1
-                        text-sm
-                        text-black
-                        md:text-yellow-400
-                      "
-                    >
-                      ✔
-                    </span>
-
-                    <div>
-
-                      <h4
-                        className="
-                          text-lg
-                          font-semibold
-                          text-black
-                          md:text-base
-                          md:text-white
-                        "
-                      >
-                        Positive Energy Flow
-                      </h4>
-
-                      <p
-                        className="
-                          text-xs
-                          leading-5
-                          text-gray-700
-                          sm:text-sm
-                          md:text-gray-300
-                        "
-                      >
-                        Create a balanced environment filled
-                        with peace and positive energy.
-                      </p>
-
-                    </div>
-
-                  </div>
-
-                  {/* BENEFIT 2 */}
-
-                  <div className="flex gap-3">
-
-                    <span
-                      className="
-                        mt-1
-                        text-sm
-                        text-black
-                        md:text-yellow-400
-                      "
-                    >
-                      ✔
-                    </span>
-
-                    <div>
-
-                      <h4
-                        className="
-                          text-sm
-                          font-semibold
-                          text-black
-                          sm:text-base
-                          md:text-white
-                        "
-                      >
-                        Better Health
-                      </h4>
-
-                      <p
-                        className="
-                          text-xs
-                          leading-5
-                          text-gray-700
-                          sm:text-sm
-                          md:text-gray-300
-                        "
-                      >
-                        Improve well-being through proper
-                        planning and natural energy flow.
-                      </p>
-
-                    </div>
-
-                  </div>
-
-                  {/* BENEFIT 3 */}
-
-                  <div className="flex gap-3">
-
-                    <span
-                      className="
-                        mt-1
-                        text-sm
-                        text-black
-                        md:text-yellow-400
-                      "
-                    >
-                      ✔
-                    </span>
-
-                    <div>
-
-                      <h4
-                        className="
-                          text-sm
-                          font-semibold
-                          text-black
-                          sm:text-base
-                          md:text-white
-                        "
-                      >
-                        Wealth & Prosperity
-                      </h4>
-
-                      <p
-                        className="
-                          text-xs
-                          leading-5
-                          text-gray-700
-                          sm:text-sm
-                          md:text-gray-300
-                        "
-                      >
-                        Bring financial growth and prosperity
-                        through Vastu principles.
-                      </p>
-
-                    </div>
-
-                  </div>
-
-                  {/* BENEFIT 4 */}
-
-                  <div className="flex gap-3">
-
-                    <span
-                      className="
-                        mt-1
-                        text-sm
-                        text-black
-                        md:text-yellow-400
-                      "
-                    >
-                      ✔
-                    </span>
-
-                    <div>
-
-                      <h4
-                        className="
-                          text-sm
-                          font-semibold
-                          text-black
-                          sm:text-base
-                          md:text-white
-                        "
-                      >
-                        Peaceful Living
-                      </h4>
-
-                      <p
-                        className="
-                          text-xs
-                          leading-5
-                          text-gray-700
-                          sm:text-sm
-                          md:text-gray-300
-                        "
-                      >
-                        Enjoy harmony, happiness and comfort
-                        in your living space.
-                      </p>
-
-                    </div>
-
-                  </div>
-
-                </div>
-
-              </div>
-
+              <HeroBenefit
+                icon={<Lock size={18} />}
+                text="Private"
+              />
             </div>
-
           </div>
 
+          {/* =================================================
+              CALCULATOR
+          ================================================= */}
+
+          <div
+            className="
+              rounded-[26px]
+              bg-white
+              p-5
+              shadow-2xl
+              sm:p-7
+            "
+          >
+            <div
+              className="
+                flex
+                items-start
+                justify-between
+                gap-5
+              "
+            >
+              <div>
+                <p
+                  className="
+                    text-xs
+                    font-bold
+                    uppercase
+                    tracking-[0.18em]
+                    text-red-600
+                  "
+                >
+                  Free Vastu Checker
+                </p>
+
+                <h2
+                  className="
+                    mt-1
+                    text-2xl
+                    font-black
+                    text-gray-900
+                  "
+                >
+                  Check Your Floor Plan
+                </h2>
+              </div>
+
+              <span
+                className="
+                  rounded-lg
+                  bg-red-50
+                  px-3
+                  py-1.5
+                  text-xs
+                  font-bold
+                  text-red-600
+                "
+              >
+                FREE
+              </span>
+            </div>
+
+            {/* ===============================================
+                UPLOAD
+            =============================================== */}
+
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".jpg,.jpeg,.png,.webp,.pdf"
+              className="hidden"
+              onChange={handleFileChange}
+            />
+
+            <button
+              type="button"
+              onClick={() =>
+                fileInputRef.current?.click()
+              }
+              className="
+                mt-6
+                w-full
+                overflow-hidden
+                rounded-2xl
+                border-2
+                border-dashed
+                border-red-300
+                bg-red-50/40
+                transition
+                hover:border-red-600
+              "
+            >
+              {previewUrl ? (
+                <div className="relative">
+                  <img
+                    src={previewUrl}
+                    alt="Floor plan preview"
+                    className="
+                      h-[210px]
+                      w-full
+                      object-contain
+                      p-3
+                    "
+                  />
+
+                  <div
+                    className="
+                      border-t
+                      border-red-100
+                      bg-white
+                      px-4
+                      py-3
+                      text-sm
+                      font-bold
+                      text-gray-700
+                    "
+                  >
+                    {selectedFile?.name}
+                  </div>
+                </div>
+              ) : (
+                <div className="px-5 py-8">
+                  <div
+                    className="
+                      mx-auto
+                      flex
+                      h-12
+                      w-12
+                      items-center
+                      justify-center
+                      rounded-xl
+                      bg-red-600
+                      text-white
+                    "
+                  >
+                    <Upload size={22} />
+                  </div>
+
+                  <p
+                    className="
+                      mt-3
+                      font-extrabold
+                      text-gray-900
+                    "
+                  >
+                    {selectedFile
+                      ? selectedFile.name
+                      : "Upload Floor Plan"}
+                  </p>
+
+                  <p
+                    className="
+                      mt-1
+                      text-xs
+                      text-gray-500
+                    "
+                  >
+                    JPG, PNG, WebP or PDF ·
+                    Maximum 10MB
+                  </p>
+                </div>
+              )}
+            </button>
+
+            {/* ===============================================
+                DIRECTIONS
+            =============================================== */}
+
+            <div
+              className="
+                mt-6
+                grid
+                gap-4
+                sm:grid-cols-2
+              "
+            >
+              <DirectionSelect
+                label="Main Entrance"
+                name="entrance"
+                value={formData.entrance}
+                onChange={handleDirectionChange}
+              />
+
+              <DirectionSelect
+                label="Kitchen"
+                name="kitchen"
+                value={formData.kitchen}
+                onChange={handleDirectionChange}
+              />
+
+              <DirectionSelect
+                label="Master Bedroom"
+                name="masterBedroom"
+                value={
+                  formData.masterBedroom
+                }
+                onChange={handleDirectionChange}
+              />
+
+              <DirectionSelect
+                label="Pooja Room"
+                name="pooja"
+                value={formData.pooja}
+                onChange={handleDirectionChange}
+              />
+            </div>
+
+            {/* ERROR */}
+
+            {error && (
+              <div
+                className="
+                  mt-4
+                  rounded-xl
+                  bg-red-50
+                  px-4
+                  py-3
+                  text-sm
+                  font-medium
+                  text-red-600
+                "
+              >
+                {error}
+              </div>
+            )}
+
+            {/* CALCULATE */}
+
+            <button
+              type="button"
+              onClick={calculateVastuScore}
+              className="
+                mt-6
+                flex
+                w-full
+                items-center
+                justify-center
+                gap-2
+                rounded-xl
+                bg-red-600
+                px-6
+                py-4
+                font-extrabold
+                text-white
+                shadow-lg
+                shadow-red-600/20
+                transition
+                hover:bg-red-700
+              "
+            >
+              Calculate My Vastu Score
+
+              <ArrowRight size={19} />
+            </button>
+
+            <div
+              className="
+                mt-4
+                flex
+                flex-wrap
+                justify-center
+                gap-4
+                text-xs
+                text-gray-500
+              "
+            >
+              <span
+                className="
+                  flex
+                  items-center
+                  gap-1
+                "
+              >
+                <ShieldCheck
+                  size={14}
+                  className="text-red-600"
+                />
+
+                Preliminary analysis
+              </span>
+
+              <span
+                className="
+                  flex
+                  items-center
+                  gap-1
+                "
+              >
+                <Lock
+                  size={14}
+                  className="text-red-600"
+                />
+
+                Browser based
+              </span>
+            </div>
+          </div>
         </div>
-
-        {/* =================================================
-            BOTTOM GRADIENT
-        ================================================= */}
-
-        <div
-          className="
-            pointer-events-none
-            absolute
-            bottom-0
-            left-0
-            hidden
-            h-24
-            w-full
-            bg-gradient-to-t
-            from-black/70
-            to-transparent
-            md:block
-          "
-        />
-
       </section>
 
       {/* =====================================================
-          EXTRA CONTENT
-          This ensures there is a complete scrollable page
+          EXPLANATION
       ===================================================== */}
 
-      <section className="bg-white px-5 py-20">
-
-        <div className="mx-auto max-w-6xl">
-
+      <section
+        className="
+          bg-white
+          px-5
+          py-16
+          sm:px-8
+        "
+      >
+        <div
+          className="
+            mx-auto
+            max-w-6xl
+          "
+        >
           <div className="text-center">
-
             <p
               className="
                 text-sm
                 font-bold
                 uppercase
-                tracking-widest
+                tracking-[0.2em]
                 text-red-600
               "
             >
-              Jaypro Infratech
+              How It Works
             </p>
 
             <h2
               className="
                 mt-3
                 text-3xl
-                font-bold
+                font-black
                 text-gray-900
                 sm:text-4xl
               "
             >
-              Vastu Planning Services
+              Check Your Home in 3 Steps
             </h2>
-
-            <p
-              className="
-                mx-auto
-                mt-5
-                max-w-3xl
-                text-lg
-                leading-8
-                text-gray-600
-              "
-            >
-              Get professional Vastu-oriented planning for
-              your home and building project. Our team helps
-              you plan spaces according to your requirements
-              and Vastu principles.
-            </p>
-
           </div>
 
           <div
             className="
-              mt-12
+              mt-10
               grid
               gap-6
-              md:grid-cols-2
-              lg:grid-cols-3
+              md:grid-cols-3
             "
           >
+            <ProcessCard
+              number="01"
+              icon={<FileImage size={24} />}
+              title="Upload Floor Plan"
+              text="Choose your house floor plan, sketch or plan image."
+            />
 
-            <div className="rounded-2xl bg-gray-50 p-7 shadow-sm">
+            <ProcessCard
+              number="02"
+              icon={<Compass size={24} />}
+              title="Select Directions"
+              text="Tell us the direction of the entrance, kitchen, master bedroom and pooja room."
+            />
 
-              <h3 className="text-xl font-bold text-gray-900">
-                Vastu Floor Planning
-              </h3>
-
-              <p className="mt-3 leading-7 text-gray-600">
-                Plan rooms and spaces according to Vastu
-                principles and your plot requirements.
-              </p>
-
-            </div>
-
-            <div className="rounded-2xl bg-gray-50 p-7 shadow-sm">
-
-              <h3 className="text-xl font-bold text-gray-900">
-                Home Vastu Consultation
-              </h3>
-
-              <p className="mt-3 leading-7 text-gray-600">
-                Get professional guidance for planning a
-                comfortable and balanced home.
-              </p>
-
-            </div>
-
-            <div className="rounded-2xl bg-gray-50 p-7 shadow-sm">
-
-              <h3 className="text-xl font-bold text-gray-900">
-                Plot Planning
-              </h3>
-
-              <p className="mt-3 leading-7 text-gray-600">
-                Plan your building layout according to plot
-                dimensions and project requirements.
-              </p>
-
-            </div>
-
+            <ProcessCard
+              number="03"
+              icon={<Sparkles size={24} />}
+              title="Get Score"
+              text="The calculator evaluates the selected directions and shows your preliminary Vastu score."
+            />
           </div>
 
+          <div
+            className="
+              mt-10
+              rounded-2xl
+              border
+              border-red-100
+              bg-red-50
+              p-6
+              text-sm
+              leading-7
+              text-gray-600
+            "
+          >
+            <strong className="text-gray-900">
+              Important:
+            </strong>{" "}
+            This calculator provides a simplified
+            preliminary score based on selected
+            directions. It does not automatically
+            understand architectural drawings and
+            should not replace a project-specific
+            professional review.
+          </div>
         </div>
-
       </section>
 
       {/* =====================================================
-          SERVICE LEAD FORM POPUP
-          ===================================================== */}
+          CONSULTATION
+      ===================================================== */}
+
+      <section
+        className="
+          bg-gray-50
+          px-5
+          py-16
+          sm:px-8
+        "
+      >
+        <div
+          className="
+            mx-auto
+            max-w-4xl
+            rounded-3xl
+            bg-red-600
+            px-6
+            py-12
+            text-center
+            text-white
+          "
+        >
+          <h2
+            className="
+              text-3xl
+              font-black
+              sm:text-4xl
+            "
+          >
+            Need Detailed Vastu Planning?
+          </h2>
+
+          <p
+            className="
+              mx-auto
+              mt-4
+              max-w-2xl
+              leading-7
+              text-red-50
+            "
+          >
+            Share your complete floor plan with
+            our team for detailed project-specific
+            guidance.
+          </p>
+
+          <button
+            type="button"
+            onClick={() =>
+              setShowLeadForm(true)
+            }
+            className="
+              mt-7
+              inline-flex
+              items-center
+              gap-2
+              rounded-xl
+              bg-white
+              px-7
+              py-4
+              font-bold
+              text-red-600
+              hover:bg-red-50
+            "
+          >
+            Get Consultation
+
+            <ArrowRight size={18} />
+          </button>
+        </div>
+      </section>
+
+      {/* =====================================================
+          EXISTING LEAD FORM POPUP
+      ===================================================== */}
 
       {showLeadForm && (
-
         <div
           className="
             fixed
@@ -643,19 +997,8 @@ const Vastu = () => {
           "
           role="dialog"
           aria-modal="true"
-          aria-label="Vastu consultation form"
-
-          /*
-           * IMPORTANT:
-           * Clicking outside the form sends user to HOME.
-           */
           onClick={handleLeadClose}
         >
-
-          {/* =================================================
-              POPUP CONTAINER
-          ================================================= */}
-
           <div
             className="
               relative
@@ -663,16 +1006,10 @@ const Vastu = () => {
               w-full
               max-w-[400px]
             "
-            onClick={(event) => {
-              event.stopPropagation();
-            }}
+            onClick={(event) =>
+              event.stopPropagation()
+            }
           >
-
-            {/* =================================================
-                CLOSE BUTTON
-                X → HOME
-            ================================================= */}
-
             <button
               type="button"
               onClick={handleLeadClose}
@@ -690,19 +1027,11 @@ const Vastu = () => {
                 bg-white
                 text-gray-700
                 shadow-lg
-                transition
-                hover:bg-gray-100
                 hover:text-red-600
-                focus:outline-none
               "
-              aria-label="Close lead form"
             >
               <FaTimes size={16} />
             </button>
-
-            {/* =================================================
-                LEAD FORM
-            ================================================= */}
 
             <div
               className="
@@ -712,21 +1041,185 @@ const Vastu = () => {
                 shadow-2xl
               "
             >
-
               <LeadForm
                 onSuccess={handleLeadSuccess}
                 onClose={handleLeadClose}
               />
-
             </div>
-
           </div>
+        </div>
+      )}
+    </>
+  );
+};
 
+/* =========================================================
+   DIRECTION SELECT
+========================================================= */
+
+const DirectionSelect = ({
+  label,
+  name,
+  value,
+  onChange,
+}) => {
+  return (
+    <label className="block">
+      <span
+        className="
+          mb-2
+          block
+          text-xs
+          font-bold
+          uppercase
+          tracking-wide
+          text-gray-500
+        "
+      >
+        {label}
+      </span>
+
+      <select
+        name={name}
+        value={value}
+        onChange={onChange}
+        className="
+          w-full
+          rounded-xl
+          border
+          border-gray-200
+          bg-white
+          px-4
+          py-3.5
+          text-sm
+          font-semibold
+          text-gray-800
+          outline-none
+          transition
+          focus:border-red-600
+          focus:ring-2
+          focus:ring-red-100
+        "
+      >
+        {directions.map(
+          (direction) => (
+            <option
+              key={direction.value}
+              value={direction.value}
+            >
+              {direction.label}
+            </option>
+          )
+        )}
+      </select>
+    </label>
+  );
+};
+
+/* =========================================================
+   HERO BENEFIT
+========================================================= */
+
+const HeroBenefit = ({
+  icon,
+  text,
+}) => {
+  return (
+    <div
+      className="
+        flex
+        items-center
+        justify-center
+        gap-2
+        text-sm
+        font-bold
+        text-white
+        lg:justify-start
+      "
+    >
+      {icon}
+
+      {text}
+    </div>
+  );
+};
+
+/* =========================================================
+   PROCESS CARD
+========================================================= */
+
+const ProcessCard = ({
+  number,
+  icon,
+  title,
+  text,
+}) => {
+  return (
+    <div
+      className="
+        rounded-2xl
+        border
+        border-gray-200
+        bg-white
+        p-7
+        shadow-sm
+      "
+    >
+      <div
+        className="
+          flex
+          items-center
+          justify-between
+        "
+      >
+        <div
+          className="
+            flex
+            h-12
+            w-12
+            items-center
+            justify-center
+            rounded-xl
+            bg-red-50
+            text-red-600
+          "
+        >
+          {icon}
         </div>
 
-      )}
+        <span
+          className="
+            text-3xl
+            font-black
+            text-red-100
+          "
+        >
+          {number}
+        </span>
+      </div>
 
-    </>
+      <h3
+        className="
+          mt-5
+          text-xl
+          font-black
+          text-gray-900
+        "
+      >
+        {title}
+      </h3>
+
+      <p
+        className="
+          mt-3
+          text-sm
+          leading-7
+          text-gray-600
+        "
+      >
+        {text}
+      </p>
+    </div>
   );
 };
 

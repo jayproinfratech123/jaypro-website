@@ -4,13 +4,15 @@ import {
   Route,
   useLocation,
 } from "react-router-dom";
-
+import FrontElevationDetails from "./pages/FrontElevationDetails";
 import Packages from "./pages/Packages";
 import ScrollToTop from "./components/ScrollToTop";
 import FrontElevation from "./pages/FrontElevation.jsx";
+import ThreeDExteriorDesignDetails from "./pages/ThreeDExteriorDesignDetails";
 // ==========================================
 // LAYOUT COMPONENTS
 // ==========================================
+import VastuResult from "./pages/services/VastuResult";
 import ThreeDFloorPlan from "./pages/ThreeDFloorPlan";
 import ArchitectureAds from "./pages/ArchitectureAds";
 import Navbar from "./components/layout/Navbar.jsx";
@@ -19,6 +21,7 @@ import ProtectedRoute from "./components/common/ProtectedRoute.jsx";
 import WhatsAppButton from "./components/WhatsAppButton.jsx";
 import BottomNavigation from "./components/BottomNavigation.jsx";
 import FloorPlanDetails from "./pages/FloorPlanDetails";
+import ThreeDExteriorDesign from "./pages/ThreeDExteriorDesign";
 // ==========================================
 // LEGAL PAGES
 // ==========================================
@@ -200,7 +203,15 @@ function App() {
   path="/services/architecture/front-elevation"
   element={<FrontElevation />}
 />
+<Route
+  path="/front-elevation/:code"
+  element={<FrontElevationDetails />}
+/>
 
+<Route
+  path="/3d-exterior-design/:id"
+  element={<ThreeDExteriorDesignDetails />}
+/>
           {/* ==========================================
               PRICING
           ========================================== */}
@@ -231,7 +242,14 @@ function App() {
           {/* ==========================================
               REGISTER
           ========================================== */}
-
+<Route
+  path="/services/architecture/3d-exterior-design"
+  element={<ThreeDExteriorDesign />}
+/>
+<Route
+  path="/vastu-result"
+  element={<VastuResult />}
+/>
           <Route
             path="/register"
             element={<Register />}
