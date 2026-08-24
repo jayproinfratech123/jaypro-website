@@ -34,7 +34,7 @@ const floorPlans = [
       "Suitable for a 20 × 30 ft plot",
       "Practical residential layout",
       "West-facing planning option",
-      "Suitable for up to 2 floors",
+      "Suitable for up to G+1",
       "Can be customized as per requirements",
       "Vastu-based modifications available",
     ],
@@ -58,7 +58,7 @@ const floorPlans = [
       "Suitable for a 20 × 40 ft plot",
       "East-facing planning option",
       "Efficient space utilization",
-      "Suitable for up to 2 floors",
+      "Suitable for up to G+1",
       "Modern residential layout",
       "Customization available",
     ],
@@ -82,7 +82,7 @@ const floorPlans = [
       "Suitable for a 25 × 40 ft plot",
       "North-facing planning option",
       "Spacious room arrangement",
-      "Suitable for up to 2 floors",
+      "Suitable for up to G+1",
       "Family-friendly layout",
       "Architectural customization available",
     ],
@@ -106,7 +106,7 @@ const floorPlans = [
       "Suitable for a 25 × 50 ft plot",
       "West-facing option",
       "Flexible room planning",
-      "Suitable for 2 floors",
+      "Suitable for G+1",
       "Modern residential design",
       "Custom modifications available",
     ],
@@ -130,7 +130,7 @@ const floorPlans = [
       "Suitable for a 30 × 40 ft plot",
       "Duplex-style planning",
       "South-facing option",
-      "2-floor residential layout",
+      "G+1 residential layout",
       "Efficient space planning",
       "Can be customized",
     ],
@@ -154,7 +154,7 @@ const floorPlans = [
       "Suitable for a 30 × 50 ft plot",
       "Modern house planning",
       "West-facing option",
-      "Suitable for 2 floors",
+      "Suitable for G+1",
       "Comfortable room arrangement",
       "Custom architectural planning",
     ],
@@ -178,7 +178,7 @@ const floorPlans = [
       "Suitable for a 30 × 60 ft plot",
       "East-facing option",
       "Large family home planning",
-      "Single-floor layout",
+      "G layout",
       "Parking and circulation planning",
       "Custom design available",
     ],
@@ -202,7 +202,7 @@ const floorPlans = [
       "Suitable for a 35 × 50 ft plot",
       "North-facing option",
       "Family-oriented planning",
-      "Suitable for 2 floors",
+      "Suitable for G+1",
       "Flexible room layout",
       "Customization available",
     ],
@@ -226,7 +226,7 @@ const floorPlans = [
       "Suitable for a 35 × 60 ft plot",
       "Luxury residential planning",
       "West-facing option",
-      "Suitable for 2 floors",
+      "Suitable for G+1",
       "Spacious room planning",
       "Premium customization options",
     ],
@@ -250,7 +250,7 @@ const floorPlans = [
       "Suitable for a 40 × 50 ft plot",
       "Apartment planning",
       "East-facing option",
-      "Suitable for up to 3 floors",
+      "Suitable for up to G+2",
       "Multi-unit planning potential",
       "Project-specific customization",
     ],
@@ -274,7 +274,7 @@ const floorPlans = [
       "Suitable for a 40 × 60 ft plot",
       "Apartment planning",
       "North-facing option",
-      "Suitable for up to 3 floors",
+      "Suitable for up to G+2",
       "Parking and circulation planning",
       "Custom architectural design",
     ],
@@ -298,13 +298,24 @@ const floorPlans = [
       "Suitable for a 50 × 60 ft plot",
       "Large duplex residence",
       "West-facing option",
-      "Suitable for 2 floors",
+      "Suitable for G+1",
       "Spacious residential planning",
       "Complete customization available",
     ],
   },
 ];
 
+
+// =========================================================
+// FLOOR LABEL
+// 1 = G, 2 = G+1, 3 = G+2, 4 = G+3
+// =========================================================
+
+const formatFloorLabel = (floorCount) => {
+  return Number(floorCount) === 1
+    ? "G"
+    : `G+${Number(floorCount) - 1}`;
+};
 
 // =========================================================
 // COMPONENT
@@ -325,7 +336,7 @@ const FloorPlanDetails = () => {
 
   const openWhatsApp = () => {
     const message = plan
-      ? `Hello Jaypro Infratech, I am interested in the ${plan.title}. Plot size: ${plan.width} × ${plan.length} ft, ${plan.facing}, ${plan.floors} floor${plan.floors > 1 ? "s" : ""}. Please share more details.`
+      ? `Hello Jaypro Infratech, I am interested in the ${plan.title}. Plot size: ${plan.width} × ${plan.length} ft, ${plan.facing}, ${formatFloorLabel(plan.floors)}. Please share more details.`
       : "Hello Jaypro Infratech, I want to enquire about your house floor plan services.";
 
     window.open(
@@ -560,8 +571,7 @@ const FloorPlanDetails = () => {
                   </div>
 
                   <p className="mt-2 text-lg font-black text-gray-900">
-                    {plan.floors} Floor
-                    {plan.floors > 1 ? "s" : ""}
+                    {formatFloorLabel(plan.floors)}
                   </p>
 
                 </div>
@@ -589,7 +599,7 @@ const FloorPlanDetails = () => {
                     >
 
                       <FaCheckCircle
-                        className="mt-1 shrink-0 text-red-600"
+                        className="mt-1 shrink-0 text-green-600"
                         size={15}
                       />
 

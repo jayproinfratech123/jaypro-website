@@ -94,11 +94,6 @@ const Contractor = () => {
 
     // Restore scrolling
     document.body.style.overflow = "";
-
-    // Redirect to Home page
-    navigate("/", {
-      replace: true,
-    });
   };
 
   // =====================================================
@@ -676,7 +671,6 @@ const Contractor = () => {
 
               <LeadForm
                 onSuccess={handleLeadSuccess}
-                onClose={handleLeadClose}
               />
 
             </div>

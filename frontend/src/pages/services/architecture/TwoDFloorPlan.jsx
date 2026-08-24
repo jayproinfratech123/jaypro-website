@@ -738,19 +738,19 @@ const TwoDFloorPlan = () => {
                 </option>
 
                 <option value="1">
-                  1 Floor
+                  G
                 </option>
 
                 <option value="2">
-                  2 Floors
+                  G+1
                 </option>
 
                 <option value="3">
-                  3 Floors
+                  G+2
                 </option>
 
                 <option value="4">
-                  4 Floors
+                  G+3
                 </option>
 
               </SelectBox>
@@ -990,10 +990,9 @@ const TwoDFloorPlan = () => {
 
             {appliedFilters.floors && (
               <span className="rounded-full bg-red-50 px-3 py-1.5 text-xs font-bold text-red-600">
-                {appliedFilters.floors} Floor
-                {Number(appliedFilters.floors) > 1
-                  ? "s"
-                  : ""}
+                {Number(appliedFilters.floors) === 1
+                  ? "G"
+                  : `G+${Number(appliedFilters.floors) - 1}`}
               </span>
             )}
 
@@ -1118,8 +1117,9 @@ const TwoDFloorPlan = () => {
                     >
                       <FaLayerGroup size={10} />
 
-                      {plan.floors} Floor
-                      {plan.floors > 1 ? "s" : ""}
+{plan.floors === 1
+  ? "G"
+  : `G+${plan.floors - 1}`}
                     </div>
 
                   </div>
@@ -1307,7 +1307,7 @@ const TwoDFloorPlan = () => {
     font-bold
     text-white
     transition
-    hover:bg-red-600
+    hover:bg-green-600
   "
 >
   <span>

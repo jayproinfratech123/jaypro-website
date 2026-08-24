@@ -106,10 +106,6 @@ const Interior = () => {
     setShowLeadForm(false);
 
     document.body.style.overflow = "";
-
-    navigate("/", {
-      replace: true,
-    });
   };
 
   // =====================================================
@@ -138,9 +134,10 @@ const Interior = () => {
     {
       icon: <ChefHat size={30} />,
       title: "Modular Kitchen",
+      slug: "modular-kitchen",
       description:
         "Modern modular kitchen designs with practical storage, attractive finishes and efficient layouts.",
-      image: "/interior/modular-kitchen.webp",
+      image: "/Modular-Kitchen.webp",
       points: [
         "Smart storage planning",
         "Modern cabinet design",
@@ -151,9 +148,10 @@ const Interior = () => {
     {
       icon: <Layers3 size={30} />,
       title: "Wardrobe Design",
+      slug: "wardrobe-design",
       description:
         "Customized wardrobe solutions designed for maximum storage, organization and elegant appearance.",
-      image: "/interior/wardrobe.webp",
+      image: "/Wardrobe-Design.webp",
       points: [
         "Customized storage",
         "Modern finishes",
@@ -164,9 +162,10 @@ const Interior = () => {
     {
       icon: <Tv size={30} />,
       title: "TV Unit",
+      slug: "tv-unit",
       description:
         "Stylish TV unit designs combining entertainment, storage and modern aesthetics.",
-      image: "/interior/tv-unit.webp",
+      image: "/tv-unit.webp",
       points: [
         "Modern TV wall",
         "Storage solutions",
@@ -177,9 +176,10 @@ const Interior = () => {
     {
       icon: <Lightbulb size={30} />,
       title: "False Ceiling",
+      slug: "false-ceiling",
       description:
         "Modern false ceiling designs with lighting solutions that enhance the overall appearance of your interiors.",
-      image: "/interior/false-ceiling.webp",
+      image: "/false-ceiling.webp",
       points: [
         "LED lighting planning",
         "Modern ceiling designs",
@@ -190,9 +190,10 @@ const Interior = () => {
     {
       icon: <BedDouble size={30} />,
       title: "Bedroom Interior",
+      slug: "bedroom-interior",
       description:
         "Comfortable and elegant bedroom interiors designed around your lifestyle and storage requirements.",
-      image: "/interior/bedroom.webp",
+      image: "/bed-room-interior.webp",
       points: [
         "Bed wall design",
         "Wardrobe planning",
@@ -203,9 +204,10 @@ const Interior = () => {
     {
       icon: <Home size={30} />,
       title: "Complete Home Interior",
+      slug: "complete-home-interior",
       description:
         "Complete interior solutions for your home, from concept and design to execution.",
-      image: "/interior/complete-home.webp",
+      image: "/complete-home-interior.webp",
       points: [
         "Complete home planning",
         "Room-by-room design",
@@ -303,314 +305,12 @@ const Interior = () => {
             HERO
         ================================================== */}
 
-        <section
-          className="
-            relative
-            min-h-[680px]
-            overflow-hidden
-            bg-cover
-            bg-center
-          "
-          style={{
-            backgroundImage:
-              "url('/interior-background.webp')",
-          }}
-        >
-
-          {/* DARK OVERLAY */}
-
-          <div className="absolute inset-0 bg-black/65" />
-
-          {/* RED GLOW */}
-
-          <div
-            className="
-              absolute
-              -right-40
-              top-20
-              h-96
-              w-96
-              rounded-full
-              bg-red-600/20
-              blur-3xl
-            "
-          />
-
-          <div
-            className="
-              absolute
-              -bottom-40
-              -left-40
-              h-96
-              w-96
-              rounded-full
-              bg-red-600/20
-              blur-3xl
-            "
-          />
-
-          {/* HERO CONTENT */}
-
-          <div
-            className="
-              relative
-              z-10
-              mx-auto
-              flex
-              min-h-[680px]
-              max-w-7xl
-              items-center
-              px-5
-              py-24
-              sm:px-8
-            "
-          >
-
-            <div className="max-w-4xl">
-
-              {/* BADGE */}
-
-              <div
-                className="
-                  mb-6
-                  inline-flex
-                  items-center
-                  gap-3
-                  rounded-full
-                  border
-                  border-white/20
-                  bg-white/10
-                  px-5
-                  py-2.5
-                  backdrop-blur-md
-                "
-              >
-
-                <span
-                  className="
-                    h-2.5
-                    w-2.5
-                    rounded-full
-                    bg-red-500
-                    shadow-lg
-                    shadow-red-500/50
-                  "
-                />
-
-                <span className="text-sm font-semibold text-white">
-                  Professional Interior Design
-                </span>
-
-              </div>
-
-              {/* HEADING */}
-
-              <h1
-                className="
-                  text-4xl
-                  font-black
-                  leading-tight
-                  tracking-tight
-                  text-white
-                  sm:text-5xl
-                  md:text-6xl
-                  lg:text-7xl
-                "
-              >
-                Beautiful Interiors.
-
-                <span className="block text-red-500">
-                  Designed For You.
-                </span>
-              </h1>
-
-              {/* DESCRIPTION */}
-
-              <p
-                className="
-                  mt-7
-                  max-w-3xl
-                  text-base
-                  leading-8
-                  text-gray-200
-                  sm:text-lg
-                  md:text-xl
-                "
-              >
-                Transform your home into a beautiful,
-                comfortable and functional space with
-                professional interior design solutions
-                by Jaypro Infratech.
-              </p>
-
-              {/* BUTTONS */}
-
-              <div
-                className="
-                  mt-9
-                  flex
-                  flex-col
-                  gap-4
-                  sm:flex-row
-                "
-              >
-
-                <a
-                  href="#interior-services"
-                  className="
-                    inline-flex
-                    items-center
-                    justify-center
-                    gap-2
-                    rounded-xl
-                    bg-red-600
-                    px-7
-                    py-4
-                    font-bold
-                    text-white
-                    shadow-xl
-                    shadow-red-600/20
-                    transition
-                    hover:-translate-y-1
-                    hover:bg-red-700
-                  "
-                >
-                  Explore Interiors
-                  <ArrowRight size={20} />
-                </a>
-
-                <button
-                  type="button"
-                  onClick={() => setShowLeadForm(true)}
-                  className="
-                    inline-flex
-                    items-center
-                    justify-center
-                    gap-2
-                    rounded-xl
-                    border
-                    border-white/40
-                    bg-white/10
-                    px-7
-                    py-4
-                    font-bold
-                    text-white
-                    backdrop-blur-md
-                    transition
-                    hover:bg-white
-                    hover:text-gray-900
-                  "
-                >
-                  Get Free Consultation
-                  <ArrowRight size={20} />
-                </button>
-
-              </div>
-
-              {/* TRUST POINTS */}
-
-              <div
-                className="
-                  mt-10
-                  flex
-                  flex-wrap
-                  gap-x-7
-                  gap-y-4
-                  text-sm
-                  text-gray-200
-                "
-              >
-
-                <span className="flex items-center gap-2">
-                  <CheckCircle
-                    size={17}
-                    className="text-red-500"
-                  />
-                  Customized Designs
-                </span>
-
-                <span className="flex items-center gap-2">
-                  <CheckCircle
-                    size={17}
-                    className="text-red-500"
-                  />
-                  Quality Materials
-                </span>
-
-                <span className="flex items-center gap-2">
-                  <CheckCircle
-                    size={17}
-                    className="text-red-500"
-                  />
-                  Complete Support
-                </span>
-
-              </div>
-
-            </div>
-
-          </div>
-
-        </section>
-
+        
         {/* ==================================================
             INTRODUCTION
         ================================================== */}
 
-        <section className="relative bg-white px-5 py-20 sm:px-8 lg:py-24">
-
-          <div className="mx-auto max-w-5xl text-center">
-
-            <p
-              className="
-                mb-3
-                text-sm
-                font-bold
-                uppercase
-                tracking-[0.2em]
-                text-red-600
-              "
-            >
-              Jaypro Infratech
-            </p>
-
-            <h2
-              className="
-                text-3xl
-                font-extrabold
-                tracking-tight
-                text-gray-900
-                sm:text-4xl
-                md:text-5xl
-              "
-            >
-              Complete Interior Design
-              <span className="text-red-600">
-                {" "}Solutions
-              </span>
-            </h2>
-
-            <p
-              className="
-                mx-auto
-                mt-6
-                max-w-3xl
-                text-base
-                leading-8
-                text-gray-600
-                sm:text-lg
-              "
-            >
-              We provide complete interior design solutions
-              for homes, apartments, villas and offices.
-              Our team focuses on creating stylish, practical
-              and comfortable interiors according to your
-              requirements and budget.
-            </p>
-
-          </div>
-
-        </section>
+        
 
         {/* ==================================================
             SERVICES
@@ -842,7 +542,9 @@ const Interior = () => {
 
                     <button
                       type="button"
-                      onClick={() => setShowLeadForm(true)}
+                      onClick={() =>
+                        navigate(`/services/architecture/interior-design/${service.slug}`)
+                      }
                       className="
                         mt-6
                         inline-flex
@@ -860,7 +562,7 @@ const Interior = () => {
                         hover:bg-red-600
                       "
                     >
-                      Discuss This Design
+                      View Details
                       <ArrowRight
                         size={18}
                         className="
@@ -1447,7 +1149,6 @@ const Interior = () => {
 
               <LeadForm
                 onSuccess={handleLeadSuccess}
-                onClose={handleFormClose}
               />
 
             </div>

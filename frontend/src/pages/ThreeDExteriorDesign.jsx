@@ -2,10 +2,6 @@ import React from "react";
 import { useNavigate, Link } from "react-router-dom";
 import {
   ArrowRight,
-  Sparkles,
-  Palette,
-  Layers3,
-  Home,
   Phone,
   MapPin,
   Eye,
@@ -13,33 +9,6 @@ import {
 
 const ThreeDExteriorDesign = () => {
   const navigate = useNavigate();
-
-  // =========================================================
-  // FEATURES
-  // =========================================================
-
-  const features = [
-    {
-      icon: <Sparkles size={20} />,
-      title: "Realistic 3D Views",
-      text: "See your facade before construction begins.",
-    },
-    {
-      icon: <Palette size={20} />,
-      title: "Material & Colour",
-      text: "Explore paints, stones and finishes side by side.",
-    },
-    {
-      icon: <Layers3 size={20} />,
-      title: "Facade Detailing",
-      text: "Frames, grooves, lighting and texture work.",
-    },
-    {
-      icon: <Home size={20} />,
-      title: "One Coordinated Look",
-      text: "Every element tied to your home's architecture.",
-    },
-  ];
 
   // =========================================================
   // PROJECT DATA
@@ -264,68 +233,6 @@ const ThreeDExteriorDesign = () => {
       ===================================================== */}
 
      
-
-      {/* =====================================================
-          FEATURES
-      ===================================================== */}
-
-      <section className="bg-white px-5 py-14 sm:px-8">
-
-        <div className="mx-auto max-w-6xl">
-
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-
-            {features.map((feature) => (
-
-              <div
-                key={feature.title}
-                className="
-                  rounded-2xl
-                  border
-                  border-gray-200
-                  bg-white
-                  p-5
-                  shadow-sm
-                  transition
-                  hover:-translate-y-1
-                  hover:border-red-200
-                  hover:shadow-lg
-                "
-              >
-
-                <div
-                  className="
-                    flex
-                    h-10
-                    w-10
-                    items-center
-                    justify-center
-                    rounded-xl
-                    bg-red-50
-                    text-red-600
-                  "
-                >
-                  {feature.icon}
-                </div>
-
-                <h3 className="mt-4 font-bold text-gray-900">
-                  {feature.title}
-                </h3>
-
-                <p className="mt-2 text-sm leading-6 text-gray-600">
-                  {feature.text}
-                </p>
-
-              </div>
-
-            ))}
-
-          </div>
-
-        </div>
-
-      </section>
-
 
       {/* =====================================================
           PROJECTS

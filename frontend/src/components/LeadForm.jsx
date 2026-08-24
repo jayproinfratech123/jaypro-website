@@ -96,7 +96,7 @@ const LeadForm = ({ onSuccess, onClose }) => {
   };
 
   return (
-    <section className="w-full m-0 px-0 py-5 sm:py-6 md:py-8">
+    <section className="m-0 w-full p-0">
       <div
         className="
           relative

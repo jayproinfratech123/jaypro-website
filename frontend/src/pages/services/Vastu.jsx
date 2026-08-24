@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FaTimes } from "react-icons/fa";
 
@@ -6,72 +6,29 @@ import {
   ArrowRight,
   CheckCircle2,
   Compass,
-  FileImage,
   Home,
-  Lock,
-  ShieldCheck,
   Sparkles,
-  Upload,
   Zap,
+  RotateCcw,
+  AlertTriangle,
+  Droplets,
+  BedDouble,
+  ChefHat,
+  DoorOpen,
+  Bath,
+  BookOpen,
+  Car,
+  Users,
+  UtensilsCrossed,
+  Building2,
+  MapPinned,
 } from "lucide-react";
 
 import LeadForm from "../../components/LeadForm";
 
-/* =========================================================
-   SCORE TABLES
-   Maximum = 25 points each
-   Total = 100
-========================================================= */
-
-const SCORE_TABLES = {
-  entrance: {
-    NE: 25,
-    N: 23,
-    E: 22,
-    NW: 17,
-    W: 15,
-    SE: 10,
-    S: 7,
-    SW: 3,
-  },
-
-  kitchen: {
-    SE: 25,
-    NW: 21,
-    E: 17,
-    S: 13,
-    W: 10,
-    N: 8,
-    NE: 4,
-    SW: 4,
-  },
-
-  masterBedroom: {
-    SW: 25,
-    W: 21,
-    S: 19,
-    NW: 15,
-    N: 11,
-    SE: 8,
-    E: 7,
-    NE: 4,
-  },
-
-  pooja: {
-    NE: 25,
-    E: 22,
-    N: 21,
-    NW: 14,
-    W: 11,
-    SE: 8,
-    S: 6,
-    SW: 3,
-  },
-};
-
-/* =========================================================
-   DIRECTION OPTIONS
-========================================================= */
+// =========================================================
+// DIRECTION OPTIONS
+// =========================================================
 
 const directions = [
   { value: "", label: "Select direction" },
@@ -85,41 +42,326 @@ const directions = [
   { value: "NW", label: "North-West" },
 ];
 
+// =========================================================
+// VASTU RULES
+//
+// best = strongest recommended direction(s)
+// alternate = acceptable alternative(s)
+// avoid = directions to avoid where applicable
+//
+// This is a rule-based preliminary checker.
+// =========================================================
+
+const vastuRules = {
+  entrance: {
+    label: "Main Entrance",
+    icon: DoorOpen,
+    best: ["N", "NE", "E"],
+    alternate: ["NW"],
+    avoid: ["SW"],
+    tip: "North, North-East or East is generally preferred.",
+  },
+
+  livingRoom: {
+    label: "Living Room",
+    icon: SofaIcon,
+    best: ["NE", "N", "E"],
+    alternate: ["NW"],
+    avoid: ["SW"],
+    tip: "North-East, North or East is generally preferred.",
+  },
+
+  pooja: {
+    label: "Pooja Room",
+    icon: Home,
+    best: ["NE"],
+    alternate: ["E"],
+    avoid: ["SW"],
+    tip: "North-East (Ishan) is considered the strongest zone.",
+  },
+
+  kitchen: {
+    label: "Kitchen",
+    icon: ChefHat,
+    best: ["SE"],
+    alternate: ["NW"],
+    avoid: ["NE", "SW"],
+    tip: "South-East (Agni corner) is generally preferred.",
+  },
+
+  masterBedroom: {
+    label: "Master Bedroom",
+    icon: BedDouble,
+    best: ["SW"],
+    alternate: ["W"],
+    avoid: ["NE"],
+    tip: "South-West is generally preferred for the master bedroom.",
+  },
+
+  childrenBedroom: {
+    label: "Children Bedroom",
+    icon: Users,
+    best: ["W", "NW"],
+    alternate: ["N"],
+    avoid: ["SE"],
+    tip: "West or North-West is commonly preferred.",
+  },
+
+  guestBedroom: {
+    label: "Guest Bedroom",
+    icon: BedDouble,
+    best: ["NW"],
+    alternate: ["W"],
+    avoid: ["SW"],
+    tip: "North-West is generally preferred for guests.",
+  },
+
+  dining: {
+    label: "Dining Area",
+    icon: UtensilsCrossed,
+    best: ["E", "W"],
+    alternate: ["SE"],
+    avoid: ["NE"],
+    tip: "East or West is generally suitable.",
+  },
+
+  toilet: {
+    label: "Toilet / Bathroom",
+    icon: Bath,
+    best: ["NW", "W"],
+    alternate: ["S"],
+    avoid: ["NE"],
+    tip: "North-West or West is generally preferred; avoid North-East.",
+  },
+
+  staircase: {
+    label: "Staircase",
+    icon: Building2,
+    best: ["S", "SW", "W"],
+    alternate: ["SE"],
+    avoid: ["NE"],
+    tip: "South, South-West or West is generally preferred.",
+  },
+
+  undergroundTank: {
+    label: "Underground Water Tank",
+    icon: Droplets,
+    best: ["NE"],
+    alternate: ["N"],
+    avoid: ["SW"],
+    tip: "North-East is generally preferred.",
+  },
+
+  overheadTank: {
+    label: "Overhead Water Tank",
+    icon: Droplets,
+    best: ["SW"],
+    alternate: ["W"],
+    avoid: ["NE"],
+    tip: "South-West or West is generally preferred.",
+  },
+
+  septicTank: {
+    label: "Septic Tank",
+    icon: Droplets,
+    best: ["NW"],
+    alternate: ["W"],
+    avoid: ["NE", "SW"],
+    tip: "North-West or West is generally preferred.",
+  },
+
+  study: {
+    label: "Study Room / Office",
+    icon: BookOpen,
+    best: ["E", "NE"],
+    alternate: ["N"],
+    avoid: ["SW"],
+    tip: "East or North-East is generally preferred.",
+  },
+
+  parking: {
+    label: "Parking",
+    icon: Car,
+    best: ["NW", "N"],
+    alternate: ["E"],
+    avoid: ["SW"],
+    tip: "North-West or North is generally preferred.",
+  },
+};
+
+// =========================================================
+// SMALL HELPER ICON
+// =========================================================
+
+function SofaIcon({ size = 20, ...props }) {
+  return <Home size={size} {...props} />;
+}
+
+// =========================================================
+// KEY POINTS
+// =========================================================
+
+const vastuKeyPoints = [
+  {
+    icon: DoorOpen,
+    title: "Entrance",
+    value: "North, North-East or East",
+  },
+  {
+    icon: ChefHat,
+    title: "Kitchen",
+    value: "South-East (Agni Corner)",
+  },
+  {
+    icon: BedDouble,
+    title: "Master Bedroom",
+    value: "South-West",
+  },
+  {
+    icon: Home,
+    title: "Pooja Room",
+    value: "North-East (Ishan)",
+  },
+  {
+    icon: Droplets,
+    title: "Underground Water Tank",
+    value: "North-East",
+  },
+  {
+    icon: Building2,
+    title: "Staircase",
+    value: "South / South-West / West",
+  },
+  {
+    icon: Bath,
+    title: "Toilets",
+    value: "North-West / West",
+  },
+  {
+    icon: MapPinned,
+    title: "Open Space / Garden",
+    value: "More open space in North & East",
+  },
+];
+
+// =========================================================
+// ZONING DIAGRAM
+// =========================================================
+
+const zoning = [
+  { dir: "NW", label: "Guest Bedroom" },
+  { dir: "N", label: "Living Room" },
+  { dir: "NE", label: "Pooja Room" },
+
+  { dir: "W", label: "Children Bedroom" },
+  { dir: "CENTER", label: "Lobby / Open Space" },
+  { dir: "E", label: "Dining Area" },
+
+  { dir: "SW", label: "Master Bedroom" },
+  { dir: "S", label: "Staircase" },
+  { dir: "SE", label: "Kitchen" },
+];
+
+// =========================================================
+// STATUS CALCULATOR
+// =========================================================
+
+const getRuleStatus = (rule, value) => {
+  if (!value) {
+    return {
+      points: 0,
+      max: 10,
+      status: "Not selected",
+      tone: "gray",
+    };
+  }
+
+  if (rule.best.includes(value)) {
+    return {
+      points: 10,
+      max: 10,
+      status: "Excellent",
+      tone: "green",
+    };
+  }
+
+  if (rule.alternate.includes(value)) {
+    return {
+      points: 7,
+      max: 10,
+      status: "Acceptable",
+      tone: "amber",
+    };
+  }
+
+  if (rule.avoid.includes(value)) {
+    return {
+      points: 2,
+      max: 10,
+      status: "Needs Correction",
+      tone: "red",
+    };
+  }
+
+  return {
+    points: 5,
+    max: 10,
+    status: "Average",
+    tone: "orange",
+  };
+};
+
+const toneClasses = {
+  green: "bg-green-50 text-green-700 border-green-200",
+  amber: "bg-amber-50 text-amber-700 border-amber-200",
+  orange: "bg-orange-50 text-orange-700 border-orange-200",
+  red: "bg-violet-50 text-violet-700 border-violet-200",
+  gray: "bg-gray-50 text-gray-600 border-gray-200",
+};
+
+// =========================================================
+// MAIN COMPONENT
+// =========================================================
+
 const Vastu = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const fileInputRef = useRef(null);
-
   // =====================================================
-  // EXISTING LEAD FORM BEHAVIOUR
+  // LEAD FORM
   // =====================================================
 
   const [showLeadForm, setShowLeadForm] = useState(false);
 
   // =====================================================
-  // FLOOR PLAN
+  // INPUTS
   // =====================================================
 
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [previewUrl, setPreviewUrl] = useState("");
-
-  // =====================================================
-  // VASTU INPUTS
-  // =====================================================
-
-  const [formData, setFormData] = useState({
+  const initialForm = {
+    plotFacing: "",
     entrance: "",
+    livingRoom: "",
+    pooja: "",
     kitchen: "",
     masterBedroom: "",
-    pooja: "",
-  });
+    childrenBedroom: "",
+    guestBedroom: "",
+    dining: "",
+    toilet: "",
+    staircase: "",
+    undergroundTank: "",
+    overheadTank: "",
+    septicTank: "",
+    study: "",
+    parking: "",
+  };
 
+  const [formData, setFormData] = useState(initialForm);
   const [error, setError] = useState("");
+  const [showResult, setShowResult] = useState(false);
 
   // =====================================================
-  // OPEN LEAD FORM FROM HOME SERVICE CARD
-  // Behaviour retained
+  // OPEN LEAD FORM FROM ROUTER STATE
   // =====================================================
 
   useEffect(() => {
@@ -134,13 +376,11 @@ const Vastu = () => {
   }, [location, navigate]);
 
   // =====================================================
-  // LOCK PAGE WHILE POPUP OPEN
+  // LOCK BODY WHILE POPUP OPEN
   // =====================================================
 
   useEffect(() => {
-    document.body.style.overflow = showLeadForm
-      ? "hidden"
-      : "";
+    document.body.style.overflow = showLeadForm ? "hidden" : "";
 
     return () => {
       document.body.style.overflow = "";
@@ -148,116 +388,25 @@ const Vastu = () => {
   }, [showLeadForm]);
 
   // =====================================================
-  // POPUP SUCCESS
-  // =====================================================
-
-  const handleLeadSuccess = () => {
-    setShowLeadForm(false);
-    document.body.style.overflow = "";
-  };
-
-  // =====================================================
-  // POPUP CLOSE
-  // X / OUTSIDE CLICK → HOME
-  // Behaviour retained
-  // =====================================================
-
-  const handleLeadClose = () => {
-    setShowLeadForm(false);
-
-    document.body.style.overflow = "";
-
-    navigate("/", {
-      replace: true,
-    });
-  };
-
-  // =====================================================
-  // ESC
+  // ESC KEY
   // =====================================================
 
   useEffect(() => {
     const handleEscape = (event) => {
-      if (
-        event.key === "Escape" &&
-        showLeadForm
-      ) {
-        handleLeadClose();
+      if (event.key === "Escape" && showLeadForm) {
+        setShowLeadForm(false);
       }
     };
 
-    document.addEventListener(
-      "keydown",
-      handleEscape
-    );
+    document.addEventListener("keydown", handleEscape);
 
     return () => {
-      document.removeEventListener(
-        "keydown",
-        handleEscape
-      );
+      document.removeEventListener("keydown", handleEscape);
     };
   }, [showLeadForm]);
 
   // =====================================================
-  // FILE SELECT
-  // =====================================================
-
-  const handleFileChange = (event) => {
-    const file = event.target.files?.[0];
-
-    if (!file) return;
-
-    const allowedTypes = [
-      "image/jpeg",
-      "image/png",
-      "image/webp",
-      "application/pdf",
-    ];
-
-    if (!allowedTypes.includes(file.type)) {
-      setError(
-        "Please upload JPG, PNG, WebP or PDF."
-      );
-      return;
-    }
-
-    if (file.size > 10 * 1024 * 1024) {
-      setError(
-        "Maximum file size is 10MB."
-      );
-      return;
-    }
-
-    setError("");
-    setSelectedFile(file);
-
-    if (previewUrl) {
-      URL.revokeObjectURL(previewUrl);
-    }
-
-    if (file.type.startsWith("image/")) {
-      const url = URL.createObjectURL(file);
-      setPreviewUrl(url);
-    } else {
-      setPreviewUrl("");
-    }
-  };
-
-  // =====================================================
-  // CLEAN PREVIEW
-  // =====================================================
-
-  useEffect(() => {
-    return () => {
-      if (previewUrl) {
-        URL.revokeObjectURL(previewUrl);
-      }
-    };
-  }, [previewUrl]);
-
-  // =====================================================
-  // CHANGE DIRECTIONS
+  // CHANGE INPUTS
   // =====================================================
 
   const handleDirectionChange = (event) => {
@@ -269,79 +418,140 @@ const Vastu = () => {
     }));
 
     setError("");
+    setShowResult(false);
   };
 
   // =====================================================
-  // CALCULATE VASTU SCORE
+  // ANALYSIS
   // =====================================================
 
-  const calculateVastuScore = () => {
-    if (!selectedFile) {
-      setError(
-        "Please upload your floor plan first."
-      );
-      return;
-    }
+  const analysis = useMemo(() => {
+    const entries = Object.entries(vastuRules).map(([key, rule]) => {
+      const value = formData[key];
+      const result = getRuleStatus(rule, value);
 
-    if (
-      !formData.entrance ||
-      !formData.kitchen ||
-      !formData.masterBedroom ||
-      !formData.pooja
-    ) {
-      setError(
-        "Please select all four directions."
-      );
-      return;
-    }
+      return {
+        key,
+        ...rule,
+        selected: value,
+        ...result,
+      };
+    });
 
-    const breakdown = {
-      entrance:
-        SCORE_TABLES.entrance[
-          formData.entrance
-        ],
+    const selectedEntries = entries.filter((item) => item.selected);
 
-      kitchen:
-        SCORE_TABLES.kitchen[
-          formData.kitchen
-        ],
-
-      masterBedroom:
-        SCORE_TABLES.masterBedroom[
-          formData.masterBedroom
-        ],
-
-      pooja:
-        SCORE_TABLES.pooja[
-          formData.pooja
-        ],
-    };
-
-    const score =
-      breakdown.entrance +
-      breakdown.kitchen +
-      breakdown.masterBedroom +
-      breakdown.pooja;
-
-    const result = {
-      score,
-      breakdown,
-      selections: formData,
-      fileName: selectedFile.name,
-      generatedAt: new Date().toISOString(),
-    };
-
-    // Allows refresh of result page
-    sessionStorage.setItem(
-      "vastuResult",
-      JSON.stringify(result)
+    const earned = selectedEntries.reduce(
+      (sum, item) => sum + item.points,
+      0
     );
 
-    navigate("/vastu-result", {
-      state: {
-        result,
-      },
-    });
+    const maximum = selectedEntries.length * 10;
+
+    const score =
+      maximum > 0
+        ? Math.round((earned / maximum) * 100)
+        : 0;
+
+    const excellent = entries.filter(
+      (item) => item.status === "Excellent"
+    ).length;
+
+    const correction = entries.filter(
+      (item) => item.status === "Needs Correction"
+    ).length;
+
+    const acceptable = entries.filter(
+      (item) => item.status === "Acceptable"
+    ).length;
+
+    return {
+      entries,
+      selectedEntries,
+      score,
+      excellent,
+      acceptable,
+      correction,
+    };
+  }, [formData]);
+
+  // =====================================================
+  // SCORE LABEL
+  // =====================================================
+
+  const scoreInfo = useMemo(() => {
+    if (analysis.score >= 85) {
+      return {
+        label: "Very Good Vastu",
+        text: "Most selected spaces are placed in strong or acceptable zones.",
+        className: "text-green-600",
+      };
+    }
+
+    if (analysis.score >= 70) {
+      return {
+        label: "Good Vastu",
+        text: "The plan is generally balanced, with some areas that can be improved.",
+        className: "text-emerald-600",
+      };
+    }
+
+    if (analysis.score >= 50) {
+      return {
+        label: "Average Vastu",
+        text: "Several placements may benefit from correction or professional review.",
+        className: "text-amber-600",
+      };
+    }
+
+    return {
+      label: "Needs Vastu Review",
+      text: "Multiple selected spaces are outside the preferred zones.",
+      className: "text-violet-600",
+    };
+  }, [analysis.score]);
+
+  // =====================================================
+  // CALCULATE
+  // =====================================================
+
+  const calculateVastu = () => {
+    const required = [
+      formData.plotFacing,
+      formData.entrance,
+      formData.kitchen,
+      formData.masterBedroom,
+      formData.pooja,
+    ];
+
+    if (required.some((value) => !value)) {
+      setError(
+        "Please select Plot Facing, Main Entrance, Kitchen, Master Bedroom and Pooja Room."
+      );
+      return;
+    }
+
+    setError("");
+    setShowResult(true);
+
+    setTimeout(() => {
+      document
+        .getElementById("vastu-result")
+        ?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+    }, 50);
+  };
+
+  // =====================================================
+  // RESET
+  // =====================================================
+
+  const handleReset = () => {
+    setFormData(initialForm);
+    setShowResult(false);
+    setError("");
+
   };
 
   return (
@@ -351,554 +561,723 @@ const Vastu = () => {
       ===================================================== */}
 
       <section
-        className="
-          relative
-          overflow-hidden
-          bg-gradient-to-br
-          from-red-950
-          via-red-800
-          to-red-600
-        "
+        className="relative overflow-hidden bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(2, 6, 23, 0.78), rgba(6, 78, 59, 0.72)), url('/vastu-bg.jpg')",
+        }}
       >
-        {/* DECORATION */}
+        <div className="pointer-events-none absolute -left-40 -top-40 h-[520px] w-[520px] rounded-full bg-white/5 blur-3xl" />
 
-        <div
-          className="
-            pointer-events-none
-            absolute
-            left-[30%]
-            top-[-200px]
-            h-[700px]
-            w-[700px]
-            rounded-full
-            border
-            border-white/10
-          "
-        />
+        <div className="pointer-events-none absolute bottom-[-180px] right-[-80px] h-[520px] w-[520px] rounded-full bg-emerald-300/10 blur-3xl" />
 
-        <div
-          className="
-            pointer-events-none
-            absolute
-            left-[40%]
-            top-[50px]
-            h-[420px]
-            w-[420px]
-            rounded-full
-            border
-            border-white/10
-          "
-        />
+        <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-10 px-5 py-12 sm:px-8 lg:grid-cols-[0.86fr_1.14fr] lg:px-10 lg:py-14">
+          {/* LEFT */}
 
-        <div
-          className="
-            relative
-            z-10
-            mx-auto
-            grid
-            min-h-[700px]
-            max-w-[1400px]
-            items-center
-            gap-12
-            px-5
-            py-12
-            sm:px-8
-            lg:grid-cols-[0.9fr_1.1fr]
-            lg:px-10
-          "
-        >
-          {/* =================================================
-              LEFT
-          ================================================= */}
-
-          <div
-            className="
-              max-w-[590px]
-              text-center
-              lg:text-left
-            "
-          >
-            <div
-              className="
-                inline-flex
-                items-center
-                gap-2
-                rounded-full
-                border
-                border-white/30
-                bg-white/10
-                px-4
-                py-2
-                text-xs
-                font-bold
-                uppercase
-                tracking-wide
-                text-white
-              "
-            >
+          <div className="max-w-[590px] text-center lg:text-left">
+            <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-wide text-white backdrop-blur">
               <Sparkles size={15} />
-
-              Free Vastu Score
+              Vastu Planning Tool
             </div>
 
-            <h1
-              className="
-                mt-7
-                text-4xl
-                font-black
-                leading-tight
-                text-white
-                sm:text-5xl
-                lg:text-[58px]
-              "
-            >
-              Upload Your Floor Plan
-
-              <span
-                className="
-                  block
-                  text-red-100
-                "
-              >
-                & Check Vastu Score
+            <h1 className="mt-6 text-4xl font-black leading-[1.06] text-white sm:text-5xl lg:text-[54px]">
+              Check Your Home
+              <span className="block text-emerald-100">
+                With Vastu Zones
               </span>
             </h1>
 
-            <p
-              className="
-                mt-6
-                text-base
-                leading-8
-                text-white/90
-                sm:text-lg
-              "
-            >
-              Upload your home floor plan,
-              provide the directions of important
-              spaces and get an instant
-              preliminary Vastu score.
+            <p className="mt-5 max-w-xl text-base leading-8 text-white/80 sm:text-lg">
+              Select your plot facing and the direction of important rooms.
+              Get an instant preliminary Vastu score with simple room-by-room
+              guidance and practical correction suggestions.
             </p>
 
-            <div
-              className="
-                mt-8
-                grid
-                gap-4
-                sm:grid-cols-3
-              "
-            >
+            <div className="mt-8 grid gap-4 sm:grid-cols-3">
               <HeroBenefit
                 icon={<CheckCircle2 size={18} />}
-                text="Instant Score"
+                text="Room-wise Check"
               />
 
               <HeroBenefit
                 icon={<Zap size={18} />}
-                text="Quick Check"
+                text="Instant Score"
               />
 
               <HeroBenefit
-                icon={<Lock size={18} />}
-                text="Private"
+                icon={<Compass size={18} />}
+                text="Direction Guide"
               />
             </div>
           </div>
 
-          {/* =================================================
-              CALCULATOR
-          ================================================= */}
+          {/* CALCULATOR */}
 
-          <div
-            className="
-              rounded-[26px]
-              bg-white
-              p-5
-              shadow-2xl
-              sm:p-7
-            "
-          >
-            <div
-              className="
-                flex
-                items-start
-                justify-between
-                gap-5
-              "
-            >
-              <div>
-                <p
-                  className="
-                    text-xs
-                    font-bold
-                    uppercase
-                    tracking-[0.18em]
-                    text-red-600
-                  "
-                >
-                  Free Vastu Checker
+{/* CALCULATOR */}
+
+<div className="w-full max-w-[450px] justify-self-end rounded-[26px] border border-white/20 bg-white/95 p-4 shadow-2xl backdrop-blur sm:p-5">
+  {/* HEADER */}
+
+  <div className="flex items-start justify-between gap-4">
+    <div>
+      <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-red-600">
+        Vastu Calculator
+      </p>
+
+      <h2 className="mt-1 text-xl font-black text-gray-900 sm:text-2xl">
+        Enter Your Floor Plan Details
+      </h2>
+    </div>
+
+    <span className="rounded-lg bg-emerald-50 px-2.5 py-1 text-[10px] font-bold text-emerald-600">
+      FREE
+    </span>
+  </div>
+
+  {/* START INFO */}
+
+  <div className="mt-4 rounded-xl border border-emerald-100 bg-gradient-to-r from-emerald-50 to-white p-3">
+    <div className="flex items-start gap-3">
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-600 text-white shadow-sm">
+        <Compass size={18} />
+      </div>
+
+      <div>
+        <p className="text-sm font-black text-gray-900">
+          Start with the main directions
+        </p>
+
+        <p className="mt-0.5 text-[11px] leading-5 text-gray-500">
+          Choose the direction of each space from your existing plan or
+          proposed layout.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  {/* REQUIRED FIELDS */}
+
+  <div className="mt-4 grid gap-3 sm:grid-cols-2">
+    <DirectionSelect
+      label="Plot Facing"
+      name="plotFacing"
+      value={formData.plotFacing}
+      onChange={handleDirectionChange}
+    />
+
+    <DirectionSelect
+      label="Main Entrance"
+      name="entrance"
+      value={formData.entrance}
+      onChange={handleDirectionChange}
+    />
+
+    <DirectionSelect
+      label="Kitchen"
+      name="kitchen"
+      value={formData.kitchen}
+      onChange={handleDirectionChange}
+    />
+
+    <DirectionSelect
+      label="Master Bedroom"
+      name="masterBedroom"
+      value={formData.masterBedroom}
+      onChange={handleDirectionChange}
+    />
+
+    <DirectionSelect
+      label="Pooja Room"
+      name="pooja"
+      value={formData.pooja}
+      onChange={handleDirectionChange}
+    />
+
+    <DirectionSelect
+      label="Living Room"
+      name="livingRoom"
+      value={formData.livingRoom}
+      onChange={handleDirectionChange}
+    />
+  </div>
+
+  {/* MORE ROOMS */}
+
+  <details className="mt-4 rounded-xl border border-gray-200 bg-gray-50">
+    <summary className="cursor-pointer px-4 py-3 text-sm font-black text-gray-900">
+      Add More Rooms for Better Accuracy
+    </summary>
+
+    <div className="grid gap-3 border-t border-gray-200 p-3 sm:grid-cols-2">
+      <DirectionSelect
+        label="Children Bedroom"
+        name="childrenBedroom"
+        value={formData.childrenBedroom}
+        onChange={handleDirectionChange}
+      />
+
+      <DirectionSelect
+        label="Guest Bedroom"
+        name="guestBedroom"
+        value={formData.guestBedroom}
+        onChange={handleDirectionChange}
+      />
+
+      <DirectionSelect
+        label="Dining Area"
+        name="dining"
+        value={formData.dining}
+        onChange={handleDirectionChange}
+      />
+
+      <DirectionSelect
+        label="Toilet / Bathroom"
+        name="toilet"
+        value={formData.toilet}
+        onChange={handleDirectionChange}
+      />
+
+      <DirectionSelect
+        label="Staircase"
+        name="staircase"
+        value={formData.staircase}
+        onChange={handleDirectionChange}
+      />
+
+      <DirectionSelect
+        label="Underground Water Tank"
+        name="undergroundTank"
+        value={formData.undergroundTank}
+        onChange={handleDirectionChange}
+      />
+
+      <DirectionSelect
+        label="Overhead Water Tank"
+        name="overheadTank"
+        value={formData.overheadTank}
+        onChange={handleDirectionChange}
+      />
+
+      <DirectionSelect
+        label="Septic Tank"
+        name="septicTank"
+        value={formData.septicTank}
+        onChange={handleDirectionChange}
+      />
+
+      <DirectionSelect
+        label="Study / Office"
+        name="study"
+        value={formData.study}
+        onChange={handleDirectionChange}
+      />
+
+      <DirectionSelect
+        label="Parking"
+        name="parking"
+        value={formData.parking}
+        onChange={handleDirectionChange}
+      />
+    </div>
+  </details>
+
+  {/* ERROR */}
+
+  {error && (
+    <div className="mt-3 rounded-lg bg-emerald-50 px-3 py-2 text-xs font-medium text-emerald-600">
+      {error}
+    </div>
+  )}
+
+  {/* BUTTONS */}
+
+  <div className="mt-4 flex flex-col gap-2 sm:flex-row">
+    <button
+      type="button"
+      onClick={calculateVastu}
+      className="
+        flex
+        flex-1
+        items-center
+        justify-center
+        gap-2
+        rounded-xl
+        bg-emerald-600
+        px-5
+        py-3
+        text-sm
+        font-extrabold
+        text-white
+        shadow-md
+        transition
+        hover:bg-emerald-700
+      "
+    >
+      Calculate Vastu Score
+
+      <ArrowRight size={17} />
+    </button>
+
+    <button
+      type="button"
+      onClick={handleReset}
+      className="
+        flex
+        items-center
+        justify-center
+        gap-2
+        rounded-xl
+        border
+        border-gray-200
+        bg-white
+        px-4
+        py-3
+        text-sm
+        font-bold
+        text-gray-700
+        transition
+        hover:bg-gray-50
+      "
+    >
+      <RotateCcw size={15} />
+
+      Reset
+    </button>
+  </div>
+
+  <p className="mt-3 text-center text-[10px] leading-4 text-gray-500">
+    Simple direction-based preliminary Vastu analysis. No floor-plan upload
+    required.
+  </p>
+</div>
+        </div>
+      </section>
+
+      {/* =====================================================
+          RESULT
+      ===================================================== */}
+
+      {showResult && (
+        <section
+          id="vastu-result"
+          className="scroll-mt-28 bg-slate-50 px-5 py-14 sm:px-8"
+        >
+          <div className="mx-auto max-w-7xl">
+            <div className="grid gap-7 lg:grid-cols-[0.9fr_1.1fr]">
+              {/* SCORE */}
+
+              <div className="rounded-3xl border border-slate-200 bg-white p-7 shadow-sm">
+                <p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-600">
+                  Vastu Result
                 </p>
 
-                <h2
-                  className="
-                    mt-1
-                    text-2xl
-                    font-black
-                    text-gray-900
-                  "
-                >
-                  Check Your Floor Plan
-                </h2>
-              </div>
+                <div className="mt-5 flex flex-col items-center text-center">
+                  <div className="relative flex h-40 w-40 items-center justify-center rounded-full border-[12px] border-emerald-100 bg-gradient-to-br from-white to-emerald-50 shadow-inner">
+                    <div className="text-center">
+                      <p className="text-5xl font-black text-gray-900">
+                        {analysis.score}
+                      </p>
 
-              <span
-                className="
-                  rounded-lg
-                  bg-red-50
-                  px-3
-                  py-1.5
-                  text-xs
-                  font-bold
-                  text-red-600
-                "
-              >
-                FREE
-              </span>
-            </div>
+                      <p className="text-sm font-bold text-gray-500">
+                        / 100
+                      </p>
+                    </div>
+                  </div>
 
-            {/* ===============================================
-                UPLOAD
-            =============================================== */}
+                  <h2
+                    className={`mt-6 text-3xl font-black ${scoreInfo.className}`}
+                  >
+                    {scoreInfo.label}
+                  </h2>
 
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept=".jpg,.jpeg,.png,.webp,.pdf"
-              className="hidden"
-              onChange={handleFileChange}
-            />
+                  <p className="mt-3 max-w-md text-sm leading-7 text-gray-600">
+                    {scoreInfo.text}
+                  </p>
+                </div>
 
-            <button
-              type="button"
-              onClick={() =>
-                fileInputRef.current?.click()
-              }
-              className="
-                mt-6
-                w-full
-                overflow-hidden
-                rounded-2xl
-                border-2
-                border-dashed
-                border-red-300
-                bg-red-50/40
-                transition
-                hover:border-red-600
-              "
-            >
-              {previewUrl ? (
-                <div className="relative">
-                  <img
-                    src={previewUrl}
-                    alt="Floor plan preview"
-                    className="
-                      h-[210px]
-                      w-full
-                      object-contain
-                      p-3
-                    "
+                <div className="mt-7 grid grid-cols-3 gap-3 text-center">
+                  <ResultStat
+                    value={analysis.excellent}
+                    label="Excellent"
+                    className="text-green-600"
                   />
 
-                  <div
-                    className="
-                      border-t
-                      border-red-100
-                      bg-white
-                      px-4
-                      py-3
-                      text-sm
-                      font-bold
-                      text-gray-700
-                    "
-                  >
-                    {selectedFile?.name}
-                  </div>
+                  <ResultStat
+                    value={analysis.acceptable}
+                    label="Acceptable"
+                    className="text-amber-600"
+                  />
+
+                  <ResultStat
+                    value={analysis.correction}
+                    label="Correction"
+                    className="text-violet-600"
+                  />
                 </div>
-              ) : (
-                <div className="px-5 py-8">
-                  <div
-                    className="
-                      mx-auto
-                      flex
-                      h-12
-                      w-12
-                      items-center
-                      justify-center
-                      rounded-xl
-                      bg-red-600
-                      text-white
-                    "
-                  >
-                    <Upload size={22} />
+              </div>
+
+              {/* ROOM ANALYSIS */}
+
+              <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm sm:p-7">
+                <div className="flex items-center justify-between gap-4">
+                  <div>
+                    <p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-600">
+                      Room Analysis
+                    </p>
+
+                    <h2 className="mt-2 text-2xl font-black text-gray-900">
+                      Vastu Compatibility by Space
+                    </h2>
                   </div>
 
-                  <p
-                    className="
-                      mt-3
-                      font-extrabold
-                      text-gray-900
-                    "
-                  >
-                    {selectedFile
-                      ? selectedFile.name
-                      : "Upload Floor Plan"}
-                  </p>
-
-                  <p
-                    className="
-                      mt-1
-                      text-xs
-                      text-gray-500
-                    "
-                  >
-                    JPG, PNG, WebP or PDF ·
-                    Maximum 10MB
-                  </p>
+                  <Compass
+                    size={30}
+                    className="text-emerald-600"
+                  />
                 </div>
-              )}
-            </button>
 
-            {/* ===============================================
-                DIRECTIONS
-            =============================================== */}
+                <div className="mt-6 space-y-3">
+                  {analysis.selectedEntries.map((item) => {
+                    const Icon = item.icon;
 
-            <div
-              className="
-                mt-6
-                grid
-                gap-4
-                sm:grid-cols-2
-              "
-            >
-              <DirectionSelect
-                label="Main Entrance"
-                name="entrance"
-                value={formData.entrance}
-                onChange={handleDirectionChange}
-              />
+                    return (
+                      <div
+                        key={item.key}
+                        className="rounded-2xl border border-gray-200 p-4"
+                      >
+                        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                          <div className="flex items-center gap-3">
+                            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
+                              <Icon size={18} />
+                            </div>
 
-              <DirectionSelect
-                label="Kitchen"
-                name="kitchen"
-                value={formData.kitchen}
-                onChange={handleDirectionChange}
-              />
+                            <div>
+                              <p className="font-black text-gray-900">
+                                {item.label}
+                              </p>
 
-              <DirectionSelect
-                label="Master Bedroom"
-                name="masterBedroom"
-                value={
-                  formData.masterBedroom
-                }
-                onChange={handleDirectionChange}
-              />
+                              <p className="mt-0.5 text-xs text-gray-500">
+                                Selected:{" "}
+                                {
+                                  directions.find(
+                                    (direction) =>
+                                      direction.value === item.selected
+                                  )?.label
+                                }
+                              </p>
+                            </div>
+                          </div>
 
-              <DirectionSelect
-                label="Pooja Room"
-                name="pooja"
-                value={formData.pooja}
-                onChange={handleDirectionChange}
-              />
+                          <span
+                            className={`inline-flex w-fit rounded-full border px-3 py-1 text-xs font-black ${toneClasses[item.tone]}`}
+                          >
+                            {item.status}
+                          </span>
+                        </div>
+
+                        <p className="mt-3 text-xs leading-6 text-gray-600">
+                          {item.tip}
+                        </p>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
             </div>
 
-            {/* ERROR */}
+            {/* CORRECTIONS */}
 
-            {error && (
-              <div
-                className="
-                  mt-4
-                  rounded-xl
-                  bg-red-50
-                  px-4
-                  py-3
-                  text-sm
-                  font-medium
-                  text-red-600
-                "
-              >
-                {error}
+            {analysis.correction > 0 && (
+              <div className="mt-7 rounded-3xl border border-violet-200 bg-violet-50 p-6 sm:p-7">
+                <div className="flex items-start gap-3">
+                  <AlertTriangle
+                    className="mt-1 shrink-0 text-violet-600"
+                    size={23}
+                  />
+
+                  <div>
+                    <h3 className="text-xl font-black text-gray-900">
+                      Recommended Corrections
+                    </h3>
+
+                    <div className="mt-4 space-y-3">
+                      {analysis.entries
+                        .filter(
+                          (item) =>
+                            item.status === "Needs Correction"
+                        )
+                        .map((item) => (
+                          <p
+                            key={item.key}
+                            className="text-sm leading-7 text-gray-700"
+                          >
+                            <strong>{item.label}:</strong>{" "}
+                            {item.tip}
+                          </p>
+                        ))}
+                    </div>
+                  </div>
+                </div>
               </div>
             )}
+          </div>
+        </section>
+      )}
 
-            {/* CALCULATE */}
+      {/* =====================================================
+          VASTU CHART
+      ===================================================== */}
 
-            <button
-              type="button"
-              onClick={calculateVastuScore}
-              className="
-                mt-6
-                flex
-                w-full
-                items-center
-                justify-center
-                gap-2
-                rounded-xl
-                bg-red-600
-                px-6
-                py-4
-                font-extrabold
-                text-white
-                shadow-lg
-                shadow-red-600/20
-                transition
-                hover:bg-red-700
-              "
-            >
-              Calculate My Vastu Score
+      <section className="bg-white px-5 py-16 sm:px-8">
+        <div className="mx-auto max-w-7xl">
+          <div className="text-center">
+            <p className="text-sm font-bold uppercase tracking-[0.2em] text-red-600">
+              Vastu Chart
+            </p>
 
-              <ArrowRight size={19} />
-            </button>
+            <h2 className="mt-3 text-3xl font-black text-gray-900 sm:text-4xl">
+              Simple Vastu Direction Guide
+            </h2>
 
-            <div
-              className="
-                mt-4
-                flex
-                flex-wrap
-                justify-center
-                gap-4
-                text-xs
-                text-gray-500
-              "
-            >
-              <span
-                className="
-                  flex
-                  items-center
-                  gap-1
-                "
-              >
-                <ShieldCheck
-                  size={14}
-                  className="text-red-600"
-                />
+            <p className="mx-auto mt-4 max-w-2xl leading-7 text-gray-600">
+              Use this chart while planning or reviewing your home layout.
+            </p>
+          </div>
 
-                Preliminary analysis
-              </span>
+          <div className="mt-10 overflow-hidden rounded-3xl border border-gray-200 shadow-sm">
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[820px] border-collapse bg-white">
+                <thead className="bg-slate-900 text-white">
+                  <tr>
+                    <th className="px-5 py-4 text-left text-sm">
+                      Space
+                    </th>
+                    <th className="px-5 py-4 text-left text-sm">
+                      Best Direction
+                    </th>
+                    <th className="px-5 py-4 text-left text-sm">
+                      Alternative
+                    </th>
+                    <th className="px-5 py-4 text-left text-sm">
+                      Avoid
+                    </th>
+                  </tr>
+                </thead>
 
-              <span
-                className="
-                  flex
-                  items-center
-                  gap-1
-                "
-              >
-                <Lock
-                  size={14}
-                  className="text-red-600"
-                />
+                <tbody>
+                  {Object.entries(vastuRules).map(
+                    ([key, rule], index) => {
+                      const Icon = rule.icon;
 
-                Browser based
-              </span>
+                      return (
+                        <tr
+                          key={key}
+                          className={
+                            index % 2 === 0
+                              ? "bg-white"
+                              : "bg-gray-50"
+                          }
+                        >
+                          <td className="border-t border-gray-200 px-5 py-4">
+                            <div className="flex items-center gap-3">
+                              <Icon
+                                size={17}
+                                className="text-emerald-600"
+                              />
+
+                              <span className="font-bold text-gray-900">
+                                {rule.label}
+                              </span>
+                            </div>
+                          </td>
+
+                          <td className="border-t border-gray-200 px-5 py-4 text-sm font-bold text-green-700">
+                            {rule.best
+                              .map(
+                                (item) =>
+                                  directions.find(
+                                    (d) => d.value === item
+                                  )?.label
+                              )
+                              .join(", ")}
+                          </td>
+
+                          <td className="border-t border-gray-200 px-5 py-4 text-sm text-gray-700">
+                            {rule.alternate
+                              .map(
+                                (item) =>
+                                  directions.find(
+                                    (d) => d.value === item
+                                  )?.label
+                              )
+                              .join(", ")}
+                          </td>
+
+                          <td className="border-t border-gray-200 px-5 py-4 text-sm text-emerald-600">
+                            {rule.avoid.length
+                              ? rule.avoid
+                                  .map(
+                                    (item) =>
+                                      directions.find(
+                                        (d) => d.value === item
+                                      )?.label
+                                  )
+                                  .join(", ")
+                              : "—"}
+                          </td>
+                        </tr>
+                      );
+                    }
+                  )}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
       </section>
 
       {/* =====================================================
-          EXPLANATION
+          VASTU KEY POINTS + ZONING
       ===================================================== */}
 
-      <section
-        className="
-          bg-white
-          px-5
-          py-16
-          sm:px-8
-        "
-      >
-        <div
-          className="
-            mx-auto
-            max-w-6xl
-          "
-        >
-          <div className="text-center">
-            <p
-              className="
-                text-sm
-                font-bold
-                uppercase
-                tracking-[0.2em]
-                text-red-600
-              "
-            >
-              How It Works
+      <section className="bg-slate-50 px-5 py-14 sm:px-8">
+        <div className="mx-auto max-w-7xl">
+          <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
+            {/* KEY POINTS */}
+
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-red-600">
+                Vastu Key Points
+              </p>
+
+              <h2 className="mt-3 text-3xl font-black text-gray-900">
+                Important Vastu Placements
+              </h2>
+
+              <div className="mt-7 grid gap-4 sm:grid-cols-2">
+                {vastuKeyPoints.map((item) => {
+                  const Icon = item.icon;
+
+                  return (
+                    <div
+                      key={item.title}
+                      className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                    >
+                      <div className="flex items-start gap-4">
+                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
+                          <Icon size={20} />
+                        </div>
+
+                        <div>
+                          <h3 className="font-black text-gray-900">
+                            {item.title}
+                          </h3>
+
+                          <p className="mt-1 text-sm leading-6 text-gray-600">
+                            {item.value}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* ZONING */}
+
+            <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm sm:p-7">
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-red-600">
+                Vastu Zoning Diagram
+              </p>
+
+              <h2 className="mt-3 text-2xl font-black text-gray-900">
+                Ideal 3 × 3 Home Zones
+              </h2>
+
+              <div className="mt-6 grid grid-cols-3 overflow-hidden rounded-2xl border border-gray-300">
+                {zoning.map((zone) => (
+                  <div
+                    key={zone.dir}
+                    className="min-h-[105px] border border-gray-200 bg-gray-50 p-3 text-center"
+                  >
+                    <p className="text-xs font-black text-emerald-600">
+                      {zone.dir}
+                    </p>
+
+                    <p className="mt-2 text-xs font-bold leading-5 text-gray-800">
+                      {zone.label}
+                    </p>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-6 flex items-center justify-center gap-4">
+                <div className="text-center">
+                  <p className="text-2xl font-black text-gray-900">
+                    N
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    North
+                  </p>
+                </div>
+
+                <Compass
+                  size={52}
+                  className="text-emerald-600"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* =====================================================
+          IMPORTANT RULES
+      ===================================================== */}
+
+      <section className="bg-white px-5 py-16 sm:px-8">
+        <div className="mx-auto max-w-6xl">
+          <div className="rounded-3xl border border-amber-200 bg-amber-50/70 p-7 sm:p-9">
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-red-600">
+              Important Vastu Rules
             </p>
 
-            <h2
-              className="
-                mt-3
-                text-3xl
-                font-black
-                text-gray-900
-                sm:text-4xl
-              "
-            >
-              Check Your Home in 3 Steps
-            </h2>
+            <div className="mt-6 grid gap-4 md:grid-cols-2">
+              {[
+                "Kitchen stove should ideally face East while cooking.",
+                "Master bedroom is generally preferred in South-West.",
+                "Pooja room is generally preferred in North-East.",
+                "Toilets should generally avoid the North-East zone.",
+                "More open space is generally preferred in North and East.",
+                "Underground water tank is generally preferred in North-East.",
+                "Heavy furniture and storage are generally preferred in South-West.",
+                "Staircase is generally preferred in South, South-West or West.",
+              ].map((rule) => (
+                <div
+                  key={rule}
+                  className="flex items-start gap-3 rounded-xl bg-white p-4"
+                >
+                  <CheckCircle2
+                    className="mt-0.5 shrink-0 text-green-600"
+                    size={18}
+                  />
+
+                  <p className="text-sm leading-6 text-gray-700">
+                    {rule}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
 
-          <div
-            className="
-              mt-10
-              grid
-              gap-6
-              md:grid-cols-3
-            "
-          >
-            <ProcessCard
-              number="01"
-              icon={<FileImage size={24} />}
-              title="Upload Floor Plan"
-              text="Choose your house floor plan, sketch or plan image."
-            />
-
-            <ProcessCard
-              number="02"
-              icon={<Compass size={24} />}
-              title="Select Directions"
-              text="Tell us the direction of the entrance, kitchen, master bedroom and pooja room."
-            />
-
-            <ProcessCard
-              number="03"
-              icon={<Sparkles size={24} />}
-              title="Get Score"
-              text="The calculator evaluates the selected directions and shows your preliminary Vastu score."
-            />
-          </div>
-
-          <div
-            className="
-              mt-10
-              rounded-2xl
-              border
-              border-red-100
-              bg-red-50
-              p-6
-              text-sm
-              leading-7
-              text-gray-600
-            "
-          >
+          <div className="mt-7 rounded-2xl border border-amber-200 bg-amber-50 p-6 text-sm leading-7 text-gray-700">
             <strong className="text-gray-900">
               Important:
             </strong>{" "}
-            This calculator provides a simplified
-            preliminary score based on selected
-            directions. It does not automatically
-            understand architectural drawings and
-            should not replace a project-specific
-            professional review.
+            This calculator uses the directions you select manually and provides
+            a simplified preliminary Vastu assessment. Use it as a planning aid,
+            not as a substitute for a project-specific professional Vastu review.
           </div>
         </div>
       </section>
@@ -907,143 +1286,253 @@ const Vastu = () => {
           CONSULTATION
       ===================================================== */}
 
-      <section
+{/* =====================================================
+    VASTU CONSULTATION CTA
+===================================================== */}
+
+<section className="bg-white px-5 py-14 sm:px-8">
+  <div
+    className="
+      relative
+      mx-auto
+      max-w-5xl
+      overflow-hidden
+      rounded-[32px]
+      bg-gradient-to-br
+      from-red-950
+      via-red-800
+      to-red-600
+      px-6
+      py-12
+      text-center
+      text-white
+      shadow-[0_20px_60px_rgba(127,29,29,0.25)]
+      sm:px-10
+      sm:py-14
+      lg:px-16
+    "
+  >
+    {/* BACKGROUND DECORATION */}
+
+    <div
+      className="
+        pointer-events-none
+        absolute
+        -left-20
+        -top-20
+        h-56
+        w-56
+        rounded-full
+        bg-white/10
+        blur-2xl
+      "
+    />
+
+    <div
+      className="
+        pointer-events-none
+        absolute
+        -bottom-24
+        -right-16
+        h-64
+        w-64
+        rounded-full
+        bg-red-300/20
+        blur-3xl
+      "
+    />
+
+    {/* SMALL LABEL */}
+
+    <div
+      className="
+        relative
+        z-10
+        mx-auto
+        inline-flex
+        items-center
+        gap-2
+        rounded-full
+        border
+        border-white/20
+        bg-white/10
+        px-4
+        py-2
+        text-xs
+        font-bold
+        uppercase
+        tracking-[0.16em]
+        text-red-50
+        backdrop-blur-sm
+      "
+    >
+      <Compass size={15} />
+
+      Expert Vastu Consultation
+    </div>
+
+    {/* HEADING */}
+
+    <h2
+      className="
+        relative
+        z-10
+        mx-auto
+        mt-5
+        max-w-2xl
+        text-3xl
+        font-black
+        leading-tight
+        sm:text-4xl
+        lg:text-[42px]
+      "
+    >
+      Need Detailed Vastu
+      <span className="block text-red-200">
+        Planning for Your Home?
+      </span>
+    </h2>
+
+    {/* DESCRIPTION */}
+
+    <p
+      className="
+        relative
+        z-10
+        mx-auto
+        mt-4
+        max-w-2xl
+        text-sm
+        leading-7
+        text-red-50/90
+        sm:text-base
+      "
+    >
+      Share your complete floor plan and requirements with our team
+      for detailed project-specific Vastu guidance.
+    </p>
+
+    {/* BENEFITS */}
+
+    <div
+      className="
+        relative
+        z-10
+        mx-auto
+        mt-7
+        flex
+        max-w-2xl
+        flex-wrap
+        items-center
+        justify-center
+        gap-x-6
+        gap-y-3
+      "
+    >
+      <div className="flex items-center gap-2 text-sm font-semibold text-white">
+        <CheckCircle2 size={17} className="text-red-200" />
+        Floor Plan Review
+      </div>
+
+      <div className="flex items-center gap-2 text-sm font-semibold text-white">
+        <CheckCircle2 size={17} className="text-red-200" />
+        Direction Guidance
+      </div>
+
+      <div className="flex items-center gap-2 text-sm font-semibold text-white">
+        <CheckCircle2 size={17} className="text-red-200" />
+        Room-wise Planning
+      </div>
+    </div>
+
+    {/* BUTTON */}
+
+    <button
+      type="button"
+      onClick={() => setShowLeadForm(true)}
+      className="
+        group
+        relative
+        z-10
+        mt-8
+        inline-flex
+        items-center
+        justify-center
+        gap-2
+        rounded-xl
+        bg-white
+        px-7
+        py-3.5
+        text-sm
+        font-extrabold
+        text-red-700
+        shadow-lg
+        transition-all
+        duration-300
+
+        hover:-translate-y-0.5
+        hover:bg-red-50
+        hover:shadow-xl
+
+        sm:text-base
+      "
+    >
+      Get Vastu Consultation
+
+      <ArrowRight
+        size={18}
         className="
-          bg-gray-50
-          px-5
-          py-16
-          sm:px-8
+          transition-transform
+          duration-300
+          group-hover:translate-x-1
         "
-      >
-        <div
-          className="
-            mx-auto
-            max-w-4xl
-            rounded-3xl
-            bg-red-600
-            px-6
-            py-12
-            text-center
-            text-white
-          "
-        >
-          <h2
-            className="
-              text-3xl
-              font-black
-              sm:text-4xl
-            "
-          >
-            Need Detailed Vastu Planning?
-          </h2>
+      />
+    </button>
 
-          <p
-            className="
-              mx-auto
-              mt-4
-              max-w-2xl
-              leading-7
-              text-red-50
-            "
-          >
-            Share your complete floor plan with
-            our team for detailed project-specific
-            guidance.
-          </p>
+    {/* BOTTOM TEXT */}
 
-          <button
-            type="button"
-            onClick={() =>
-              setShowLeadForm(true)
-            }
-            className="
-              mt-7
-              inline-flex
-              items-center
-              gap-2
-              rounded-xl
-              bg-white
-              px-7
-              py-4
-              font-bold
-              text-red-600
-              hover:bg-red-50
-            "
-          >
-            Get Consultation
-
-            <ArrowRight size={18} />
-          </button>
-        </div>
-      </section>
+    <p
+      className="
+        relative
+        z-10
+        mt-4
+        text-xs
+        font-medium
+        text-red-100
+      "
+    >
+      Discuss your plot, floor plan and requirements with our team.
+    </p>
+  </div>
+</section>
 
       {/* =====================================================
-          EXISTING LEAD FORM POPUP
+          LEAD FORM POPUP
       ===================================================== */}
 
       {showLeadForm && (
         <div
-          className="
-            fixed
-            inset-0
-            z-[99999]
-            flex
-            items-center
-            justify-center
-            overflow-y-auto
-            bg-black/70
-            px-4
-            py-5
-          "
+          className="fixed inset-0 z-[99999] flex items-center justify-center overflow-y-auto bg-black/70 px-4 py-5"
           role="dialog"
           aria-modal="true"
-          onClick={handleLeadClose}
+          onClick={() => setShowLeadForm(false)}
         >
           <div
-            className="
-              relative
-              my-auto
-              w-full
-              max-w-[400px]
-            "
-            onClick={(event) =>
-              event.stopPropagation()
-            }
+            className="relative my-auto w-full max-w-[400px]"
+            onClick={(event) => event.stopPropagation()}
           >
             <button
               type="button"
-              onClick={handleLeadClose}
-              className="
-                absolute
-                right-2
-                top-2
-                z-[100000]
-                flex
-                h-9
-                w-9
-                items-center
-                justify-center
-                rounded-full
-                bg-white
-                text-gray-700
-                shadow-lg
-                hover:text-red-600
-              "
+              onClick={() => setShowLeadForm(false)}
+              className="absolute right-2 top-2 z-[100000] flex h-9 w-9 items-center justify-center rounded-full bg-white text-gray-700 shadow-lg hover:text-emerald-600"
+              aria-label="Close lead form"
             >
               <FaTimes size={16} />
             </button>
 
-            <div
-              className="
-                overflow-hidden
-                rounded-xl
-                bg-white
-                shadow-2xl
-              "
-            >
+            <div className="overflow-hidden rounded-xl bg-white shadow-2xl">
               <LeadForm
-                onSuccess={handleLeadSuccess}
-                onClose={handleLeadClose}
+                onSuccess={() => setShowLeadForm(false)}
               />
             </div>
           </div>
@@ -1053,9 +1542,9 @@ const Vastu = () => {
   );
 };
 
-/* =========================================================
-   DIRECTION SELECT
-========================================================= */
+// =========================================================
+// DIRECTION SELECT
+// =========================================================
 
 const DirectionSelect = ({
   label,
@@ -1065,17 +1554,7 @@ const DirectionSelect = ({
 }) => {
   return (
     <label className="block">
-      <span
-        className="
-          mb-2
-          block
-          text-xs
-          font-bold
-          uppercase
-          tracking-wide
-          text-gray-500
-        "
-      >
+      <span className="mb-1.5 block text-[11px] font-bold uppercase tracking-wide text-slate-500">
         {label}
       </span>
 
@@ -1083,141 +1562,54 @@ const DirectionSelect = ({
         name={name}
         value={value}
         onChange={onChange}
-        className="
-          w-full
-          rounded-xl
-          border
-          border-gray-200
-          bg-white
-          px-4
-          py-3.5
-          text-sm
-          font-semibold
-          text-gray-800
-          outline-none
-          transition
-          focus:border-red-600
-          focus:ring-2
-          focus:ring-red-100
-        "
+        className="h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-800 outline-none transition hover:border-slate-300 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100"
       >
-        {directions.map(
-          (direction) => (
-            <option
-              key={direction.value}
-              value={direction.value}
-            >
-              {direction.label}
-            </option>
-          )
-        )}
+        {directions.map((direction) => (
+          <option
+            key={direction.value}
+            value={direction.value}
+          >
+            {direction.label}
+          </option>
+        ))}
       </select>
     </label>
   );
 };
 
-/* =========================================================
-   HERO BENEFIT
-========================================================= */
+// =========================================================
+// HERO BENEFIT
+// =========================================================
 
 const HeroBenefit = ({
   icon,
   text,
 }) => {
   return (
-    <div
-      className="
-        flex
-        items-center
-        justify-center
-        gap-2
-        text-sm
-        font-bold
-        text-white
-        lg:justify-start
-      "
-    >
+    <div className="flex items-center justify-center gap-2 text-sm font-bold text-white lg:justify-start">
       {icon}
-
       {text}
     </div>
   );
 };
 
-/* =========================================================
-   PROCESS CARD
-========================================================= */
+// =========================================================
+// RESULT STAT
+// =========================================================
 
-const ProcessCard = ({
-  number,
-  icon,
-  title,
-  text,
+const ResultStat = ({
+  value,
+  label,
+  className,
 }) => {
   return (
-    <div
-      className="
-        rounded-2xl
-        border
-        border-gray-200
-        bg-white
-        p-7
-        shadow-sm
-      "
-    >
-      <div
-        className="
-          flex
-          items-center
-          justify-between
-        "
-      >
-        <div
-          className="
-            flex
-            h-12
-            w-12
-            items-center
-            justify-center
-            rounded-xl
-            bg-red-50
-            text-red-600
-          "
-        >
-          {icon}
-        </div>
+    <div className="rounded-2xl bg-gray-50 p-4">
+      <p className={`text-2xl font-black ${className}`}>
+        {value}
+      </p>
 
-        <span
-          className="
-            text-3xl
-            font-black
-            text-red-100
-          "
-        >
-          {number}
-        </span>
-      </div>
-
-      <h3
-        className="
-          mt-5
-          text-xl
-          font-black
-          text-gray-900
-        "
-      >
-        {title}
-      </h3>
-
-      <p
-        className="
-          mt-3
-          text-sm
-          leading-7
-          text-gray-600
-        "
-      >
-        {text}
+      <p className="mt-1 text-xs font-bold text-gray-500">
+        {label}
       </p>
     </div>
   );

@@ -803,9 +803,6 @@ const VastuResult = () => {
                 onSuccess={
                   handleLeadSuccess
                 }
-                onClose={
-                  closeLeadForm
-                }
               />
             </div>
           </div>

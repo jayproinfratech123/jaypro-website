@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { FaTimes } from "react-icons/fa";
 
 import LeadForm from "../../components/LeadForm";
 
 const Estimate = () => {
-  const navigate = useNavigate();
 
   // =====================================================
   // LEAD FORM
@@ -41,11 +39,6 @@ const Estimate = () => {
 
     // Restore scrolling
     document.body.style.overflow = "";
-
-    // Go to Home page
-    navigate("/", {
-      replace: true,
-    });
   };
 
   // =====================================================
@@ -476,7 +469,6 @@ const Estimate = () => {
 
               <LeadForm
                 onSuccess={handleLeadSuccess}
-                onClose={handleClose}
               />
 
             </div>
