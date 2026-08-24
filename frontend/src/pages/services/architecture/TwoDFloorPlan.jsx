@@ -47,7 +47,7 @@ const TwoDFloorPlan = () => {
     length: 30,
     area: "900sqft – 1400sqft",
     facing: "West Facing Plan",
-    designType: "Building Design",
+    designType: "Residential Building Design",
     floors: 2,
     image: "/2d-floor-plan-detail.webp",
   },
@@ -59,7 +59,7 @@ const TwoDFloorPlan = () => {
     length: 40,
     area: "900sqft – 1400sqft",
     facing: "East Facing Plan",
-    designType: "Building Design",
+    designType: "Apartment Design",
     floors: 2,
     image: "/2d-floor-plan-se.webp",
   },
@@ -71,7 +71,7 @@ const TwoDFloorPlan = () => {
     length: 40,
     area: "1000sqft – 1500sqft",
     facing: "North Facing Plan",
-    designType: "Building Design",
+    designType: "Duplex Design",
     floors: 2,
     image: "/2d-floor-plan-th.webp",
   },
@@ -83,7 +83,7 @@ const TwoDFloorPlan = () => {
     length: 50,
     area: "1200sqft – 1700sqft",
     facing: "West Facing Plan",
-    designType: "Building Design",
+    designType: "Villa Design",
     floors: 2,
     image: "/2d-floor-plan-fo.webp",
   },
@@ -95,7 +95,7 @@ const TwoDFloorPlan = () => {
     length: 40,
     area: "1000sqft – 1500sqft",
     facing: "South Facing Plan",
-    designType: "Building Design",
+    designType: "Bungalow Design",
     floors: 2,
     image: "/2d-floor-plan-fi.webp",
   },
@@ -107,7 +107,7 @@ const TwoDFloorPlan = () => {
     length: 50,
     area: "1500sqft – 2000sqft",
     facing: "West Facing Plan",
-    designType: "Building Design",
+    designType: "Apartment Building Design",
     floors: 2,
     image: "/2d-floor-plan-si.webp",
   },
@@ -119,9 +119,9 @@ const TwoDFloorPlan = () => {
     length: 60,
     area: "1800sqft – 2400sqft",
     facing: "East Facing Plan",
-    designType: "Building Design",
+    designType: "School Design",
     floors: 1,
-    image: "/2d-floor-plan.webp",
+    image: "/2d-floor-plan-se.webp",
   },
 
   {
@@ -131,9 +131,9 @@ const TwoDFloorPlan = () => {
     length: 50,
     area: "1600sqft – 2200sqft",
     facing: "North Facing Plan",
-    designType: "Building Design",
+    designType: "Hospital  Design",
     floors: 2,
-    image: "/2d-floor-plan.webp",
+    image: "/2d-floor-plan-eig.webp",
   },
 
   {
@@ -143,9 +143,9 @@ const TwoDFloorPlan = () => {
     length: 60,
     area: "2000sqft – 2600sqft",
     facing: "West Facing Plan",
-    designType: "Building Design",
+    designType: "Hotel Design",
     floors: 2,
-    image: "/2d-floor-plan.webp",
+    image: "/2d-floor-plan-ni.webp",
   },
 
   {
@@ -155,9 +155,9 @@ const TwoDFloorPlan = () => {
     length: 50,
     area: "1800sqft – 2400sqft",
     facing: "East Facing Plan",
-    designType: "Apartment Design",
+    designType: "Marriage Hall Design",
     floors: 3,
-    image: "/2d-floor-plan.webp",
+    image: "/2d-floor-plan-ten.webp",
   },
 
   {
@@ -169,7 +169,7 @@ const TwoDFloorPlan = () => {
     facing: "North Facing Plan",
     designType: "Apartment Design",
     floors: 3,
-    image: "/2d-floor-plan.webp",
+    image: "/2d-floor-plan-ele.webp",
   },
 
   {
@@ -179,9 +179,9 @@ const TwoDFloorPlan = () => {
     length: 60,
     area: "2400sqft – 3200sqft",
     facing: "West Facing Plan",
-    designType: "Building Design",
+    designType: "Duplex House Design",
     floors: 2,
-    image: "/2d-floor-plan.webp",
+    image: "/2d-floor-plan-two.webp",
   },
 ];
 

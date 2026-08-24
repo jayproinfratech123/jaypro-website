@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Link,
   useLocation,
@@ -18,7 +18,11 @@ import {
   Phone,
   Sparkles,
   Building2,
+  Download,
+  X,
 } from "lucide-react";
+
+import LeadForm from "../components/LeadForm";
 
 /* =========================================================
    PROJECT DATA
@@ -31,7 +35,8 @@ import {
 const projects = [
   {
     id: 1,
-    image: "/Modern-Minimal-Villa.webp",
+    image: "/modern-minimal.png",
+    pdf: "/3d-exterior-pdfs/Jaypro_Modern_Minimal_Villa_3D_Exterior_Design.pdf",
     title: "Modern Minimal Villa",
     location: "Ranchi, Jharkhand",
     tag: "Villa",
@@ -57,6 +62,7 @@ const projects = [
   {
     id: 2,
     image: "/Contemporary-Duplex.webp",
+    pdf: "/3d-exterior-pdfs/contemporary-duplex.pdf",
     title: "Contemporary Duplex",
     location: "Noida, Uttar Pradesh",
     tag: "Duplex",
@@ -82,6 +88,7 @@ const projects = [
   {
     id: 3,
     image: "/Stone-Glass-Facade.webp",
+    pdf: "/3d-exterior-pdfs/stone-glass-facade.pdf",
     title: "Stone & Glass Facade",
     location: "Delhi, India",
     tag: "Bungalow",
@@ -107,6 +114,7 @@ const projects = [
   {
     id: 4,
     image: "/Luxury-Modern-Residence.webp",
+    pdf: "/3d-exterior-pdfs/luxury-modern-residence.pdf",
     title: "Luxury Modern Residence",
     location: "Patna, Bihar",
     tag: "Residence",
@@ -132,6 +140,7 @@ const projects = [
   {
     id: 5,
     image: "/Modern-Indian-House.webp",
+    pdf: "/3d-exterior-pdfs/modern-indian-house.pdf",
     title: "Modern Indian House",
     location: "Gurgaon, Haryana",
     tag: "Residential",
@@ -157,6 +166,7 @@ const projects = [
   {
     id: 6,
     image: "/Premium-Duplex-Elevation.webp",
+    pdf: "/3d-exterior-pdfs/premium-duplex-elevation.pdf",
     title: "Premium Duplex Elevation",
     location: "Hyderabad, Telangana",
     tag: "Duplex",
@@ -182,6 +192,7 @@ const projects = [
   {
     id: 7,
     image: "/Elegant-Family-Home.webp",
+    pdf: "/3d-exterior-pdfs/elegant-family-home.pdf",
     title: "Elegant Family Home",
     location: "Bangalore, Karnataka",
     tag: "Residence",
@@ -207,6 +218,7 @@ const projects = [
   {
     id: 8,
     image: "/Ultra-Modern-Villa.webp",
+    pdf: "/3d-exterior-pdfs/ultra-modern-villa.pdf",
     title: "Ultra Modern Villa",
     location: "Mumbai, Maharashtra",
     tag: "Villa",
@@ -232,6 +244,7 @@ const projects = [
   {
     id: 9,
     image: "/Traditional-Modern-Fusion.webp",
+    pdf: "/3d-exterior-pdfs/traditional-modern-fusion.pdf",
     title: "Traditional Modern Fusion",
     location: "Jaipur, Rajasthan",
     tag: "Bungalow",
@@ -256,6 +269,13 @@ const projects = [
 ];
 
 /* =========================================================
+   DOWNLOAD ACCESS
+========================================================= */
+
+const DOWNLOAD_LEAD_STORAGE_KEY =
+  "jaypro_architecture_download_lead_submitted";
+
+/* =========================================================
    MAIN COMPONENT
 ========================================================= */
 
@@ -265,6 +285,31 @@ const ThreeDExteriorDesignDetails = () => {
   const navigate = useNavigate();
 
   const location = useLocation();
+
+  // =========================================================
+  // DOWNLOAD PDF LEAD FORM
+  // =========================================================
+
+  const [showDownloadLeadForm, setShowDownloadLeadForm] =
+    useState(false);
+
+  const downloadProjectPdf = (projectToDownload) => {
+    if (!projectToDownload?.pdf) return;
+
+    const link = document.createElement("a");
+    link.href = projectToDownload.pdf;
+    link.download = projectToDownload.pdf.split("/").pop();
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const closeDownloadLeadForm = () => {
+    setShowDownloadLeadForm(false);
+    document.body.style.overflow = "";
+  };
+
 
   /* =========================================================
      PROJECT FROM PREVIOUS PAGE
@@ -286,6 +331,39 @@ const ThreeDExteriorDesignDetails = () => {
     Number(stateProject.id) === Number(id)
       ? stateProject
       : fallbackProject;
+
+
+  const openDownloadLeadForm = () => {
+    const hasSubmittedArchitectureForm =
+      localStorage.getItem(DOWNLOAD_LEAD_STORAGE_KEY) === "true";
+
+    const hasSubmittedFloorPlanForm =
+      localStorage.getItem("jaypro_floor_plan_lead_submitted") === "true";
+
+    if (
+      hasSubmittedArchitectureForm ||
+      hasSubmittedFloorPlanForm
+    ) {
+      downloadProjectPdf(project);
+      return;
+    }
+
+    setShowDownloadLeadForm(true);
+    document.body.style.overflow = "hidden";
+  };
+
+  const handleDownloadLeadSuccess = () => {
+    localStorage.setItem(
+      DOWNLOAD_LEAD_STORAGE_KEY,
+      "true"
+    );
+
+    closeDownloadLeadForm();
+
+    setTimeout(() => {
+      downloadProjectPdf(project);
+    }, 150);
+  };
 
   /* =========================================================
      PROJECT NOT FOUND
@@ -484,33 +562,60 @@ const ThreeDExteriorDesignDetails = () => {
 
                 <div
                   className="
-                    flex
-                    min-h-[420px]
-                    items-center
-                    justify-center
+                    aspect-[3/2]
+                    w-full
+                    overflow-hidden
                     bg-white
-                    p-3
-                    sm:min-h-[520px]
-                    lg:min-h-[610px]
                   "
                 >
-
                   <img
                     src={project.image}
                     alt={project.title}
                     className="
                       block
-                      h-auto
-                      max-h-[700px]
+                      h-full
                       w-full
-                      object-contain
+                      object-cover
                     "
                   />
-
                 </div>
 
               </div>
 
+
+              {/* =================================================
+                  DOWNLOAD DESIGN PDF
+              ================================================= */}
+
+              <button
+                type="button"
+                onClick={openDownloadLeadForm}
+                className="
+                  mt-4
+                  inline-flex
+                  w-full
+                  items-center
+                  justify-center
+                  gap-3
+                  rounded-xl
+                  bg-red-600
+                  px-6
+                  py-4
+                  text-sm
+                  font-extrabold
+                  text-white
+                  shadow-md
+                  transition
+                  hover:bg-red-700
+                "
+              >
+                <Download size={18} />
+                Download Design PDF
+              </button>
+
+              <p className="mt-2 text-center text-xs text-gray-500">
+                Fill the form once. Future PDF downloads on this browser are direct.
+              </p>
 
               {/* =================================================
                   IMAGE BOTTOM INFORMATION
@@ -576,6 +681,283 @@ const ThreeDExteriorDesignDetails = () => {
 
               </div>
 
+              {/* =================================================
+                  PREMIUM LEAD FORM WITH REAL PROJECT IMAGE
+              ================================================= */}
+
+              <div
+                className="
+                  mt-5
+                  overflow-hidden
+                  rounded-[22px]
+                  border
+                  border-gray-200
+                  bg-white
+                  shadow-[0_18px_55px_rgba(15,23,42,0.10)]
+                "
+              >
+                <div className="grid lg:grid-cols-[0.68fr_1.32fr]">
+
+                  {/* LEFT SIDE - PROJECT IMAGE */}
+
+                  <div
+                    className="
+                      relative
+                      min-h-[145px]
+                      overflow-hidden
+                      bg-gray-900
+                      sm:min-h-[175px]
+                      lg:min-h-full
+                    "
+                  >
+                    <img
+                      src={project.image}
+                      alt={`${project.title} consultation`}
+                      className="
+                        absolute
+                        inset-0
+                        h-full
+                        w-full
+                        object-cover
+                      "
+                    />
+
+                    <div
+                      className="
+                        absolute
+                        inset-0
+                        bg-gradient-to-t
+                        from-black/90
+                        via-black/45
+                        to-black/15
+                      "
+                    />
+
+                    <div
+                      className="
+                        relative
+                        z-10
+                        flex
+                        h-full
+                        min-h-[145px]
+                        flex-col
+                        justify-end
+                        p-3
+                        sm:min-h-[190px]
+                        sm:p-4
+                      "
+                    >
+                      <div
+                        className="
+                          inline-flex
+                          w-fit
+                          items-center
+                          gap-2
+                          rounded-full
+                          border
+                          border-white/20
+                          bg-white/10
+                          px-3
+                          py-1.5
+                          text-[10px]
+                          font-extrabold
+                          uppercase
+                          tracking-[0.16em]
+                          text-white
+                          backdrop-blur-md
+                        "
+                      >
+                        <Sparkles size={12} />
+                        Custom 3D Exterior
+                      </div>
+
+                      <h3
+                        className="
+                          mt-2
+                          max-w-sm
+                          text-xl
+                          font-extrabold
+                          leading-tight
+                          text-white
+                          sm:text-xl
+                        "
+                      >
+                        Get a Design
+                        <span className="block text-red-300">
+                          Made for Your Plot
+                        </span>
+                      </h3>
+
+                      <p
+                        className="
+                          mt-1.5
+                          max-w-sm
+                          text-[11px]
+                          leading-5
+                          text-white/80
+                        "
+                      >
+                        Share your plot details and requirements. Our team will
+                        contact you to discuss a customized exterior design.
+                      </p>
+
+                      <div
+                        className="
+                          mt-2
+                          grid
+                          gap-1
+                          text-xs
+                          font-semibold
+                          text-white/90
+                        "
+                      >
+                        <div className="flex items-center gap-2">
+                          <CheckCircle
+                            size={15}
+                            className="shrink-0 text-green-400"
+                          />
+                          Expert Design Guidance
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                          <CheckCircle
+                            size={15}
+                            className="shrink-0 text-green-400"
+                          />
+                          Customized for Your Plot
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                          <CheckCircle
+                            size={15}
+                            className="shrink-0 text-green-400"
+                          />
+                          Quick Team Response
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* RIGHT SIDE - LEAD FORM */}
+
+                  <div
+                    className="
+                      relative
+                      bg-white
+                      p-2
+                      sm:p-3
+                    "
+                  >
+                    <div
+                      className="
+                        pointer-events-none
+                        absolute
+                        -right-16
+                        -top-16
+                        h-36
+                        w-36
+                        rounded-full
+                        bg-red-50
+                        blur-2xl
+                      "
+                    />
+
+                    <div className="relative z-10">
+
+                      <div className="px-1 pb-1">
+                        <div
+                          className="
+                            inline-flex
+                            items-center
+                            gap-2
+                            rounded-full
+                            bg-red-50
+                            px-3
+                            py-1.5
+                            text-[10px]
+                            font-extrabold
+                            uppercase
+                            tracking-[0.16em]
+                            text-red-700
+                          "
+                        >
+                          <Building2 size={12} />
+                          Free Consultation
+                        </div>
+
+                        <h3
+                          className="
+                            mt-2
+                            text-lg
+                            font-extrabold
+                            leading-tight
+                            text-[#07122b]
+                            sm:text-xl
+                          "
+                        >
+                          Tell Us About Your Project
+                        </h3>
+
+                        <p
+                          className="
+                            mt-1.5
+                            text-[11px]
+                            leading-4
+                            text-gray-500
+                            sm:text-sm
+                          "
+                        >
+                          Fill in your details and our architecture team will
+                          contact you for the next step.
+                        </p>
+                      </div>
+
+                      <div className="mt-0">
+                        <LeadForm />
+                      </div>
+
+                      <div
+                        className="
+                          mt-1
+                          flex
+                          flex-wrap
+                          items-center
+                          justify-center
+                          gap-x-4
+                          gap-y-2
+                          rounded-xl
+                          bg-gray-50
+                          px-4
+                          py-1.5
+                          text-[10px]
+                          font-semibold
+                          text-gray-500
+                        "
+                      >
+                        <span className="inline-flex items-center gap-1.5">
+                          <CheckCircle
+                            size={13}
+                            className="text-green-600"
+                          />
+                          No obligation
+                        </span>
+
+                        <span className="hidden h-1 w-1 rounded-full bg-gray-300 sm:block" />
+
+                        <span className="inline-flex items-center gap-1.5">
+                          <CheckCircle
+                            size={13}
+                            className="text-green-600"
+                          />
+                          Your details stay private
+                        </span>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
             </div>
 
 
@@ -586,7 +968,7 @@ const ThreeDExteriorDesignDetails = () => {
             <div
               className="
                 lg:sticky
-                lg:top-6
+                lg:top-4
               "
             >
 
@@ -709,13 +1091,15 @@ const ThreeDExteriorDesignDetails = () => {
                 className="
                   mt-3
                   flex
+                  min-h-[68px]
                   items-center
-                  gap-4
+                  gap-3
                   rounded-xl
                   border
                   border-gray-200
                   bg-white
-                  p-5
+                  px-3
+                  py-2.5
                   shadow-sm
                 "
               >
@@ -723,8 +1107,8 @@ const ThreeDExteriorDesignDetails = () => {
                 <div
                   className="
                     flex
-                    h-11
-                    w-11
+                    h-9
+                    w-9
                     shrink-0
                     items-center
                     justify-center
@@ -733,16 +1117,17 @@ const ThreeDExteriorDesignDetails = () => {
                     text-red-600
                   "
                 >
-                  <Sparkles size={20} />
+                  <Sparkles size={18} />
                 </div>
 
                 <div>
 
                   <p
                     className="
-                      text-xs
+                      text-[11px]
                       font-bold
                       uppercase
+                      leading-tight
                       text-gray-400
                     "
                   >
@@ -751,9 +1136,10 @@ const ThreeDExteriorDesignDetails = () => {
 
                   <p
                     className="
-                      mt-1
-                      text-base
+                      mt-0.5
+                      text-sm
                       font-extrabold
+                      leading-tight
                       text-[#07122b]
                     "
                   >
@@ -806,7 +1192,7 @@ const ThreeDExteriorDesignDetails = () => {
                           className="
                             mt-0.5
                             shrink-0
-                            text-red-600
+                            text-green-600
                           "
                         />
 
@@ -840,7 +1226,7 @@ const ThreeDExteriorDesignDetails = () => {
                   border
                   border-gray-200
                   bg-white
-                  p-6
+                  p-4
                 "
               >
 
@@ -1087,6 +1473,71 @@ const ThreeDExteriorDesignDetails = () => {
 
       </section>
 
+      {/* =====================================================
+          DOWNLOAD PDF LEAD FORM POPUP
+      ===================================================== */}
+
+      {showDownloadLeadForm && (
+        <div
+          className="
+            fixed
+            inset-0
+            z-[99999]
+            flex
+            items-center
+            justify-center
+            overflow-y-auto
+            bg-black/70
+            px-4
+            py-5
+            backdrop-blur-sm
+          "
+          role="dialog"
+          aria-modal="true"
+          aria-label="Download 3D exterior design PDF"
+          onClick={closeDownloadLeadForm}
+        >
+          <div
+            className="
+              relative
+              my-auto
+              w-full
+              max-w-[400px]
+            "
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button
+              type="button"
+              onClick={closeDownloadLeadForm}
+              className="
+                absolute
+                right-2
+                top-2
+                z-[100000]
+                flex
+                h-9
+                w-9
+                items-center
+                justify-center
+                rounded-full
+                bg-red-600
+                text-white
+                shadow-lg
+                transition
+                hover:bg-red-700
+              "
+              aria-label="Close download form"
+            >
+              <X size={18} />
+            </button>
+
+            <div className="overflow-hidden rounded-xl bg-white shadow-2xl">
+              <LeadForm onSuccess={handleDownloadLeadSuccess} />
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };
@@ -1104,14 +1555,15 @@ const ProjectCard = ({
     <div
       className="
         flex
-        min-h-[86px]
+        min-h-[68px]
         items-center
-        gap-4
+        gap-3
         rounded-xl
         border
         border-gray-200
         bg-white
-        p-4
+        px-3
+        py-2.5
         shadow-sm
         transition
         hover:border-red-200
@@ -1122,8 +1574,8 @@ const ProjectCard = ({
       <div
         className="
           flex
-          h-10
-          w-10
+          h-9
+          w-9
           shrink-0
           items-center
           justify-center
@@ -1140,9 +1592,10 @@ const ProjectCard = ({
 
         <p
           className="
-            text-xs
+            text-[11px]
             font-bold
             uppercase
+            leading-tight
             text-gray-400
           "
         >
@@ -1151,9 +1604,10 @@ const ProjectCard = ({
 
         <p
           className="
-            mt-1
-            text-base
+            mt-0.5
+            text-sm
             font-extrabold
+            leading-tight
             text-[#07122b]
           "
         >

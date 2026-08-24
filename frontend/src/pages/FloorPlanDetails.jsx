@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import {
   FaWhatsapp,
@@ -8,7 +8,11 @@ import {
   FaLayerGroup,
   FaCheckCircle,
   FaPhoneAlt,
+  FaDownload,
+  FaTimes,
 } from "react-icons/fa";
+
+import LeadForm from "../components/LeadForm";
 
 
 // =========================================================
@@ -26,6 +30,7 @@ const floorPlans = [
     designType: "Building Design",
     floors: 2,
     image: "/2d-floor-plan-detail.webp",
+    pdf: "/floor-plan-pdfs/floor-planfi.pdf",
 
     description:
       "This 20 × 30 house floor plan is designed for compact residential plots. The layout focuses on practical room placement, comfortable movement and efficient use of available space. It can be customized according to your family requirements, vastu preferences and site conditions.",
@@ -50,6 +55,7 @@ const floorPlans = [
     designType: "Building Design",
     floors: 2,
     image: "/2d-floor-plan-se.webp",
+    pdf: "/floor-plan-pdfs/Jaypro_20x40_Floor_Plan.pdf",
 
     description:
       "This 20 × 40 house floor plan is planned for a narrow residential plot with efficient space utilization. The design provides a balanced arrangement of rooms while maintaining comfortable circulation and functionality for a modern family home.",
@@ -74,6 +80,7 @@ const floorPlans = [
     designType: "Building Design",
     floors: 2,
     image: "/2d-floor-plan-th.webp",
+    pdf: "/floor-plan-pdfs/Jaypro_25x40_Floor_Plan.pdf",
 
     description:
       "The 25 × 40 house floor plan provides additional width for better room planning and circulation. It is suitable for families looking for a practical residential layout with options for future expansion and customized architectural planning.",
@@ -98,6 +105,7 @@ const floorPlans = [
     designType: "Building Design",
     floors: 2,
     image: "/2d-floor-plan-fo.webp",
+    pdf: "/floor-plan-pdfs/Jaypro_25x50_Floor_Plan.pdf",
 
     description:
       "This 25 × 50 house design offers more planning flexibility for bedrooms, living areas, kitchen and other functional spaces. The layout can be adapted according to your family size, lifestyle and architectural requirements.",
@@ -122,6 +130,7 @@ const floorPlans = [
     designType: "Building Design",
     floors: 2,
     image: "/2d-floor-plan-fi.webp",
+    pdf: "/floor-plan-pdfs/30x40-duplex-floor-plan.pdf",
 
     description:
       "This 30 × 40 duplex floor plan is designed for families who want a multi-level home. The layout allows better separation between common and private spaces while making efficient use of the plot area.",
@@ -146,6 +155,7 @@ const floorPlans = [
     designType: "Building Design",
     floors: 2,
     image: "/2d-floor-plan-si.webp",
+    pdf: "/floor-plan-pdfs/Jaypro_30x40_Duplex_Floor_Plan.pdf",
 
     description:
       "The 30 × 50 modern house plan provides a comfortable plot size for designing a contemporary family residence. The plan can accommodate spacious living areas, bedrooms and functional service spaces.",
@@ -169,7 +179,8 @@ const floorPlans = [
     facing: "East Facing Plan",
     designType: "Building Design",
     floors: 1,
-    image: "/2d-floor-plan.webp",
+    image: "/2d-floor-plan-sev.webp",
+    pdf: "/floor-plan-pdfs/Jaypro_30x60_Family_House_Plan.pdf",
 
     description:
       "This 30 × 60 family house plan provides a larger plot footprint for comfortable residential planning. The layout can be customized to include spacious bedrooms, living areas, parking and other requirements.",
@@ -193,7 +204,8 @@ const floorPlans = [
     facing: "North Facing Plan",
     designType: "Building Design",
     floors: 2,
-    image: "/2d-floor-plan.webp",
+    image: "/2d-floor-plan-eig.webp",
+    pdf: "/floor-plan-pdfs/Jaypro_35x50_Family_House_Plan.pdf",
 
     description:
       "This 35 × 50 family house plan provides a balanced plot proportion for creating a comfortable and functional family residence. The plan can be modified based on the client's room requirements and site conditions.",
@@ -217,7 +229,8 @@ const floorPlans = [
     facing: "West Facing Plan",
     designType: "Building Design",
     floors: 2,
-    image: "/2d-floor-plan.webp",
+    image: "/2d-floor-plan-ni.webp",
+    pdf: "/floor-plan-pdfs/Jaypro_35x60_Luxury_House_Plan.pdf",
 
     description:
       "The 35 × 60 luxury house plan provides generous space for premium residential planning. It can be customized to accommodate larger bedrooms, living areas, parking, balconies and other lifestyle requirements.",
@@ -241,7 +254,8 @@ const floorPlans = [
     facing: "East Facing Plan",
     designType: "Apartment Design",
     floors: 3,
-    image: "/2d-floor-plan.webp",
+    image: "/2d-floor-plan-ten.webp",
+    pdf: "/floor-plan-pdfs/Jaypro_40x50_Apartment_Design_Floor_Plan.pdf",
 
     description:
       "This 40 × 50 apartment design provides a larger footprint suitable for multi-floor residential planning. The layout can be adapted according to the number of units, circulation requirements and project needs.",
@@ -265,7 +279,8 @@ const floorPlans = [
     facing: "North Facing Plan",
     designType: "Apartment Design",
     floors: 3,
-    image: "/2d-floor-plan.webp",
+    image: "/2d-floor-plan-ele.webp",
+    pdf: "/floor-plan-pdfs/Jaypro_40x60_Apartment_Plan.pdf",
 
     description:
       "The 40 × 60 apartment plan offers a spacious footprint for multi-floor residential development. The design can be customized according to unit requirements, staircase placement, parking and site conditions.",
@@ -289,7 +304,8 @@ const floorPlans = [
     facing: "West Facing Plan",
     designType: "Building Design",
     floors: 2,
-    image: "/2d-floor-plan.webp",
+    image: "/2d-floor-plan-two.webp",
+    pdf: "/floor-plan-pdfs/Jaypro_50x60_Duplex_Design_Floor_Plan.pdf",
 
     description:
       "This 50 × 60 duplex design offers a large plot area for creating a spacious and comfortable multi-level residence. The plan can be customized according to family requirements, vastu preferences and architectural style.",
@@ -318,6 +334,17 @@ const formatFloorLabel = (floorCount) => {
 };
 
 // =========================================================
+// LEAD SUBMISSION STORAGE KEY
+//
+// After the visitor successfully submits the download form
+// once, this value is stored in the browser. On later clicks
+// the PDF downloads directly without showing the form again.
+// =========================================================
+
+const FLOOR_PLAN_LEAD_STORAGE_KEY =
+  "jaypro_floor_plan_lead_submitted";
+
+// =========================================================
 // COMPONENT
 // =========================================================
 
@@ -327,6 +354,61 @@ const FloorPlanDetails = () => {
   const plan = floorPlans.find(
     (item) => Number(item.id) === Number(id)
   );
+
+  // =========================================================
+  // DOWNLOAD PDF LEAD FORM
+  // =========================================================
+
+  const [showDownloadLeadForm, setShowDownloadLeadForm] =
+    useState(false);
+
+  const openDownloadLeadForm = () => {
+    const hasAlreadySubmitted =
+      localStorage.getItem(FLOOR_PLAN_LEAD_STORAGE_KEY) === "true";
+
+    // If the visitor has already submitted the form once,
+    // download the PDF immediately.
+    if (hasAlreadySubmitted) {
+      downloadPlanPdf();
+      return;
+    }
+
+    // First-time visitor: show the lead form.
+    setShowDownloadLeadForm(true);
+    document.body.style.overflow = "hidden";
+  };
+
+  const closeDownloadLeadForm = () => {
+    setShowDownloadLeadForm(false);
+    document.body.style.overflow = "";
+  };
+
+  const downloadPlanPdf = () => {
+    if (!plan?.pdf) return;
+
+    const link = document.createElement("a");
+    link.href = plan.pdf;
+    link.download = plan.pdf.split("/").pop();
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const handleDownloadLeadSuccess = () => {
+    // Remember this browser/device so the visitor
+    // does not need to fill the download form again.
+    localStorage.setItem(
+      FLOOR_PLAN_LEAD_STORAGE_KEY,
+      "true"
+    );
+
+    closeDownloadLeadForm();
+
+    // Start the requested PDF download after successful submit.
+    setTimeout(() => {
+      downloadPlanPdf();
+    }, 150);
+  };
 
   // =========================================================
   // WHATSAPP
@@ -447,6 +529,40 @@ const FloorPlanDetails = () => {
                 </div>
 
               </div>
+
+              {/* =================================================
+                  DOWNLOAD FLOOR PLAN PDF
+              ================================================= */}
+
+              <button
+                type="button"
+                onClick={openDownloadLeadForm}
+                className="
+                  mt-4
+                  inline-flex
+                  w-full
+                  items-center
+                  justify-center
+                  gap-3
+                  rounded-xl
+                  bg-red-600
+                  px-6
+                  py-4
+                  text-sm
+                  font-black
+                  text-white
+                  shadow-md
+                  transition
+                  hover:bg-red-700
+                "
+              >
+                <FaDownload size={17} />
+                Download Floor Plan PDF
+              </button>
+
+              <p className="mt-2 text-center text-xs text-gray-500">
+                First download requires your details. Future downloads on this browser are direct.
+              </p>
 
             </div>
 
@@ -788,6 +904,71 @@ const FloorPlanDetails = () => {
         </div>
 
       </main>
+
+      {/* =====================================================
+          DOWNLOAD PDF LEAD FORM POPUP
+      ===================================================== */}
+
+      {showDownloadLeadForm && (
+        <div
+          className="
+            fixed
+            inset-0
+            z-[99999]
+            flex
+            items-center
+            justify-center
+            overflow-y-auto
+            bg-black/70
+            px-4
+            py-5
+            backdrop-blur-sm
+          "
+          role="dialog"
+          aria-modal="true"
+          aria-label="Download floor plan form"
+          onClick={closeDownloadLeadForm}
+        >
+          <div
+            className="
+              relative
+              my-auto
+              w-full
+              max-w-[400px]
+            "
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button
+              type="button"
+              onClick={closeDownloadLeadForm}
+              className="
+                absolute
+                right-2
+                top-2
+                z-[100000]
+                flex
+                h-9
+                w-9
+                items-center
+                justify-center
+                rounded-full
+                bg-red-600
+                text-white
+                shadow-lg
+                transition
+                hover:bg-red-700
+              "
+              aria-label="Close download form"
+            >
+              <FaTimes size={16} />
+            </button>
+
+            <div className="overflow-hidden rounded-xl bg-white shadow-2xl">
+              <LeadForm onSuccess={handleDownloadLeadSuccess} />
+            </div>
+          </div>
+        </div>
+      )}
 
     </div>
   );
