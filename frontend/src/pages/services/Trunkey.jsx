@@ -5,54 +5,19 @@ import { FaTimes } from "react-icons/fa";
 
 import {
   ArrowRight,
-  BadgeCheck,
   Building2,
-  CalendarCheck2,
   CheckCircle2,
-  CircleDollarSign,
-  DraftingCompass,
-  Eye,
   FileText,
   Hammer,
   HardHat,
   Layers3,
   Phone,
   Ruler,
-  ShieldCheck,
   Sparkles,
-  TimerReset,
   Truck,
-  WalletCards,
 } from "lucide-react";
 
 import LeadForm from "../../components/LeadForm";
-
-// =====================================================
-// BENEFITS
-// =====================================================
-
-const benefits = [
-  {
-    icon: DraftingCompass,
-    title: "Design + Construction",
-    text: "Architecture, planning and execution coordinated through one team.",
-  },
-  {
-    icon: CircleDollarSign,
-    title: "Clear Cost Planning",
-    text: "Package-based planning with stage-wise payment visibility.",
-  },
-  {
-    icon: CalendarCheck2,
-    title: "Stage-wise Tracking",
-    text: "Construction progress is organized into clear project stages.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Quality Focus",
-    text: "Structured supervision, material planning and technical checks.",
-  },
-];
 
 // =====================================================
 // WHAT IS INCLUDED
@@ -98,6 +63,7 @@ const inclusions = [
 const projects = [
   {
     id: 1,
+    slug: "modern-g1-family-residence",
     title: "Modern G+1 Family Residence",
     image: "/modern-family-residence.webp",
     area: "2,400 sq.ft",
@@ -107,6 +73,7 @@ const projects = [
   },
   {
     id: 2,
+    slug: "contemporary-duplex-home",
     title: "Contemporary Duplex Home",
     image: "/contempory-duplex-home.webp",
     area: "3,200 sq.ft",
@@ -116,8 +83,9 @@ const projects = [
   },
   {
     id: 3,
+    slug: "premium-g2-residence",
     title: "Premium G+2 Residence",
-    image: "/turnkey-projects/project-03.webp",
+    image: "/premium-residence.webp",
     area: "4,500 sq.ft",
     floors: "G+2",
     type: "Residential",
@@ -125,8 +93,9 @@ const projects = [
   },
   {
     id: 4,
+    slug: "modern-compact-house",
     title: "Modern Compact House",
-    image: "/turnkey-projects/project-04.webp",
+    image: "/modern-compact-house.webp",
     area: "1,800 sq.ft",
     floors: "G",
     type: "Residential",
@@ -134,8 +103,9 @@ const projects = [
   },
   {
     id: 5,
+    slug: "luxury-family-villa",
     title: "Luxury Family Villa",
-    image: "/turnkey-projects/project-05.webp",
+    image: "/luxury-family-villa.webp",
     area: "5,200 sq.ft",
     floors: "G+2",
     type: "Villa",
@@ -143,8 +113,9 @@ const projects = [
   },
   {
     id: 6,
+    slug: "urban-g3-residence",
     title: "Urban G+3 Residence",
-    image: "/turnkey-projects/project-06.webp",
+    image: "/urban-residence.webp",
     area: "6,000 sq.ft",
     floors: "G+3",
     type: "Residential",
@@ -153,50 +124,50 @@ const projects = [
 ];
 
 // =====================================================
-// ADVANCED PROJECT FEATURES
+// SIMPLE PROCESS
 // =====================================================
 
-const advancedFeatures = [
+const processSteps = [
   {
-    icon: WalletCards,
-    title: "Stage-wise Payments",
-    text: "Payments are connected with defined construction milestones.",
+    number: "01",
+    title: "Plan",
+    text: "Share your plot size, requirements and budget.",
+    icon: Ruler,
   },
   {
-    icon: TimerReset,
-    title: "Progress Monitoring",
-    text: "Keep track of ongoing site stages and project movement.",
+    number: "02",
+    title: "Design",
+    text: "We prepare the architectural and technical drawings.",
+    icon: Sparkles,
   },
   {
-    icon: HardHat,
-    title: "Technical Supervision",
-    text: "Site activities are coordinated with drawings and execution requirements.",
+    number: "03",
+    title: "Build",
+    text: "Construction starts with coordinated site execution.",
+    icon: Hammer,
   },
   {
-    icon: BadgeCheck,
-    title: "Final Handover",
-    text: "Completion review and structured handover after project finishing.",
+    number: "04",
+    title: "Handover",
+    text: "Finishing, final review and project handover.",
+    icon: CheckCircle2,
   },
 ];
 
 // =====================================================
-// COMPONENT
+// MAIN COMPONENT
 // =====================================================
 
 export default function Trunkey() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // =====================================================
-  // LEAD FORM STATE
-  // =====================================================
-
   const [showLeadForm, setShowLeadForm] = useState(
     location.state?.openLeadForm === true
   );
 
   // =====================================================
-  // OPEN POPUP WHEN COMING FROM SERVICES
+  // OPEN FORM FROM OTHER PAGE
   // =====================================================
 
   useEffect(() => {
@@ -232,7 +203,7 @@ export default function Trunkey() {
   };
 
   // =====================================================
-  // CLOSE POPUP
+  // CLOSE
   // =====================================================
 
   const handleLeadClose = () => {
@@ -241,7 +212,7 @@ export default function Trunkey() {
   };
 
   // =====================================================
-  // OPEN POPUP
+  // OPEN
   // =====================================================
 
   const openLeadForm = () => {
@@ -249,7 +220,7 @@ export default function Trunkey() {
   };
 
   // =====================================================
-  // ESC KEY
+  // ESCAPE KEY
   // =====================================================
 
   useEffect(() => {
@@ -270,270 +241,384 @@ export default function Trunkey() {
     <>
       <main className="min-h-screen bg-white text-gray-900">
         {/* =====================================================
-            HERO
+            HERO WITH BACKGROUND IMAGE
         ===================================================== */}
 
-        <section className="relative overflow-hidden bg-slate-950">
+        <section
+          className="
+            relative
+            min-h-[560px]
+            overflow-hidden
+            bg-cover
+            bg-center
+            bg-no-repeat
+          "
+          style={{
+            backgroundImage: "url('/turnkey-bg.webp')",
+          }}
+        >
+          {/* DARK OVERLAY */}
+
           <div
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style={{
-              backgroundImage: "url('/turnkey-background.webp')",
-            }}
+            className="
+              absolute
+              inset-0
+              bg-gradient-to-r
+              from-black/100
+              via-black/50
+              to-black/30
+            "
           />
 
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/80 to-slate-900/45" />
+          {/* RED GLOW */}
 
-          <div className="pointer-events-none absolute -left-24 top-10 h-72 w-72 rounded-full bg-red-600/20 blur-3xl" />
-          <div className="pointer-events-none absolute -right-28 bottom-0 h-96 w-96 rounded-full bg-orange-400/10 blur-3xl" />
+          <div
+            className="
+              pointer-events-none
+              absolute
+              -left-32
+              top-10
+              h-80
+              w-80
+              rounded-full
+              bg-red-600/20
+              blur-3xl
+            "
+          />
 
-          <div className="relative z-10 mx-auto grid min-h-[640px] max-w-7xl items-center gap-12 px-5 py-16 sm:px-8 lg:grid-cols-[1.05fr_0.95fr] lg:px-10">
-            {/* LEFT */}
+          {/* HERO CONTENT */}
 
+          <div
+            className="
+              relative
+              z-10
+              mx-auto
+              flex
+              min-h-[560px]
+              max-w-7xl
+              items-center
+              px-5
+              py-16
+              sm:px-8
+              lg:px-10
+            "
+          >
             <div className="max-w-3xl">
-              <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-white backdrop-blur-sm">
-                <Building2 size={15} className="text-red-400" />
+              {/* SMALL LABEL */}
+
+              <div
+                className="
+                  inline-flex
+                  items-center
+                  gap-2
+                  rounded-full
+                  border
+                  border-white/20
+                  bg-white/10
+                  px-4
+                  py-2
+                  text-xs
+                  font-bold
+                  uppercase
+                  tracking-[0.18em]
+                  text-white
+                  backdrop-blur-md
+                "
+              >
+                <Building2
+                  size={14}
+                  className="text-red-400"
+                />
+
                 Complete House Construction
               </div>
 
-              <h1 className="mt-6 text-4xl font-black leading-[1.05] text-white sm:text-5xl lg:text-[58px]">
+              {/* HEADING */}
+
+              <h1
+                className="
+                  mt-6
+                  text-4xl
+                  font-black
+                  leading-[1.05]
+                  text-white
+                  sm:text-5xl
+                  lg:text-[60px]
+                "
+              >
                 Turnkey Construction
+
                 <span className="mt-2 block text-red-400">
                   From Design to Handover
                 </span>
               </h1>
 
-              <p className="mt-6 max-w-2xl text-base leading-8 text-white/80 sm:text-lg">
-                One coordinated team for planning, design, material coordination,
-                construction execution, stage-wise tracking and final handover.
+              {/* DESCRIPTION */}
+
+              <p
+                className="
+                  mt-6
+                  max-w-2xl
+                  text-base
+                  leading-8
+                  text-white/80
+                  sm:text-lg
+                "
+              >
+                One coordinated team for planning, drawings,
+                construction, material coordination and final
+                handover.
               </p>
 
-              <div className="mt-7 grid max-w-2xl gap-3 sm:grid-cols-2">
+              {/* FEATURES */}
+
+              <div className="mt-7 flex flex-wrap gap-x-6 gap-y-3">
                 {[
                   "Architecture + Construction",
-                  "Stage-wise Project Tracking",
-                  "Material & Site Coordination",
-                  "10 Years Structural Warranty",
+                  "Stage-wise Execution",
+                  "Material Coordination",
                 ].map((item) => (
                   <div
                     key={item}
-                    className="flex items-center gap-2 text-sm font-bold text-white/90"
+                    className="
+                      flex
+                      items-center
+                      gap-2
+                      text-sm
+                      font-bold
+                      text-white/90
+                    "
                   >
                     <CheckCircle2
                       size={17}
-                      className="shrink-0 text-red-400"
+                      className="shrink-0 text-emerald-400"
                     />
+
                     {item}
                   </div>
                 ))}
               </div>
 
+              {/* BUTTONS */}
+
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
                 <button
                   type="button"
                   onClick={openLeadForm}
-                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-red-600 px-7 py-4 font-bold text-white shadow-xl transition hover:-translate-y-0.5 hover:bg-red-700"
+                  className="
+                    inline-flex
+                    items-center
+                    justify-center
+                    gap-2
+                    rounded-xl
+                    bg-red-600
+                    px-7
+                    py-4
+                    font-bold
+                    text-white
+                    shadow-lg
+                    transition
+                    duration-300
+                    hover:bg-red-700
+                  "
                 >
                   Get Free Consultation
+
                   <ArrowRight size={18} />
                 </button>
 
                 <a
                   href="tel:+919835852462"
-                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/30 bg-white/10 px-7 py-4 font-bold text-white backdrop-blur-sm transition hover:bg-white hover:text-gray-900"
+                  className="
+                    inline-flex
+                    items-center
+                    justify-center
+                    gap-2
+                    rounded-xl
+                    border
+                    border-white/30
+                    bg-white/10
+                    px-7
+                    py-4
+                    font-bold
+                    text-white
+                    backdrop-blur-md
+                    transition
+                    duration-300
+                    hover:bg-white
+                    hover:text-gray-900
+                  "
                 >
                   <Phone size={18} />
+
                   Call Now
                 </a>
               </div>
             </div>
-
-            {/* RIGHT CARD */}
-
-            <div className="lg:justify-self-end">
-              <div className="w-full max-w-[470px] rounded-[28px] border border-white/15 bg-white/95 p-5 shadow-2xl backdrop-blur sm:p-7">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-red-50 text-red-600">
-                    <HardHat size={24} />
-                  </div>
-
-                  <div>
-                    <p className="text-xs font-black uppercase tracking-[0.16em] text-red-600">
-                      Complete Project Solution
-                    </p>
-
-                    <h2 className="mt-1 text-xl font-black text-gray-900">
-                      Everything Managed in One Place
-                    </h2>
-                  </div>
-                </div>
-
-                <div className="mt-6 grid gap-3 sm:grid-cols-2">
-                  {[
-                    ["Design", "Planning + Drawings"],
-                    ["Build", "Site Execution"],
-                    ["Track", "Stage-wise Updates"],
-                    ["Handover", "Final Completion"],
-                  ].map(([title, text]) => (
-                    <div
-                      key={title}
-                      className="rounded-2xl border border-gray-200 bg-gray-50 p-4"
-                    >
-                      <p className="font-black text-gray-900">{title}</p>
-                      <p className="mt-1 text-xs leading-5 text-gray-500">
-                        {text}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-
-                <button
-                  type="button"
-                  onClick={openLeadForm}
-                  className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-gray-950 px-5 py-4 text-sm font-black text-white transition hover:bg-red-600"
-                >
-                  Start Your Construction
-                  <ArrowRight size={17} />
-                </button>
-              </div>
-            </div>
           </div>
         </section>
 
         {/* =====================================================
-            TRUST / BENEFITS
+            WHAT WE HANDLE
         ===================================================== */}
 
-        <section className="border-b border-gray-200 bg-white px-5 py-8 sm:px-8">
-          <div className="mx-auto grid max-w-7xl gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {benefits.map((item) => {
-              const Icon = item.icon;
-
-              return (
-                <div
-                  key={item.title}
-                  className="flex items-start gap-3 rounded-2xl border border-gray-200 bg-gray-50 p-4"
-                >
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-red-50 text-red-600">
-                    <Icon size={19} />
-                  </div>
-
-                  <div>
-                    <h3 className="text-sm font-black text-gray-900">
-                      {item.title}
-                    </h3>
-
-                    <p className="mt-1 text-xs leading-5 text-gray-500">
-                      {item.text}
-                    </p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </section>
+        
 
         {/* =====================================================
-            WHAT IS TURNKEY
+            SIMPLE PROCESS
         ===================================================== */}
 
-        <section className="bg-white px-5 py-20 sm:px-8 lg:py-24">
-          <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
-            <div>
-              <p className="text-xs font-black uppercase tracking-[0.2em] text-red-600">
-                Turnkey Construction
-              </p>
-
-              <h2 className="mt-3 text-3xl font-black leading-tight text-gray-900 sm:text-4xl">
-                One Team. One Process.
-                <span className="block text-red-600">
-                  One Complete Home.
-                </span>
-              </h2>
-
-              <p className="mt-6 max-w-xl text-base leading-8 text-gray-600">
-                Turnkey construction brings planning and execution under one
-                coordinated workflow. Instead of managing multiple vendors
-                separately, you work with one team from the first requirement
-                discussion to final handover.
-              </p>
-
-              <button
-                type="button"
-                onClick={openLeadForm}
-                className="mt-7 inline-flex items-center gap-2 rounded-xl bg-red-600 px-6 py-3.5 font-bold text-white transition hover:bg-red-700"
-              >
-                Discuss Your Project
-                <ArrowRight size={18} />
-              </button>
-            </div>
-
-            <div className="grid gap-4 sm:grid-cols-2">
-              {inclusions.map((item) => {
-                const Icon = item.icon;
-
-                return (
-                  <motion.div
-                    key={item.title}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.2 }}
-                    transition={{ duration: 0.45 }}
-                    className="rounded-2xl border border-gray-200 bg-gray-50 p-5 transition hover:-translate-y-1 hover:border-red-200 hover:bg-white hover:shadow-lg"
-                  >
-                    <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-red-50 text-red-600">
-                      <Icon size={21} />
-                    </div>
-
-                    <h3 className="mt-4 font-black text-gray-900">
-                      {item.title}
-                    </h3>
-
-                    <p className="mt-2 text-sm leading-6 text-gray-600">
-                      {item.text}
-                    </p>
-                  </motion.div>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-
-        {/* =====================================================
-            FEATURED TURNKEY PROJECTS
-        ===================================================== */}
-
-        <section className="bg-gray-50 px-5 py-20 sm:px-8 lg:py-24">
+        <section className="bg-slate-50 px-5 py-16 sm:px-8 lg:py-10">
           <div className="mx-auto max-w-7xl">
 
             {/* SECTION HEADING */}
 
             <div className="mx-auto max-w-3xl text-center">
               <p className="text-xs font-black uppercase tracking-[0.2em] text-red-600">
-                Our Projects
+                Simple Process
               </p>
 
               <h2 className="mt-3 text-3xl font-black leading-tight text-gray-900 sm:text-4xl">
+                From Planning to
+                <span className="text-red-600"> Final Handover</span>
+              </h2>
+
+              <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-gray-600 sm:text-base">
+                Four clear steps to keep your construction journey simple,
+                organized and easy to understand.
+              </p>
+            </div>
+
+            {/* PROCESS STEPS */}
+
+            <div className="relative mt-12">
+
+              {/* DESKTOP CONNECTING LINE */}
+
+              <div className="absolute left-[12.5%] right-[12.5%] top-7 hidden h-px bg-gray-200 lg:block" />
+
+              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                {processSteps.map((step, index) => {
+                  const Icon = step.icon;
+
+                  const themes = [
+                    "bg-blue-50 text-blue-600",
+                    "bg-violet-50 text-violet-600",
+                    "bg-orange-50 text-orange-600",
+                    "bg-emerald-50 text-emerald-600",
+                  ];
+
+                  return (
+                    <motion.div
+                      key={step.number}
+                      initial={{ opacity: 0, y: 16 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, amount: 0.25 }}
+                      transition={{
+                        duration: 0.35,
+                        delay: index * 0.05,
+                      }}
+                      className="relative z-10"
+                    >
+                      <div className="h-full rounded-2xl border border-gray-200 bg-white p-5 text-center shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-md">
+
+                        {/* NUMBER */}
+
+                        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full border-4 border-slate-50 bg-gray-950 text-sm font-black text-white shadow-sm">
+                          {step.number}
+                        </div>
+
+                        {/* ICON */}
+
+                        <div
+                          className={`mx-auto mt-5 flex h-11 w-11 items-center justify-center rounded-xl ${
+                            themes[index % themes.length]
+                          }`}
+                        >
+                          <Icon size={20} />
+                        </div>
+
+                        {/* TITLE */}
+
+                        <h3 className="mt-4 text-lg font-black text-gray-900">
+                          {step.title}
+                        </h3>
+
+                        {/* DESCRIPTION */}
+
+                        <p className="mx-auto mt-2 max-w-[230px] text-sm leading-6 text-gray-600">
+                          {step.text}
+                        </p>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* SMALL CTA */}
+
+            <div className="mt-9 flex flex-col items-center justify-between gap-4 rounded-2xl border border-gray-200 bg-white p-5 text-center shadow-sm sm:flex-row sm:text-left">
+              <div>
+                <h3 className="text-lg font-black text-gray-900">
+                  Ready to discuss your construction?
+                </h3>
+
+                <p className="mt-1 text-sm text-gray-600">
+                  Share your plot details and requirements with our team.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={openLeadForm}
+                className="inline-flex shrink-0 items-center gap-2 rounded-xl bg-red-600 px-6 py-3.5 text-sm font-black text-white transition hover:bg-red-700"
+              >
+                Discuss Your Project
+                <ArrowRight size={17} />
+              </button>
+            </div>
+          </div>
+        </section>
+
+        {/* =====================================================
+            FEATURED PROJECTS
+        ===================================================== */}
+
+        <section className="bg-white px-5 py-16 sm:px-8 lg:py-10">
+          <div className="mx-auto max-w-7xl">
+            {/* HEADING */}
+
+            <div className="max-w-3xl">
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-red-600">
+                Our Projects
+              </p>
+
+              <h2 className="mt-3 text-3xl font-black text-gray-900 sm:text-4xl">
                 Featured Turnkey
-                <span className="block text-red-600">
+
+                <span className="text-red-600">
+                  {" "}
                   Construction Projects
                 </span>
               </h2>
 
-              <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-gray-600 sm:text-base">
-                Explore different types of homes that can be planned and
-                executed through our complete turnkey construction service.
+              <p className="mt-4 max-w-2xl text-sm leading-7 text-gray-600 sm:text-base">
+                Explore different residential project types
+                and open any card to view its complete
+                details.
               </p>
             </div>
 
-            {/* PROJECT CARDS */}
+            {/* PROJECT GRID */}
 
-            <div className="mt-12 grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {projects.map((project, index) => (
                 <motion.article
                   key={project.id}
                   initial={{
                     opacity: 0,
-                    y: 24,
+                    y: 20,
                   }}
                   whileInView={{
                     opacity: 1,
@@ -544,27 +629,25 @@ export default function Trunkey() {
                     amount: 0.15,
                   }}
                   transition={{
-                    duration: 0.45,
-                    delay: index * 0.04,
+                    duration: 0.4,
+                    delay: index * 0.03,
                   }}
                   className="
                     group
                     overflow-hidden
-                    rounded-3xl
+                    rounded-[22px]
                     border
                     border-gray-200
                     bg-white
                     shadow-sm
-                    transition-all
-                    duration-300
+                    transition
                     hover:-translate-y-1
-                    hover:border-red-200
-                    hover:shadow-xl
+                    hover:shadow-lg
                   "
                 >
-                  {/* PROJECT IMAGE */}
+                  {/* IMAGE */}
 
-                  <div className="relative h-60 overflow-hidden bg-gray-200">
+                  <div className="relative h-56 overflow-hidden bg-gray-100">
                     <img
                       src={project.image}
                       alt={`${project.title} - Jaypro Infratech`}
@@ -573,27 +656,15 @@ export default function Trunkey() {
                         w-full
                         object-cover
                         transition
-                        duration-700
+                        duration-500
                         group-hover:scale-105
                       "
                       loading="lazy"
                       onError={(event) => {
-                        event.currentTarget.style.display = "none";
+                        event.currentTarget.style.display =
+                          "none";
                       }}
                     />
-
-                    <div
-                      className="
-                        absolute
-                        inset-0
-                        bg-gradient-to-t
-                        from-black/75
-                        via-black/10
-                        to-transparent
-                      "
-                    />
-
-                    {/* STATUS */}
 
                     <span
                       className="
@@ -604,152 +675,106 @@ export default function Trunkey() {
                         bg-white/95
                         px-3
                         py-1.5
-                        text-[11px]
-                        font-black
-                        text-red-600
-                        shadow-md
-                      "
-                    >
-                      {project.status}
-                    </span>
-
-                    {/* PROJECT NUMBER */}
-
-                    <span
-                      className="
-                        absolute
-                        bottom-4
-                        right-5
-                        text-sm
-                        font-black
-                        text-white/80
-                      "
-                    >
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                  </div>
-
-                  {/* PROJECT CONTENT */}
-
-                  <div className="p-6">
-                    <div
-                      className="
-                        inline-flex
-                        items-center
-                        gap-2
-                        rounded-full
-                        bg-red-50
-                        px-3
-                        py-1
                         text-[10px]
                         font-black
                         uppercase
-                        tracking-[0.12em]
+                        tracking-wide
                         text-red-600
+                        shadow-sm
                       "
                     >
-                      <Building2 size={12} />
                       {project.type}
-                    </div>
+                    </span>
+                  </div>
 
-                    <h3
-                      className="
-                        mt-4
-                        text-xl
-                        font-black
-                        leading-snug
-                        text-gray-900
-                        transition
-                        group-hover:text-red-600
-                      "
-                    >
+                  {/* CONTENT */}
+
+                  <div className="p-5">
+                    <h3 className="text-xl font-black leading-snug text-gray-900">
                       {project.title}
                     </h3>
 
-                    {/* PROJECT DETAILS */}
+                    <div className="mt-4 flex items-center gap-5 text-xs font-bold text-gray-500">
+                      <span>{project.area}</span>
 
-                    <div className="mt-5 grid grid-cols-2 gap-3">
-                      <div className="rounded-xl bg-gray-50 p-3">
-                        <p className="text-[10px] font-bold uppercase tracking-wide text-gray-400">
-                          Built-up Area
-                        </p>
+                      <span className="h-1 w-1 rounded-full bg-gray-300" />
 
-                        <p className="mt-1 text-sm font-black text-gray-900">
-                          {project.area}
-                        </p>
-                      </div>
-
-                      <div className="rounded-xl bg-gray-50 p-3">
-                        <p className="text-[10px] font-bold uppercase tracking-wide text-gray-400">
-                          Floors
-                        </p>
-
-                        <p className="mt-1 text-sm font-black text-gray-900">
-                          {project.floors}
-                        </p>
-                      </div>
+                      <span>{project.floors}</span>
                     </div>
 
-                    {/* PROJECT CTA */}
+                    {/* VIEW DETAILS */}
 
                     <button
                       type="button"
-                      onClick={openLeadForm}
+                      onClick={() =>
+                        navigate(
+                          `/services/turnkey/project/${project.slug}`
+                        )
+                      }
                       className="
-                        mt-6
+                        group/btn
+                        mt-5
                         flex
                         w-full
                         items-center
-                        justify-center
-                        gap-2
-                        rounded-xl
-                        bg-gray-950
+                        justify-between
+                        rounded-[14px]
+                        bg-[#111827]
                         px-5
-                        py-3.5
-                        text-sm
-                        font-black
+                        py-4
                         text-white
                         transition
+                        duration-300
                         hover:bg-red-600
                       "
                     >
-                      <Eye size={17} />
-                      Enquire for Similar Project
+                      <span className="text-sm font-black">
+                        View Details
+                      </span>
+
+                      <ArrowRight
+                        size={19}
+                        strokeWidth={2.5}
+                        className="
+                          transition-transform
+                          duration-300
+                          group-hover/btn:translate-x-1
+                        "
+                      />
                     </button>
                   </div>
                 </motion.article>
               ))}
             </div>
 
-            {/* BOTTOM CTA */}
+            {/* PROJECT CTA */}
 
             <div
               className="
-                mt-10
+                mt-8
                 flex
                 flex-col
                 items-center
                 justify-between
-                gap-5
-                rounded-3xl
+                gap-4
+                rounded-2xl
                 border
                 border-gray-200
-                bg-white
-                p-6
+                bg-slate-50
+                p-5
                 text-center
-                shadow-sm
                 sm:flex-row
                 sm:text-left
               "
             >
               <div>
-                <h3 className="text-xl font-black text-gray-900">
+                <h3 className="text-lg font-black text-gray-900">
                   Have a different house design in mind?
                 </h3>
 
-                <p className="mt-1 text-sm leading-6 text-gray-600">
-                  Share your plot size, floor requirements and preferred design
-                  with our construction team.
+                <p className="mt-1 text-sm text-gray-600">
+                  Share your plot size and floor requirements
+                  with our team.
                 </p>
               </div>
 
@@ -760,74 +785,22 @@ export default function Trunkey() {
                   inline-flex
                   shrink-0
                   items-center
-                  justify-center
                   gap-2
                   rounded-xl
                   bg-red-600
                   px-6
                   py-3.5
-                  font-bold
+                  text-sm
+                  font-black
                   text-white
                   transition
                   hover:bg-red-700
                 "
               >
                 Discuss Your Project
-                <ArrowRight size={18} />
+
+                <ArrowRight size={17} />
               </button>
-            </div>
-          </div>
-        </section>
-
-        {/* =====================================================
-            ADVANCED FEATURES
-        ===================================================== */}
-
-        <section className="bg-gray-950 px-5 py-20 text-white sm:px-8 lg:py-24">
-          <div className="mx-auto max-w-7xl">
-            <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
-              <div>
-                <p className="text-xs font-black uppercase tracking-[0.2em] text-red-400">
-                  Smarter Project Management
-                </p>
-
-                <h2 className="mt-3 text-3xl font-black leading-tight sm:text-4xl">
-                  Built With a More
-                  <span className="block text-red-400">
-                    Organized Process
-                  </span>
-                </h2>
-
-                <p className="mt-5 max-w-xl leading-8 text-gray-400">
-                  Turnkey construction works best when design, site work,
-                  payments and handover are coordinated through defined stages.
-                </p>
-              </div>
-
-              <div className="grid gap-4 sm:grid-cols-2">
-                {advancedFeatures.map((item) => {
-                  const Icon = item.icon;
-
-                  return (
-                    <div
-                      key={item.title}
-                      className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm transition hover:-translate-y-1 hover:bg-white/10"
-                    >
-                      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-red-600/15 text-red-400">
-                        <Icon size={23} />
-                      </div>
-
-                      <h3 className="mt-5 text-lg font-black">
-                        {item.title}
-                      </h3>
-
-                      <p className="mt-2 text-sm leading-6 text-gray-400">
-                        {item.text}
-                      </p>
-                    </div>
-                  );
-                })}
-              </div>
             </div>
           </div>
         </section>
@@ -836,47 +809,80 @@ export default function Trunkey() {
             FINAL CTA
         ===================================================== */}
 
-        <section className="bg-white px-5 py-16 sm:px-8 lg:py-20">
-          <div className="relative mx-auto max-w-5xl overflow-hidden rounded-[32px] bg-gradient-to-br from-red-950 via-red-800 to-red-600 px-6 py-12 text-center text-white shadow-[0_20px_60px_rgba(127,29,29,0.25)] sm:px-10 sm:py-14">
-            <div className="pointer-events-none absolute -left-24 -top-24 h-64 w-64 rounded-full bg-white/10 blur-3xl" />
-            <div className="pointer-events-none absolute -bottom-20 -right-20 h-64 w-64 rounded-full bg-orange-300/20 blur-3xl" />
+        <section className="bg-slate-950 px-5 py-16 text-white sm:px-8 lg:py-20">
+          <div className="mx-auto max-w-5xl text-center">
+            <div
+              className="
+                mx-auto
+                flex
+                h-12
+                w-12
+                items-center
+                justify-center
+                rounded-2xl
+                bg-red-600
+              "
+            >
+              <HardHat size={22} />
+            </div>
 
-            <div className="relative z-10">
-              <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] backdrop-blur-sm">
-                <Building2 size={15} />
-                Turnkey Construction
-              </div>
+            <h2 className="mx-auto mt-5 max-w-3xl text-3xl font-black leading-tight sm:text-4xl">
+              Ready to Start Your House Construction?
+            </h2>
 
-              <h2 className="mx-auto mt-5 max-w-3xl text-3xl font-black leading-tight sm:text-4xl lg:text-[44px]">
-                Ready to Start Your
-                <span className="block text-red-200">
-                  House Construction?
-                </span>
-              </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-white/65 sm:text-base">
+              Share your plot details, floor requirements
+              and construction expectations with our team.
+            </p>
 
-              <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-red-50/90 sm:text-base">
-                Share your plot details, built-up area, floor requirements and
-                construction expectations with our team.
-              </p>
+            <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+              <button
+                type="button"
+                onClick={openLeadForm}
+                className="
+                  inline-flex
+                  items-center
+                  justify-center
+                  gap-2
+                  rounded-xl
+                  bg-red-600
+                  px-7
+                  py-4
+                  font-black
+                  text-white
+                  transition
+                  hover:bg-red-700
+                "
+              >
+                Get Turnkey Consultation
 
-              <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-                <button
-                  type="button"
-                  onClick={openLeadForm}
-                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-7 py-4 font-black text-red-700 shadow-lg transition hover:-translate-y-0.5 hover:bg-red-50"
-                >
-                  Get Turnkey Consultation
-                  <ArrowRight size={18} />
-                </button>
+                <ArrowRight size={18} />
+              </button>
 
-                <a
-                  href="tel:+919835852462"
-                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/30 bg-white/10 px-7 py-4 font-black text-white backdrop-blur-sm transition hover:bg-white hover:text-red-700"
-                >
-                  <Phone size={18} />
-                  Call Now
-                </a>
-              </div>
+              <a
+                href="tel:+919835852462"
+                className="
+                  inline-flex
+                  items-center
+                  justify-center
+                  gap-2
+                  rounded-xl
+                  border
+                  border-white/15
+                  bg-white/5
+                  px-7
+                  py-4
+                  font-black
+                  text-white
+                  transition
+                  hover:bg-white
+                  hover:text-gray-900
+                "
+              >
+                <Phone size={18} />
+
+                Call Now
+              </a>
             </div>
           </div>
         </section>
@@ -888,7 +894,19 @@ export default function Trunkey() {
 
       {showLeadForm && (
         <div
-          className="fixed inset-0 z-[99999] flex items-center justify-center overflow-y-auto bg-black/70 px-4 py-5 backdrop-blur-sm"
+          className="
+            fixed
+            inset-0
+            z-[99999]
+            flex
+            items-center
+            justify-center
+            overflow-y-auto
+            bg-black/70
+            px-4
+            py-5
+            backdrop-blur-sm
+          "
           role="dialog"
           aria-modal="true"
           aria-label="Turnkey construction enquiry form"
@@ -896,19 +914,47 @@ export default function Trunkey() {
         >
           <div
             className="relative my-auto w-full max-w-[400px]"
-            onClick={(event) => event.stopPropagation()}
+            onClick={(event) =>
+              event.stopPropagation()
+            }
           >
+            {/* CLOSE */}
+
             <button
               type="button"
               onClick={handleLeadClose}
-              className="absolute right-2 top-2 z-[100000] flex h-9 w-9 items-center justify-center rounded-full bg-white text-gray-700 shadow-lg transition hover:bg-gray-100 hover:text-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
+              className="
+                absolute
+                right-2
+                top-2
+                z-[100000]
+                flex
+                h-9
+                w-9
+                items-center
+                justify-center
+                rounded-full
+                bg-white
+                text-gray-700
+                shadow-lg
+                transition
+                hover:bg-gray-100
+                hover:text-red-600
+                focus:outline-none
+                focus:ring-2
+                focus:ring-red-500
+              "
               aria-label="Close lead form"
             >
               <FaTimes size={16} />
             </button>
 
+            {/* FORM */}
+
             <div className="overflow-hidden rounded-xl bg-white shadow-2xl">
-              <LeadForm onSuccess={handleLeadSuccess} />
+              <LeadForm
+                onSuccess={handleLeadSuccess}
+              />
             </div>
           </div>
         </div>

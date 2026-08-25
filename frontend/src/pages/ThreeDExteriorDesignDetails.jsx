@@ -682,54 +682,58 @@ const ThreeDExteriorDesignDetails = () => {
               </div>
 
               {/* =================================================
-                  PREMIUM LEAD FORM WITH REAL PROJECT IMAGE
+                  COMPACT PREMIUM LEAD FORM
               ================================================= */}
 
               <div
                 className="
-                  mt-5
+                  mt-4
+                  hidden
                   overflow-hidden
-                  rounded-[22px]
+                  rounded-[18px]
+                  lg:block
                   border
                   border-gray-200
                   bg-white
-                  shadow-[0_18px_55px_rgba(15,23,42,0.10)]
+                  shadow-[0_12px_35px_rgba(15,23,42,0.08)]
                 "
               >
-                <div className="grid lg:grid-cols-[0.68fr_1.32fr]">
+                <div className="grid lg:grid-cols-[0.60fr_1.40fr]">
 
                   {/* LEFT SIDE - PROJECT IMAGE */}
-
                   <div
                     className="
                       relative
-                      min-h-[145px]
+                      min-h-[125px]
                       overflow-hidden
                       bg-gray-900
-                      sm:min-h-[175px]
+                      sm:min-h-[145px]
                       lg:min-h-full
                     "
                   >
-                    <img
-                      src={project.image}
-                      alt={`${project.title} consultation`}
-                      className="
-                        absolute
-                        inset-0
-                        h-full
-                        w-full
-                        object-cover
-                      "
-                    />
+<img
+  src="/lead-from-left.png"
+  alt="3D Exterior Design Consultation"
+  className="
+    absolute
+    inset-0
+    h-full
+    w-full
+    object-cover
+  "
+  style={{
+    objectPosition: "35% 30%",
+  }}
+/>
 
                     <div
                       className="
                         absolute
                         inset-0
                         bg-gradient-to-t
-                        from-black/90
-                        via-black/45
-                        to-black/15
+                        from-black/50
+                        via-black/10
+                        to-black/10
                       "
                     />
 
@@ -739,12 +743,11 @@ const ThreeDExteriorDesignDetails = () => {
                         z-10
                         flex
                         h-full
-                        min-h-[145px]
+                        min-h-[125px]
                         flex-col
                         justify-end
                         p-3
-                        sm:min-h-[190px]
-                        sm:p-4
+                        sm:min-h-[145px]
                       "
                     >
                       <div
@@ -752,34 +755,32 @@ const ThreeDExteriorDesignDetails = () => {
                           inline-flex
                           w-fit
                           items-center
-                          gap-2
+                          gap-1.5
                           rounded-full
                           border
                           border-white/20
                           bg-white/10
-                          px-3
-                          py-1.5
-                          text-[10px]
+                          px-2.5
+                          py-1
+                          text-[9px]
                           font-extrabold
                           uppercase
-                          tracking-[0.16em]
+                          tracking-[0.12em]
                           text-white
                           backdrop-blur-md
                         "
                       >
-                        <Sparkles size={12} />
+                        <Sparkles size={11} />
                         Custom 3D Exterior
                       </div>
 
                       <h3
                         className="
-                          mt-2
-                          max-w-sm
-                          text-xl
+                          mt-1.5
+                          text-lg
                           font-extrabold
-                          leading-tight
+                          leading-[1.15]
                           text-white
-                          sm:text-xl
                         "
                       >
                         Get a Design
@@ -790,46 +791,46 @@ const ThreeDExteriorDesignDetails = () => {
 
                       <p
                         className="
-                          mt-1.5
+                          mt-1
                           max-w-sm
-                          text-[11px]
-                          leading-5
-                          text-white/80
+                          text-[10px]
+                          leading-4
+                          text-white/75
                         "
                       >
-                        Share your plot details and requirements. Our team will
-                        contact you to discuss a customized exterior design.
+                        Share your plot details and requirements for a customized
+                        exterior design.
                       </p>
 
                       <div
                         className="
-                          mt-2
+                          mt-1.5
                           grid
-                          gap-1
-                          text-xs
+                          gap-0.5
+                          text-[10px]
                           font-semibold
                           text-white/90
                         "
                       >
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-1.5">
                           <CheckCircle
-                            size={15}
+                            size={12}
                             className="shrink-0 text-green-400"
                           />
                           Expert Design Guidance
                         </div>
 
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-1.5">
                           <CheckCircle
-                            size={15}
+                            size={12}
                             className="shrink-0 text-green-400"
                           />
                           Customized for Your Plot
                         </div>
 
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-1.5">
                           <CheckCircle
-                            size={15}
+                            size={12}
                             className="shrink-0 text-green-400"
                           />
                           Quick Team Response
@@ -839,13 +840,12 @@ const ThreeDExteriorDesignDetails = () => {
                   </div>
 
                   {/* RIGHT SIDE - LEAD FORM */}
-
                   <div
                     className="
                       relative
                       bg-white
                       p-2
-                      sm:p-3
+                      sm:p-2.5
                     "
                   >
                     <div
@@ -854,8 +854,8 @@ const ThreeDExteriorDesignDetails = () => {
                         absolute
                         -right-16
                         -top-16
-                        h-36
-                        w-36
+                        h-32
+                        w-32
                         rounded-full
                         bg-red-50
                         blur-2xl
@@ -863,80 +863,55 @@ const ThreeDExteriorDesignDetails = () => {
                     />
 
                     <div className="relative z-10">
-
-                      <div className="px-1 pb-1">
+                      <div className="mb-1">
                         <div
                           className="
                             inline-flex
                             items-center
-                            gap-2
+                            gap-1.5
                             rounded-full
                             bg-red-50
-                            px-3
-                            py-1.5
-                            text-[10px]
+                            px-2.5
+                            py-1
+                            text-[9px]
                             font-extrabold
                             uppercase
-                            tracking-[0.16em]
+                            tracking-[0.12em]
                             text-red-700
                           "
                         >
-                          <Building2 size={12} />
+                          <Building2 size={11} />
                           Free Consultation
                         </div>
-
-                        <h3
-                          className="
-                            mt-2
-                            text-lg
-                            font-extrabold
-                            leading-tight
-                            text-[#07122b]
-                            sm:text-xl
-                          "
-                        >
-                          Tell Us About Your Project
-                        </h3>
-
-                        <p
-                          className="
-                            mt-1.5
-                            text-[11px]
-                            leading-4
-                            text-gray-500
-                            sm:text-sm
-                          "
-                        >
-                          Fill in your details and our architecture team will
-                          contact you for the next step.
-                        </p>
                       </div>
 
+                      {/* LeadForm already has its own title and description,
+                          so the duplicate heading above it has been removed. */}
                       <div className="mt-0">
                         <LeadForm />
                       </div>
 
                       <div
                         className="
-                          mt-1
+                          mt-0.5
                           flex
                           flex-wrap
                           items-center
                           justify-center
-                          gap-x-4
-                          gap-y-2
-                          rounded-xl
+                          gap-x-3
+                          gap-y-1
+                          rounded-lg
                           bg-gray-50
-                          px-4
-                          py-1.5
-                          text-[10px]
+                          px-2
+                          py-1
+                          text-[9px]
                           font-semibold
                           text-gray-500
                         "
                       >
-                        <span className="inline-flex items-center gap-1.5">
+                        <span className="inline-flex items-center gap-1">
                           <CheckCircle
-                            size={13}
+                            size={11}
                             className="text-green-600"
                           />
                           No obligation
@@ -944,15 +919,14 @@ const ThreeDExteriorDesignDetails = () => {
 
                         <span className="hidden h-1 w-1 rounded-full bg-gray-300 sm:block" />
 
-                        <span className="inline-flex items-center gap-1.5">
+                        <span className="inline-flex items-center gap-1">
                           <CheckCircle
-                            size={13}
+                            size={11}
                             className="text-green-600"
                           />
                           Your details stay private
                         </span>
                       </div>
-
                     </div>
                   </div>
                 </div>
@@ -1371,6 +1345,248 @@ const ThreeDExteriorDesignDetails = () => {
 
               </div>
 
+
+              {/* =================================================
+                  MOBILE ONLY - LEAD FORM AFTER PROJECT DETAILS
+              ================================================= */}
+
+              <div
+                className="
+                  mt-8
+                  overflow-hidden
+                  rounded-[18px]
+                  border
+                  border-gray-200
+                  bg-white
+                  shadow-[0_12px_35px_rgba(15,23,42,0.08)]
+                  lg:hidden
+                "
+              >
+                <div className="grid">
+
+                  {/* LEFT SIDE - CONSULTATION IMAGE */}
+                  <div
+                    className="
+                      relative
+                      min-h-[145px]
+                      overflow-hidden
+                      bg-gray-900
+                    "
+                  >
+                    <img
+                      src="/happy-family-construction.webp"
+                      alt="3D Exterior Design Consultation"
+                      className="
+                        absolute
+                        inset-0
+                        h-full
+                        w-full
+                        object-cover
+                      "
+                    />
+
+                    <div
+                      className="
+                        absolute
+                        inset-0
+                        bg-gradient-to-t
+                        from-black/90
+                        via-black/45
+                        to-black/10
+                      "
+                    />
+
+                    <div
+                      className="
+                        relative
+                        z-10
+                        flex
+                        min-h-[145px]
+                        flex-col
+                        justify-end
+                        p-3
+                      "
+                    >
+                      <div
+                        className="
+                          inline-flex
+                          w-fit
+                          items-center
+                          gap-1.5
+                          rounded-full
+                          border
+                          border-white/20
+                          bg-white/10
+                          px-2.5
+                          py-1
+                          text-[9px]
+                          font-extrabold
+                          uppercase
+                          tracking-[0.12em]
+                          text-white
+                          backdrop-blur-md
+                        "
+                      >
+                        <Sparkles size={11} />
+                        Custom 3D Exterior
+                      </div>
+
+                      <h3
+                        className="
+                          mt-1.5
+                          text-lg
+                          font-extrabold
+                          leading-[1.15]
+                          text-white
+                        "
+                      >
+                        Get a Design
+                        <span className="block text-red-300">
+                          Made for Your Plot
+                        </span>
+                      </h3>
+
+                      <p
+                        className="
+                          mt-1
+                          max-w-sm
+                          text-[10px]
+                          leading-4
+                          text-white/75
+                        "
+                      >
+                        Share your plot details and requirements for a customized
+                        exterior design.
+                      </p>
+
+                      <div
+                        className="
+                          mt-1.5
+                          grid
+                          gap-0.5
+                          text-[10px]
+                          font-semibold
+                          text-white/90
+                        "
+                      >
+                        <div className="flex items-center gap-1.5">
+                          <CheckCircle
+                            size={12}
+                            className="shrink-0 text-green-400"
+                          />
+                          Expert Design Guidance
+                        </div>
+
+                        <div className="flex items-center gap-1.5">
+                          <CheckCircle
+                            size={12}
+                            className="shrink-0 text-green-400"
+                          />
+                          Customized for Your Plot
+                        </div>
+
+                        <div className="flex items-center gap-1.5">
+                          <CheckCircle
+                            size={12}
+                            className="shrink-0 text-green-400"
+                          />
+                          Quick Team Response
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* LEAD FORM */}
+                  <div
+                    className="
+                      relative
+                      bg-white
+                      p-2
+                    "
+                  >
+                    <div
+                      className="
+                        pointer-events-none
+                        absolute
+                        -right-16
+                        -top-16
+                        h-32
+                        w-32
+                        rounded-full
+                        bg-red-50
+                        blur-2xl
+                      "
+                    />
+
+                    <div className="relative z-10">
+                      <div className="mb-1">
+                        <div
+                          className="
+                            inline-flex
+                            items-center
+                            gap-1.5
+                            rounded-full
+                            bg-red-50
+                            px-2.5
+                            py-1
+                            text-[9px]
+                            font-extrabold
+                            uppercase
+                            tracking-[0.12em]
+                            text-red-700
+                          "
+                        >
+                          <Building2 size={11} />
+                          Free Consultation
+                        </div>
+                      </div>
+
+                      <div className="mt-0">
+                        <LeadForm />
+                      </div>
+
+                      <div
+                        className="
+                          mt-0.5
+                          flex
+                          flex-wrap
+                          items-center
+                          justify-center
+                          gap-x-3
+                          gap-y-1
+                          rounded-lg
+                          bg-gray-50
+                          px-2
+                          py-1
+                          text-[9px]
+                          font-semibold
+                          text-gray-500
+                        "
+                      >
+                        <span className="inline-flex items-center gap-1">
+                          <CheckCircle
+                            size={11}
+                            className="text-green-600"
+                          />
+                          No obligation
+                        </span>
+
+                        <span className="hidden h-1 w-1 rounded-full bg-gray-300 sm:block" />
+
+                        <span className="inline-flex items-center gap-1">
+                          <CheckCircle
+                            size={11}
+                            className="text-green-600"
+                          />
+                          Your details stay private
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
             </div>
 
           </div>
@@ -1511,24 +1727,35 @@ const ThreeDExteriorDesignDetails = () => {
               onClick={closeDownloadLeadForm}
               className="
                 absolute
-                right-2
-                top-2
+                right-3
+                top-3
                 z-[100000]
                 flex
-                h-9
-                w-9
+                h-10
+                w-10
                 items-center
                 justify-center
                 rounded-full
-                bg-red-600
-                text-white
-                shadow-lg
-                transition
-                hover:bg-red-700
+                border
+                border-gray-200
+                bg-white/95
+                text-gray-700
+                shadow-[0_4px_14px_rgba(15,23,42,0.16)]
+                backdrop-blur-sm
+                transition-all
+                duration-200
+                hover:border-red-200
+                hover:bg-red-50
+                hover:text-red-600
+                hover:shadow-[0_6px_18px_rgba(220,38,38,0.18)]
+                focus:outline-none
+                focus:ring-2
+                focus:ring-red-500
+                focus:ring-offset-2
               "
               aria-label="Close download form"
             >
-              <X size={18} />
+              <X size={19} strokeWidth={2.25} aria-hidden />
             </button>
 
             <div className="overflow-hidden rounded-xl bg-white shadow-2xl">

@@ -943,24 +943,35 @@ const FloorPlanDetails = () => {
               onClick={closeDownloadLeadForm}
               className="
                 absolute
-                right-2
-                top-2
+                right-3
+                top-3
                 z-[100000]
                 flex
-                h-9
-                w-9
+                h-10
+                w-10
                 items-center
                 justify-center
                 rounded-full
-                bg-red-600
-                text-white
-                shadow-lg
-                transition
-                hover:bg-red-700
+                border
+                border-gray-200
+                bg-white/95
+                text-gray-700
+                shadow-[0_4px_14px_rgba(15,23,42,0.16)]
+                backdrop-blur-sm
+                transition-all
+                duration-200
+                hover:border-red-200
+                hover:bg-red-50
+                hover:text-red-600
+                hover:shadow-[0_6px_18px_rgba(220,38,38,0.18)]
+                focus:outline-none
+                focus:ring-2
+                focus:ring-red-500
+                focus:ring-offset-2
               "
               aria-label="Close download form"
             >
-              <FaTimes size={16} />
+              <FaTimes size={17} aria-hidden />
             </button>
 
             <div className="overflow-hidden rounded-xl bg-white shadow-2xl">

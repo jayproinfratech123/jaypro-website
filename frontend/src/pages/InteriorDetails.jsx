@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   ArrowLeft,
@@ -9,9 +9,12 @@ import {
   Palette,
   Layers3,
   Home,
+  Download,
+  X,
 } from "lucide-react";
 
 import SEO from "../components/SEO";
+import LeadForm from "../components/LeadForm";
 
 // =====================================================
 // INTERIOR SERVICE DETAILS
@@ -23,6 +26,12 @@ const interiorDetails = [
     title: "Modular Kitchen",
     label: "Interior Design Details",
     image: "/Modular-Kitchen.webp",
+
+    // IMPORTANT:
+    // Put the PDF inside:
+    // public/interior-pdfs/modular-kitchen.pdf
+    pdf: "/interior-pdfs/jaypro_modular_kitchen_design_sheet.pdf",
+
     description:
       "A modern modular kitchen planned for efficient movement, practical storage and a clean premium appearance. The design can be customized according to your available space, appliance requirements, preferred finishes and family usage.",
     size: "Custom",
@@ -41,11 +50,14 @@ const interiorDetails = [
     aboutText:
       "Every kitchen is different, so the final design should be developed according to the actual room dimensions, door and window positions, plumbing points, electrical points, appliance sizes and your storage requirements.",
   },
+
   {
     slug: "wardrobe-design",
     title: "Wardrobe Design",
     label: "Interior Design Details",
     image: "/Wardrobe-Design.webp",
+    pdf: "/interior-pdfs/jaypro_luxury_wardrobe_interior_design.pdf",
+
     description:
       "Customized wardrobe solutions designed to maximize storage while maintaining a clean and elegant bedroom appearance. Internal shelves, drawers, hanging sections and finishes can be planned around your lifestyle.",
     size: "Custom",
@@ -64,11 +76,14 @@ const interiorDetails = [
     aboutText:
       "The wardrobe layout can be customized according to available wall length, ceiling height, storage needs, shutter preference and bedroom layout.",
   },
+
   {
     slug: "tv-unit",
     title: "TV Unit",
     label: "Interior Design Details",
     image: "/tv-unit.webp",
+    pdf: "/interior-pdfs/jaypro_tv_unit_living_room_design.pdf",
+
     description:
       "Stylish TV unit designs combining entertainment, storage and modern aesthetics. The layout can include a TV wall, display shelves, drawers, decorative panels and concealed wiring.",
     size: "Custom",
@@ -87,11 +102,14 @@ const interiorDetails = [
     aboutText:
       "The final TV unit should be planned according to TV size, viewing distance, electrical points, speaker requirements, wall dimensions and the overall living-room interior concept.",
   },
+
   {
     slug: "false-ceiling",
     title: "False Ceiling",
     label: "Interior Design Details",
     image: "/false-ceiling.webp",
+    pdf: "/interior-pdfs/jaypro_luxury_false_ceiling_living_room.pdf",
+
     description:
       "Modern false ceiling concepts designed to improve the overall appearance of your interior while coordinating recessed lights, profile lights, fans and other ceiling elements.",
     size: "Custom",
@@ -110,11 +128,14 @@ const interiorDetails = [
     aboutText:
       "False ceiling dimensions and levels should be finalized after checking the actual ceiling height, beam positions, electrical points, AC requirements and room layout.",
   },
+
   {
     slug: "bedroom-interior",
     title: "Bedroom Interior",
     label: "Interior Design Details",
     image: "/bed-room-interior.webp",
+    pdf: "/interior-pdfs/jaypro_bedroom_interior_reference_style.pdf",
+
     description:
       "Comfortable and elegant bedroom interiors designed around your lifestyle and storage requirements. The design can coordinate the bed wall, wardrobe, lighting, study or dressing area and soft furnishings.",
     size: "Custom",
@@ -133,11 +154,14 @@ const interiorDetails = [
     aboutText:
       "The final bedroom design should reflect room dimensions, bed size, wardrobe needs, window position, electrical points, preferred style and daily usage.",
   },
+
   {
     slug: "complete-home-interior",
     title: "Complete Home Interior",
     label: "Interior Design Details",
     image: "/complete-home-interior.webp",
+    pdf: "/interior-pdfs/jaypro_luxury_living_dining_interior.pdf",
+
     description:
       "Complete interior planning for your home, coordinating individual rooms into one consistent design language from concept and space planning through detailed finishes.",
     size: "Whole Home",
@@ -159,6 +183,26 @@ const interiorDetails = [
 ];
 
 // =====================================================
+// LOCAL STORAGE KEY
+// =====================================================
+//
+// Once the visitor successfully submits the lead form,
+// this value stays in the browser.
+//
+// That means:
+//
+// FIRST DOWNLOAD
+// Download -> Lead Form -> Submit -> PDF Download
+//
+// LATER DOWNLOADS
+// Download -> Direct PDF Download
+//
+// This works for every interior PDF on this browser.
+// =====================================================
+
+const INTERIOR_DOWNLOAD_UNLOCK_KEY = "jayproInteriorPdfUnlocked";
+
+// =====================================================
 // COMPONENT
 // =====================================================
 
@@ -170,6 +214,48 @@ const InteriorDetails = () => {
 
   const whatsappNumber = "919835852462";
 
+  // =====================================================
+  // PDF / LEAD FORM STATE
+  // =====================================================
+
+  const [showDownloadLeadForm, setShowDownloadLeadForm] = useState(false);
+  const [pendingDownload, setPendingDownload] = useState(false);
+
+  // =====================================================
+  // LOCK PAGE SCROLL WHEN DOWNLOAD FORM IS OPEN
+  // =====================================================
+
+  useEffect(() => {
+    document.body.style.overflow = showDownloadLeadForm ? "hidden" : "";
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [showDownloadLeadForm]);
+
+  // =====================================================
+  // CLOSE POPUP WITH ESCAPE
+  // =====================================================
+
+  useEffect(() => {
+    const handleEscape = (event) => {
+      if (event.key === "Escape" && showDownloadLeadForm) {
+        setShowDownloadLeadForm(false);
+        setPendingDownload(false);
+      }
+    };
+
+    document.addEventListener("keydown", handleEscape);
+
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [showDownloadLeadForm]);
+
+  // =====================================================
+  // WHATSAPP
+  // =====================================================
+
   const openWhatsApp = () => {
     if (!service) return;
 
@@ -180,6 +266,127 @@ const InteriorDetails = () => {
       "_blank"
     );
   };
+
+  // =====================================================
+  // CHECK WHETHER DOWNLOAD IS ALREADY UNLOCKED
+  // =====================================================
+
+  const isDownloadUnlocked = () => {
+    try {
+      return localStorage.getItem(INTERIOR_DOWNLOAD_UNLOCK_KEY) === "true";
+    } catch {
+      return false;
+    }
+  };
+
+  // =====================================================
+  // DOWNLOAD PDF
+  // =====================================================
+
+  const downloadPdf = () => {
+    if (!service?.pdf) return;
+
+    /*
+      Using an <a> element is more reliable than window.open()
+      for downloading a file from the public folder.
+    */
+
+    const link = document.createElement("a");
+
+    link.href = service.pdf;
+
+    /*
+      Example:
+      Modular Kitchen -> modular-kitchen-design.pdf
+    */
+
+    const safeFileName = service.title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "");
+
+    link.download = `${safeFileName}-design.pdf`;
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  // =====================================================
+  // DOWNLOAD BUTTON CLICK
+  // =====================================================
+
+  const handleDownloadClick = () => {
+    if (!service?.pdf) return;
+
+    /*
+      If the visitor already submitted the form before,
+      download immediately.
+    */
+
+    if (isDownloadUnlocked()) {
+      downloadPdf();
+      return;
+    }
+
+    /*
+      First-time visitor:
+      remember that a PDF download is waiting,
+      then open the lead form.
+    */
+
+    setPendingDownload(true);
+    setShowDownloadLeadForm(true);
+  };
+
+  // =====================================================
+  // LEAD FORM SUCCESS
+  // =====================================================
+
+  const handleDownloadLeadSuccess = () => {
+    /*
+      Save permanent unlock in this browser.
+    */
+
+    try {
+      localStorage.setItem(INTERIOR_DOWNLOAD_UNLOCK_KEY, "true");
+    } catch {
+      // The download can still continue even if storage is unavailable.
+    }
+
+    setShowDownloadLeadForm(false);
+
+    /*
+      Download only when this popup was opened
+      specifically for the PDF.
+    */
+
+    if (pendingDownload) {
+      setPendingDownload(false);
+
+      /*
+        Small delay lets the modal close cleanly
+        before browser download begins.
+      */
+
+      setTimeout(() => {
+        downloadPdf();
+      }, 150);
+    }
+  };
+
+  // =====================================================
+  // CLOSE DOWNLOAD POPUP
+  // =====================================================
+
+  const closeDownloadPopup = () => {
+    setShowDownloadLeadForm(false);
+    setPendingDownload(false);
+  };
+
+  // =====================================================
+  // SERVICE NOT FOUND
+  // =====================================================
 
   if (!service) {
     return (
@@ -218,7 +425,9 @@ const InteriorDetails = () => {
         <main className="px-5 py-10 sm:px-8 lg:py-14">
           <div className="mx-auto max-w-7xl">
 
-            {/* BACK BUTTON */}
+            {/* =====================================================
+                BACK BUTTON
+            ===================================================== */}
 
             <button
               type="button"
@@ -237,7 +446,9 @@ const InteriorDetails = () => {
 
             <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr]">
 
-              {/* IMAGE */}
+              {/* =================================================
+                  LEFT - IMAGE + DOWNLOAD
+              ================================================= */}
 
               <div>
                 <div className="overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm">
@@ -252,10 +463,44 @@ const InteriorDetails = () => {
                       INTERIOR DESIGN
                     </div>
                   </div>
+
+                  {/* =============================================
+                      SIMPLE PDF DOWNLOAD BUTTON
+                  ============================================= */}
+
+                  <div className="border-t border-gray-100 bg-white p-3 sm:p-4">
+                    <button
+                      type="button"
+                      onClick={handleDownloadClick}
+                      className="
+                        inline-flex
+                        w-full
+                        items-center
+                        justify-center
+                        gap-3
+                        rounded-[14px]
+                        bg-red-600
+                        px-6
+                        py-4
+                        text-sm
+                        font-black
+                        text-white
+                        shadow-sm
+                        transition
+                        hover:bg-red-700
+                        active:scale-[0.99]
+                      "
+                    >
+                      <Download size={19} strokeWidth={2.2} />
+                      Download Design PDF
+                    </button>
+                  </div>
                 </div>
               </div>
 
-              {/* DETAILS */}
+              {/* =================================================
+                  RIGHT - DETAILS
+              ================================================= */}
 
               <div>
                 <p className="text-xs font-black uppercase tracking-[0.2em] text-red-600">
@@ -277,10 +522,12 @@ const InteriorDetails = () => {
                   <div className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
                     <div className="flex items-center gap-2 text-red-600">
                       <Ruler size={15} />
+
                       <span className="text-xs font-bold uppercase tracking-wide text-gray-400">
                         Size
                       </span>
                     </div>
+
                     <p className="mt-2 text-lg font-black text-gray-900">
                       {service.size}
                     </p>
@@ -289,10 +536,12 @@ const InteriorDetails = () => {
                   <div className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
                     <div className="flex items-center gap-2 text-red-600">
                       <Palette size={15} />
+
                       <span className="text-xs font-bold uppercase tracking-wide text-gray-400">
                         Style
                       </span>
                     </div>
+
                     <p className="mt-2 text-lg font-black text-gray-900">
                       {service.style}
                     </p>
@@ -301,10 +550,12 @@ const InteriorDetails = () => {
                   <div className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
                     <div className="flex items-center gap-2 text-red-600">
                       <Home size={15} />
+
                       <span className="text-xs font-bold uppercase tracking-wide text-gray-400">
                         Category
                       </span>
                     </div>
+
                     <p className="mt-2 text-lg font-black text-gray-900">
                       {service.category}
                     </p>
@@ -313,15 +564,16 @@ const InteriorDetails = () => {
                   <div className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
                     <div className="flex items-center gap-2 text-red-600">
                       <Layers3 size={15} />
+
                       <span className="text-xs font-bold uppercase tracking-wide text-gray-400">
                         Service
                       </span>
                     </div>
+
                     <p className="mt-2 text-lg font-black text-gray-900">
                       {service.package}
                     </p>
                   </div>
-
                 </div>
 
                 {/* HIGHLIGHTS */}
@@ -341,6 +593,7 @@ const InteriorDetails = () => {
                           className="mt-1 shrink-0 text-green-600"
                           size={16}
                         />
+
                         <span className="text-sm leading-6 text-gray-600">
                           {item}
                         </span>
@@ -416,11 +669,88 @@ const InteriorDetails = () => {
                   Discuss Your Interior
                 </button>
               </div>
-
             </div>
           </div>
         </main>
       </div>
+
+      {/* =====================================================
+          DOWNLOAD LEAD FORM POPUP
+          ONLY LEAD FORM OPENS - NO IMAGE / NO EXTRA CONTENT
+      ===================================================== */}
+
+      {showDownloadLeadForm && (
+        <div
+          className="
+            fixed
+            inset-0
+            z-[99999]
+            flex
+            items-center
+            justify-center
+            overflow-y-auto
+            bg-black/65
+            px-4
+            py-6
+            backdrop-blur-[2px]
+          "
+          role="dialog"
+          aria-modal="true"
+          aria-label="Download design PDF form"
+          onClick={closeDownloadPopup}
+        >
+          <div
+            className="
+              relative
+              my-auto
+              w-full
+              max-w-[430px]
+              rounded-2xl
+              bg-white
+              p-3
+              shadow-2xl
+              sm:p-4
+            "
+            onClick={(event) => event.stopPropagation()}
+          >
+            {/* CLOSE BUTTON */}
+
+            <button
+              type="button"
+              onClick={closeDownloadPopup}
+              className="
+                absolute
+                right-3
+                top-3
+                z-50
+                flex
+                h-9
+                w-9
+                items-center
+                justify-center
+                rounded-full
+                border
+                border-gray-200
+                bg-white
+                text-gray-600
+                shadow-sm
+                transition
+                hover:border-red-200
+                hover:bg-red-50
+                hover:text-red-600
+              "
+              aria-label="Close form"
+            >
+              <X size={17} />
+            </button>
+
+            {/* ONLY YOUR EXISTING LEAD FORM */}
+
+            <LeadForm onSuccess={handleDownloadLeadSuccess} />
+          </div>
+        </div>
+      )}
+
     </>
   );
 };

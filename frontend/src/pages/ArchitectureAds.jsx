@@ -15,6 +15,56 @@ import {
 
 import LeadForm from "../components/LeadForm";
 
+
+// =========================================================
+// ARCHITECTURE PACKAGES
+// =========================================================
+
+const architecturePackages = [
+  {
+    name: "Silver Package",
+    price: "₹6",
+    unit: "/sq.ft",
+    popular: false,
+    features: [
+      "Floor Plan",
+      "Plumbing Design",
+      "Electrical Design",
+      "3D Front Elevation",
+    ],
+    extra: "",
+  },
+  {
+    name: "Gold Package",
+    price: "₹8",
+    unit: "/sq.ft",
+    popular: true,
+    features: [
+      "Floor Plan",
+      "Plumbing Design",
+      "Electrical Design",
+      "3D Front Elevation",
+      "Column Layout Design",
+      "Pile / Footing Layout Design",
+    ],
+    extra: "+ 5 more structural drawings",
+  },
+  {
+    name: "Platinum Package",
+    price: "₹30",
+    unit: "/sq.ft",
+    popular: false,
+    features: [
+      "Everything in Gold",
+      "Complete Structural Drawings",
+      "Staircase Section Details",
+      "Septic Tank & Borewell Position",
+      "3D Interior Design",
+    ],
+    extra: "Complete design package",
+  },
+];
+
 const ArchitectureAds = () => {
   // =========================================================
   // POPUP FORM STATE
@@ -163,316 +213,7 @@ const ArchitectureAds = () => {
           Hero LeadForm is NOT affected.
       ===================================================== */}
 
-      <style>{`
 
-        /* =====================================================
-           POPUP FULL SCREEN OVERLAY
-        ===================================================== */
-
-        .architecture-lead-popup-wrapper {
-          position: fixed !important;
-          inset: 0 !important;
-
-          width: 100vw !important;
-          height: 100vh !important;
-
-          margin: 0 !important;
-          padding: 0 !important;
-
-          display: flex !important;
-          align-items: center !important;
-          justify-content: center !important;
-
-          background: rgba(0, 0, 0, 0.70) !important;
-
-          z-index: 99999 !important;
-
-          box-sizing: border-box !important;
-        }
-
-
-        /* =====================================================
-           IMPORTANT FIX
-
-           DO NOT USE FIXED 420px WHITE BOX.
-
-           Popup width follows LeadForm.
-        ===================================================== */
-
-        .architecture-lead-popup-box {
-          position: relative !important;
-
-          display: block !important;
-
-          width: fit-content !important;
-          max-width: calc(100vw - 20px) !important;
-
-          height: fit-content !important;
-          max-height: calc(100vh - 20px) !important;
-
-          margin: 0 !important;
-          padding: 0 !important;
-
-          background: transparent !important;
-
-          border: none !important;
-          border-radius: 0 !important;
-
-          box-shadow: none !important;
-
-          overflow: visible !important;
-
-          box-sizing: border-box !important;
-        }
-
-
-        /* =====================================================
-           POPUP FORM WRAPPER
-
-           NO WHITE BACKGROUND HERE.
-        ===================================================== */
-
-        .architecture-popup-form {
-          position: relative !important;
-
-          display: block !important;
-
-          width: fit-content !important;
-          max-width: calc(100vw - 20px) !important;
-
-          height: auto !important;
-          max-height: calc(100vh - 20px) !important;
-
-          margin: 0 !important;
-          padding: 0 !important;
-
-          background: transparent !important;
-
-          border: none !important;
-
-          overflow-x: hidden !important;
-          overflow-y: auto !important;
-
-          box-sizing: border-box !important;
-        }
-
-
-        /* =====================================================
-           IMPORTANT
-
-           REMOVE OUTER SPACE FROM LEADFORM ROOT
-
-           But DON'T remove internal field spacing.
-        ===================================================== */
-
-        .architecture-popup-form > * {
-          box-sizing: border-box !important;
-
-          margin-top: 0 !important;
-          margin-bottom: 0 !important;
-          margin-left: 0 !important;
-          margin-right: 0 !important;
-        }
-
-
-        /* =====================================================
-           FIRST CHILD OF LEADFORM
-
-           MAKE IT FIT CONTENT.
-        ===================================================== */
-
-        .architecture-popup-form > div:first-child,
-        .architecture-popup-form > form:first-child,
-        .architecture-popup-form > section:first-child {
-          position: relative !important;
-
-          width: fit-content !important;
-          max-width: calc(100vw - 20px) !important;
-
-          margin: 0 !important;
-
-          box-sizing: border-box !important;
-        }
-
-
-        /* =====================================================
-           IF LEADFORM ROOT HAS A CARD
-
-           REMOVE ONLY OUTER SPACE.
-        ===================================================== */
-
-        .architecture-popup-form
-          > div:first-child
-          > div:first-child,
-
-        .architecture-popup-form
-          > form:first-child
-          > div:first-child,
-
-        .architecture-popup-form
-          > section:first-child
-          > div:first-child {
-          box-sizing: border-box !important;
-
-          margin-top: 0 !important;
-          margin-bottom: 0 !important;
-          margin-left: 0 !important;
-          margin-right: 0 !important;
-        }
-
-
-        /* =====================================================
-           FORM
-
-           Don't force unnecessary width.
-        ===================================================== */
-
-        .architecture-popup-form form {
-          box-sizing: border-box !important;
-
-          margin-top: 0 !important;
-          margin-bottom: 0 !important;
-          margin-left: 0 !important;
-          margin-right: 0 !important;
-
-          max-width: 100% !important;
-        }
-
-
-        /* =====================================================
-           IMAGES
-        ===================================================== */
-
-        .architecture-popup-form img {
-          display: block !important;
-          max-width: 100% !important;
-        }
-
-
-        /* =====================================================
-           CLOSE BUTTON
-
-           SITS ON TOP OF FORM
-        ===================================================== */
-
-        .architecture-popup-close {
-          position: absolute !important;
-
-          top: 8px !important;
-          right: 8px !important;
-
-          width: 36px !important;
-          height: 36px !important;
-
-          padding: 0 !important;
-          margin: 0 !important;
-
-          display: flex !important;
-          align-items: center !important;
-          justify-content: center !important;
-
-          z-index: 100001 !important;
-
-          border: none !important;
-          border-radius: 9999px !important;
-
-          background: #ffffff !important;
-
-          color: #374151 !important;
-
-          cursor: pointer !important;
-
-          box-shadow:
-            0 4px 12px rgba(0, 0, 0, 0.20) !important;
-
-          box-sizing: border-box !important;
-        }
-
-
-        .architecture-popup-close:hover {
-          background: #fee2e2 !important;
-          color: #b91c1c !important;
-        }
-
-
-        /* =====================================================
-           MOBILE
-
-           FORM TAKES ONLY REQUIRED WIDTH.
-        ===================================================== */
-
-        @media (max-width: 640px) {
-
-          .architecture-lead-popup-wrapper {
-            align-items: center !important;
-            justify-content: center !important;
-
-            padding: 10px !important;
-          }
-
-
-          .architecture-lead-popup-box {
-            width: 100% !important;
-            max-width: 100% !important;
-
-            height: auto !important;
-            max-height: calc(100vh - 20px) !important;
-
-            margin: 0 !important;
-            padding: 0 !important;
-
-            background: transparent !important;
-
-            overflow: visible !important;
-          }
-
-
-          .architecture-popup-form {
-            width: 100% !important;
-            max-width: 100% !important;
-
-            max-height: calc(100vh - 20px) !important;
-
-            margin: 0 !important;
-            padding: 0 !important;
-
-            background: transparent !important;
-          }
-
-
-          .architecture-popup-form > div:first-child,
-          .architecture-popup-form > form:first-child,
-          .architecture-popup-form > section:first-child {
-            width: 100% !important;
-            max-width: 100% !important;
-
-            margin: 0 !important;
-          }
-
-        }
-
-
-        /* =====================================================
-           VERY SMALL MOBILE
-        ===================================================== */
-
-        @media (max-width: 400px) {
-
-          .architecture-lead-popup-wrapper {
-            padding: 5px !important;
-          }
-
-          .architecture-lead-popup-box {
-            max-width: 100% !important;
-          }
-
-          .architecture-popup-form {
-            max-width: 100% !important;
-          }
-
-        }
-
-      `}</style>
 
 
       {/* =====================================================
@@ -920,6 +661,149 @@ const ArchitectureAds = () => {
       </section>
 
 
+
+      {/* =====================================================
+          ARCHITECTURE PACKAGES
+      ===================================================== */}
+
+      <section className="bg-white py-14 sm:py-16">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
+
+          <div className="mx-auto max-w-3xl text-center">
+            <span className="text-sm font-bold uppercase tracking-wider text-red-600">
+              Design Packages
+            </span>
+
+            <h2 className="mt-2 text-3xl font-extrabold text-gray-900 sm:text-4xl">
+              Choose the Right
+              <span className="text-red-600"> Architecture Package</span>
+            </h2>
+
+            <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-gray-600 sm:text-base">
+              Simple package options for house planning, drawings and design.
+            </p>
+          </div>
+
+          <div className="mt-9 grid gap-5 lg:grid-cols-3">
+            {architecturePackages.map((pkg) => (
+              <div
+                key={pkg.name}
+                className={`
+                  relative
+                  rounded-2xl
+                  border
+                  bg-white
+                  p-5
+                  shadow-sm
+                  transition
+                  duration-300
+                  hover:-translate-y-1
+                  hover:shadow-lg
+                  ${
+                    pkg.popular
+                      ? "border-red-600 ring-1 ring-red-600"
+                      : "border-gray-200"
+                  }
+                `}
+              >
+                {pkg.popular && (
+                  <div
+                    className="
+                      absolute
+                      left-1/2
+                      top-0
+                      -translate-x-1/2
+                      -translate-y-1/2
+                      whitespace-nowrap
+                      rounded-full
+                      bg-red-600
+                      px-4
+                      py-1.5
+                      text-[11px]
+                      font-extrabold
+                      text-white
+                      shadow-md
+                    "
+                  >
+                    Most Popular
+                  </div>
+                )}
+
+                <h3 className="text-lg font-extrabold text-gray-900">
+                  {pkg.name}
+                </h3>
+
+                <div className="mt-3 flex items-end gap-1">
+                  <span className="text-3xl font-black text-red-600">
+                    {pkg.price}
+                  </span>
+
+                  <span className="pb-1 text-sm font-bold text-gray-600">
+                    {pkg.unit}
+                  </span>
+                </div>
+
+                <div className="mt-5 space-y-3">
+                  {pkg.features.map((feature) => (
+                    <div
+                      key={feature}
+                      className="flex items-start gap-2.5"
+                    >
+                      <FaCheckCircle
+                        className="mt-0.5 shrink-0 text-green-600"
+                      />
+
+                      <span className="text-sm leading-5 text-gray-700">
+                        {feature}
+                      </span>
+                    </div>
+                  ))}
+
+                  {pkg.extra && (
+                    <p className="pl-6 text-xs font-bold text-red-600">
+                      {pkg.extra}
+                    </p>
+                  )}
+                </div>
+
+                <button
+                  type="button"
+                  onClick={openLeadPopup}
+                  className={`
+                    mt-6
+                    flex
+                    w-full
+                    items-center
+                    justify-between
+                    rounded-xl
+                    px-5
+                    py-3.5
+                    text-sm
+                    font-extrabold
+                    transition
+                    ${
+                      pkg.popular
+                        ? "bg-red-600 text-white hover:bg-red-700"
+                        : "bg-gray-950 text-white hover:bg-red-600"
+                    }
+                  `}
+                >
+                  <span>Choose {pkg.name.replace(" Package", "")}</span>
+
+                  <FaArrowRight />
+                </button>
+              </div>
+            ))}
+          </div>
+
+          <p className="mx-auto mt-5 max-w-3xl text-center text-xs leading-5 text-gray-500">
+            Final scope may vary according to plot size, project requirements and
+            selected design deliverables.
+          </p>
+        </div>
+      </section>
+
+
       {/* =====================================================
           WHY CHOOSE US
       ===================================================== */}
@@ -1236,58 +1120,208 @@ const ArchitectureAds = () => {
 
       {/* =====================================================
           POPUP LEAD FORM
+          TAILWIND CSS ONLY
       ===================================================== */}
 
       {showLeadPopup && (
-
         <div
-          className="architecture-lead-popup-wrapper"
+          className="
+            fixed inset-0 z-[99999]
+            flex h-screen w-screen
+            items-center justify-center
+            bg-black/70 p-4
+            backdrop-blur-[3px]
+            max-[620px]:items-start
+            max-[620px]:overflow-y-auto
+            max-[620px]:p-2
+            max-[380px]:p-1
+          "
           onMouseDown={(e) => {
             if (e.target === e.currentTarget) {
               closeLeadPopup();
             }
           }}
         >
-
-          {/* =================================================
-              POPUP CONTENT
-          ================================================= */}
-
           <div
-            className="architecture-lead-popup-box"
+            className="
+              relative
+              grid
+              w-[min(580px,calc(100vw-24px))]
+              min-h-[428px]
+              max-h-[calc(100vh-24px)]
+              grid-cols-[41%_59%]
+              overflow-hidden
+              rounded-[17px]
+              border border-white/20
+              bg-white
+              shadow-[0_22px_55px_rgba(0,0,0,0.28),0_8px_22px_rgba(0,0,0,0.14)]
+
+              max-[760px]:w-[min(560px,calc(100vw-20px))]
+              max-[760px]:grid-cols-[40%_60%]
+
+              max-[620px]:block
+              max-[620px]:w-full
+              max-[620px]:max-w-[390px]
+              max-[620px]:min-h-0
+              max-[620px]:max-h-none
+              max-[620px]:m-auto
+              max-[620px]:rounded-2xl
+
+              max-[380px]:max-w-full
+            "
             onMouseDown={(e) => e.stopPropagation()}
           >
-
-            {/* =================================================
-                CLOSE BUTTON
-            ================================================= */}
+            {/* CLOSE BUTTON */}
 
             <button
               type="button"
               onClick={closeLeadPopup}
               aria-label="Close lead form"
-              className="architecture-popup-close"
+              className="
+                absolute right-[10px] top-[10px] z-[100001]
+                flex h-[30px] w-[30px]
+                items-center justify-center
+                rounded-full border-0
+                bg-[#6b6b6b]
+                p-0 text-white
+                shadow-[0_3px_10px_rgba(0,0,0,0.14)]
+                transition
+                hover:scale-105 hover:bg-[#ef2b2d]
+                max-[620px]:right-[9px]
+                max-[620px]:top-[9px]
+              "
             >
-              <FaTimes />
+              <FaTimes size={13} />
             </button>
 
 
             {/* =================================================
-                ONLY LEAD FORM
-
-                NO WHITE OUTER CARD
-                NO EXTRA PADDING
-                NO EXTRA MARGIN
+                LEFT IMAGE
             ================================================= */}
 
-            <div className="architecture-popup-form">
-              <LeadForm />
+            <div
+              className="
+                relative
+                min-h-[428px]
+                overflow-hidden
+                bg-gray-900
+
+                max-[620px]:h-[165px]
+                max-[620px]:min-h-[165px]
+
+                max-[380px]:h-[140px]
+                max-[380px]:min-h-[140px]
+              "
+            >
+              <img
+                src="/happy-family-construction.webp"
+                alt="Family planning their dream home"
+                className="
+                  absolute inset-0
+                  h-full w-full
+                  object-cover
+                  object-[20%_50%]
+                  max-[620px]:object-[20%_50%]
+                "
+              />
+
+              <div
+                className="
+                  absolute inset-0
+                  bg-[linear-gradient(to_top,rgba(10,15,25,0.86)_0%,rgba(10,15,25,0.28)_32%,rgba(10,15,25,0.03)_62%)]
+                "
+              />
+
+              <div
+                className="
+                  absolute bottom-[21px] left-5 right-4 z-[3]
+                  text-white
+
+                  max-[620px]:bottom-[13px]
+                  max-[620px]:left-4
+                  max-[620px]:right-[55px]
+                "
+              >
+                <div
+                  className="
+                    mb-[9px]
+                    h-0.5 w-[31px]
+                    rounded-full
+                    bg-[#ef2b2d]
+                  "
+                />
+
+                <h3
+                  className="
+                    m-0
+                    max-w-[190px]
+                    text-[21px]
+                    font-black
+                    leading-[1.02]
+                    tracking-[-0.025em]
+                    text-white
+
+                    max-[620px]:max-w-[230px]
+                    max-[620px]:text-[19px]
+                  "
+                >
+                  Your Dream
+                  <br />
+                  Home Starts Here
+                </h3>
+
+                <p
+                  className="
+                    mt-2
+                    text-[11px]
+                    font-bold
+                    leading-[1.4]
+                    text-white/85
+
+                    max-[620px]:mt-[5px]
+                    max-[620px]:text-[10px]
+                  "
+                >
+                  with <strong className="text-[#ef2b2d]">Jaypro Infratech</strong>
+                </p>
+              </div>
             </div>
 
+
+            {/* =================================================
+                RIGHT SIDE - EXISTING LEAD FORM
+            ================================================= */}
+
+            <div
+              className="
+                relative
+                flex min-w-0
+                items-stretch
+                overflow-y-auto
+                bg-white
+                px-[10px] py-[9px]
+
+                max-[620px]:p-2
+              "
+            >
+              <div
+                className="
+                  relative
+                  m-0 w-full max-w-full p-0
+                  [&>*]:mx-auto
+                  [&>*]:w-full
+                  [&>*]:max-w-full
+                  [&_form]:w-full
+                  [&_form]:max-w-full
+                  [&_img]:block
+                  [&_img]:max-w-full
+                "
+              >
+                <LeadForm />
+              </div>
+            </div>
           </div>
-
         </div>
-
       )}
 
     </div>

@@ -11,7 +11,7 @@ import {
 // ==========================================
 // PROJECT / DETAIL PAGES
 // ==========================================
-
+import TurnkeyProjectDetails from "./pages/services/TurnkeyProjectDetails.jsx";
 import InteriorDetails from "./pages/InteriorDetails.jsx";
 import FrontElevationDetails from "./pages/FrontElevationDetails";
 import Packages from "./pages/Packages";
@@ -448,6 +448,10 @@ function App() {
             path="/naksha"
             element={<Naksha />}
           />
+          <Route
+  path="/services/vastu-result"
+  element={<VastuResult />}
+/>
 
           {/* =====================================================
               ARCHITECTURE
@@ -559,6 +563,10 @@ function App() {
             path="/services/estimate"
             element={<EstimatePage />}
           />
+          <Route
+  path="/services/turnkey/project/:slug"
+  element={<TurnkeyProjectDetails />}
+/>
 
           {/* ==========================================
               PACKAGES

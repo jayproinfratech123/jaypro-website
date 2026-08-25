@@ -161,12 +161,103 @@ const Footer = () => {
             </h3>
 
             <ul className="space-y-3 text-gray-300">
-              <li>Architectural Design</li>
-              <li>Interior Design</li>
-              <li>Structural Design</li>
-              <li>3D Elevation</li>
-              <li>Construction</li>
-              <li>Turnkey Projects</li>
+
+              {/* ARCHITECTURAL DESIGN */}
+              <li>
+                <Link
+                  to="/services/architecture"
+                  onClick={() => {
+                    window.scrollTo({
+                      top: 0,
+                      behavior: "smooth",
+                    });
+                  }}
+                  className="transition hover:text-red-600"
+                >
+                  Architectural Design
+                </Link>
+              </li>
+
+              {/* INTERIOR DESIGN */}
+              <li>
+                <Link
+                  to="/services/architecture/interior-design"
+                  onClick={() => {
+                    window.scrollTo({
+                      top: 0,
+                      behavior: "smooth",
+                    });
+                  }}
+                  className="transition hover:text-red-600"
+                >
+                  Interior Design
+                </Link>
+              </li>
+
+              {/* STRUCTURAL DESIGN */}
+              <li>
+                <Link
+                  to="/services/architecture/structural-design"
+                  onClick={() => {
+                    window.scrollTo({
+                      top: 0,
+                      behavior: "smooth",
+                    });
+                  }}
+                  className="transition hover:text-red-600"
+                >
+                  Structural Design
+                </Link>
+              </li>
+
+              {/* 3D ELEVATION */}
+              <li>
+                <Link
+                  to="/services/architecture/3d-exterior-design"
+                  onClick={() => {
+                    window.scrollTo({
+                      top: 0,
+                      behavior: "smooth",
+                    });
+                  }}
+                  className="transition hover:text-red-600"
+                >
+                  3D Elevation
+                </Link>
+              </li>
+
+              {/* CONSTRUCTION */}
+              <li>
+                <Link
+                  to="/services/turnkey"
+                  onClick={() => {
+                    window.scrollTo({
+                      top: 0,
+                      behavior: "smooth",
+                    });
+                  }}
+                  className="transition hover:text-red-600"
+                >
+                  Construction
+                </Link>
+              </li>
+
+              {/* TURNKEY PROJECTS */}
+              <li>
+                <Link
+                  to="/services/turnkey"
+                  onClick={() => {
+                    window.scrollTo({
+                      top: 0,
+                      behavior: "smooth",
+                    });
+                  }}
+                  className="transition hover:text-red-600"
+                >
+                  Turnkey Projects
+                </Link>
+              </li>
+
             </ul>
           </section>
 

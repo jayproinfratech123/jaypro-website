@@ -381,7 +381,7 @@ const TwoDFloorPlan = () => {
           FILTER PANEL
       ===================================================== */}
 
-      <section className="relative z-20 px-5 sm:px-8">
+      <section className="relative z-20 px-5 sm:px-8 py-9">
 
         <div
           className="
