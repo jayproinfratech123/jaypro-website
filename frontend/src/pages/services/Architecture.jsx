@@ -13,7 +13,6 @@ import {
   Sparkles,
   Sofa,
   Compass,
-  X,
 } from "lucide-react";
 
 import LeadForm from "../../components/LeadForm";
@@ -156,33 +155,10 @@ const Architecture = () => {
               event.stopPropagation()
             }
           >
-            <button
-              type="button"
-              onClick={closeLeadPopup}
-              aria-label="Close lead form"
-              className="
-                absolute
-                right-2
-                top-2
-                z-10
-                flex
-                h-9
-                w-9
-                items-center
-                justify-center
-                rounded-full
-                bg-red-600
-                text-white
-                shadow-lg
-                transition
-                hover:bg-red-700
-              "
-            >
-              <X size={20} />
-            </button>
 
             <LeadForm
               onSuccess={closeLeadPopup}
+              onClose={closeLeadPopup}
             />
           </div>
         </div>

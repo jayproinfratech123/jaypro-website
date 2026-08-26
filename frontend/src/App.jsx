@@ -230,39 +230,12 @@ function App() {
             "
             onClick={(e) => e.stopPropagation()}
           >
-            {/* CLOSE BUTTON */}
-
-            <button
-              type="button"
-              onClick={closeArchitectureLead}
-              className="
-                absolute
-                right-3
-                top-3
-                z-20
-                flex
-                h-10
-                w-10
-                items-center
-                justify-center
-                rounded-full
-                bg-gray-100
-                text-xl
-                font-bold
-                text-gray-700
-                transition
-                hover:bg-red-600
-                hover:text-white
-              "
-              aria-label="Close"
-            >
-              ×
-            </button>
 
             {/* LEAD FORM */}
 
             <LeadForm
               onSuccess={handleArchitectureLeadSuccess}
+              onClose={closeArchitectureLead}
             />
           </div>
         </div>

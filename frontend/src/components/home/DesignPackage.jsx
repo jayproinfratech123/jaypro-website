@@ -260,19 +260,6 @@ const DesignPackage = () => {
       className="relative w-full max-w-[350px]"
       onClick={(e) => e.stopPropagation()}
     >
-      {/* Close Button */}
-      <button
-        type="button"
-        onClick={() => {
-          setShowLeadForm(false);
-          setSelectedPackage("");
-        }}
-        className="absolute -right-2 -top-2 z-20 flex h-8 w-8 items-center justify-center rounded-full bg-white text-lg font-bold text-gray-600 shadow-md transition hover:bg-red-600 hover:text-white"
-        aria-label="Close"
-      >
-        ×
-      </button>
-
       {/* ONLY FORM */}
       <LeadForm
         selectedPackage={selectedPackage}
