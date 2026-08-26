@@ -17,7 +17,6 @@ import {
   Lightbulb,
   ShieldCheck,
   Star,
-  X,
 } from "lucide-react";
 
 import SEO from "../../components/SEO";
@@ -1100,41 +1099,12 @@ const Interior = () => {
               relative
               my-auto
               w-full
-              max-w-[400px]
+              max-w-[350px]
             "
             onClick={(event) =>
               event.stopPropagation()
             }
           >
-
-            {/* CLOSE */}
-
-            <button
-              type="button"
-              onClick={handleFormClose}
-              className="
-                absolute
-                right-2
-                top-2
-                z-[100000]
-                flex
-                h-9
-                w-9
-                items-center
-                justify-center
-                rounded-full
-                bg-white
-                text-gray-700
-                shadow-lg
-                transition
-                hover:bg-gray-100
-                hover:text-red-600
-                focus:outline-none
-              "
-              aria-label="Close lead form"
-            >
-              <X size={18} />
-            </button>
 
             {/* FORM */}
 
@@ -1149,6 +1119,7 @@ const Interior = () => {
 
               <LeadForm
                 onSuccess={handleLeadSuccess}
+                onClose={handleFormClose}
               />
 
             </div>

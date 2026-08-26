@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { FaTimes } from "react-icons/fa";
 
 import {
   ArrowRight,
@@ -1877,20 +1876,15 @@ const Vastu = () => {
           onClick={() => setShowLeadForm(false)}
         >
           <div
-            className="relative my-auto w-full max-w-[400px]"
+            className="relative my-auto w-full max-w-[350px]"
             onClick={(event) => event.stopPropagation()}
           >
-            <button
-              type="button"
-              onClick={() => setShowLeadForm(false)}
-              className="absolute right-2 top-2 z-[100000] flex h-9 w-9 items-center justify-center rounded-full bg-white text-gray-700 shadow-lg hover:text-red-600"
-              aria-label="Close lead form"
-            >
-              <FaTimes size={16} />
-            </button>
 
             <div className="overflow-hidden rounded-xl bg-white shadow-2xl">
-              <LeadForm onSuccess={() => setShowLeadForm(false)} />
+              <LeadForm
+                onSuccess={() => setShowLeadForm(false)}
+                onClose={() => setShowLeadForm(false)}
+              />
             </div>
           </div>
         </div>

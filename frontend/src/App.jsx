@@ -18,7 +18,7 @@ import Packages from "./pages/Packages";
 import ScrollToTop from "./components/ScrollToTop";
 import FrontElevation from "./pages/FrontElevation.jsx";
 import ThreeDExteriorDesignDetails from "./pages/ThreeDExteriorDesignDetails";
-
+import StructuralDesign from "./pages/services/StructuralDesign";
 // ==========================================
 // OTHER ARCHITECTURE PAGES
 // ==========================================
@@ -455,6 +455,15 @@ function App() {
             <Route
               path="3d-exterior-design"
               element={<ThreeDExteriorDesign />}
+            />
+
+            {/* ==========================================
+                STRUCTURAL DESIGN
+            ========================================== */}
+
+            <Route
+              path="structural-design"
+              element={<StructuralDesign />}
             />
 
             {/* ==========================================

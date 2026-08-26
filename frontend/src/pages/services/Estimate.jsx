@@ -21,13 +21,14 @@ import {
   FaInfoCircle,
   FaCheckCircle,
   FaArrowRight,
-  FaTimes,
   FaDoorOpen,
   FaUtensils,
   FaBath,
   FaThLarge,
   FaWindowMaximize,
 } from "react-icons/fa";
+
+import { useLocation, useNavigate } from "react-router-dom";
 
 import LeadForm from "../../components/LeadForm";
 
@@ -36,6 +37,8 @@ import LeadForm from "../../components/LeadForm";
 ========================================================= */
 
 const Estimate = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
   /* =========================================================
      BASIC INPUTS
   ========================================================= */
@@ -131,6 +134,17 @@ const Estimate = () => {
     downloadAfterSubmit,
     setDownloadAfterSubmit,
   ] = useState(false);
+  useEffect(() => {
+    if (location.state?.openLeadForm === true) {
+      setDownloadAfterSubmit(false);
+      setShowDownloadLeadForm(true);
+
+      navigate(location.pathname, {
+        replace: true,
+        state: null,
+      });
+    }
+  }, [location.pathname, location.state, navigate]);
 
   const DOWNLOAD_ACCESS_KEY =
     "jaypro_estimate_report_download_access";
@@ -2379,7 +2393,7 @@ const Estimate = () => {
         >
 
           <div
-            className="relative my-auto w-full max-w-[430px]"
+            className="relative my-auto w-full max-w-[350px]"
             onClick={(
               event
             ) =>
@@ -2387,24 +2401,13 @@ const Estimate = () => {
             }
           >
 
-            <button
-              type="button"
-              onClick={
-                closeDownloadLeadForm
-              }
-              className="absolute right-2 top-2 z-[100000] flex h-9 w-9 items-center justify-center rounded-full bg-white text-gray-700 shadow-lg hover:text-red-600"
-            >
-
-              <FaTimes />
-
-            </button>
-
             <div className="overflow-hidden rounded-2xl bg-white shadow-2xl">
 
               <LeadForm
                 onSuccess={
                   handleDownloadLeadSuccess
                 }
+                onClose={closeDownloadLeadForm}
               />
 
             </div>

@@ -16,11 +16,16 @@ import {
   FaRulerCombined,
   FaShieldAlt,
   FaStar,
-  FaTimes,
   FaTools,
   FaUsers,
   FaWhatsapp,
   FaWrench,
+  FaSearch,
+  FaMapMarkerAlt,
+  FaEnvelope,
+  FaUserTie,
+  FaAward,
+  FaTimes,
 } from "react-icons/fa";
 
 import LeadForm from "../../components/LeadForm";
@@ -32,6 +37,14 @@ import LeadForm from "../../components/LeadForm";
 const Contractor = () => {
   const location = useLocation();
   const navigate = useNavigate();
+
+  /* =========================================================
+     CONTRACTOR DIRECTORY
+  ========================================================= */
+
+  const [contractorSearch, setContractorSearch] = useState("");
+  const [contractorFilter, setContractorFilter] = useState("All");
+  const [selectedContractor, setSelectedContractor] = useState(null);
 
   /* =========================================================
      LEAD FORM
@@ -319,6 +332,60 @@ const Contractor = () => {
     "Site supervision",
   ];
 
+  /* =========================================================
+     CONTRACTOR DIRECTORY DUMMY DATA
+
+     Replace these objects later with your real contractor data.
+  ========================================================= */
+
+  const contractors = [
+    { id: 1, name: "Rahul Kumar", mobile: "9876543210", email: "rahul.contractor@example.com", city: "Patna", state: "Bihar", profession: "Civil Contractor", experience: "12 Years", projects: 48, rating: 4.8, verified: true, services: ["Civil Work", "RCC Work", "Brick Work", "Plaster"], description: "Experienced civil contractor handling residential construction, RCC execution and complete site coordination." },
+    { id: 2, name: "Amit Sharma", mobile: "9876501234", email: "amit.builder@example.com", city: "Noida", state: "Uttar Pradesh", profession: "Building Contractor", experience: "10 Years", projects: 36, rating: 4.7, verified: true, services: ["House Construction", "Duplex", "Renovation"], description: "Building contractor focused on independent houses, duplex projects and residential construction execution." },
+    { id: 3, name: "Sanjay Verma", mobile: "9123456780", email: "sanjay.rcc@example.com", city: "Ranchi", state: "Jharkhand", profession: "RCC Contractor", experience: "14 Years", projects: 57, rating: 4.9, verified: true, services: ["Footing", "Column", "Beam", "Slab"], description: "Specialist RCC contractor for footing, columns, beams, slabs, staircases and structural execution." },
+    { id: 4, name: "Mohd. Arif", mobile: "9988776655", email: "arif.construction@example.com", city: "Lucknow", state: "Uttar Pradesh", profession: "Civil Contractor", experience: "9 Years", projects: 31, rating: 4.6, verified: false, services: ["Masonry", "Plaster", "Flooring", "Finishing"], description: "Civil contractor providing masonry, plaster, flooring and finishing support for residential projects." },
+    { id: 5, name: "Vikash Singh", mobile: "9012345678", email: "vikash.renovation@example.com", city: "Patna", state: "Bihar", profession: "Renovation Contractor", experience: "8 Years", projects: 29, rating: 4.5, verified: true, services: ["Renovation", "Remodeling", "Repair", "Finishing"], description: "Renovation specialist for old houses, remodeling, repair work and complete finishing upgrades." },
+    { id: 6, name: "Deepak Yadav", mobile: "9090909090", email: "deepak.labour@example.com", city: "Gurugram", state: "Haryana", profession: "Labour Contractor", experience: "11 Years", projects: 42, rating: 4.7, verified: true, services: ["Skilled Labour", "Mason", "Carpenter", "Helper"], description: "Labour contractor providing skilled and semi-skilled manpower for different construction stages." },
+    { id: 7, name: "Manish Gupta", mobile: "9876123450", email: "manish.builder@example.com", city: "Delhi", state: "Delhi", profession: "Building Contractor", experience: "15 Years", projects: 64, rating: 4.9, verified: true, services: ["Residential", "Commercial", "Turnkey Support"], description: "Senior building contractor experienced in residential and commercial project execution and coordination." },
+    { id: 8, name: "Rakesh Prasad", mobile: "9334455667", email: "rakesh.civil@example.com", city: "Gaya", state: "Bihar", profession: "Civil Contractor", experience: "7 Years", projects: 24, rating: 4.4, verified: false, services: ["Foundation", "Brick Work", "Plaster", "Flooring"], description: "Civil contractor supporting foundation, masonry, plaster and flooring work for house construction." },
+    { id: 9, name: "Neeraj Thakur", mobile: "9811122233", email: "neeraj.rcc@example.com", city: "Faridabad", state: "Haryana", profession: "RCC Contractor", experience: "13 Years", projects: 51, rating: 4.8, verified: true, services: ["RCC", "Shuttering", "Reinforcement", "Slab Casting"], description: "RCC specialist with experience in shuttering, steel reinforcement and slab casting works." },
+  ];
+
+  const contractorCategories = [
+    "All",
+    "Civil Contractor",
+    "Building Contractor",
+    "RCC Contractor",
+    "Renovation Contractor",
+    "Labour Contractor",
+  ];
+
+  const filteredContractors = contractors.filter((contractor) => {
+    const search = contractorSearch.trim().toLowerCase();
+    const matchesSearch =
+      !search ||
+      contractor.name.toLowerCase().includes(search) ||
+      contractor.city.toLowerCase().includes(search) ||
+      contractor.state.toLowerCase().includes(search) ||
+      contractor.profession.toLowerCase().includes(search) ||
+      contractor.services.some((service) => service.toLowerCase().includes(search));
+    const matchesFilter = contractorFilter === "All" || contractor.profession === contractorFilter;
+    return matchesSearch && matchesFilter;
+  });
+
+  const getInitials = (name) =>
+    name
+      .split(" ")
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((part) => part[0])
+      .join("")
+      .toUpperCase();
+
+  const openContractorConsultation = () => {
+    setSelectedContractor(null);
+    setShowLeadForm(true);
+  };
+
   return (
     <>
       <main className="min-h-screen bg-white">
@@ -548,6 +615,129 @@ const Contractor = () => {
 
           </div>
 
+        </section>
+
+        {/* =====================================================
+            CONTRACTOR DIRECTORY
+        ===================================================== */}
+
+        <section className="bg-white px-4 py-14 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-7xl">
+
+            <SectionTitle
+              label="Contractor Directory"
+              title="Find Contractors"
+              description="Browse contractor profiles and contact our team for consultation."
+            />
+
+            {/* SEARCH / FILTER */}
+            <div className="mx-auto mt-8 grid max-w-5xl gap-3 md:grid-cols-[1fr_240px]">
+              <div className="relative">
+                <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+                <input
+                  type="text"
+                  value={contractorSearch}
+                  onChange={(event) => setContractorSearch(event.target.value)}
+                  placeholder="Search name, city or profession"
+                  className="h-11 w-full rounded-md border border-gray-300 bg-white pl-11 pr-4 text-sm outline-none transition focus:border-gray-500"
+                />
+              </div>
+
+              <select
+                value={contractorFilter}
+                onChange={(event) => setContractorFilter(event.target.value)}
+                className="h-11 rounded-md border border-gray-300 bg-white px-3 text-sm font-semibold text-gray-700 outline-none focus:border-gray-500"
+              >
+                {contractorCategories.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* EXACTLY 3 CARDS PER ROW ON DESKTOP */}
+            <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+              {filteredContractors.map((contractor) => (
+                <article
+                  key={contractor.id}
+                  className="min-h-[300px] rounded-md border border-gray-300 bg-white p-5 shadow-[0_1px_2px_rgba(0,0,0,0.03)]"
+                >
+                  <div className="grid grid-cols-[105px_minmax(0,1fr)] gap-4">
+
+                    {/* LEFT PROFILE */}
+                    <div className="flex flex-col items-center pt-1 text-center">
+                      <div className="relative">
+                        <div className="flex h-[78px] w-[78px] items-center justify-center rounded-full border border-dashed border-green-500 bg-emerald-50 p-1">
+                          <div className="flex h-full w-full items-center justify-center rounded-full bg-emerald-400 text-xl font-black text-white">
+                            {getInitials(contractor.name)}
+                          </div>
+                        </div>
+
+                        {contractor.verified && (
+                          <span className="absolute -left-2 top-0 flex h-6 w-6 items-center justify-center rounded-full bg-blue-500 text-white shadow-sm">
+                            <FaCheckCircle size={13} />
+                          </span>
+                        )}
+                      </div>
+
+                      {contractor.verified && (
+                        <p className="mt-1 text-xs font-medium text-blue-600">
+                          Verified
+                        </p>
+                      )}
+
+                      <div className="mt-1 flex justify-center gap-0.5 text-yellow-400">
+                        {Array.from({ length: Math.max(1, Math.min(5, Math.round(contractor.rating || 1))) }).map((_, index) => (
+                          <FaStar key={index} size={13} />
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* RIGHT DETAILS */}
+                    <div className="min-w-0">
+                      <ContractorLine label="Name" value={contractor.name} />
+                      <ContractorLine label="Mobile" value={contractor.mobile} />
+                      <ContractorLine label="Email" value={contractor.email} wrap />
+                      <ContractorLine label="City" value={contractor.city} />
+                      <ContractorLine label="State" value={contractor.state} />
+                      <ContractorLine label="Profession" value={contractor.profession} wrap />
+                    </div>
+                  </div>
+
+                  {/* BUTTONS LIKE REFERENCE */}
+                  <div className="mt-6 flex justify-end gap-1">
+                    <button
+                      type="button"
+                      onClick={openLeadForm}
+                      className="rounded-sm bg-gray-500 px-4 py-2 text-sm font-medium text-white transition hover:bg-gray-600"
+                    >
+                      Consult Us
+                    </button>
+
+                    {contractor.verified && (
+                      <button
+                        type="button"
+                        onClick={() => setSelectedContractor(contractor)}
+                        className="rounded-sm border border-blue-500 bg-gray-500 px-4 py-2 text-sm font-medium text-white transition hover:bg-gray-600"
+                      >
+                        See Profile
+                      </button>
+                    )}
+                  </div>
+                </article>
+              ))}
+            </div>
+
+            {filteredContractors.length === 0 && (
+              <div className="mt-8 rounded-md border border-dashed border-gray-300 bg-gray-50 p-10 text-center">
+                <FaSearch className="mx-auto text-3xl text-gray-300" />
+                <h3 className="mt-3 font-bold text-gray-800">No Contractors Found</h3>
+                <p className="mt-1 text-sm text-gray-500">Try another search or category.</p>
+              </div>
+            )}
+
+          </div>
         </section>
 
         {/* =====================================================
@@ -1157,6 +1347,72 @@ const Contractor = () => {
       </main>
 
       {/* =========================================================
+          CONTRACTOR PROFILE MODAL
+      ========================================================= */}
+
+      {selectedContractor && (
+        <div
+          className="fixed inset-0 z-[99998] flex items-center justify-center overflow-y-auto bg-black/70 px-4 py-6 backdrop-blur-sm"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Contractor profile"
+          onClick={() => setSelectedContractor(null)}
+        >
+          <div
+            className="relative my-auto w-full max-w-[620px] overflow-hidden rounded-3xl bg-white shadow-2xl"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button type="button" onClick={() => setSelectedContractor(null)} className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white text-gray-700 shadow transition hover:bg-red-50 hover:text-red-600" aria-label="Close profile">
+              <FaTimes />
+            </button>
+
+            <div className="bg-gradient-to-r from-gray-950 via-gray-900 to-red-950 px-6 py-8 text-white sm:px-8">
+              <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
+                <div className="relative shrink-0">
+                  <div className="flex h-24 w-24 items-center justify-center rounded-full border-4 border-white/20 bg-white/10 text-2xl font-black text-white">{getInitials(selectedContractor.name)}</div>
+                  {selectedContractor.verified && (
+                    <span className="absolute -right-1 top-0 flex h-8 w-8 items-center justify-center rounded-full border-2 border-gray-950 bg-blue-500"><FaCheckCircle size={14} /></span>
+                  )}
+                </div>
+                <div>
+                  <p className="text-xs font-black uppercase tracking-[0.2em] text-red-400">Contractor Profile</p>
+                  <h2 className="mt-2 text-2xl font-black">{selectedContractor.name}</h2>
+                  <p className="mt-1 text-sm text-gray-300">{selectedContractor.profession}</p>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-bold">★ {selectedContractor.rating} Rating</span>
+                    <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-bold">{selectedContractor.experience}</span>
+                    <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-bold">{selectedContractor.projects}+ Projects</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-6 sm:p-8">
+              <p className="text-sm leading-7 text-gray-600">{selectedContractor.description}</p>
+              <div className="mt-6 grid gap-3 sm:grid-cols-2">
+                <ProfileInfo icon={<FaPhoneAlt />} title="Mobile" value={selectedContractor.mobile} />
+                <ProfileInfo icon={<FaEnvelope />} title="Email" value={selectedContractor.email} />
+                <ProfileInfo icon={<FaMapMarkerAlt />} title="City" value={selectedContractor.city} />
+                <ProfileInfo icon={<FaMapMarkerAlt />} title="State" value={selectedContractor.state} />
+              </div>
+              <div className="mt-6">
+                <p className="text-xs font-black uppercase tracking-[0.18em] text-gray-400">Services</p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {selectedContractor.services.map((service) => (
+                    <span key={service} className="rounded-full border border-red-100 bg-red-50 px-3 py-1.5 text-xs font-bold text-red-700">{service}</span>
+                  ))}
+                </div>
+              </div>
+              <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+                <button type="button" onClick={openContractorConsultation} className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-red-600 px-5 py-3.5 text-sm font-black text-white transition hover:bg-red-700">Get Consultation <FaArrowRight /></button>
+                <a href={`tel:${selectedContractor.mobile}`} className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-gray-300 px-5 py-3.5 text-sm font-black text-gray-700 transition hover:bg-gray-50"><FaPhoneAlt /> Call Contractor</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* =========================================================
           LEAD FORM POPUP
       ========================================================= */}
 
@@ -1171,22 +1427,10 @@ const Contractor = () => {
         >
 
           <div
-            className="relative my-auto w-full max-w-[430px]"
+            className="relative my-auto w-full max-w-[350px]"
             onClick={(event) => event.stopPropagation()}
           >
 
-            {/* CLOSE BUTTON */}
-
-            <button
-              type="button"
-              onClick={handleLeadClose}
-              className="absolute right-2 top-2 z-[100000] flex h-9 w-9 items-center justify-center rounded-full bg-white text-gray-700 shadow-lg transition hover:bg-red-50 hover:text-red-600"
-              aria-label="Close lead form"
-            >
-
-              <FaTimes size={15} />
-
-            </button>
 
             {/* LEAD FORM */}
 
@@ -1194,6 +1438,7 @@ const Contractor = () => {
 
               <LeadForm
                 onSuccess={handleLeadSuccess}
+                onClose={handleLeadClose}
               />
 
             </div>
@@ -1266,6 +1511,51 @@ const TrustItem = ({
 
       </div>
 
+    </div>
+  );
+};
+
+/* =========================================================
+   CONTRACTOR LINE - REFERENCE STYLE
+========================================================= */
+
+const ContractorLine = ({ label, value, wrap = false }) => {
+  return (
+    <div className="grid grid-cols-[68px_minmax(0,1fr)] border-b border-gray-200 py-1.5 text-[13px] leading-5">
+      <span className="font-bold text-gray-900">{label}:</span>
+      <span className={wrap ? "break-words text-gray-800" : "truncate text-gray-800"}>
+        {value || "-"}
+      </span>
+    </div>
+  );
+};
+
+/* =========================================================
+   CONTRACTOR DETAIL
+========================================================= */
+
+const ContractorDetail = ({ icon, label, value }) => {
+  return (
+    <div className="flex items-start gap-3 py-2.5">
+      <span className="mt-0.5 w-4 shrink-0 text-red-600">{icon}</span>
+      <span className="w-[72px] shrink-0 text-xs font-black text-gray-600">{label}</span>
+      <span className="min-w-0 break-all text-xs font-medium text-gray-700">{value || "-"}</span>
+    </div>
+  );
+};
+
+/* =========================================================
+   PROFILE INFO
+========================================================= */
+
+const ProfileInfo = ({ icon, title, value }) => {
+  return (
+    <div className="rounded-xl border border-gray-200 bg-gray-50 p-4">
+      <div className="flex items-center gap-2 text-red-600">
+        {icon}
+        <span className="text-xs font-black uppercase tracking-wider">{title}</span>
+      </div>
+      <p className="mt-2 break-all text-sm font-bold text-gray-800">{value}</p>
     </div>
   );
 };

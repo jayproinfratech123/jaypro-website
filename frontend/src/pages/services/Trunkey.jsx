@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { FaTimes } from "react-icons/fa";
 
 import {
   ArrowRight,
@@ -913,47 +912,18 @@ export default function Trunkey() {
           onClick={handleLeadClose}
         >
           <div
-            className="relative my-auto w-full max-w-[400px]"
+            className="relative my-auto w-full max-w-[350px]"
             onClick={(event) =>
               event.stopPropagation()
             }
           >
-            {/* CLOSE */}
-
-            <button
-              type="button"
-              onClick={handleLeadClose}
-              className="
-                absolute
-                right-2
-                top-2
-                z-[100000]
-                flex
-                h-9
-                w-9
-                items-center
-                justify-center
-                rounded-full
-                bg-white
-                text-gray-700
-                shadow-lg
-                transition
-                hover:bg-gray-100
-                hover:text-red-600
-                focus:outline-none
-                focus:ring-2
-                focus:ring-red-500
-              "
-              aria-label="Close lead form"
-            >
-              <FaTimes size={16} />
-            </button>
 
             {/* FORM */}
 
             <div className="overflow-hidden rounded-xl bg-white shadow-2xl">
               <LeadForm
                 onSuccess={handleLeadSuccess}
+                onClose={handleLeadClose}
               />
             </div>
           </div>
