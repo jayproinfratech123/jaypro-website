@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6NE9TGMM9V"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-6NE9TGMM9V');
+    </script>
+
     <meta charset="UTF-8" />
 
     <!-- =========================================================
@@ -49,12 +60,14 @@
       Keywords are not a major Google ranking factor.
       Keep this only if you want metadata for other search systems.
     -->
+
     <meta
       name="keywords"
       content="house construction Patna, house construction Noida, house construction Ranchi, construction company Patna, construction company Noida, construction company Ranchi, home construction company, residential construction, architecture services, architect Patna, architect Noida, architect Ranchi, interior design Patna, interior design Noida, interior design Ranchi, building design, 3D elevation design, floor plan, vastu house plan, Jaypro Infratech"
     />
 
     <!-- Canonical -->
+
     <link
       rel="canonical"
       href="https://jayproinfratech.com/"
@@ -193,10 +206,33 @@
       crossorigin
     />
 
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin
+    />
+
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+    />
+
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
       rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
     />
+
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
 
     <!-- =========================================================
          ORGANIZATION STRUCTURED DATA
@@ -370,11 +406,22 @@
         ]
       }
     </script>
+
+    <!-- =========================================================
+         GOOGLE SEARCH CONSOLE VERIFICATION
+    ========================================================== -->
+
+    <meta
+      name="google-site-verification"
+      content="oEhXN_yIpOsRy0ajxl8k61o3IHoMzgfF1OOuBh34nQE"
+    />
+
   </head>
 
   <body class="font-body bg-concrete-50 text-charcoal">
 
     <!-- React Application -->
+
     <div id="root"></div>
 
     <script

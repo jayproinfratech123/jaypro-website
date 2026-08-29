@@ -7,6 +7,7 @@ import {
   FaCompass,
   FaCalculator,
   FaHardHat,
+  FaUserTie,
   FaArrowRight,
 } from "react-icons/fa";
 
@@ -80,6 +81,17 @@ const services = [
     topBg: "bg-green-50",
     buttonBg: "from-green-600 to-green-500",
   },
+
+  {
+    id: 7,
+    title: "Engineer",
+    subtitle: "Site Visit",
+    icon: <FaUserTie aria-hidden="true" />,
+    path: "/services/engineer-site-visit",
+    button: "Book Visit",
+    topBg: "bg-red-50",
+    buttonBg: "from-red-600 to-red-500",
+  },
 ];
 
 // =====================================================
@@ -88,13 +100,6 @@ const services = [
 
 export default function ServicesSection() {
   const navigate = useNavigate();
-
-  // ===================================================
-  // SERVICE CLICK
-  //
-  // 1. Go to selected service page
-  // 2. Tell that page to open Lead Form
-  // ===================================================
 
   const handleServiceClick = (service) => {
     navigate(service.path, {
@@ -117,9 +122,7 @@ export default function ServicesSection() {
     >
       <div className="mx-auto max-w-7xl px-5">
 
-        {/* =================================================
-            HEADING
-        ================================================= */}
+        {/* HEADING */}
 
         <div className="mb-4 text-center">
           <h2
@@ -137,27 +140,12 @@ export default function ServicesSection() {
             Explore Our Services
           </h2>
 
-          <p
-            className="
-              mt-4
-              text-lg
-              text-gray-500
-            "
-          >
+          <p className="mt-4 text-lg text-gray-500">
             Hamari Services Ke Baare Mein Jaane
-          </p>
-
-          <p className="sr-only">
-            Explore our professional architecture design,
-            interior design, turnkey construction, Vastu
-            consultation, construction cost estimation,
-            and contractor services.
           </p>
         </div>
 
-        {/* =================================================
-            SERVICE CARDS
-        ================================================= */}
+        {/* SERVICE CARDS */}
 
         <div
           className="
@@ -193,9 +181,7 @@ export default function ServicesSection() {
               "
             >
 
-              {/* =================================================
-                  TOP
-              ================================================= */}
+              {/* TOP */}
 
               <div
                 className={`
@@ -231,18 +217,9 @@ export default function ServicesSection() {
                 </div>
               </div>
 
-              {/* =================================================
-                  BODY
-              ================================================= */}
+              {/* BODY */}
 
-              <div
-                className="
-                  px-6
-                  pb-8
-                  pt-12
-                  text-center
-                "
-              >
+              <div className="px-6 pb-8 pt-12 text-center">
                 <h3
                   className="
                     text-lg
@@ -268,9 +245,7 @@ export default function ServicesSection() {
                 )}
               </div>
 
-              {/* =================================================
-                  BUTTON
-              ================================================= */}
+              {/* BUTTON */}
 
               <button
                 type="button"
@@ -295,7 +270,6 @@ export default function ServicesSection() {
                 `}
               >
                 <FaArrowRight aria-hidden="true" />
-
                 {service.button}
               </button>
             </article>

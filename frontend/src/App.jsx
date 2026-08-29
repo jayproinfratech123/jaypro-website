@@ -11,6 +11,7 @@ import {
 // ==========================================
 // PROJECT / DETAIL PAGES
 // ==========================================
+
 import TurnkeyProjectDetails from "./pages/services/TurnkeyProjectDetails.jsx";
 import InteriorDetails from "./pages/InteriorDetails.jsx";
 import FrontElevationDetails from "./pages/FrontElevationDetails";
@@ -19,6 +20,13 @@ import ScrollToTop from "./components/ScrollToTop";
 import FrontElevation from "./pages/FrontElevation.jsx";
 import ThreeDExteriorDesignDetails from "./pages/ThreeDExteriorDesignDetails";
 import StructuralDesign from "./pages/services/StructuralDesign";
+
+// ==========================================
+// ENGINEER SITE VISIT
+// ==========================================
+
+import EngineerSiteVisit from "./pages/services/EngineerSiteVisit";
+
 // ==========================================
 // OTHER ARCHITECTURE PAGES
 // ==========================================
@@ -94,6 +102,7 @@ import Turnkey from "./pages/services/Trunkey.jsx";
 import Vastu from "./pages/services/Vastu.jsx";
 import EstimatePage from "./pages/services/Estimate.jsx";
 import Contractor from "./pages/services/Contractor.jsx";
+import ContractorCategoryDetails from "./pages/services/ContractorCategoryDetails.jsx";
 
 // ==========================================
 // ARCHITECTURE SERVICE DETAIL PAGES
@@ -230,9 +239,6 @@ function App() {
             "
             onClick={(e) => e.stopPropagation()}
           >
-
-            {/* LEAD FORM */}
-
             <LeadForm
               onSuccess={handleArchitectureLeadSuccess}
               onClose={closeArchitectureLead}
@@ -246,7 +252,6 @@ function App() {
       ========================================== */}
 
       <main className="min-h-screen pb-24">
-
         <Routes>
 
           {/* ==========================================
@@ -274,6 +279,19 @@ function App() {
           <Route
             path="/services"
             element={<Services />}
+          />
+
+          {/* ==========================================
+              ENGINEER SITE VISIT
+
+              IMPORTANT:
+              This route must stay OUTSIDE
+              /services/architecture
+          ========================================== */}
+
+          <Route
+            path="/services/engineer-site-visit"
+            element={<EngineerSiteVisit />}
           />
 
           {/* ==========================================
@@ -394,6 +412,11 @@ function App() {
             element={<VastuResult />}
           />
 
+          <Route
+            path="/services/vastu-result"
+            element={<VastuResult />}
+          />
+
           {/* ==========================================
               LEGAL
           ========================================== */}
@@ -421,17 +444,13 @@ function App() {
             path="/naksha"
             element={<Naksha />}
           />
-          <Route
-  path="/services/vastu-result"
-  element={<VastuResult />}
-/>
 
           {/* =====================================================
               ARCHITECTURE
 
               IMPORTANT:
-              All Architecture child pages must stay
-              inside this parent route.
+              Only Architecture child pages should
+              stay inside this parent route.
           ===================================================== */}
 
           <Route
@@ -477,16 +496,6 @@ function App() {
 
             {/* ==========================================
                 INTERIOR DESIGN DETAILS
-
-                EXAMPLES:
-
-                /services/architecture/interior-design/modular-kitchen
-
-                /services/architecture/interior-design/wardrobe-design
-
-                /services/architecture/interior-design/tv-unit
-
-                /services/architecture/interior-design/bedroom-interior
             ========================================== */}
 
             <Route
@@ -523,6 +532,11 @@ function App() {
             element={<Turnkey />}
           />
 
+          <Route
+            path="/services/turnkey/project/:slug"
+            element={<TurnkeyProjectDetails />}
+          />
+
           {/* ==========================================
               NORMAL VASTU PAGE
           ========================================== */}
@@ -545,10 +559,6 @@ function App() {
             path="/services/estimate"
             element={<EstimatePage />}
           />
-          <Route
-  path="/services/turnkey/project/:slug"
-  element={<TurnkeyProjectDetails />}
-/>
 
           {/* ==========================================
               PACKAGES
@@ -568,6 +578,11 @@ function App() {
             element={<Contractor />}
           />
 
+          <Route
+            path="/services/contractor/:slug"
+            element={<ContractorCategoryDetails />}
+          />
+
           {/* ==========================================
               CUSTOMER DASHBOARD
           ========================================== */}
@@ -581,42 +596,30 @@ function App() {
             }
           >
 
-            {/* DASHBOARD HOME */}
-
             <Route
               index
               element={<DashboardHome />}
             />
-
-            {/* PROJECTS */}
 
             <Route
               path="projects"
               element={<MyProjects />}
             />
 
-            {/* TRACKING */}
-
             <Route
               path="tracking"
               element={<LiveTracking />}
             />
-
-            {/* DOCUMENTS */}
 
             <Route
               path="documents"
               element={<Documents />}
             />
 
-            {/* PAYMENTS */}
-
             <Route
               path="payments"
               element={<Payments />}
             />
-
-            {/* CHAT */}
 
             <Route
               path="chat"
@@ -638,28 +641,20 @@ function App() {
             }
           >
 
-            {/* ADMIN HOME */}
-
             <Route
               index
               element={<AdminHome />}
             />
-
-            {/* ADMIN PROJECTS */}
 
             <Route
               path="projects"
               element={<AdminProjects />}
             />
 
-            {/* ADMIN CUSTOMERS */}
-
             <Route
               path="customers"
               element={<AdminCustomers />}
             />
-
-            {/* ADMIN BLOGS */}
 
             <Route
               path="blogs"
@@ -678,7 +673,6 @@ function App() {
           />
 
         </Routes>
-
       </main>
 
       {/* ==========================================

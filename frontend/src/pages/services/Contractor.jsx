@@ -43,6 +43,7 @@ const Contractor = () => {
   ========================================================= */
 
   const [contractorSearch, setContractorSearch] = useState("");
+  const [contractorTypeSearch, setContractorTypeSearch] = useState("");
   const [contractorFilter, setContractorFilter] = useState("All");
   const [selectedContractor, setSelectedContractor] = useState(null);
 
@@ -137,47 +138,63 @@ const Contractor = () => {
 
   const contractorServices = [
     {
-      icon: <FaBuilding />,
-      title: "Building Construction",
-      description:
-        "Professional execution support for residential and commercial building construction.",
-    },
-
-    {
       icon: <FaHardHat />,
       title: "Civil Contractor",
       description:
-        "Civil construction execution with skilled manpower, supervision and coordinated site work.",
+        "Complete civil construction support including masonry, plaster, flooring, structural coordination and general site execution.",
     },
-
     {
       icon: <FaLayerGroup />,
-      title: "RCC Contractor",
+      title: "Concrete RCC Contractor",
       description:
-        "RCC structural work including footing, columns, beams, slabs and staircase execution.",
+        "RCC and concrete work including footing, columns, beams, slabs, staircase, shuttering and reinforcement execution.",
     },
-
     {
       icon: <FaTools />,
-      title: "Labour Contractor",
+      title: "Painting Contractor",
       description:
-        "Skilled and semi-skilled construction manpower for different stages of your project.",
+        "Interior and exterior painting, wall preparation, putty, primer, texture and finishing work for residential and commercial projects.",
     },
-
+    {
+      icon: <FaCogs />,
+      title: "Electrical Contractor",
+      description:
+        "Electrical wiring, conduit, switchboard, lighting, DB installation and electrical execution according to approved drawings.",
+    },
     {
       icon: <FaWrench />,
-      title: "Renovation Contractor",
+      title: "Plumbing Contractor",
       description:
-        "Repair, renovation, remodeling and improvement work for existing homes and buildings.",
+        "Water supply, drainage, sanitary, bathroom and plumbing pipeline installation with coordinated site execution.",
     },
-
+    {
+      icon: <FaBuilding />,
+      title: "Tiles Contractor",
+      description:
+        "Floor and wall tile installation for rooms, kitchens, bathrooms, balconies and other project areas with proper finishing.",
+    },
     {
       icon: <FaHome />,
-      title: "Residential Contractor",
+      title: "Carpenter Contractor",
       description:
-        "Construction support for independent houses, duplex homes, villas and residential buildings.",
+        "Carpentry support for doors, windows, wardrobes, modular work, furniture, shuttering and other woodwork requirements.",
     },
   ];
+
+  const contractorTypeCards = [
+    
+    { title: "Civil Contractor", slug: "civil-contractor", image: "/civil-contractor.webp" },
+    { title: "Concrete RCC Contractor", slug: "concrete-rcc-contractor", image: "/concrete-rcc.webp" },
+    { title: "Plumbing Contractor", slug: "plumbing-contractor", image: "/plumbing-contract.webp" },
+    { title: "Electrical Contractor", slug: "electrical-contractor", image: "/elctrical-concrate.webp" },
+    { title: "Painting Contractor", slug: "painting-contractor", image: "/painting-contract.webp" },
+    { title: "Tiles Contractor", slug: "tiles-contractor", image: "/tiles-contractor.webp" },
+    { title: "Carpenter Contractor", slug: "carpenter-contractor", image: "/carpanter-contractor.webp" },
+  ];
+
+  const filteredContractorTypes = contractorTypeCards.filter((contractorType) =>
+    contractorType.title.toLowerCase().includes(contractorTypeSearch.toLowerCase().trim())
+  );
 
   /* =========================================================
      PROJECT TYPES
@@ -314,21 +331,19 @@ const Contractor = () => {
   ========================================================= */
 
   const scopeItems = [
+    "Civil construction work",
     "Site preparation & layout",
     "Excavation work",
     "Footing & foundation work",
-    "RCC column work",
-    "Plinth beam work",
-    "Brick masonry",
-    "Lintel & chajja work",
-    "Roof slab work",
-    "Internal plaster",
-    "External plaster",
-    "Flooring support",
-    "Electrical coordination",
-    "Plumbing coordination",
-    "Painting support",
-    "Finishing work",
+    "Concrete RCC work",
+    "RCC column, beam & slab work",
+    "Brick masonry & plaster",
+    "Painting work",
+    "Electrical work",
+    "Plumbing work",
+    "Tiles installation work",
+    "Carpentry work",
+    "Flooring & finishing work",
     "Site supervision",
   ];
 
@@ -339,24 +354,24 @@ const Contractor = () => {
   ========================================================= */
 
   const contractors = [
-    { id: 1, name: "Rahul Kumar", mobile: "9876543210", email: "rahul.contractor@example.com", city: "Patna", state: "Bihar", profession: "Civil Contractor", experience: "12 Years", projects: 48, rating: 4.8, verified: true, services: ["Civil Work", "RCC Work", "Brick Work", "Plaster"], description: "Experienced civil contractor handling residential construction, RCC execution and complete site coordination." },
-    { id: 2, name: "Amit Sharma", mobile: "9876501234", email: "amit.builder@example.com", city: "Noida", state: "Uttar Pradesh", profession: "Building Contractor", experience: "10 Years", projects: 36, rating: 4.7, verified: true, services: ["House Construction", "Duplex", "Renovation"], description: "Building contractor focused on independent houses, duplex projects and residential construction execution." },
-    { id: 3, name: "Sanjay Verma", mobile: "9123456780", email: "sanjay.rcc@example.com", city: "Ranchi", state: "Jharkhand", profession: "RCC Contractor", experience: "14 Years", projects: 57, rating: 4.9, verified: true, services: ["Footing", "Column", "Beam", "Slab"], description: "Specialist RCC contractor for footing, columns, beams, slabs, staircases and structural execution." },
-    { id: 4, name: "Mohd. Arif", mobile: "9988776655", email: "arif.construction@example.com", city: "Lucknow", state: "Uttar Pradesh", profession: "Civil Contractor", experience: "9 Years", projects: 31, rating: 4.6, verified: false, services: ["Masonry", "Plaster", "Flooring", "Finishing"], description: "Civil contractor providing masonry, plaster, flooring and finishing support for residential projects." },
-    { id: 5, name: "Vikash Singh", mobile: "9012345678", email: "vikash.renovation@example.com", city: "Patna", state: "Bihar", profession: "Renovation Contractor", experience: "8 Years", projects: 29, rating: 4.5, verified: true, services: ["Renovation", "Remodeling", "Repair", "Finishing"], description: "Renovation specialist for old houses, remodeling, repair work and complete finishing upgrades." },
-    { id: 6, name: "Deepak Yadav", mobile: "9090909090", email: "deepak.labour@example.com", city: "Gurugram", state: "Haryana", profession: "Labour Contractor", experience: "11 Years", projects: 42, rating: 4.7, verified: true, services: ["Skilled Labour", "Mason", "Carpenter", "Helper"], description: "Labour contractor providing skilled and semi-skilled manpower for different construction stages." },
-    { id: 7, name: "Manish Gupta", mobile: "9876123450", email: "manish.builder@example.com", city: "Delhi", state: "Delhi", profession: "Building Contractor", experience: "15 Years", projects: 64, rating: 4.9, verified: true, services: ["Residential", "Commercial", "Turnkey Support"], description: "Senior building contractor experienced in residential and commercial project execution and coordination." },
-    { id: 8, name: "Rakesh Prasad", mobile: "9334455667", email: "rakesh.civil@example.com", city: "Gaya", state: "Bihar", profession: "Civil Contractor", experience: "7 Years", projects: 24, rating: 4.4, verified: false, services: ["Foundation", "Brick Work", "Plaster", "Flooring"], description: "Civil contractor supporting foundation, masonry, plaster and flooring work for house construction." },
-    { id: 9, name: "Neeraj Thakur", mobile: "9811122233", email: "neeraj.rcc@example.com", city: "Faridabad", state: "Haryana", profession: "RCC Contractor", experience: "13 Years", projects: 51, rating: 4.8, verified: true, services: ["RCC", "Shuttering", "Reinforcement", "Slab Casting"], description: "RCC specialist with experience in shuttering, steel reinforcement and slab casting works." },
+    { id: 1, name: "Tuktuk kumar", mobile: "7250631443", city: "Patna", state: "Bihar", profession: "Civil Contractor",  projects: 48, rating: 4.8, verified: true, services: ["Civil Work", "RCC Work", "Brick Work", "Plaster"], description: "Experienced civil contractor handling residential construction, RCC execution and complete site coordination." },
+    { id: 2, name: "Sushil kumar", mobile: "9566258439", city: "Sitamarhi", state: "Bihar", profession: "Civil contractor",  projects: 36, rating: 4.7, verified: true, services: ["House Construction", "Duplex", "Renovation"], description: "Building contractor focused on independent houses, duplex projects and residential construction execution." },
+    { id: 3, name: "Vijay Singh", mobile: "9852281676",  city: "", state: "Civil contractor", profession: "RCC Contractor",  projects: 57, rating: 4.9, verified: true, services: ["Footing", "Column", "Beam", "Slab"], description: "Specialist RCC contractor for footing, columns, beams, slabs, staircases and structural execution." },
+    { id: 4, name: "Ramesh Kumar", mobile: "9113357162",   city: "Patna", state: "Bihar", profession: "Civil contractor", projects: 31, rating: 4.6, verified: false, services: ["Masonry", "Plaster", "Flooring", "Finishing"], description: "Civil contractor providing masonry, plaster, flooring and finishing support for residential projects." },
+    { id: 5, name: "Ramesh Kumar", mobile: "9113357162",  city: "Patna", state: "Bihar", profession: "Civil contractor", projects: 29, rating: 4.5, verified: true, services: ["Renovation", "Remodeling", "Repair", "Finishing"], description: "Renovation specialist for old houses, remodeling, repair work and complete finishing upgrades." },
+    { id: 6, name: "Mantu Kumar", mobile: "8340568080", city: "", state: "	Bihar", profession: "Civil contractor",  projects: 42, rating: 4.7, verified: true, services: ["Skilled Labour", "Mason", "Carpenter", "Helper"], description: "Labour contractor providing skilled and semi-skilled manpower for different construction stages." },
+    { id: 7, name: "Veerendra Kumar", mobile: "725015446",  city: "Patna", state: "Bihar", profession: "Civil contractor",  projects: 64, rating: 4.9, verified: true, services: ["Residential", "Commercial", "Turnkey Support"], description: "Senior building contractor experienced in residential and commercial project execution and coordination." },
   ];
 
   const contractorCategories = [
     "All",
     "Civil Contractor",
-    "Building Contractor",
-    "RCC Contractor",
-    "Renovation Contractor",
-    "Labour Contractor",
+    "Concrete RCC Contractor",
+    "Painting Contractor",
+    "Electrical Contractor",
+    "Plumbing Contractor",
+    "Tiles Contractor",
+    "Carpenter Contractor",
   ];
 
   const filteredContractors = contractors.filter((contractor) => {
@@ -368,7 +383,11 @@ const Contractor = () => {
       contractor.state.toLowerCase().includes(search) ||
       contractor.profession.toLowerCase().includes(search) ||
       contractor.services.some((service) => service.toLowerCase().includes(search));
-    const matchesFilter = contractorFilter === "All" || contractor.profession === contractorFilter;
+    const matchesFilter =
+      contractorFilter === "All" ||
+      contractor.profession.toLowerCase() === contractorFilter.toLowerCase() ||
+      (contractorFilter === "Concrete RCC Contractor" &&
+        contractor.profession.toLowerCase() === "rcc contractor");
     return matchesSearch && matchesFilter;
   });
 
@@ -394,193 +413,7 @@ const Contractor = () => {
             HERO SECTION
         ===================================================== */}
 
-        <section className="relative min-h-[80vh] overflow-hidden bg-gray-950">
-
-          {/* BACKGROUND IMAGE */}
-
-          <div
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style={{
-              backgroundImage:
-                "url('/contractor-background.webp')",
-            }}
-          />
-
-          {/* OVERLAY */}
-
-          <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/75 to-black/45" />
-
-          {/* DECORATION */}
-
-          <div className="absolute -right-40 -top-40 h-[500px] w-[500px] rounded-full bg-red-600/10 blur-3xl" />
-
-          {/* CONTENT */}
-
-          <div className="relative z-10 mx-auto flex min-h-[80vh] max-w-7xl items-center px-4 py-16 sm:px-6 lg:px-8">
-
-            <div className="grid w-full items-center gap-12 lg:grid-cols-[1.15fr_0.85fr]">
-
-              {/* LEFT HERO */}
-
-              <div>
-
-                <div className="inline-flex items-center gap-2 rounded-full border border-red-500/30 bg-red-500/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-red-400">
-
-                  <FaHardHat />
-
-                  Contractor Services
-
-                </div>
-
-                <h1 className="mt-5 max-w-3xl text-4xl font-black leading-tight text-white sm:text-5xl lg:text-6xl">
-
-                  Reliable Contractor
-
-                  <span className="block text-red-500">
-                    For Your Construction Project
-                  </span>
-
-                </h1>
-
-                <p className="mt-6 max-w-2xl text-base leading-8 text-gray-300 sm:text-lg">
-
-                  Professional contractor support for residential,
-                  structural, RCC, renovation and building construction
-                  projects with planned execution and skilled manpower.
-
-                </p>
-
-                {/* QUICK FEATURES */}
-
-                <div className="mt-7 grid max-w-2xl gap-3 sm:grid-cols-2">
-
-                  {[
-                    "Residential Construction",
-                    "RCC & Structural Work",
-                    "Skilled Contractor Team",
-                    "Project Execution Support",
-                  ].map((item) => (
-
-                    <div
-                      key={item}
-                      className="flex items-center gap-2 text-sm font-medium text-gray-200"
-                    >
-
-                      <FaCheckCircle className="shrink-0 text-red-500" />
-
-                      {item}
-
-                    </div>
-
-                  ))}
-
-                </div>
-
-                {/* HERO BUTTONS */}
-
-                <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-
-                  <button
-                    type="button"
-                    onClick={openLeadForm}
-                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-red-600 px-6 py-3.5 text-sm font-bold text-white shadow-lg transition hover:bg-red-700"
-                  >
-
-                    Get Contractor Consultation
-
-                    <FaArrowRight />
-
-                  </button>
-
-                  <a
-                    href="tel:+919835852462"
-                    className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/30 bg-white/10 px-6 py-3.5 text-sm font-bold text-white backdrop-blur transition hover:bg-white/20"
-                  >
-
-                    <FaPhoneAlt />
-
-                    Call Now
-
-                  </a>
-
-                </div>
-
-              </div>
-
-              {/* RIGHT HERO CARD */}
-
-              <div className="hidden lg:block">
-
-                <div className="rounded-3xl border border-white/10 bg-white/10 p-7 text-white shadow-2xl backdrop-blur-md">
-
-                  <div className="flex items-center gap-3">
-
-                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-red-600">
-                      <FaClipboardCheck size={20} />
-                    </div>
-
-                    <div>
-
-                      <p className="text-xs uppercase tracking-wider text-gray-400">
-                        Project Support
-                      </p>
-
-                      <h2 className="text-xl font-black">
-                        Contractor Execution
-                      </h2>
-
-                    </div>
-
-                  </div>
-
-                  <div className="mt-7 space-y-4">
-
-                    {[
-                      "Site execution planning",
-                      "Construction manpower",
-                      "RCC structural execution",
-                      "Masonry & plaster work",
-                      "Project coordination",
-                      "Finishing support",
-                    ].map((item) => (
-
-                      <div
-                        key={item}
-                        className="flex items-center gap-3 border-b border-white/10 pb-3 text-sm text-gray-200 last:border-0"
-                      >
-
-                        <FaCheckCircle className="shrink-0 text-red-500" />
-
-                        {item}
-
-                      </div>
-
-                    ))}
-
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={openLeadForm}
-                    className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-black text-gray-950 transition hover:bg-red-600 hover:text-white"
-                  >
-
-                    Discuss Your Project
-
-                    <FaArrowRight />
-
-                  </button>
-
-                </div>
-
-              </div>
-
-            </div>
-
-          </div>
-
-        </section>
-
+        
         {/* =====================================================
             QUICK TRUST STRIP
         ===================================================== */}
@@ -617,128 +450,33 @@ const Contractor = () => {
 
         </section>
 
+        {/* CONTRACTOR CATEGORIES */}
+        <section className="bg-gray-50 px-4 py-14 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-7xl">
+            <SectionTitle label="Contractor Categories" title="Choose a Contractor Type" description="Select a contractor category to view its services and related details." />
+            <div className="mx-auto mt-8 max-w-5xl">
+              <div className="relative">
+                <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+                <input type="search" value={contractorTypeSearch} onChange={(event) => setContractorTypeSearch(event.target.value)} placeholder="Search contractor type..." aria-label="Search contractor type" className="h-12 w-full rounded-xl border border-gray-300 bg-white pl-11 pr-4 text-sm outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-100" />
+              </div>
+              <div className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+                {filteredContractorTypes.map((contractorType, index) => (
+                  <button key={`${contractorType.title}-${index}`} type="button" onClick={() => navigate(`/services/contractor/${contractorType.slug}`)} className={`group overflow-hidden rounded-2xl border bg-white text-center shadow-sm transition hover:-translate-y-1 hover:border-red-500 hover:shadow-lg ${index === 0 ? "border-red-500 ring-1 ring-red-500" : "border-gray-200"}`}>
+                    <img src={contractorType.image} alt={contractorType.title} className="h-28 w-full object-cover transition duration-300 group-hover:scale-105" />
+                    <span className={`flex min-h-14 items-center justify-center px-3 py-2 text-sm font-bold ${index === 0 ? "text-red-600" : "text-gray-800 group-hover:text-red-600"}`}>{contractorType.title}</span>
+                  </button>
+                ))}
+              </div>
+              {filteredContractorTypes.length === 0 && <p className="mt-6 text-center text-sm font-semibold text-gray-500">No contractor type found.</p>}
+            </div>
+          </div>
+        </section>
+
         {/* =====================================================
             CONTRACTOR DIRECTORY
         ===================================================== */}
 
-        <section className="bg-white px-4 py-14 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-7xl">
-
-            <SectionTitle
-              label="Contractor Directory"
-              title="Find Contractors"
-              description="Browse contractor profiles and contact our team for consultation."
-            />
-
-            {/* SEARCH / FILTER */}
-            <div className="mx-auto mt-8 grid max-w-5xl gap-3 md:grid-cols-[1fr_240px]">
-              <div className="relative">
-                <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
-                <input
-                  type="text"
-                  value={contractorSearch}
-                  onChange={(event) => setContractorSearch(event.target.value)}
-                  placeholder="Search name, city or profession"
-                  className="h-11 w-full rounded-md border border-gray-300 bg-white pl-11 pr-4 text-sm outline-none transition focus:border-gray-500"
-                />
-              </div>
-
-              <select
-                value={contractorFilter}
-                onChange={(event) => setContractorFilter(event.target.value)}
-                className="h-11 rounded-md border border-gray-300 bg-white px-3 text-sm font-semibold text-gray-700 outline-none focus:border-gray-500"
-              >
-                {contractorCategories.map((category) => (
-                  <option key={category} value={category}>
-                    {category}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* EXACTLY 3 CARDS PER ROW ON DESKTOP */}
-            <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-              {filteredContractors.map((contractor) => (
-                <article
-                  key={contractor.id}
-                  className="min-h-[300px] rounded-md border border-gray-300 bg-white p-5 shadow-[0_1px_2px_rgba(0,0,0,0.03)]"
-                >
-                  <div className="grid grid-cols-[105px_minmax(0,1fr)] gap-4">
-
-                    {/* LEFT PROFILE */}
-                    <div className="flex flex-col items-center pt-1 text-center">
-                      <div className="relative">
-                        <div className="flex h-[78px] w-[78px] items-center justify-center rounded-full border border-dashed border-green-500 bg-emerald-50 p-1">
-                          <div className="flex h-full w-full items-center justify-center rounded-full bg-emerald-400 text-xl font-black text-white">
-                            {getInitials(contractor.name)}
-                          </div>
-                        </div>
-
-                        {contractor.verified && (
-                          <span className="absolute -left-2 top-0 flex h-6 w-6 items-center justify-center rounded-full bg-blue-500 text-white shadow-sm">
-                            <FaCheckCircle size={13} />
-                          </span>
-                        )}
-                      </div>
-
-                      {contractor.verified && (
-                        <p className="mt-1 text-xs font-medium text-blue-600">
-                          Verified
-                        </p>
-                      )}
-
-                      <div className="mt-1 flex justify-center gap-0.5 text-yellow-400">
-                        {Array.from({ length: Math.max(1, Math.min(5, Math.round(contractor.rating || 1))) }).map((_, index) => (
-                          <FaStar key={index} size={13} />
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* RIGHT DETAILS */}
-                    <div className="min-w-0">
-                      <ContractorLine label="Name" value={contractor.name} />
-                      <ContractorLine label="Mobile" value={contractor.mobile} />
-                      <ContractorLine label="Email" value={contractor.email} wrap />
-                      <ContractorLine label="City" value={contractor.city} />
-                      <ContractorLine label="State" value={contractor.state} />
-                      <ContractorLine label="Profession" value={contractor.profession} wrap />
-                    </div>
-                  </div>
-
-                  {/* BUTTONS LIKE REFERENCE */}
-                  <div className="mt-6 flex justify-end gap-1">
-                    <button
-                      type="button"
-                      onClick={openLeadForm}
-                      className="rounded-sm bg-gray-500 px-4 py-2 text-sm font-medium text-white transition hover:bg-gray-600"
-                    >
-                      Consult Us
-                    </button>
-
-                    {contractor.verified && (
-                      <button
-                        type="button"
-                        onClick={() => setSelectedContractor(contractor)}
-                        className="rounded-sm border border-blue-500 bg-gray-500 px-4 py-2 text-sm font-medium text-white transition hover:bg-gray-600"
-                      >
-                        See Profile
-                      </button>
-                    )}
-                  </div>
-                </article>
-              ))}
-            </div>
-
-            {filteredContractors.length === 0 && (
-              <div className="mt-8 rounded-md border border-dashed border-gray-300 bg-gray-50 p-10 text-center">
-                <FaSearch className="mx-auto text-3xl text-gray-300" />
-                <h3 className="mt-3 font-bold text-gray-800">No Contractors Found</h3>
-                <p className="mt-1 text-sm text-gray-500">Try another search or category.</p>
-              </div>
-            )}
-
-          </div>
-        </section>
+        
 
         {/* =====================================================
             CONTRACTOR SERVICES
@@ -1260,90 +998,7 @@ const Contractor = () => {
             FINAL CTA
         ===================================================== */}
 
-        <section className="px-4 py-16 sm:px-6 lg:px-8">
-
-          <div className="mx-auto max-w-7xl">
-
-            <div className="relative overflow-hidden rounded-3xl bg-red-600 px-6 py-10 text-white sm:px-10 lg:px-14 lg:py-12">
-
-              {/* DECORATION */}
-
-              <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-white/10" />
-
-              <div className="relative grid items-center gap-8 lg:grid-cols-[1fr_auto]">
-
-                <div>
-
-                  <p className="text-xs font-black uppercase tracking-[0.2em] text-red-100">
-                    Start Your Project
-                  </p>
-
-                  <h2 className="mt-3 text-2xl font-black sm:text-3xl">
-                    Need a Contractor for Your Construction?
-                  </h2>
-
-                  <p className="mt-3 max-w-2xl text-sm leading-6 text-red-100">
-
-                    Share your project details and construction
-                    requirements with our team for contractor
-                    consultation and execution planning.
-
-                  </p>
-
-                </div>
-
-                <div className="flex min-w-[220px] flex-col gap-3">
-
-                  <button
-                    type="button"
-                    onClick={openLeadForm}
-                    className="flex items-center justify-center gap-2 rounded-xl bg-white px-6 py-3.5 text-sm font-black text-red-600 transition hover:bg-gray-100"
-                  >
-
-                    Get Consultation
-
-                    <FaArrowRight />
-
-                  </button>
-
-                  <div className="grid grid-cols-2 gap-3">
-
-                    <a
-                      href="tel:+919835852462"
-                      className="flex items-center justify-center gap-2 rounded-xl border border-white/30 px-4 py-3 text-sm font-bold text-white transition hover:bg-white/10"
-                    >
-
-                      <FaPhoneAlt />
-
-                      Call
-
-                    </a>
-
-                    <a
-                      href="https://wa.me/919835852462"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="flex items-center justify-center gap-2 rounded-xl border border-white/30 px-4 py-3 text-sm font-bold text-white transition hover:bg-white/10"
-                    >
-
-                      <FaWhatsapp />
-
-                      WhatsApp
-
-                    </a>
-
-                  </div>
-
-                </div>
-
-              </div>
-
-            </div>
-
-          </div>
-
-        </section>
-
+        
       </main>
 
       {/* =========================================================
