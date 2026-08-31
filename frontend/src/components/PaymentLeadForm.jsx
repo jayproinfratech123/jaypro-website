@@ -4,7 +4,12 @@ import toast from "react-hot-toast";
 // =====================================================
 // API BASE URL
 // =====================================================
+// =====================================================
+// GOOGLE SHEET WEB APP URL
+// =====================================================
 
+const GOOGLE_SHEET_URL =
+  "https://script.google.com/macros/s/AKfycbz1Olatmq1V_az3NVXEBJRNgEvO24HjelKFXI69N2iPHExUvicHHen9J7wbBHB4OELp/exec";
 const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL ||
   "http://localhost:5000";
