@@ -73,6 +73,33 @@ const ArchitectureAds = () => {
   const [showLeadPopup, setShowLeadPopup] = useState(false);
 
   // =========================================================
+  // RESPONSIVE RENDERING
+  // Only one hero LeadForm is mounted at a time.
+  // This reduces duplicate React work on initial page load.
+  // =========================================================
+
+  const [isDesktop, setIsDesktop] = useState(() =>
+    typeof window !== "undefined"
+      ? window.matchMedia("(min-width: 1024px)").matches
+      : false
+  );
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(min-width: 1024px)");
+
+    const handleViewportChange = (event) => {
+      setIsDesktop(event.matches);
+    };
+
+    setIsDesktop(mediaQuery.matches);
+    mediaQuery.addEventListener("change", handleViewportChange);
+
+    return () => {
+      mediaQuery.removeEventListener("change", handleViewportChange);
+    };
+  }, []);
+
+  // =========================================================
   // SEO
   // =========================================================
 
@@ -152,6 +179,20 @@ const ArchitectureAds = () => {
   };
 
   // =========================================================
+  // AUTO OPEN LEAD POPUP EVERY 10 SECONDS
+  // =========================================================
+
+  useEffect(() => {
+    const popupInterval = setInterval(() => {
+      setShowLeadPopup(true);
+    }, 10000);
+
+    return () => {
+      clearInterval(popupInterval);
+    };
+  }, []);
+
+  // =========================================================
   // ESC KEY + BODY SCROLL LOCK
   // =========================================================
 
@@ -203,6 +244,45 @@ const ArchitectureAds = () => {
 
   return (
     <div className="min-h-screen bg-white text-gray-900">
+
+      {/* =====================================================
+          FORM INPUT TEXT VISIBILITY FIX
+          Only changes typed text / caret / placeholder colors.
+          No layout, content, logic, or other design is changed.
+      ===================================================== */}
+      <style>{`
+        #lead-form-mobile input,
+        #lead-form-mobile textarea,
+        #lead-form-mobile select,
+        #lead-form-desktop input,
+        #lead-form-desktop textarea,
+        #lead-form-desktop select,
+        .lead-form-popup input,
+        .lead-form-popup textarea,
+        .lead-form-popup select {
+          color: #111827 !important;
+          -webkit-text-fill-color: #111827 !important;
+          caret-color: #111827 !important;
+        }
+
+        #lead-form-mobile input::placeholder,
+        #lead-form-mobile textarea::placeholder,
+        #lead-form-desktop input::placeholder,
+        #lead-form-desktop textarea::placeholder,
+        .lead-form-popup input::placeholder,
+        .lead-form-popup textarea::placeholder {
+          color: #9ca3af !important;
+          -webkit-text-fill-color: #9ca3af !important;
+          opacity: 1 !important;
+        }
+
+        #lead-form-mobile option,
+        #lead-form-desktop option,
+        .lead-form-popup option {
+          color: #111827 !important;
+          background: #ffffff !important;
+        }
+      `}</style>
 
       {/* =====================================================
           POPUP CSS ONLY
@@ -269,18 +349,20 @@ const ArchitectureAds = () => {
   "
 >
   <img
-    src="/under-const-home.webp"
-    alt="Architecture and house construction by Jaypro Infratech"
-    className="
-      block
-      w-full
-      h-auto
-      object-contain
-    "
-    loading="eager"
-    fetchPriority="high"
-    decoding="async"
-  />
+  src="/under-const-home.webp"
+  alt="Architecture and house construction by Jaypro Infratech"
+  width="1200"
+  height="675"
+  className="
+    block
+    w-full
+    h-auto
+    object-contain
+  "
+  loading="eager"
+  fetchPriority="high"
+  decoding="async"
+/>
 </div>
 
           {/* MOBILE LEAD FORM */}
@@ -308,7 +390,7 @@ const ArchitectureAds = () => {
               "
             >
 
-              <LeadForm />
+              {!isDesktop && <LeadForm />}
 
             </div>
 
@@ -400,7 +482,7 @@ const ArchitectureAds = () => {
               "
             >
 
-              <LeadForm />
+              {isDesktop && <LeadForm />}
 
             </div>
 
@@ -505,7 +587,7 @@ const ArchitectureAds = () => {
           SERVICES
       ===================================================== */}
 
-      <section className="bg-gray-50 py-16 sm:py-20">
+      <section className="bg-gray-50 py-16 sm:py-20 [content-visibility:auto] [contain-intrinsic-size:1px_900px]">
 
         <div
           className="
@@ -666,7 +748,7 @@ const ArchitectureAds = () => {
           ARCHITECTURE PACKAGES
       ===================================================== */}
 
-      <section className="bg-white py-14 sm:py-16">
+      <section className="bg-white py-14 sm:py-16 [content-visibility:auto] [contain-intrinsic-size:1px_760px]">
         <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
 
           <div className="mx-auto max-w-3xl text-center">
@@ -808,7 +890,7 @@ const ArchitectureAds = () => {
           WHY CHOOSE US
       ===================================================== */}
 
-      <section className="bg-white py-16 sm:py-20">
+      <section className="bg-white py-16 sm:py-20 [content-visibility:auto] [contain-intrinsic-size:1px_780px]">
 
         <div
           className="
@@ -969,7 +1051,7 @@ const ArchitectureAds = () => {
           FINAL CTA
       ===================================================== */}
 
-      <section className="bg-red-900 py-14 text-white">
+      <section className="bg-red-900 py-14 text-white [content-visibility:auto] [contain-intrinsic-size:1px_360px]">
 
         <div className="mx-auto max-w-5xl px-5 text-center">
 
@@ -1216,6 +1298,8 @@ const ArchitectureAds = () => {
               <img
                 src="/happy-family-construction.webp"
                 alt="Family planning their dream home"
+                loading="lazy"
+                decoding="async"
                 className="
                   absolute inset-0
                   h-full w-full
@@ -1306,6 +1390,7 @@ const ArchitectureAds = () => {
             >
               <div
                 className="
+                  lead-form-popup
                   relative
                   m-0 w-full max-w-full p-0
                   [&>*]:mx-auto

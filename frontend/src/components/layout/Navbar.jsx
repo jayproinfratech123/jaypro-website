@@ -1,28 +1,48 @@
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import { useAuth } from "../../context/AuthContext.jsx";
 
 // ==========================================
-// NAVIGATION LINKS
+// MAIN NAVIGATION LINKS
 // ==========================================
 
 const navLinks = [
   { to: "/", label: "Home" },
   { to: "/about", label: "About" },
-
-  // Services now opens the Services.jsx page
-  { to: "/services", label: "Services" },
-
   { to: "/portfolio", label: "Portfolio" },
-  // { to: "/pricing", label: "Pricing" },
   { to: "/packages", label: "Packages" },
   { to: "/blogs", label: "Blogs" },
-  { to: "/contact", label: "Contact" },
+  { to: "/contact", label: "Contact Us" },
+];
+
+// ==========================================
+// SERVICE LINKS
+// ==========================================
+
+const serviceLinks = [
+  {
+    to: "/services/architecture",
+    label: "Architect Design",
+  },
+  {
+    to: "/services/interior",
+    label: "Interior Design",
+  },
+  {
+    to: "/services/turnkey",
+    label: "Turnkey Construction",
+  },
+  {
+    to: "/services/vastu",
+    label: "Vastu Shastra",
+  },
 ];
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
+
   const { user } = useAuth();
 
   return (
@@ -68,7 +88,90 @@ const Navbar = () => {
         ========================================== */}
 
         <div className="hidden items-center gap-6 lg:flex">
-          {navLinks.map((link) => (
+
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              `font-body text-sm font-medium transition hover:text-red-600 ${
+                isActive
+                  ? "text-red-600"
+                  : "text-blueprint-900"
+              }`
+            }
+          >
+            Home
+          </NavLink>
+
+          <NavLink
+            to="/about"
+            className={({ isActive }) =>
+              `font-body text-sm font-medium transition hover:text-red-600 ${
+                isActive
+                  ? "text-red-600"
+                  : "text-blueprint-900"
+              }`
+            }
+          >
+            About
+          </NavLink>
+
+          {/* ==========================================
+              SERVICES DROPDOWN
+          ========================================== */}
+
+          <div className="group relative">
+
+            <Link
+              to="/services"
+              className="flex items-center gap-1 font-body text-sm font-medium text-blueprint-900 transition hover:text-red-600"
+            >
+              Services
+
+              <ChevronDown
+                className="h-4 w-4 transition group-hover:rotate-180"
+                aria-hidden="true"
+              />
+            </Link>
+
+            <div
+              className="
+                invisible absolute left-0 top-full
+                min-w-[230px]
+                translate-y-2
+                rounded-xl
+                border border-black/5
+                bg-white
+                p-2
+                opacity-0
+                shadow-xl
+                transition-all
+                duration-200
+                group-hover:visible
+                group-hover:translate-y-0
+                group-hover:opacity-100
+              "
+            >
+
+              {serviceLinks.map((service) => (
+                <NavLink
+                  key={service.to}
+                  to={service.to}
+                  className={({ isActive }) =>
+                    `block rounded-lg px-4 py-3 text-sm font-medium transition hover:bg-red-50 hover:text-red-600 ${
+                      isActive
+                        ? "bg-red-50 text-red-600"
+                        : "text-blueprint-900"
+                    }`
+                  }
+                >
+                  {service.label}
+                </NavLink>
+              ))}
+
+            </div>
+          </div>
+
+          {navLinks.slice(2).map((link) => (
             <NavLink
               key={link.to}
               to={link.to}
@@ -152,13 +255,87 @@ const Navbar = () => {
         >
           <div className="container-xl flex flex-col gap-4 py-6">
 
-            {navLinks.map((link) => (
+            <NavLink
+              to="/"
+              onClick={() => setOpen(false)}
+              className={({ isActive }) =>
+                `font-medium transition hover:text-red-600 ${
+                  isActive
+                    ? "text-red-600"
+                    : "text-blueprint-900"
+                }`
+              }
+            >
+              Home
+            </NavLink>
+
+            <NavLink
+              to="/about"
+              onClick={() => setOpen(false)}
+              className={({ isActive }) =>
+                `font-medium transition hover:text-red-600 ${
+                  isActive
+                    ? "text-red-600"
+                    : "text-blueprint-900"
+                }`
+              }
+            >
+              About
+            </NavLink>
+
+            {/* MOBILE SERVICES */}
+
+            <button
+              type="button"
+              onClick={() =>
+                setServicesOpen(!servicesOpen)
+              }
+              className="flex items-center justify-between font-medium text-blueprint-900"
+            >
+              Services
+
+              <ChevronDown
+                className={`h-4 w-4 transition ${
+                  servicesOpen
+                    ? "rotate-180"
+                    : ""
+                }`}
+              />
+            </button>
+
+            {servicesOpen && (
+              <div className="ml-4 flex flex-col gap-3 border-l border-black/10 pl-4">
+
+                {serviceLinks.map((service) => (
+                  <NavLink
+                    key={service.to}
+                    to={service.to}
+                    onClick={() => {
+                      setOpen(false);
+                      setServicesOpen(false);
+                    }}
+                    className={({ isActive }) =>
+                      `text-sm font-medium transition hover:text-red-600 ${
+                        isActive
+                          ? "text-red-600"
+                          : "text-blueprint-900"
+                      }`
+                    }
+                  >
+                    {service.label}
+                  </NavLink>
+                ))}
+
+              </div>
+            )}
+
+            {navLinks.slice(2).map((link) => (
               <NavLink
                 key={link.to}
                 to={link.to}
                 onClick={() => setOpen(false)}
                 className={({ isActive }) =>
-                  `cursor-pointer font-medium transition hover:text-red-600 ${
+                  `font-medium transition hover:text-red-600 ${
                     isActive
                       ? "text-red-600"
                       : "text-blueprint-900"
@@ -174,6 +351,7 @@ const Navbar = () => {
             ========================================== */}
 
             <div className="mt-2 flex flex-col gap-3">
+
               {user ? (
                 <Link
                   to={
@@ -195,6 +373,7 @@ const Navbar = () => {
                   Login
                 </Link>
               )}
+
             </div>
           </div>
         </div>

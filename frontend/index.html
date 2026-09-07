@@ -6,30 +6,6 @@
          GOOGLE ANALYTICS + GOOGLE ADS
     ========================================================== -->
 
-    <!-- Load Google tag ONCE -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6NE9TGMM9V"></script>
-
-    <script>
-      window.dataLayer = window.dataLayer || [];
-
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-
-      gtag('js', new Date());
-
-      // Google Analytics
-      gtag('config', 'G-6NE9TGMM9V');
-
-      // Google Ads
-      gtag('config', 'AW-16727556351');
-    </script>
-
-
-    <!-- =========================================================
-         NEW GOOGLE ADS TAG - AW-18424391890
-    ========================================================== -->
-
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18424391890"></script>
     <script>
@@ -37,7 +13,11 @@
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
 
+      // Google Ads
       gtag('config', 'AW-18424391890');
+
+      // Google Analytics
+      gtag('config', 'G-6NE9TGMM9V');
     </script>
 
 
@@ -47,16 +27,15 @@
 
     <script>
       function gtag_report_conversion(url) {
-
         var callback = function () {
-          if (typeof url !== 'undefined') {
+          if (typeof url !== "undefined") {
             window.location = url;
           }
         };
 
-        gtag('event', 'conversion', {
-          'send_to': 'AW-16727556351/MoEwCPnzhsEbEP-Bqag-',
-          'event_callback': callback
+        gtag("event", "conversion", {
+          send_to: "AW-16727556351/MoEwCPnzhsEbEP-Bqag-",
+          event_callback: callback,
         });
 
         return false;
@@ -64,12 +43,11 @@
     </script>
 
 
-    <meta charset="UTF-8" />
-
-
     <!-- =========================================================
-         BASIC / TECHNICAL SEO
+         BASIC
     ========================================================== -->
+
+    <meta charset="UTF-8" />
 
     <meta
       name="viewport"
@@ -98,6 +76,30 @@
 
 
     <!-- =========================================================
+         LANDING PAGE HERO IMAGE PRELOAD
+         PERFORMANCE / LCP OPTIMIZATION
+    ========================================================== -->
+
+    <!-- Mobile / Tablet -->
+    <link
+      rel="preload"
+      as="image"
+      href="/under-const-home.webp"
+      media="(max-width: 1023px)"
+      fetchpriority="high"
+    />
+
+    <!-- Desktop -->
+    <link
+      rel="preload"
+      as="image"
+      href="/under-construction-home.webp"
+      media="(min-width: 1024px)"
+      fetchpriority="high"
+    />
+
+
+    <!-- =========================================================
          PRIMARY SEO
     ========================================================== -->
 
@@ -116,11 +118,13 @@
     />
 
 
-    <!-- Canonical -->
+    <!-- =========================================================
+         CANONICAL
+    ========================================================== -->
 
     <link
       rel="canonical"
-      href="https://jayproinfratech.com/"
+      href="https://www.jayproinfratech.com/"
     />
 
 
@@ -147,7 +151,7 @@
 
 
     <!-- =========================================================
-         OPEN GRAPH - FACEBOOK / WHATSAPP / SOCIAL SHARING
+         OPEN GRAPH
     ========================================================== -->
 
     <meta
@@ -172,7 +176,7 @@
 
     <meta
       property="og:url"
-      content="https://jayproinfratech.com/"
+      content="https://www.jayproinfratech.com/"
     />
 
     <meta
@@ -182,7 +186,7 @@
 
     <meta
       property="og:image"
-      content="https://jayproinfratech.com/logo.png"
+      content="https://www.jayproinfratech.com/logo.png"
     />
 
     <meta
@@ -217,7 +221,7 @@
 
     <meta
       name="twitter:image"
-      content="https://jayproinfratech.com/logo.png"
+      content="https://www.jayproinfratech.com/logo.png"
     />
 
     <meta
@@ -290,13 +294,13 @@
       {
         "@context": "https://schema.org",
         "@type": "Organization",
-        "@id": "https://jayproinfratech.com/#organization",
+        "@id": "https://www.jayproinfratech.com/#organization",
         "name": "Jaypro Infratech Pvt Ltd",
         "alternateName": "Jaypro Infratech",
-        "url": "https://jayproinfratech.com/",
+        "url": "https://www.jayproinfratech.com/",
         "logo": {
           "@type": "ImageObject",
-          "url": "https://jayproinfratech.com/logo.png"
+          "url": "https://www.jayproinfratech.com/logo.png"
         },
         "description": "Jaypro Infratech provides house construction, architecture, interior design, building design and residential construction services.",
         "brand": {
@@ -315,11 +319,11 @@
       {
         "@context": "https://schema.org",
         "@type": "HomeAndConstructionBusiness",
-        "@id": "https://jayproinfratech.com/#business",
+        "@id": "https://www.jayproinfratech.com/#business",
         "name": "Jaypro Infratech Pvt Ltd",
-        "url": "https://jayproinfratech.com/",
-        "logo": "https://jayproinfratech.com/logo.png",
-        "image": "https://jayproinfratech.com/logo.png",
+        "url": "https://www.jayproinfratech.com/",
+        "logo": "https://www.jayproinfratech.com/logo.png",
+        "image": "https://www.jayproinfratech.com/logo.png",
         "description": "Jaypro Infratech provides house construction, architecture, interior design, building design, floor plans and 3D elevation services.",
         "priceRange": "₹₹",
         "telephone": "+91-9835852462",
@@ -362,12 +366,12 @@
       {
         "@context": "https://schema.org",
         "@type": "WebSite",
-        "@id": "https://jayproinfratech.com/#website",
-        "url": "https://jayproinfratech.com/",
+        "@id": "https://www.jayproinfratech.com/#website",
+        "url": "https://www.jayproinfratech.com/",
         "name": "Jaypro Infratech",
         "description": "House construction, architecture and interior design services.",
         "publisher": {
-          "@id": "https://jayproinfratech.com/#organization"
+          "@id": "https://www.jayproinfratech.com/#organization"
         },
         "inLanguage": "en-IN"
       }
@@ -472,8 +476,6 @@
 
 
   <body class="font-body bg-concrete-50 text-charcoal">
-
-    <!-- React Application -->
 
     <div id="root"></div>
 

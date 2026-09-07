@@ -340,7 +340,7 @@ const Vastu = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [showLeadForm, setShowLeadForm] = useState(false);
+  const [showLeadForm, setShowLeadForm] = useState(true);
 
   const initialForm = {
     length: "",

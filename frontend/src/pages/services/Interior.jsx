@@ -30,7 +30,7 @@ const Interior = () => {
   // LEAD FORM POPUP
   // =====================================================
 
-  const [showLeadForm, setShowLeadForm] = useState(false);
+  const [showLeadForm, setShowLeadForm] = useState(true);
 
   // =====================================================
   // SERVICE NAME

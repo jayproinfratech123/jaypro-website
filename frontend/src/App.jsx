@@ -11,7 +11,7 @@ import {
 // ==========================================
 // PROJECT / DETAIL PAGES
 // ==========================================
-
+import ConstructionAds from "./pages/ConstructionAds";
 import TurnkeyProjectDetails from "./pages/services/TurnkeyProjectDetails.jsx";
 import InteriorDetails from "./pages/InteriorDetails.jsx";
 import FrontElevationDetails from "./pages/FrontElevationDetails";
@@ -252,6 +252,7 @@ function App() {
       ========================================== */}
 
       <main className="min-h-screen pb-24">
+
         <Routes>
 
           {/* ==========================================
@@ -283,10 +284,6 @@ function App() {
 
           {/* ==========================================
               ENGINEER SITE VISIT
-
-              IMPORTANT:
-              This route must stay OUTSIDE
-              /services/architecture
           ========================================== */}
 
           <Route
@@ -295,12 +292,21 @@ function App() {
           />
 
           {/* ==========================================
-              ARCHITECTURE ADS
+              ARCHITECTURE GOOGLE ADS
           ========================================== */}
 
           <Route
             path="/architecture-design"
             element={<ArchitectureAds />}
+          />
+
+          {/* ==========================================
+              CONSTRUCTION GOOGLE ADS
+          ========================================== */}
+
+          <Route
+            path="/construction-comp"
+            element={<ConstructionAds />}
           />
 
           {/* ==========================================
@@ -446,11 +452,7 @@ function App() {
           />
 
           {/* =====================================================
-              ARCHITECTURE
-
-              IMPORTANT:
-              Only Architecture child pages should
-              stay inside this parent route.
+              ARCHITECTURE SERVICE
           ===================================================== */}
 
           <Route
@@ -458,54 +460,42 @@ function App() {
             element={<Architecture />}
           >
 
-            {/* ==========================================
-                2D FLOOR PLAN
-            ========================================== */}
+            {/* 2D FLOOR PLAN */}
 
             <Route
               path="2d-floor-plan"
               element={<TwoDFloorPlan />}
             />
 
-            {/* ==========================================
-                3D EXTERIOR DESIGN
-            ========================================== */}
+            {/* 3D EXTERIOR DESIGN */}
 
             <Route
               path="3d-exterior-design"
               element={<ThreeDExteriorDesign />}
             />
 
-            {/* ==========================================
-                STRUCTURAL DESIGN
-            ========================================== */}
+            {/* STRUCTURAL DESIGN */}
 
             <Route
               path="structural-design"
               element={<StructuralDesign />}
             />
 
-            {/* ==========================================
-                INTERIOR DESIGN MAIN PAGE
-            ========================================== */}
+            {/* INTERIOR DESIGN */}
 
             <Route
               path="interior-design"
               element={<Interior />}
             />
 
-            {/* ==========================================
-                INTERIOR DESIGN DETAILS
-            ========================================== */}
+            {/* INTERIOR DETAILS */}
 
             <Route
               path="interior-design/:slug"
               element={<InteriorDetails />}
             />
 
-            {/* ==========================================
-                VASTU
-            ========================================== */}
+            {/* VASTU */}
 
             <Route
               path="vastu-planning"
@@ -673,6 +663,7 @@ function App() {
           />
 
         </Routes>
+
       </main>
 
       {/* ==========================================
@@ -692,6 +683,7 @@ function App() {
       ========================================== */}
 
       <WhatsAppButton />
+
     </>
   );
 }

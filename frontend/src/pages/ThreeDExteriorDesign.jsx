@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import {
   ArrowRight,
@@ -7,8 +7,26 @@ import {
   Eye,
 } from "lucide-react";
 
+import LeadForm from "../components/LeadForm";
+
 const ThreeDExteriorDesign = () => {
   const navigate = useNavigate();
+  const [showLeadForm, setShowLeadForm] = useState(false);
+
+  // =========================================================
+  // OPEN LEAD FORM WHEN PAGE LOADS
+  // =========================================================
+  useEffect(() => {
+    setShowLeadForm(true);
+  }, []);
+
+  const closeLeadForm = () => {
+    setShowLeadForm(false);
+  };
+
+  const handleLeadSuccess = () => {
+    setShowLeadForm(false);
+  };
 
   // =========================================================
   // PROJECT DATA
@@ -227,6 +245,42 @@ const ThreeDExteriorDesign = () => {
 
   return (
     <div className="min-h-screen bg-white text-gray-900">
+
+      {/* =====================================================
+          PAGE LOAD LEAD FORM POPUP
+      ===================================================== */}
+
+      {showLeadForm && (
+        <div
+          className="
+            fixed
+            inset-0
+            z-[99999]
+            flex
+            items-center
+            justify-center
+            overflow-y-auto
+            bg-black/70
+            px-4
+            py-5
+            backdrop-blur-sm
+          "
+          role="dialog"
+          aria-modal="true"
+          aria-label="Lead form"
+          onClick={closeLeadForm}
+        >
+          <div
+            className="relative my-auto w-full max-w-[400px]"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <LeadForm
+              onSuccess={handleLeadSuccess}
+              onClose={closeLeadForm}
+            />
+          </div>
+        </div>
+      )}
 
       {/* =====================================================
           HERO

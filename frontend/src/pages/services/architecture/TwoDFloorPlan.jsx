@@ -424,7 +424,7 @@ const TwoDFloorPlan = () => {
                 <div>
 
                   <h2 className="text-lg font-extrabold text-gray-900">
-                    Find Your Layout
+                    Enter Your Plot Size
                   </h2>
 
                   <p className="text-xs text-gray-500">
@@ -444,22 +444,7 @@ const TwoDFloorPlan = () => {
               onClick={() =>
                 setShowMobileFilters(!showMobileFilters)
               }
-              className="
-                inline-flex
-                items-center
-                justify-center
-                gap-2
-                rounded-xl
-                border
-                border-gray-200
-                bg-gray-50
-                px-4
-                py-3
-                text-sm
-                font-bold
-                text-gray-800
-                lg:hidden
-              "
+              className="hidden"
             >
               <FaFilter size={13} />
 
@@ -492,14 +477,14 @@ const TwoDFloorPlan = () => {
           {/* FILTER CONTROLS */}
 
           <div
-            className={`
-              ${
-                showMobileFilters
-                  ? "mt-6 block"
-                  : "mt-6 hidden"
-              }
-              lg:block
-            `}
+            className="
+              mt-6
+              block
+              lg:grid
+              lg:grid-cols-[minmax(0,1fr)_auto]
+              lg:items-end
+              lg:gap-4
+            "
           >
 
             <div
@@ -507,8 +492,8 @@ const TwoDFloorPlan = () => {
                 grid
                 gap-4
                 sm:grid-cols-2
-                lg:grid-cols-3
-                xl:grid-cols-6
+                lg:grid-cols-2
+                lg:gap-4
               "
             >
 
@@ -626,141 +611,13 @@ const TwoDFloorPlan = () => {
 
               {/* AREA */}
 
-              <SelectBox
-                label="Built-up Area"
-                value={area}
-                onChange={setArea}
-              >
-
-                <option value="">
-                  All Areas
-                </option>
-
-                <option value="900sqft – 1400sqft">
-                  900 – 1400 sqft
-                </option>
-
-                <option value="1000sqft – 1500sqft">
-                  1000 – 1500 sqft
-                </option>
-
-                <option value="1200sqft – 1700sqft">
-                  1200 – 1700 sqft
-                </option>
-
-                <option value="1500sqft – 2000sqft">
-                  1500 – 2000 sqft
-                </option>
-
-                <option value="1600sqft – 2200sqft">
-                  1600 – 2200 sqft
-                </option>
-
-                <option value="1800sqft – 2400sqft">
-                  1800 – 2400 sqft
-                </option>
-
-                <option value="2000sqft – 2600sqft">
-                  2000 – 2600 sqft
-                </option>
-
-                <option value="2400sqft – 3200sqft">
-                  2400 – 3200 sqft
-                </option>
-
-              </SelectBox>
-
-
-              {/* FACING */}
-
-              <SelectBox
-                label="Plot Facing"
-                value={facing}
-                onChange={setFacing}
-              >
-
-                <option value="">
-                  All Directions
-                </option>
-
-                <option value="East Facing Plan">
-                  East
-                </option>
-
-                <option value="West Facing Plan">
-                  West
-                </option>
-
-                <option value="North Facing Plan">
-                  North
-                </option>
-
-                <option value="South Facing Plan">
-                  South
-                </option>
-
-              </SelectBox>
-
-
-              {/* DESIGN TYPE */}
-
-              <SelectBox
-                label="Property Type"
-                value={designType}
-                onChange={setDesignType}
-              >
-
-                <option value="">
-                  All Properties
-                </option>
-
-                <option value="Building Design">
-                  House / Building
-                </option>
-
-                <option value="Apartment Design">
-                  Apartment
-                </option>
-
-              </SelectBox>
-
-
-              {/* FLOORS */}
-
-              <SelectBox
-                label="Number of Floors"
-                value={floors}
-                onChange={setFloors}
-              >
-
-                <option value="">
-                  Any Floors
-                </option>
-
-                <option value="1">
-                  G
-                </option>
-
-                <option value="2">
-                  G+1
-                </option>
-
-                <option value="3">
-                  G+2
-                </option>
-
-                <option value="4">
-                  G+3
-                </option>
-
-              </SelectBox>
-
-            </div>
+              
+</div>
 
 
             {/* ACTIONS */}
 
-            <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:justify-end">
+            <div className="mt-5 grid grid-cols-2 gap-3 sm:flex sm:flex-row sm:justify-end lg:mt-0">
 
               <button
                 type="button"
@@ -774,9 +631,11 @@ const TwoDFloorPlan = () => {
                   border
                   border-gray-200
                   bg-white
+                  w-full
                   px-6
                   py-3
                   text-sm
+                  sm:w-auto
                   font-bold
                   text-gray-700
                   transition
@@ -797,9 +656,11 @@ const TwoDFloorPlan = () => {
                   gap-2
                   rounded-xl
                   bg-red-600
+                  w-full
                   px-7
                   py-3
                   text-sm
+                  sm:w-auto
                   font-bold
                   text-white
                   shadow-lg
@@ -809,129 +670,8 @@ const TwoDFloorPlan = () => {
                 "
               >
                 <FaSearch size={13} />
-                Find Floor Plans
+                Search Your Floor Plan
               </button>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </section>
-
-
-      {/* =====================================================
-          INTRO / RESULTS HEADER
-      ===================================================== */}
-
-      <section className="px-5 pb-8 pt-14 sm:px-8 sm:pt-16">
-
-        <div className="mx-auto max-w-7xl">
-
-          <div
-            className="
-              flex
-              flex-col
-              gap-5
-              md:flex-row
-              md:items-end
-              md:justify-between
-            "
-          >
-
-            <div className="max-w-3xl">
-
-              <p
-                className="
-                  text-xs
-                  font-black
-                  uppercase
-                  tracking-[0.2em]
-                  text-red-600
-                "
-              >
-                Design Collection
-              </p>
-
-              <h2
-                className="
-                  mt-3
-                  text-3xl
-                  font-black
-                  tracking-tight
-                  text-gray-900
-                  sm:text-4xl
-                "
-              >
-                Explore layouts made for
-                <span className="text-red-600">
-                  {" "}real homes.
-                </span>
-              </h2>
-
-              <p
-                className="
-                  mt-4
-                  max-w-2xl
-                  text-sm
-                  leading-7
-                  text-gray-600
-                  sm:text-base
-                "
-              >
-                Compare different plot configurations,
-                directions and floor arrangements to find a
-                layout that matches the way you want to live.
-              </p>
-
-            </div>
-
-
-            {/* RESULT COUNT */}
-
-            <div
-              className="
-                flex
-                shrink-0
-                items-center
-                gap-3
-                rounded-2xl
-                border
-                border-gray-200
-                bg-white
-                px-5
-                py-4
-                shadow-sm
-              "
-            >
-
-              <div
-                className="
-                  flex
-                  h-10
-                  w-10
-                  items-center
-                  justify-center
-                  rounded-xl
-                  bg-red-50
-                  text-red-600
-                "
-              >
-                <FaBuilding size={16} />
-              </div>
-
-              <div>
-
-                <p className="text-xl font-black text-gray-900">
-                  {filteredPlans.length}
-                </p>
-
-                <p className="text-xs text-gray-500">
-                  Plans Available
-                </p>
-
-              </div>
 
             </div>
 
