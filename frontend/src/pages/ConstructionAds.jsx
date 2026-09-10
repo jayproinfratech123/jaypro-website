@@ -94,8 +94,8 @@ const ConstructionAds = () => {
   // PHONE / WHATSAPP
   // ==========================================
 
-  const phoneNumber = "919999999999";
-  const callNumber = "+919999999999";
+  const phoneNumber = "919835852462";
+  const callNumber = "+919835852462";
 
   const whatsappMessage =
     "Hello Jaypro Infratech, I am interested in house construction services.";

@@ -179,16 +179,18 @@ const ArchitectureAds = () => {
   };
 
   // =========================================================
-  // AUTO OPEN LEAD POPUP EVERY 10 SECONDS
+  // AUTO OPEN LEAD POPUP ONCE AFTER 20 SECONDS
   // =========================================================
 
   useEffect(() => {
-    const popupInterval = setInterval(() => {
+    // Open only once instead of repeatedly every 10 seconds.
+    // This avoids unnecessary React updates while keeping the same popup design.
+    const popupTimer = window.setTimeout(() => {
       setShowLeadPopup(true);
-    }, 10000);
+    }, 20000);
 
     return () => {
-      clearInterval(popupInterval);
+      window.clearTimeout(popupTimer);
     };
   }, []);
 
@@ -587,7 +589,7 @@ const ArchitectureAds = () => {
           SERVICES
       ===================================================== */}
 
-      <section className="bg-gray-50 py-16 sm:py-20 [content-visibility:auto] [contain-intrinsic-size:1px_900px]">
+      <section className="bg-gray-50 py-16 sm:py-20 [content-visibility:auto] [contain-intrinsic-size:1px_900px] [contain:layout_paint_style]">
 
         <div
           className="
@@ -748,7 +750,7 @@ const ArchitectureAds = () => {
           ARCHITECTURE PACKAGES
       ===================================================== */}
 
-      <section className="bg-white py-14 sm:py-16 [content-visibility:auto] [contain-intrinsic-size:1px_760px]">
+      <section className="bg-white py-14 sm:py-16 [content-visibility:auto] [contain-intrinsic-size:1px_760px] [contain:layout_paint_style]">
         <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
 
           <div className="mx-auto max-w-3xl text-center">
@@ -890,7 +892,7 @@ const ArchitectureAds = () => {
           WHY CHOOSE US
       ===================================================== */}
 
-      <section className="bg-white py-16 sm:py-20 [content-visibility:auto] [contain-intrinsic-size:1px_780px]">
+      <section className="bg-white py-16 sm:py-20 [content-visibility:auto] [contain-intrinsic-size:1px_780px] [contain:layout_paint_style]">
 
         <div
           className="
@@ -1051,7 +1053,7 @@ const ArchitectureAds = () => {
           FINAL CTA
       ===================================================== */}
 
-      <section className="bg-red-900 py-14 text-white [content-visibility:auto] [contain-intrinsic-size:1px_360px]">
+      <section className="bg-red-900 py-14 text-white [content-visibility:auto] [contain-intrinsic-size:1px_360px] [contain:layout_paint_style]">
 
         <div className="mx-auto max-w-5xl px-5 text-center">
 
