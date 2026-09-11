@@ -1,236 +1,201 @@
-
-import dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 import express from "express";
 import cors from "cors";
-import helmet from "helmet";
-import rateLimit from "express-rate-limit";
-import { createServer } from "http";
-import { Server } from "socket.io";
+import cookieParser from "cookie-parser";
 
-import connectDB from "./config/db.js";
-
-import {
-  notFound,
-  errorHandler,
-} from "./middleware/errorHandler.js";
-
-import {
-  registerSocketHandlers,
-} from "./socket/socket.js";
-
-
-import authRoutes from "./routes/authRoutes.js";
-import userRoutes from "./routes/userRoutes.js";
-import projectRoutes from "./routes/projectRoutes.js";
+// Existing payment routes
 import paymentRoutes from "./routes/paymentRoutes.js";
-import blogRoutes from "./routes/blogRoutes.js";
+
+// CRM routes
+import authRoutes from "./routes/authRoutes.js";
 import leadRoutes from "./routes/leadRoutes.js";
+import employeeRoutes from "./routes/employeeRoutes.js";
+import testRoutes from "./routes/testRoutes.js";
+// ----------------------------------------------------
+// ENV VALIDATION
+// ----------------------------------------------------
 
+const requiredEnv = [
+  "RAZORPAY_KEY_ID",
+  "RAZORPAY_KEY_SECRET",
+  "GOOGLE_SHEET_URL",
 
-// ===============================
-// Database Connection
-// ===============================
-connectDB();
+  // CRM
+  "GOOGLE_SHEET_ID",
+  "GOOGLE_CLIENT_EMAIL",
+  "GOOGLE_PRIVATE_KEY",
+  "JWT_SECRET",
+];
 
+const isPlaceholder = (value = "") =>
+  !value ||
+  value.includes("your_") ||
+  value.includes("YOUR_");
 
-// ===============================
-// Express App
-// ===============================
+const missingEnv = requiredEnv.filter((name) =>
+  isPlaceholder(process.env[name])
+);
+
+if (missingEnv.length > 0) {
+  console.error(
+    `Missing backend environment values: ${missingEnv.join(", ")}`
+  );
+
+  console.error(
+    "Please check backend/.env and add all required values."
+  );
+
+  process.exit(1);
+}
+
+// ----------------------------------------------------
+// APP INITIALIZATION
+// ----------------------------------------------------
+
 const app = express();
 
-
-// ===============================
-// HTTP Server
-// ===============================
-const httpServer = createServer(app);
-
-
-// ===============================
-// Socket IO
-// ===============================
-const io = new Server(httpServer, {
-
-  cors: {
-
-    origin:
-      process.env.CLIENT_URL ||
-      "http://localhost:5173",
-
-    credentials: true,
-
-  },
-
-});
-
-
-app.set("io", io);
-
-
-registerSocketHandlers(io);
-
-
-// ===============================
-// Security
-// ===============================
-app.use(
-  helmet()
-);
-
-
-// ===============================
+// ----------------------------------------------------
 // CORS
-// ===============================
-app.use(
+// ----------------------------------------------------
 
+app.use(
   cors({
-
-    origin:
-      process.env.CLIENT_URL ||
-      "http://localhost:5173",
-
+    origin: process.env.CLIENT_URL || "http://localhost:5173",
     credentials: true,
-
   })
-
 );
 
+// ----------------------------------------------------
+// MIDDLEWARE
+// ----------------------------------------------------
 
-// ===============================
-// Body Parser
-// ===============================
-app.use(
-
-  express.json({
-
-    limit: "10mb",
-
-  })
-
-);
-
+app.use(express.json({ limit: "1mb" }));
 
 app.use(
-
   express.urlencoded({
-
     extended: true,
-
   })
-
 );
 
+app.use(cookieParser());
 
-// ===============================
-// Rate Limiter
-// ===============================
-const limiter = rateLimit({
+// ----------------------------------------------------
+// HEALTH CHECK
+// ----------------------------------------------------
 
-  windowMs:
-    15 * 60 * 1000,
-
-  max: 300,
-
+app.get("/api/health", (req, res) => {
+  res.json({
+    success: true,
+    service: "Jaypro Backend API",
+    modules: {
+      payments: true,
+      crm: true,
+      authentication: true,
+      googleSheets: true,
+    },
+  });
 });
 
+// ----------------------------------------------------
+// ROOT API ROUTE
+// ----------------------------------------------------
 
-app.use(
-  "/api",
-  limiter
-);
+app.get("/api", (req, res) => {
+  res.json({
+    success: true,
+    message: "Jaypro Infratech API is running",
+  });
+});
 
+// ----------------------------------------------------
+// PAYMENT ROUTES
+// ----------------------------------------------------
 
-// ===============================
-// Health Check
-// ===============================
-app.get(
-  "/api/health",
-  (req, res) => {
+app.use("/api/payments", paymentRoutes);
 
-    res.json({
+// ----------------------------------------------------
+// CRM AUTH ROUTES
+// ----------------------------------------------------
 
-      status: "ok",
+app.use("/api/auth", authRoutes);
 
-      service:
-        "BuildCraft Pro API",
+// Examples:
+//
+// POST /api/auth/login
+// POST /api/auth/logout
+// GET  /api/auth/me
 
-      environment:
-        process.env.NODE_ENV,
+// ----------------------------------------------------
+// LEAD ROUTES
+// ----------------------------------------------------
 
-    });
+app.use("/api/leads", leadRoutes);
 
-  }
-);
+// Examples:
+//
+// GET /api/leads
+//
+// GET /api/leads/my-leads
+//
+// GET /api/leads/:leadId
+//
+// PUT /api/leads/:leadId/assign
+//
+// PUT /api/leads/:leadId/status
+//
+// PUT /api/leads/:leadId/notes
+//
+// PUT /api/leads/:leadId/follow-up
 
+// ----------------------------------------------------
+// EMPLOYEE ROUTES
+// ----------------------------------------------------
 
-// ===============================
-// API Routes
-// ===============================
-app.use(
-  "/api/auth",
-  authRoutes
-);
+app.use("/api/employees", employeeRoutes);
 
+// Examples:
+//
+// GET    /api/employees
+// POST   /api/employees
+// GET    /api/employees/:employeeId
+// PUT    /api/employees/:employeeId
+// DELETE /api/employees/:employeeId
 
-app.use(
-  "/api/users",
-  userRoutes
-);
+// ----------------------------------------------------
+// 404 ROUTE
+// ----------------------------------------------------
+app.use("/api/test", testRoutes);
+app.use((req, res) => {
+  res.status(404).json({
+    success: false,
+    message: "API route not found.",
+  });
+});
 
+// ----------------------------------------------------
+// GLOBAL ERROR HANDLER
+// ----------------------------------------------------
 
-app.use(
-  "/api/projects",
-  projectRoutes
-);
+app.use((error, req, res, next) => {
+  console.error("Backend Error:", error);
 
+  res.status(error.statusCode || 500).json({
+    success: false,
+    message:
+      error.message ||
+      "Internal server error.",
+  });
+});
 
-app.use(
-  "/api/payments",
-  paymentRoutes
-);
+// ----------------------------------------------------
+// SERVER
+// ----------------------------------------------------
 
+const PORT = Number(process.env.PORT) || 5000;
 
-app.use(
-  "/api/blogs",
-  blogRoutes
-);
-
-
-app.use(
-  "/api/leads",
-  leadRoutes
-);
-
-
-// ===============================
-// Error Handling
-// ===============================
-app.use(
-  notFound
-);
-
-
-app.use(
-  errorHandler
-);
-
-
-// ===============================
-// Start Server
-// ===============================
-const PORT =
-  process.env.PORT || 5000;
-
-
-httpServer.listen(
-  PORT,
-  () => {
-
-    console.log(
-      `🚀 BuildCraft Pro API running on port ${PORT}`
-    );
-
-  }
-);
+app.listen(PORT, () => {
+  console.log(
+    `Jaypro Backend API running on http://localhost:${PORT}`
+  );
+});

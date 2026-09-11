@@ -1,13 +1,37 @@
 import express from "express";
-import { createPayment, getMyPayments, getAllPayments, updatePaymentStatus } from "../controllers/paymentController.js";
-import { protect } from "../middleware/auth.js";
-import { authorize } from "../middleware/role.js";
 
-const router = express.Router();
+import {
+  createPaymentOrder,
+  verifyPayment,
+} from "../controllers/paymentController.js";
 
-router.post("/", protect, createPayment);
-router.get("/my", protect, getMyPayments);
-router.get("/", protect, authorize("admin"), getAllPayments);
-router.put("/:id/status", protect, authorize("admin"), updatePaymentStatus);
+// =====================================================
+// ROUTER
+// =====================================================
+
+const router =
+  express.Router();
+
+// =====================================================
+// CREATE PAYMENT ORDER
+// =====================================================
+
+router.post(
+  "/create-order",
+  createPaymentOrder
+);
+
+// =====================================================
+// VERIFY PAYMENT
+// =====================================================
+
+router.post(
+  "/verify",
+  verifyPayment
+);
+
+// =====================================================
+// EXPORT
+// =====================================================
 
 export default router;

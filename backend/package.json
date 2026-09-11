@@ -1,28 +1,28 @@
 {
-  "name": "buildcraft-pro-backend",
-  "version": "1.0.0",
-  "description": "BuildCraft Pro Backend",
-  "type": "module",
-  "main": "index.js",
-  "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js"
-  },
-  "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "cloudinary": "^2.4.0",
-    "cors": "^2.8.6",
-    "dotenv": "^16.6.1",
-    "express": "^4.22.2",
-    "express-rate-limit": "^7.4.0",
-    "helmet": "^7.1.0",
-    "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.24.1",
-    "multer": "^1.4.5-lts.1",
-    "nodemailer": "^6.9.14",
-    "socket.io": "^4.7.5"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.4"
-  }
+    "name": "jaypro-razorpay-backend",
+    "version": "1.0.0",
+    "private": true,
+    "type": "module",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js",
+        "dev": "node server.js"
+    },
+    "dependencies": {
+        "bcryptjs": "^3.0.3",
+        "cookie-parser": "^1.4.7",
+        "cors": "^2.8.6",
+        "dotenv": "^16.6.1",
+        "express": "^4.22.2",
+        "googleapis": "^180.0.0",
+        "jsonwebtoken": "^9.0.3",
+        "razorpay": "^2.9.8"
+    },
+    "description": "",
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "nodemon": "^3.1.14"
+    }
 }
