@@ -126,8 +126,10 @@ import Chat from "./pages/dashboard/Chat.jsx";
 // ADMIN DASHBOARD
 // ==========================================
 
-import AdminDashboard from "./pages/admin/AdminDashboard.jsx";
-import AdminHome from "./pages/admin/AdminHome.jsx";
+import AdminDashboard from "./admin/components/AdminLayout.jsx";
+import AllLeads from "./admin/pages/AllLeads.jsx";
+import AdminAccess from "./admin/components/AdminAccess.jsx";
+import PreviewLogin from "./admin/pages/PreviewLogin.jsx";
 import AdminProjects from "./pages/admin/AdminProjects.jsx";
 import AdminCustomers from "./pages/admin/AdminCustomers.jsx";
 import AdminBlogs from "./pages/admin/AdminBlogs.jsx";
@@ -152,6 +154,7 @@ function App() {
   // ==========================================
 
   const isPricingPage = location.pathname === "/pricing";
+  const isAdminPage = /^\/admin(?:\/|$)/.test(location.pathname);
 
   // ==========================================
   // OPEN ARCHITECTURE
@@ -200,7 +203,7 @@ function App() {
           NAVBAR
       ========================================== */}
 
-      {!isPricingPage && (
+      {!isPricingPage && !isAdminPage && (
         <Navbar
           onArchitectureClick={openArchitecture}
         />
@@ -251,7 +254,7 @@ function App() {
           MAIN CONTENT
       ========================================== */}
 
-      <main className="min-h-screen pb-24">
+      <main className={isAdminPage ? "min-h-screen" : "min-h-screen pb-24"}>
 
         <Routes>
 
@@ -625,16 +628,19 @@ function App() {
           <Route
             path="/admin"
             element={
-              <ProtectedRoute roles={["admin"]}>
+              <AdminAccess>
                 <AdminDashboard />
-              </ProtectedRoute>
+              </AdminAccess>
             }
           >
 
             <Route
               index
-              element={<AdminHome />}
+              element={<AllLeads />}
             />
+            {["dashboard", "leads", "new-leads", "follow-ups", "interested", "converted", "add-lead", "settings"].map((path) => (
+              <Route key={path} path={path} element={<AllLeads />} />
+            ))}
 
             <Route
               path="projects"
@@ -653,6 +659,8 @@ function App() {
 
           </Route>
 
+          {import.meta.env.DEV && <Route path="/admin/preview-login" element={<PreviewLogin />} />}
+
           {/* ==========================================
               404
           ========================================== */}
@@ -670,19 +678,19 @@ function App() {
           FOOTER
       ========================================== */}
 
-      {!isPricingPage && <Footer />}
+      {!isPricingPage && !isAdminPage && <Footer />}
 
       {/* ==========================================
           BOTTOM NAVIGATION
       ========================================== */}
 
-      {!isPricingPage && <BottomNavigation />}
+      {!isPricingPage && !isAdminPage && <BottomNavigation />}
 
       {/* ==========================================
           WHATSAPP
       ========================================== */}
 
-      <WhatsAppButton />
+      {!isAdminPage && <WhatsAppButton />}
 
     </>
   );
