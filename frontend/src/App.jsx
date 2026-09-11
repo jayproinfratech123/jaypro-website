@@ -76,7 +76,6 @@ import Services from "./pages/Services.jsx";
 import Portfolio from "./pages/Portfolio.jsx";
 import Blogs from "./pages/Blogs.jsx";
 import Contact from "./pages/Contact.jsx";
-import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import NotFound from "./pages/NotFound.jsx";
 
@@ -398,10 +397,6 @@ function App() {
               LOGIN
           ========================================== */}
 
-          <Route
-            path="/login"
-            element={<Login />}
-          />
 
           {/* ==========================================
               REGISTER

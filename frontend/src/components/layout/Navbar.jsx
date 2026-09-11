@@ -189,11 +189,11 @@ const Navbar = () => {
         </div>
 
         {/* ==========================================
-            DESKTOP LOGIN / DASHBOARD
+            DESKTOP DASHBOARD
         ========================================== */}
 
         <div className="hidden items-center gap-3 lg:flex">
-          {user ? (
+          {user && (
             <Link
               to={
                 user.role === "admin"
@@ -203,13 +203,6 @@ const Navbar = () => {
               className="rounded-xl bg-red-500 px-5 py-2 text-sm font-semibold text-white transition hover:bg-orange-600"
             >
               Dashboard
-            </Link>
-          ) : (
-            <Link
-              to="/login"
-              className="rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-700"
-            >
-              Login
             </Link>
           )}
         </div>
@@ -347,12 +340,12 @@ const Navbar = () => {
             ))}
 
             {/* ==========================================
-                MOBILE LOGIN / DASHBOARD
+                MOBILE DASHBOARD
             ========================================== */}
 
             <div className="mt-2 flex flex-col gap-3">
 
-              {user ? (
+              {user && (
                 <Link
                   to={
                     user.role === "admin"
@@ -363,14 +356,6 @@ const Navbar = () => {
                   className="rounded-xl bg-orange-500 px-5 py-3 text-center text-sm font-semibold text-white transition hover:bg-orange-600"
                 >
                   Dashboard
-                </Link>
-              ) : (
-                <Link
-                  to="/login"
-                  onClick={() => setOpen(false)}
-                  className="rounded-xl bg-orange-500 px-5 py-3 text-center text-sm font-semibold text-white transition hover:bg-orange-600"
-                >
-                  Login
                 </Link>
               )}
 
