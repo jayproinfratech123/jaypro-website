@@ -3,36 +3,74 @@
   <head>
 
     <!-- =========================================================
-         GOOGLE TAG
+         GOOGLE ADS TAG
     ========================================================== -->
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18425100329"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'AW-18425100329');
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=AW-18425100329">
     </script>
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18425100329"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <script>
+      window.dataLayer = window.dataLayer || [];
 
-  gtag('config', 'AW-18425100329');
-</script>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-6NE9TGMM9V"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+      function gtag() {
+        dataLayer.push(arguments);
+      }
 
-  gtag('config', 'G-6NE9TGMM9V');
-</script>
+      gtag('js', new Date());
+
+      // Google Ads
+      gtag('config', 'AW-18425100329');
+
+      // Google Analytics
+      gtag('config', 'G-6NE9TGMM9V');
+    </script>
+
+
+    <!-- =========================================================
+         META PIXEL
+    ========================================================== -->
+
+    <script>
+      !function(f,b,e,v,n,t,s)
+      {
+        if(f.fbq)return;
+
+        n=f.fbq=function(){
+          n.callMethod ?
+          n.callMethod.apply(n,arguments) :
+          n.queue.push(arguments)
+        };
+
+        if(!f._fbq)f._fbq=n;
+
+        n.push=n;
+        n.loaded=!0;
+        n.version='2.0';
+        n.queue=[];
+
+        t=b.createElement(e);
+        t.async=!0;
+        t.src=v;
+
+        s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s);
+
+      }(
+        window,
+        document,
+        'script',
+        'https://connect.facebook.net/en_US/fbevents.js'
+      );
+
+      fbq('init', '862902339819735');
+      fbq('track', 'PageView');
+    </script>
+
+    <!-- End Meta Pixel Code -->
+
+
     <!-- =========================================================
          BASIC
     ========================================================== -->
@@ -317,6 +355,7 @@
         "description": "Jaypro Infratech provides house construction, architecture, interior design, building design, floor plans and 3D elevation services.",
         "priceRange": "₹₹",
         "telephone": "+91-9835852462",
+
         "areaServed": [
           {
             "@type": "City",
@@ -331,6 +370,7 @@
             "name": "Ranchi"
           }
         ],
+
         "serviceType": [
           "House Construction",
           "Residential Construction",
@@ -377,6 +417,7 @@
         "@context": "https://schema.org",
         "@type": "ItemList",
         "name": "Jaypro Infratech Services",
+
         "itemListElement": [
           {
             "@type": "Service",
@@ -392,6 +433,7 @@
               "Ranchi"
             ]
           },
+
           {
             "@type": "Service",
             "position": 2,
@@ -406,6 +448,7 @@
               "Ranchi"
             ]
           },
+
           {
             "@type": "Service",
             "position": 3,
@@ -420,6 +463,7 @@
               "Ranchi"
             ]
           },
+
           {
             "@type": "Service",
             "position": 4,
@@ -434,6 +478,7 @@
               "Ranchi"
             ]
           },
+
           {
             "@type": "Service",
             "position": 5,
@@ -466,6 +511,20 @@
 
 
   <body class="font-body bg-concrete-50 text-charcoal">
+
+    <!-- =========================================================
+         META PIXEL NOSCRIPT
+    ========================================================== -->
+
+    <noscript>
+      <img
+        height="1"
+        width="1"
+        style="display:none"
+        src="https://www.facebook.com/tr?id=862902339819735&ev=PageView&noscript=1"
+      />
+    </noscript>
+
 
     <div id="root"></div>
 
