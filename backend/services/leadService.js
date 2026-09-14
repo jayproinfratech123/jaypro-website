@@ -27,7 +27,7 @@ export function normalizeLead(body, admin = false) {
     notes: admin ? field(body.notes ?? '', 10000, false) : '',
   };
 }
-const columns = "CONCAT('L', LPAD(id, GREATEST(3, CHAR_LENGTH(id)), '0')) AS id, customer, phone, city, service, source, DATE_FORMAT(date, '%Y-%m-%d') AS date, status, COALESCE(DATE_FORMAT(follow_up, '%Y-%m-%d'), '') AS followUp, notes, payment_id AS paymentId, order_id AS orderId, amount";
+const columns = "CONCAT('L', LPAD(id, GREATEST(3, CHAR_LENGTH(id)), '0')) AS id, customer, phone, city, service, source, DATE_FORMAT(date, '%Y-%m-%d') AS date, status, COALESCE(DATE_FORMAT(follow_up, '%Y-%m-%d'), '') AS followUp, notes, payment_id AS paymentId, order_id AS orderId, amount, (SELECT u.name FROM crm_lead_assignments a JOIN crm_users u ON u.id=a.employee_id WHERE a.lead_id=crm_leads.id) AS assignedEmployeeName";
 const databaseId = id => /^L\d+$/.test(id) ? id.slice(1) : '0';
 export async function listLeads() {
   const [rows] = await pool.query(`SELECT ${columns} FROM crm_leads ORDER BY created_at DESC, id DESC`);
