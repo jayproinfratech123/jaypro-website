@@ -1,6 +1,6 @@
 import Razorpay from "razorpay";
 import crypto from "crypto";
-import { saveVerifiedPayment } from '../services/leadService.js';
+import { savePendingSiteVisit, saveVerifiedPayment } from '../services/leadService.js';
 
 const razorpay = process.env.RAZORPAY_KEY_ID && process.env.RAZORPAY_KEY_SECRET ? new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
@@ -12,12 +12,17 @@ const clean = (value) => String(value ?? "").trim();
 export const createPaymentOrder = async (req, res) => {
   try {
     if (!razorpay) return res.status(503).json({ success: false, message: 'Payments are not configured.' });
-    const { serviceId, serviceName, amount, customer } = req.body;
+    const { serviceId, serviceName, amount, customer, source } = req.body;
+    const isSiteVisit = source === 'Engineer Site Visit';
     const fullName = clean(customer?.fullName);
     const mobile = clean(customer?.mobile);
     const location = clean(customer?.location);
     const finalServiceName = clean(serviceName);
     const paymentAmount = Number(amount);
+
+    if (isSiteVisit && (!location || fullName.length > 150 || location.length > 150 || finalServiceName.length > 255)) {
+      return res.status(400).json({ success: false, message: 'Enter a name and location up to 150 characters and a service up to 255 characters.' });
+    }
 
     if (serviceId !== "custom-payment") {
       return res.status(400).json({ success: false, message: "Invalid payment request." });
@@ -45,8 +50,18 @@ export const createPaymentOrder = async (req, res) => {
         mobile,
         location,
         service: finalServiceName,
+        ...(isSiteVisit ? { source: 'Engineer Site Visit' } : {}),
       },
     });
+
+    if (isSiteVisit) {
+      try {
+        await savePendingSiteVisit(order);
+      } catch (databaseError) {
+        console.error('Site visit database error:', databaseError.code);
+        return res.status(503).json({ success: false, message: 'Unable to save your booking. Please try again. Payment has not been started.' });
+      }
+    }
 
     return res.status(201).json({
       success: true,

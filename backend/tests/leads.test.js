@@ -6,9 +6,26 @@ import bcrypt from 'bcryptjs';
 import pool from '../config/db.js';
 import leadRoutes from '../routes/leadRoutes.js';
 import authRoutes from '../routes/authRoutes.js';
-import { normalizeLead, saveVerifiedPayment } from '../services/leadService.js';
+import { normalizeLead, savePendingSiteVisit, saveVerifiedPayment } from '../services/leadService.js';
 
 const fields = { fullName: 'Test Enquiry', mobile: '9876543210', city: 'Patna', purpose: 'Architecture Design' };
+test('site visit saves the submitted details and updates the same booking on payment verification', async t => {
+  const order = { id: 'order_visit', amount: 150050, notes: { source: 'Engineer Site Visit', customer_name: "O'Brien", mobile: '9876543210', location: 'Other city', service: 'Custom inspection' } };
+  const execute = t.mock.method(pool, 'execute', async () => [{ affectedRows: 1 }]);
+  await savePendingSiteVisit(order);
+  assert.deepEqual(execute.mock.calls[0].arguments[1], ["O'Brien", '9876543210', 'Other city', 'Custom inspection', 'order_visit', 1500.5]);
+  await saveVerifiedPayment({ order, paymentId: 'pay_visit' });
+  await saveVerifiedPayment({ order, paymentId: 'pay_visit' });
+  for (const call of execute.mock.calls.slice(1)) {
+    assert.match(call.arguments[0], /UPDATE crm_leads/);
+    assert.match(call.arguments[0], /WHERE order_id = \?/);
+    assert.deepEqual(call.arguments[1], ['pay_visit', 'order_visit']);
+  }
+  execute.mock.mockImplementation(async () => [{ affectedRows: 0 }]);
+  await assert.rejects(saveVerifiedPayment({ order, paymentId: 'pay_visit' }), /not found/);
+  execute.mock.mockImplementation(async () => { throw new Error('Database unavailable'); });
+  await assert.rejects(savePendingSiteVisit(order), /Database unavailable/);
+});
 test('validation rejects bad phones, dates and statuses and ignores public admin-only fields', () => {
   const publicLead = normalizeLead({ ...fields, status: 'Converted', notes: 'forged', source: 'Payment', followUp: '2030-01-01' });
   assert.equal(publicLead.status, 'New');

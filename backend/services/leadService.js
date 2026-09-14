@@ -27,7 +27,7 @@ export function normalizeLead(body, admin = false) {
     notes: admin ? field(body.notes ?? '', 10000, false) : '',
   };
 }
-const columns = "CONCAT('L', LPAD(id, GREATEST(3, CHAR_LENGTH(id)), '0')) AS id, customer, phone, city, service, source, DATE_FORMAT(date, '%Y-%m-%d') AS date, status, COALESCE(DATE_FORMAT(follow_up, '%Y-%m-%d'), '') AS followUp, notes";
+const columns = "CONCAT('L', LPAD(id, GREATEST(3, CHAR_LENGTH(id)), '0')) AS id, customer, phone, city, service, source, DATE_FORMAT(date, '%Y-%m-%d') AS date, status, COALESCE(DATE_FORMAT(follow_up, '%Y-%m-%d'), '') AS followUp, notes, payment_id AS paymentId, order_id AS orderId, amount";
 const databaseId = id => /^L\d+$/.test(id) ? id.slice(1) : '0';
 export async function listLeads() {
   const [rows] = await pool.query(`SELECT ${columns} FROM crm_leads ORDER BY created_at DESC, id DESC`);
@@ -47,7 +47,21 @@ export async function updateLead(id, lead) {
     [lead.customer, lead.phone, lead.city, lead.service, lead.source, lead.date, lead.status, lead.followUp, lead.notes, databaseId(id)]);
   return getLead(id);
 }
+export async function savePendingSiteVisit(order) {
+  await pool.execute(`INSERT INTO crm_leads
+    (customer, phone, city, service, source, date, status, notes, order_id, amount)
+    VALUES (?, ?, ?, ?, 'Engineer Site Visit', UTC_DATE(), 'New', '', ?, ?)`,
+    [order.notes.customer_name, order.notes.mobile, order.notes.location,
+      order.notes.service, order.id, Number(order.amount) / 100]);
+}
 export async function saveVerifiedPayment({ order, paymentId }) {
+  if (order.notes?.source === 'Engineer Site Visit') {
+    const [result] = await pool.execute(`UPDATE crm_leads
+      SET status = CASE WHEN payment_id IS NULL THEN 'Converted' ELSE status END, payment_id = ?
+      WHERE order_id = ? AND source = 'Engineer Site Visit'`, [paymentId, order.id]);
+    if (!result.affectedRows) throw new Error('Site visit booking was not found.');
+    return;
+  }
   await pool.execute(`INSERT INTO crm_leads
     (customer, phone, city, service, source, date, status, notes, payment_id, order_id, amount)
     VALUES (?, ?, ?, ?, 'Payment', UTC_DATE(), 'Converted', ?, ?, ?, ?)
