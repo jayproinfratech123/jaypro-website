@@ -1,0 +1,8 @@
+import { useEffect, useState } from 'react';
+import api from '../../api/axios';
+export default function LeadAssignment({leadId,onAssigned}) {
+ const [employees,setEmployees]=useState([]),[value,setValue]=useState(''),[busy,setBusy]=useState(true),[message,setMessage]=useState(''),[ready,setReady]=useState(false);
+ useEffect(()=>{let active=true;Promise.all([api.get('/employees'),api.get(`/employees/assignments/${leadId}`)]).then(([a,b])=>{if(active){setEmployees(a.data.employees);setValue(b.data.employeeId);setReady(true);}}).catch(()=>{if(active)setMessage('Unable to load assignment.');}).finally(()=>{if(active)setBusy(false);});return()=>{active=false;};},[leadId]);
+ async function save(){setBusy(true);setMessage('');try{await api.put(`/employees/assignments/${leadId}`,{employeeId:value});const employee=employees.find(e=>e.id===value);onAssigned?.(employee?.name || null);setMessage(employee ? 'Lead assigned to '+employee.name+'.' : 'Lead is now unassigned.');}catch(err){setMessage(err.response?.data?.message||'Unable to assign lead.');}finally{setBusy(false);}}
+ return <div className="admin-form-wide"><h3>Assign lead to employee</h3><label>Assigned employee<select value={value} disabled={busy||!ready} onChange={e=>setValue(e.target.value)}><option value="">Unassigned</option>{employees.map(e=><option key={e.id} value={e.id}>{e.name} ({e.loginId})</option>)}</select></label><button type="button" className="add-lead-btn" disabled={busy||!ready} onClick={save}>Save assignment</button>{ready && !employees.length && <p>No employees found. Add an employee from the Employees menu first.</p>}{message&&<p role="status">{message}</p>}</div>;
+}

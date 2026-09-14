@@ -128,6 +128,8 @@ import Chat from "./pages/dashboard/Chat.jsx";
 import AdminDashboard from "./admin/components/AdminLayout.jsx";
 import AllLeads from "./admin/pages/AllLeads.jsx";
 import AdminAccess from "./admin/components/AdminAccess.jsx";
+import Employees from "./admin/pages/Employees.jsx";
+import EmployeeLeads from "./admin/pages/EmployeeLeads.jsx";
 import PreviewLogin from "./admin/pages/PreviewLogin.jsx";
 import AdminProjects from "./pages/admin/AdminProjects.jsx";
 import AdminCustomers from "./pages/admin/AdminCustomers.jsx";
@@ -153,7 +155,7 @@ function App() {
   // ==========================================
 
   const isPricingPage = location.pathname === "/pricing";
-  const isAdminPage = /^\/admin(?:\/|$)/.test(location.pathname);
+  const isAdminPage = /^\/(?:admin|employee)(?:\/|$)/.test(location.pathname);
 
   // ==========================================
   // OPEN ARCHITECTURE
@@ -632,6 +634,8 @@ function App() {
               <Route key={path} path={`/admin/${path}`} element={<AllLeads />} />
             ))}
 
+            <Route path="/admin/employees" element={<Employees />} />
+
             <Route
               path="/admin/projects"
               element={<AdminProjects />}
@@ -650,6 +654,8 @@ function App() {
           </Route>
 
           <Route path="/admin/preview-login" element={<PreviewLogin />} />
+          <Route path="/employee/login" element={<PreviewLogin employee />} />
+          <Route path="/employee/leads" element={<EmployeeLeads />} />
 
           {/* ==========================================
               404

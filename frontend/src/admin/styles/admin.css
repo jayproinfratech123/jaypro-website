@@ -71,3 +71,18 @@
   .admin-layout .admin-dialog-heading button,
   .admin-layout .admin-form-actions button { min-width: 44px; min-height: 44px; }
 }
+
+/* Keep desktop lead contact controls inside the Phone column. */
+@media (min-width: 761px) {
+  .admin-layout .admin-leads-table { table-layout: auto; min-width: 1200px; }
+  .admin-layout .admin-leads-table th { width: auto; }
+  .admin-layout .admin-leads-table td[data-label="Phone"] { min-width: 160px; }
+  .admin-layout .admin-leads-table td[data-label="City"] { min-width: 100px; }
+  .admin-layout .admin-leads-table td[data-label="Assignment"] { min-width: 140px; }
+  .admin-layout .admin-leads-table .phone-actions { display: grid; grid-template-columns: 32px 32px; gap: 6px; }
+  .admin-layout .admin-leads-table .phone-actions span { grid-column: 1 / -1; }
+  .admin-layout .admin-leads-table .phone-actions a { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 7px; background: #f1f5fa; }
+  .admin-layout .admin-leads-table .phone-actions svg { width: 16px; height: 16px; }
+}
+.admin-layout .lead-assignee { margin:0 0 8px; line-height:1.5; overflow-wrap:anywhere; }
+.admin-layout .lead-assignee strong { display:block; color:#1255eb; }

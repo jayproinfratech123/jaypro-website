@@ -1,0 +1,21 @@
+.admin-layout.employee-panel { font-size:14px; }
+.employee-panel .admin-content { width:100%; min-width:0; max-width:1440px; margin:0 auto; }
+.employee-panel .admin-settings { max-width:none; width:100%; }
+.employee-panel .employee-actions { display:flex; flex-wrap:wrap; gap:8px; }
+.employee-panel .employee-actions a,.employee-panel .employee-actions button { display:inline-flex; align-items:center; justify-content:center; gap:7px; min-height:44px; padding:10px 14px; border:1px solid #dce5f0; border-radius:10px; text-decoration:none; font-weight:600; background:#f1f5fa; color:#243c5e; }
+.employee-panel .employee-actions .employee-call { background:#eff6ff; color:#1d4ed8; border-color:#bfdbfe; }
+.employee-panel .employee-actions .employee-whatsapp { background:#ecfdf5; color:#047857; border-color:#a7f3d0; }
+.employee-panel .employee-editor { display:grid; gap:16px; margin-top:24px; padding-top:24px; border-top:1px solid #dce5f0; scroll-margin-top:20px; }
+.employee-panel .employee-editor input,.employee-panel .employee-editor select,.employee-panel .employee-editor textarea { width:100%; min-width:0; min-height:44px; border:1px solid #dce5f0; border-radius:8px; padding:12px; font-size:16px; background:#f9fbfd; }
+.employee-panel .employee-editor textarea { min-height:120px; resize:vertical; }
+.employee-panel .employee-editor button { min-height:44px; }
+@media(max-width:760px) {
+ .employee-panel .admin-settings { padding:16px; }
+ .employee-panel .table-container { padding:0; margin-top:20px; }
+ .employee-panel .lead-table td { white-space:normal; overflow-wrap:anywhere; }
+ .employee-panel .lead-table td[data-label="Actions"] { display:block; text-align:left; }
+ .employee-panel .lead-table td[data-label="Actions"]::before { display:none; }
+ .employee-panel .employee-actions { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); width:100%; }
+ .employee-panel .employee-actions button { grid-column:1/-1; }
+ .employee-panel .employee-actions a { padding:10px 6px; }
+}

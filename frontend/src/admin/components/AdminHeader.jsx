@@ -1,4 +1,4 @@
 import { useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-const titles={leads:'All Leads','new-leads':'New Leads','follow-ups':'Follow Ups',interested:'Interested',converted:'Converted','add-lead':'Add Lead',settings:'Settings',projects:'Projects',customers:'Customers',blogs:'Blog CMS'};
+const titles={employees:'Employees',leads:'All Leads','new-leads':'New Leads','follow-ups':'Follow Ups',interested:'Interested',converted:'Converted','add-lead':'Add Lead',settings:'Settings',projects:'Projects',customers:'Customers',blogs:'Blog CMS'};
 export default function AdminHeader(){ const {pathname}=useLocation(); const {user}=useAuth(); const title=titles[pathname.split('/').pop()] || 'Dashboard'; return <header className="admin-header"><div><h1>{title}</h1><p>{title==='Dashboard'?'Overview of your leads':'Manage your customer relationships'}</p></div><div className="admin-profile"><span className="avatar">{(user?.name || 'A').charAt(0).toUpperCase()}</span><div><strong>{user?.name || 'Admin User'}</strong><span>Super Admin</span></div></div></header>; }
