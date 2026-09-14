@@ -64,6 +64,7 @@ export default function PaymentLeadForm({
 
   const [paymentStatus, setPaymentStatus] =
     useState("idle");
+  const [paymentReference, setPaymentReference] = useState("");
 
   // =====================================================
   // HANDLE NORMAL INPUT
@@ -354,6 +355,7 @@ export default function PaymentLeadForm({
   const handlePayment =
     async (e) => {
       e.preventDefault();
+      if (loading || paymentStatus === "verification-pending") return;
 
       // ===============================================
       // VALIDATE
@@ -413,6 +415,7 @@ export default function PaymentLeadForm({
 
               body:
                 JSON.stringify({
+                  source: "Engineer Site Visit",
                   serviceId:
                     "custom-payment",
 
@@ -468,6 +471,7 @@ export default function PaymentLeadForm({
         // RAZORPAY OPTIONS
         // =============================================
 
+        let checkoutCompleted = false;
         const options = {
           key:
             orderData.key,
@@ -539,6 +543,8 @@ export default function PaymentLeadForm({
             async function (
               response
             ) {
+              checkoutCompleted = true;
+              setPaymentReference(response.razorpay_payment_id);
               try {
                 setLoading(true);
 
@@ -666,7 +672,7 @@ export default function PaymentLeadForm({
                 );
 
                 setPaymentStatus(
-                  "failed"
+                  "verification-pending"
                 );
 
                 toast.error(
@@ -687,6 +693,7 @@ export default function PaymentLeadForm({
           modal: {
             ondismiss:
               function () {
+                if (checkoutCompleted) return;
                 setPaymentStatus(
                   "cancelled"
                 );
@@ -724,8 +731,6 @@ export default function PaymentLeadForm({
               "failed"
             );
 
-            setLoading(false);
-
             toast.error(
               response.error
                 ?.description ||
@@ -740,7 +745,6 @@ export default function PaymentLeadForm({
 
         razorpay.open();
 
-        setLoading(false);
       } catch (error) {
         console.error(
           "Payment error:",
@@ -1209,6 +1213,13 @@ export default function PaymentLeadForm({
           </div>
         )}
 
+        {paymentStatus === "verification-pending" && (
+          <div role="alert" className="rounded-lg bg-yellow-50 px-4 py-3 text-center text-sm font-medium text-yellow-700">
+            Payment confirmation is pending. Do not pay again. Contact our team
+            at <a href="tel:+919835852462">+91 9835852462</a> with payment ID: {paymentReference}.
+          </div>
+        )}
+
         {paymentStatus ===
           "cancelled" && (
           <div className="rounded-lg bg-gray-50 px-4 py-3 text-center text-sm font-medium text-gray-600">
@@ -1224,6 +1235,7 @@ export default function PaymentLeadForm({
           type="submit"
           disabled={
             loading ||
+            paymentStatus === "verification-pending" ||
             !formData.paymentAmount
           }
           className="
