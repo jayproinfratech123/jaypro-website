@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const GOOGLE_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbz1Olatmq1V_az3NVXEBJRNgEvO24HjelKFXI69N2iPHExUvicHHen9J7wbBHB4OELp/exec";
+import { submitLead } from '../api/leads';
 
 const LeadPopup = () => {
   const [open, setOpen] = useState(false);
@@ -86,68 +85,8 @@ const LeadPopup = () => {
       // SEND DATA
       // ========================================
 
-      const submitData = new URLSearchParams();
+      const result = await submitLead(form);
 
-      submitData.append(
-        "formType",
-        "leadPopup"
-      );
-
-      submitData.append(
-        "fullName",
-        form.fullName.trim()
-      );
-
-      submitData.append(
-        "mobile",
-        form.mobile.trim()
-      );
-
-      submitData.append(
-        "city",
-        form.city.trim()
-      );
-
-      submitData.append(
-        "purpose",
-        form.purpose.trim()
-      );
-
-      // ========================================
-      // DEBUG
-      // ========================================
-
-      console.log(
-        "LeadPopup Data:",
-        {
-          formType: "leadPopup",
-          fullName: form.fullName.trim(),
-          mobile: form.mobile.trim(),
-          city: form.city.trim(),
-          purpose: form.purpose.trim(),
-        }
-      );
-
-      // ========================================
-      // SEND TO GOOGLE APPS SCRIPT
-      // ========================================
-
-      const response = await fetch(
-        GOOGLE_SCRIPT_URL,
-        {
-          method: "POST",
-          body: submitData,
-        }
-      );
-
-      const result = await response.json();
-
-      console.log(
-        "Google Apps Script Response:",
-        result
-      );
-
-      // ========================================
       // SUCCESS
       // ========================================
 

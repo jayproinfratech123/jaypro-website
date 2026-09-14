@@ -621,7 +621,6 @@ function App() {
           ========================================== */}
 
           <Route
-            path="/admin"
             element={
               <AdminAccess>
                 <AdminDashboard />
@@ -629,32 +628,28 @@ function App() {
             }
           >
 
-            <Route
-              index
-              element={<AllLeads />}
-            />
             {["dashboard", "leads", "new-leads", "follow-ups", "interested", "converted", "add-lead", "settings"].map((path) => (
-              <Route key={path} path={path} element={<AllLeads />} />
+              <Route key={path} path={`/admin/${path}`} element={<AllLeads />} />
             ))}
 
             <Route
-              path="projects"
+              path="/admin/projects"
               element={<AdminProjects />}
             />
 
             <Route
-              path="customers"
+              path="/admin/customers"
               element={<AdminCustomers />}
             />
 
             <Route
-              path="blogs"
+              path="/admin/blogs"
               element={<AdminBlogs />}
             />
 
           </Route>
 
-          {import.meta.env.DEV && <Route path="/admin/preview-login" element={<PreviewLogin />} />}
+          <Route path="/admin/preview-login" element={<PreviewLogin />} />
 
           {/* ==========================================
               404

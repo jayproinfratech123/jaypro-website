@@ -46,8 +46,10 @@ const Navbar = () => {
   const { user } = useAuth();
 
   return (
+    <>
+    <div className="h-[73px]" aria-hidden="true" />
     <header
-      className="sticky top-0 z-50 border-b border-black/5 bg-concrete-50/90 backdrop-blur"
+      className="fixed inset-x-0 top-0 z-50 border-b border-black/5 bg-concrete-50/90 backdrop-blur"
       role="banner"
     >
       <nav
@@ -197,7 +199,7 @@ const Navbar = () => {
             <Link
               to={
                 user.role === "admin"
-                  ? "/admin"
+                  ? "/admin/dashboard"
                   : "/dashboard"
               }
               className="rounded-xl bg-red-500 px-5 py-2 text-sm font-semibold text-white transition hover:bg-orange-600"
@@ -349,7 +351,7 @@ const Navbar = () => {
                 <Link
                   to={
                     user.role === "admin"
-                      ? "/admin"
+                      ? "/admin/dashboard"
                       : "/dashboard"
                   }
                   onClick={() => setOpen(false)}
@@ -364,6 +366,7 @@ const Navbar = () => {
         </div>
       )}
     </header>
+    </>
   );
 };
 

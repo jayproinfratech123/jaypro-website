@@ -33,7 +33,7 @@ const Login = () => {
       );
 
       if (user.role === "admin") {
-        navigate("/admin");
+        navigate("/admin/dashboard");
       } else {
         setError(
           "Only Admin can login."

@@ -68,7 +68,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = useCallback(async () => {
     try {
-      await api.post("/auth/logout");
+      await api.post("/auth/logout", { refreshToken: localStorage.getItem("bcp_refresh_token") });
     } catch {
       // Ignore logout API errors
     }

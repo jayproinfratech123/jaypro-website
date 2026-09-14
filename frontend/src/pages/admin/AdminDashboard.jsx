@@ -3,7 +3,7 @@ import { LayoutDashboard, HardHat, Users, FileEdit, LogOut } from "lucide-react"
 import { useAuth } from "../../context/AuthContext.jsx";
 
 const links = [
-  { to: "/admin", label: "Analytics", icon: LayoutDashboard, end: true },
+  { to: "/admin/dashboard", label: "Analytics", icon: LayoutDashboard, end: true },
   { to: "/admin/projects", label: "Projects", icon: HardHat },
   { to: "/admin/customers", label: "Customers", icon: Users },
   { to: "/admin/blogs", label: "Blog CMS", icon: FileEdit },

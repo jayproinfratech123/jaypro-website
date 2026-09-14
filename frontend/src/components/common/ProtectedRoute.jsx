@@ -25,7 +25,7 @@ const ProtectedRoute = ({ children, roles = [] }) => {
   if (!user) {
     return (
       <Navigate
-        to="/login"
+        to="/admin/preview-login"
         replace
         state={{ from: window.location.pathname }}
       />

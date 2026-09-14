@@ -1,7 +1,6 @@
 import { useState } from "react";
 
-const GOOGLE_SHEET_URL =
-  "https://script.google.com/macros/s/AKfycbz1Olatmq1V_az3NVXEBJRNgEvO24HjelKFXI69N2iPHExUvicHHen9J7wbBHB4OELp/exec";
+import { submitLead } from '../api/leads';
 
 const LeadForm = ({ onSuccess, onClose }) => {
   const [formData, setFormData] = useState({
@@ -38,23 +37,7 @@ const LeadForm = ({ onSuccess, onClose }) => {
     setLoading(true);
 
     try {
-      const data = new URLSearchParams();
-
-      data.append("formType", "websiteLead");
-      data.append("fullName", formData.fullName);
-      data.append("mobile", formData.mobile);
-      data.append("city", formData.city);
-      data.append("purpose", formData.purpose);
-
-      // ==========================================
-      // SEND DATA TO GOOGLE SHEET
-      // ==========================================
-
-      await fetch(GOOGLE_SHEET_URL, {
-        method: "POST",
-        body: data,
-        mode: "no-cors",
-      });
+      await submitLead(formData);
 
       // ==========================================
       // SUCCESS MESSAGE
@@ -83,7 +66,7 @@ const LeadForm = ({ onSuccess, onClose }) => {
       }
     } catch (error) {
       console.error(
-        "Google Apps Script Error:",
+        "Lead submission failed:",
         error
       );
 

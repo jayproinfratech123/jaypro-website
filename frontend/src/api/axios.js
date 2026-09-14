@@ -1,7 +1,8 @@
 import axios from "axios";
+import { API_URL } from './config';
 
 const api = axios.create({
-  baseURL: "/api",
+  baseURL: API_URL,
 });
 
 api.interceptors.request.use((config) => {
@@ -14,19 +15,19 @@ api.interceptors.response.use(
   (res) => res,
   async (error) => {
     const original = error.config;
-    if (error.response?.status === 401 && !original._retry) {
+    if (error.response?.status === 401 && original && !original._retry && !['/auth/login', '/auth/register', '/auth/refresh'].includes(original.url)) {
       original._retry = true;
       try {
         const refreshToken = localStorage.getItem("bcp_refresh_token");
         if (!refreshToken) throw new Error("no refresh token");
-        const { data } = await axios.post("/api/auth/refresh", { refreshToken });
+        const { data } = await axios.post(`${API_URL}/auth/refresh`, { refreshToken });
         localStorage.setItem("bcp_access_token", data.accessToken);
         original.headers.Authorization = `Bearer ${data.accessToken}`;
         return api(original);
       } catch (refreshErr) {
         localStorage.removeItem("bcp_access_token");
         localStorage.removeItem("bcp_refresh_token");
-        window.location.href = "/login";
+        window.location.href = "/admin/preview-login";
       }
     }
     return Promise.reject(error);
