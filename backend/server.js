@@ -11,20 +11,16 @@ import paymentRoutes from "./routes/paymentRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import leadRoutes from "./routes/leadRoutes.js";
 import employeeRoutes from "./routes/employeeRoutes.js";
-import testRoutes from "./routes/testRoutes.js";
+import pool from "./config/db.js";
 // ----------------------------------------------------
 // ENV VALIDATION
 // ----------------------------------------------------
 
 const requiredEnv = [
-  "RAZORPAY_KEY_ID",
-  "RAZORPAY_KEY_SECRET",
-  "GOOGLE_SHEET_URL",
-
-  // CRM
-  "GOOGLE_SHEET_ID",
-  "GOOGLE_CLIENT_EMAIL",
-  "GOOGLE_PRIVATE_KEY",
+  "DB_HOST",
+  "DB_USER",
+  "DB_PASSWORD",
+  "DB_NAME",
   "JWT_SECRET",
 ];
 
@@ -84,17 +80,20 @@ app.use(cookieParser());
 // HEALTH CHECK
 // ----------------------------------------------------
 
-app.get("/api/health", (req, res) => {
+app.get("/api/health", async (req, res, next) => {
+  try {
+  await pool.query("SELECT 1 FROM crm_leads LIMIT 1");
   res.json({
     success: true,
     service: "Jaypro Backend API",
     modules: {
-      payments: true,
+      payments: Boolean(process.env.RAZORPAY_KEY_ID && process.env.RAZORPAY_KEY_SECRET),
       crm: true,
       authentication: true,
-      googleSheets: true,
+      mysql: true,
     },
   });
+  } catch (error) { next(error); }
 });
 
 // ----------------------------------------------------
@@ -165,7 +164,6 @@ app.use("/api/employees", employeeRoutes);
 // ----------------------------------------------------
 // 404 ROUTE
 // ----------------------------------------------------
-app.use("/api/test", testRoutes);
 app.use((req, res) => {
   res.status(404).json({
     success: false,
@@ -178,13 +176,14 @@ app.use((req, res) => {
 // ----------------------------------------------------
 
 app.use((error, req, res, next) => {
-  console.error("Backend Error:", error);
+  console.error("Backend Error:", error.code || error.name);
 
   res.status(error.statusCode || 500).json({
     success: false,
     message:
-      error.message ||
-      "Internal server error.",
+      error.statusCode && error.statusCode < 500
+        ? error.message
+        : "Unable to complete the request. Please try again.",
   });
 });
 

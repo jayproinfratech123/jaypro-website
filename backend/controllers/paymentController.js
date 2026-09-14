@@ -1,45 +1,17 @@
 import Razorpay from "razorpay";
 import crypto from "crypto";
+import { saveVerifiedPayment } from '../services/leadService.js';
 
-const razorpay = new Razorpay({
+const razorpay = process.env.RAZORPAY_KEY_ID && process.env.RAZORPAY_KEY_SECRET ? new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
   key_secret: process.env.RAZORPAY_KEY_SECRET,
-});
+}) : null;
 
 const clean = (value) => String(value ?? "").trim();
 
-const saveVerifiedPaymentToSheet = async ({ order, paymentId }) => {
-  const body = new URLSearchParams({
-    formType: "paymentLead",
-    type: "paymentLead",
-    fullName: clean(order.notes?.customer_name),
-    mobile: clean(order.notes?.mobile),
-    service: clean(order.notes?.service),
-    location: clean(order.notes?.location),
-    amount: String(Number(order.amount) / 100),
-    localOrderId: clean(order.receipt),
-    orderId: clean(order.id),
-    paymentId: clean(paymentId),
-    status: "Paid",
-    paymentDate: new Date().toISOString(),
-  });
-
-  const response = await fetch(process.env.GOOGLE_SHEET_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-    },
-    body: body.toString(),
-    redirect: "follow",
-  });
-
-  if (!response.ok) {
-    throw new Error(`Google Sheet returned HTTP ${response.status}.`);
-  }
-};
-
 export const createPaymentOrder = async (req, res) => {
   try {
+    if (!razorpay) return res.status(503).json({ success: false, message: 'Payments are not configured.' });
     const { serviceId, serviceName, amount, customer } = req.body;
     const fullName = clean(customer?.fullName);
     const mobile = clean(customer?.mobile);
@@ -96,6 +68,7 @@ export const createPaymentOrder = async (req, res) => {
 
 export const verifyPayment = async (req, res) => {
   try {
+    if (!razorpay) return res.status(503).json({ success: false, message: 'Payments are not configured.' });
     const {
       localOrderId,
       razorpay_payment_id: paymentId,
@@ -130,20 +103,17 @@ export const verifyPayment = async (req, res) => {
       return res.status(400).json({ success: false, message: "Payment order does not match." });
     }
 
-    let sheetSaved = true;
     try {
-      await saveVerifiedPaymentToSheet({ order, paymentId });
-    } catch (sheetError) {
-      sheetSaved = false;
-      console.error("Verified payment Google Sheet error:", sheetError);
+      await saveVerifiedPayment({ order, paymentId });
+    } catch (databaseError) {
+      console.error('Verified payment database error:', databaseError.code);
+      return res.status(503).json({ success: false, databaseSaved: false, message: 'Payment signature verified, but the record could not be saved. Please contact support with your payment ID; do not pay again.' });
     }
 
     return res.json({
       success: true,
-      message: sheetSaved
-        ? "Payment verified and saved to Google Sheet."
-        : "Payment verified, but Google Sheet logging failed.",
-      sheetSaved,
+      message: "Payment verified and saved.",
+      databaseSaved: true,
       payment: {
         localOrderId: order.receipt,
         razorpayOrderId: order.id,
