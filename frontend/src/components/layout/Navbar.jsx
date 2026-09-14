@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { Menu, X, ChevronDown } from "lucide-react";
-import { useAuth } from "../../context/AuthContext.jsx";
+
 
 // ==========================================
 // MAIN NAVIGATION LINKS
@@ -43,7 +43,7 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
 
-  const { user } = useAuth();
+
 
   return (
     <>
@@ -190,24 +190,7 @@ const Navbar = () => {
           ))}
         </div>
 
-        {/* ==========================================
-            DESKTOP DASHBOARD
-        ========================================== */}
-
-        <div className="hidden items-center gap-3 lg:flex">
-          {user && (
-            <Link
-              to={
-                user.role === "admin"
-                  ? "/admin/dashboard"
-                  : "/dashboard"
-              }
-              className="rounded-xl bg-red-500 px-5 py-2 text-sm font-semibold text-white transition hover:bg-orange-600"
-            >
-              Dashboard
-            </Link>
-          )}
-        </div>
+        <div className="hidden lg:block" aria-hidden="true" />
 
         {/* ==========================================
             MOBILE MENU BUTTON
@@ -341,27 +324,7 @@ const Navbar = () => {
               </NavLink>
             ))}
 
-            {/* ==========================================
-                MOBILE DASHBOARD
-            ========================================== */}
 
-            <div className="mt-2 flex flex-col gap-3">
-
-              {user && (
-                <Link
-                  to={
-                    user.role === "admin"
-                      ? "/admin/dashboard"
-                      : "/dashboard"
-                  }
-                  onClick={() => setOpen(false)}
-                  className="rounded-xl bg-orange-500 px-5 py-3 text-center text-sm font-semibold text-white transition hover:bg-orange-600"
-                >
-                  Dashboard
-                </Link>
-              )}
-
-            </div>
           </div>
         </div>
       )}
