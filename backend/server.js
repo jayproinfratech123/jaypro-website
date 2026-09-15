@@ -100,7 +100,8 @@ app.get("/api/health", async (req, res, next) => {
 // ROOT API ROUTE
 // ----------------------------------------------------
 
-app.get("/api", (req, res) => {
+// The hosting platform probes the site root to check that the server is running.
+app.get(["/", "/api"], (req, res) => {
   res.json({
     success: true,
     message: "Jaypro Infratech API is running",
