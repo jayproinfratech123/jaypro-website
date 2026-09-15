@@ -58,7 +58,7 @@ const patnaPackages = [
 const noidaPackages = [
   {
     name: "Silver Package",
-    price: "₹6/sqft",
+    price: "₹10/sqft",
     features: [
       "Floor Plan",
       "Plumbing Design",
