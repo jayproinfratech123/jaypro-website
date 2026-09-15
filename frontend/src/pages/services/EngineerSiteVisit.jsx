@@ -23,6 +23,10 @@ import {
 
 import PaymentLeadForm from "../../components/PaymentLeadForm";
 
+// Add your image to frontend/public, then set its path here.
+// Example: "/site-visit-booking.webp"
+const bookingHeaderImage = "/paynment-form-image.webp";
+
 
 // =====================================================
 // ENGINEER SITE VISIT SERVICES
@@ -234,7 +238,8 @@ export default function EngineerSiteVisit() {
           lg:pt-16
         "
         style={{
-          backgroundImage: `url("/engineer-site-hero.webp")`,
+          backgroundImage: `url("/engi
+          neer-site-hero.webp")`,
           backgroundSize: "cover",
           backgroundPosition: "center center",
           backgroundRepeat: "no-repeat",
@@ -316,7 +321,7 @@ export default function EngineerSiteVisit() {
               LEFT HERO
           ================================================= */}
 
-          <div className="pt-2 lg:pt-7">
+          <div className="order-2 pt-2 lg:order-1 lg:pt-7">
             <div
               className="
                 inline-flex
@@ -602,6 +607,8 @@ export default function EngineerSiteVisit() {
             ref={paymentFormRef}
             id="payment-form"
             className="
+              order-1
+              lg:order-2
               scroll-mt-24
               flex
               justify-center
@@ -623,105 +630,21 @@ export default function EngineerSiteVisit() {
                 lg:top-24
               "
             >
-              {/* =================================================
-                  SMALL CARD HEADER
-              ================================================= */}
-
-              <div
-                className="
-                  relative
-                  overflow-hidden
-                  bg-gradient-to-r
-                  from-blue-600
-                  via-indigo-600
-                  to-violet-600
-                  px-4
-                  py-3.5
-                  text-white
-                "
-              >
-                <div
-                  className="
-                    absolute
-                    -right-8
-                    -top-8
-                    h-24
-                    w-24
-                    rounded-full
-                    bg-white/10
-                  "
-                />
-
-                <div
-                  className="
-                    relative
-                    flex
-                    items-center
-                    gap-3
-                  "
-                >
+              {/* SITE VISIT BOOKING IMAGE */}
+              <div className="h-[100px] w-full overflow-hidden bg-slate-100 lg:h-auto lg:min-h-[100px]">
+                {bookingHeaderImage ? (
+                  <img
+                    src={bookingHeaderImage}
+                    alt="Engineer site visit booking"
+                    className="h-full w-full object-cover lg:block lg:h-auto lg:object-contain"
+                  />
+                ) : (
                   <div
-                    className="
-                      flex
-                      h-9
-                      w-9
-                      shrink-0
-                      items-center
-                      justify-center
-                      rounded-lg
-                      bg-white/15
-                      text-base
-                    "
-                  >
-                    <FaMoneyCheckAlt />
-                  </div>
-
-                  <div className="min-w-0">
-                    <div
-                      className="
-                        mb-0.5
-                        inline-flex
-                        items-center
-                        gap-1
-                        rounded-full
-                        bg-emerald-400/20
-                        px-2
-                        py-0.5
-                        text-[9px]
-                        font-bold
-                        uppercase
-                        tracking-wide
-                        text-emerald-100
-                      "
-                    >
-                      <FaShieldAlt />
-
-                      Secure Booking
-                    </div>
-
-                    <h2
-                      className="
-                        text-base
-                        font-bold
-                        leading-tight
-                        sm:text-lg
-                      "
-                    >
-                      Book Service & Make Payment
-                    </h2>
-
-                    <p
-                      className="
-                        mt-0.5
-                        text-[11px]
-                        leading-4
-                        text-blue-100
-                      "
-                    >
-                      Enter details and amount to continue.
-                    </p>
-                  </div>
-                </div>
+                    className="h-full w-full"
+                    role="img"
+                    aria-label="Engineer site visit image placeholder"
+                  />
+                )}
               </div>
 
               {/* =================================================

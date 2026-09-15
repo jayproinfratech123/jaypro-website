@@ -15,7 +15,7 @@ import { API_BASE_URL } from '../api/config';
 // =====================================================
 
 const serviceOptions = [
-  "Site Visit",
+  "New Site Visit",
   "Site Supervision",
   "Architecture Design",
   "Structural Design",
