@@ -1,0 +1,12 @@
+{
+  "name": "jaypro-website",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "backend"
+  ],
+  "scripts": {
+    "start": "npm run start --workspace=backend",
+    "build": "node --check backend/server.js"
+  }
+}
