@@ -191,10 +191,8 @@ app.use((error, req, res, next) => {
 // SERVER
 // ----------------------------------------------------
 
-const PORT = Number(process.env.PORT) || 3000;
-
-app.listen(PORT, "0.0.0.0", () => {
+app.listen(process.env.PORT || 3000, "0.0.0.0", () => {
   console.log(
-    `Jaypro Backend API running on http://localhost:${PORT}`
+    `Jaypro Backend API running on http://0.0.0.0:${process.env.PORT || 3000}`
   );
 });
