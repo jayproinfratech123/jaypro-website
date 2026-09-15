@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Check } from "lucide-react";
 import LeadForm from "../LeadForm.jsx";
 
-const packages = [
+const patnaPackages = [
   {
     name: "Silver Package",
     price: "₹6/sqft",
@@ -53,7 +53,62 @@ const packages = [
   },
 ];
 
+// Add Noida packages here using the same name, price, features, and optional
+// popular fields as the Patna packages above.
+const noidaPackages = [
+  {
+    name: "Silver Package",
+    price: "₹6/sqft",
+    features: [
+      "Floor Plan",
+      "Plumbing Design",
+      "Electric Design",
+      "3D Front Elevation",
+    ],
+  },
+   {
+    name: "Gold Package",
+    price: "₹15/sqft",
+    popular: true,
+    features: [
+      "Floor Plan",
+      "Plumbing Design",
+      "Electric Design",
+      "3D Front Elevation",
+      "Column Layout Design",
+      "Pile/Footing Layout Design",
+      "Tie Beam Detail Design",
+      "Slab Beam Detail Design",
+      "Slab Reinforcement Details Design",
+      "Staircase Section Details",
+      "Septic Tank & Borewell Position",
+    ],
+  },
+   {
+    name: "Platinum Package",
+    price: "₹40/sqft",
+    features: [
+      "Floor Plan",
+      "Plumbing Design",
+      "Electric Design",
+      "3D Front Elevation",
+      "Column Layout Design",
+      "Pile/Footing Layout Design",
+      "Tie Beam Detail Design",
+      "Slab Beam Detail Design",
+      "Slab Reinforcement Details Design",
+      "Staircase Section Details",
+      "Septic Tank & Borewell Position",
+      "3D Interior Design",
+    ],
+  },
+];
+
+const packagesByCity = { Patna: patnaPackages, Noida: noidaPackages };
+
 const DesignPackage = () => {
+  const [selectedCity, setSelectedCity] = useState("Patna");
+  const packages = packagesByCity[selectedCity];
   const [expandedPackage, setExpandedPackage] = useState(null);
 
   const [showLeadForm, setShowLeadForm] = useState(false);
@@ -99,6 +154,33 @@ const DesignPackage = () => {
           Choose the perfect package for your dream home project.
         </p>
       </header>
+
+      <div className="mb-8 flex gap-3" role="group" aria-label="Package city">
+        {Object.keys(packagesByCity).map((city) => (
+          <button
+            key={city}
+            type="button"
+            aria-pressed={selectedCity === city}
+            onClick={() => {
+              setSelectedCity(city);
+              setExpandedPackage(null);
+            }}
+            className={`rounded-lg border px-6 py-3 font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600 ${
+              selectedCity === city
+                ? "border-red-600 bg-red-600 text-white"
+                : "border-gray-200 bg-white text-gray-700 hover:border-red-600 hover:text-red-600"
+            }`}
+          >
+            {city}
+          </button>
+        ))}
+      </div>
+
+      {packages.length === 0 && (
+        <p role="status" className="rounded-lg border border-gray-200 bg-white p-8 text-center text-gray-600">
+          {selectedCity} design packages are coming soon.
+        </p>
+      )}
 
       {/* ==========================================
           PACKAGE CARDS
