@@ -71,7 +71,7 @@ const LeadForm = ({ onSuccess, onClose }) => {
       );
 
       alert(
-        "Something went wrong. Please try again."
+        error.message || "Something went wrong. Please try again."
       );
     } finally {
       setLoading(false);

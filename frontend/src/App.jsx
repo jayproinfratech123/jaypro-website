@@ -192,6 +192,7 @@ function App() {
       <Toaster
         position="top-center"
         reverseOrder={false}
+        containerStyle={{ zIndex: 100000 }}
       />
 
       {/* ==========================================
