@@ -1,4 +1,4 @@
-import 'dotenv/config';
+import '../config/env.js';
 import mysql from 'mysql2/promise';
 
 let connection;

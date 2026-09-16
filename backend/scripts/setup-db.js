@@ -1,4 +1,4 @@
-import 'dotenv/config';
+import '../config/env.js';
 import { readFile } from 'node:fs/promises';
 import pool from '../config/db.js';
 try {
