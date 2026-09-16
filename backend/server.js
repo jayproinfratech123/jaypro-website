@@ -1,4 +1,4 @@
-import "dotenv/config";
+import "./config/env.js";
 
 import express from "express";
 import cors from "cors";
@@ -39,7 +39,7 @@ if (missingEnv.length > 0) {
   );
 
   console.error(
-    "Please check backend/.env and add all required values."
+    "Set the required environment variables in your hosting dashboard before starting the backend."
   );
 
   process.exit(1);
