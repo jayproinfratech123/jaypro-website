@@ -1,7 +1,7 @@
 import "./config/env.js";
 
 import express from "express";
-import cors from "cors";
+import { createCorsMiddleware } from "./config/cors.js";
 import cookieParser from "cookie-parser";
 
 // Existing payment routes
@@ -55,12 +55,8 @@ const app = express();
 // CORS
 // ----------------------------------------------------
 
-app.use(
-  cors({
-    origin: process.env.CLIENT_URL || "http://localhost:5173",
-    credentials: true,
-  })
-);
+// Handle browser preflight before authentication and API routes.
+app.use(createCorsMiddleware());
 
 // ----------------------------------------------------
 // MIDDLEWARE
