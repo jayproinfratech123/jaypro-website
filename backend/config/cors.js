@@ -1,26 +1,61 @@
-import cors from 'cors';
+import cors from "cors";
 
 export function createCorsMiddleware(env = process.env) {
-  // Public website origin, not a secret. Keep it available even when the
-  // hosting environment has a missing or stale CLIENT_URL value.
-  const origins = new Set(['https://jayproinfratech.com']);
-  for (const value of (env.CLIENT_URL || '').split(',')) {
-    const candidate = value.trim().replace(/\/+$/, '');
-    if (!candidate) continue;
-    const url = new URL(candidate);
-    if (!['https:', 'http:'].includes(url.protocol) || url.origin !== candidate) {
-      throw new Error('CLIENT_URL must contain HTTP(S) origins without paths.');
-    }
-    origins.add(url.origin);
+  const allowedOrigins = [
+    "https://jayproinfratech.com",
+    "https://www.jayproinfratech.com",
+    "http://localhost:5173",
+  ];
+
+  // Optional additional origins from environment variable
+  if (env.CLIENT_URL) {
+    const additionalOrigins = env.CLIENT_URL
+      .split(",")
+      .map((origin) => origin.trim().replace(/\/+$/, ""))
+      .filter(Boolean);
+
+    allowedOrigins.push(...additionalOrigins);
   }
-  if (env.NODE_ENV !== 'production') origins.add('http://localhost:5173');
 
   return cors({
-    origin(origin, callback) {
-      callback(null, Boolean(origin && origins.has(origin)));
+    origin: function (origin, callback) {
+      // Allow requests without Origin
+      // e.g. Postman, curl, server-to-server
+      if (!origin) {
+        return callback(null, true);
+      }
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      console.log("CORS blocked origin:", origin);
+
+      return callback(
+        new Error(`CORS blocked origin: ${origin}`)
+      );
     },
+
     credentials: true,
-    methods: ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
+
+    methods: [
+      "GET",
+      "HEAD",
+      "POST",
+      "PUT",
+      "PATCH",
+      "DELETE",
+      "OPTIONS",
+    ],
+
+    allowedHeaders: [
+      "Content-Type",
+      "Authorization",
+      "Accept",
+      "Origin",
+      "X-Requested-With",
+    ],
+
+    optionsSuccessStatus: 204,
   });
 }
