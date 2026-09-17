@@ -5,6 +5,7 @@
 import "./config/env.js";
 
 import express from "express";
+import { mountFrontend } from "./config/frontend.js";
 import { createCorsMiddleware } from "./config/cors.js";
 import cookieParser from "cookie-parser";
 
@@ -125,7 +126,7 @@ app.get("/api/health", async (req, res, next) => {
 // ROOT API ROUTE
 // ----------------------------------------------------
 
-app.get(["/", "/api"], (req, res) => {
+app.get("/api", (req, res) => {
 
   res.json({
     success: true,
@@ -201,6 +202,9 @@ app.use(
 
 
 // ----------------------------------------------------
+// Frontend files and client-side routes, after all API routes.
+mountFrontend(app);
+
 // 404 ROUTE
 // ----------------------------------------------------
 
