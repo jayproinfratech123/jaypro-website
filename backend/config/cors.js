@@ -1,39 +1,38 @@
 import cors from "cors";
 
 export function createCorsMiddleware(env = process.env) {
-  const allowedOrigins = [
+  const allowedOrigins = new Set([
     "https://jayproinfratech.com",
     "https://www.jayproinfratech.com",
-  ];
+  ]);
+
+  // Allow localhost only during development
   if (env.NODE_ENV !== "production") {
-    allowedOrigins.push("http://localhost:5173");
+    allowedOrigins.add("http://localhost:5173");
   }
 
-  // Optional additional origins from environment variable
+  // Optional additional origins
   if (env.CLIENT_URL) {
-    const additionalOrigins = env.CLIENT_URL
+    env.CLIENT_URL
       .split(",")
       .map((origin) => origin.trim().replace(/\/+$/, ""))
-      .filter(Boolean);
-
-    allowedOrigins.push(...additionalOrigins);
+      .filter(Boolean)
+      .forEach((origin) => allowedOrigins.add(origin));
   }
 
-  return cors({
-    origin: function (origin, callback) {
-      // Allow requests without Origin
-      // e.g. Postman, curl, server-to-server
+  const corsOptions = {
+    origin(origin, callback) {
+      // Postman/curl/server-to-server requests
       if (!origin) {
         return callback(null, true);
       }
 
-      if (allowedOrigins.includes(origin)) {
+      if (allowedOrigins.has(origin)) {
         return callback(null, true);
       }
 
-      console.log("CORS blocked origin:", origin);
+      console.error("CORS blocked origin:", origin);
 
-      // Withhold CORS permission without turning the response into a 500.
       return callback(null, false);
     },
 
@@ -53,10 +52,10 @@ export function createCorsMiddleware(env = process.env) {
       "Content-Type",
       "Authorization",
       "Accept",
-      "Origin",
-      "X-Requested-With",
     ],
 
     optionsSuccessStatus: 204,
-  });
+  };
+
+  return cors(corsOptions);
 }
