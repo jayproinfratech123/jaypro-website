@@ -11,14 +11,17 @@ test('website preflights and error responses carry CORS permissions; other origi
   await new Promise(resolve => server.once('listening', resolve));
   t.after(() => new Promise(resolve => server.close(resolve)));
   const base = `http://127.0.0.1:${server.address().port}`;
+  for (const origin of ['https://jayproinfratech.com', 'https://www.jayproinfratech.com', 'https://preview.example.com']) {
   for (const path of ['/api/auth/me', '/api/leads', '/api/payments/create-order']) {
     const response = await fetch(base + path, {
       method: 'OPTIONS',
-      headers: { Origin: 'https://jayproinfratech.com', 'Access-Control-Request-Method': 'POST', 'Access-Control-Request-Headers': 'authorization,content-type' },
+      headers: { Origin: origin, 'Access-Control-Request-Method': path === '/api/auth/me' ? 'GET' : 'POST', 'Access-Control-Request-Headers': 'authorization,content-type' },
     });
     assert.equal(response.status, 204);
-    assert.equal(response.headers.get('access-control-allow-origin'), 'https://jayproinfratech.com');
+    assert.equal(response.headers.get('access-control-allow-origin'), origin);
+    assert.equal(response.headers.get('access-control-allow-credentials'), 'true');
     assert.match(response.headers.get('access-control-allow-headers'), /Authorization/);
+  }
   }
   for (const origin of ['https://jayproinfratech.com', 'https://preview.example.com', 'https://untrusted.example', 'http://localhost:5173']) {
     const response = await fetch(base + '/api/auth/me', { headers: { Origin: origin } });

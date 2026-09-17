@@ -5,7 +5,7 @@
 import "./config/env.js";
 
 import express from "express";
-import cors from "cors";
+import { createCorsMiddleware } from "./config/cors.js";
 import cookieParser from "cookie-parser";
 
 // Existing payment routes
@@ -65,61 +65,8 @@ const app = express();
 // CORS CONFIGURATION
 // ----------------------------------------------------
 
-const allowedOrigins = [
-  "https://jayproinfratech.com",
-  "https://www.jayproinfratech.com",
-  "http://localhost:5173",
-];
-
-const corsOptions = {
-  origin: function (origin, callback) {
-
-    // Allow requests without Origin
-    // Example: Postman, server-to-server requests
-    if (!origin) {
-      return callback(null, true);
-    }
-
-    if (allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    }
-
-    console.log("Blocked by CORS:", origin);
-
-    return callback(new Error("Not allowed by CORS"));
-  },
-
-  credentials: true,
-
-  methods: [
-    "GET",
-    "POST",
-    "PUT",
-    "PATCH",
-    "DELETE",
-    "OPTIONS",
-  ],
-
-  allowedHeaders: [
-    "Content-Type",
-    "Authorization",
-    "Accept",
-    "Origin",
-    "X-Requested-With",
-  ],
-
-  optionsSuccessStatus: 204,
-};
-
-
-// ----------------------------------------------------
-// CORS MIDDLEWARE
-// ----------------------------------------------------
-
-// IMPORTANT:
-// CORS must come BEFORE routes and authentication.
-
-app.use(cors(corsOptions));
+// Handle preflight before body parsing, authentication, and routes.
+app.use(createCorsMiddleware());
 
 
 // ----------------------------------------------------

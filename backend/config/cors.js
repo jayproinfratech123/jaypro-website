@@ -4,8 +4,10 @@ export function createCorsMiddleware(env = process.env) {
   const allowedOrigins = [
     "https://jayproinfratech.com",
     "https://www.jayproinfratech.com",
-    "http://localhost:5173",
   ];
+  if (env.NODE_ENV !== "production") {
+    allowedOrigins.push("http://localhost:5173");
+  }
 
   // Optional additional origins from environment variable
   if (env.CLIENT_URL) {
@@ -31,9 +33,8 @@ export function createCorsMiddleware(env = process.env) {
 
       console.log("CORS blocked origin:", origin);
 
-      return callback(
-        new Error(`CORS blocked origin: ${origin}`)
-      );
+      // Withhold CORS permission without turning the response into a 500.
+      return callback(null, false);
     },
 
     credentials: true,
