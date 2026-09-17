@@ -54,6 +54,8 @@ export function createCorsMiddleware(env = process.env) {
       "Accept",
     ],
 
+    // Finish permitted OPTIONS requests here; never pass them to auth.
+    preflightContinue: false,
     optionsSuccessStatus: 204,
   };
 

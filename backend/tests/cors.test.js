@@ -6,7 +6,7 @@ import { createCorsMiddleware } from '../config/cors.js';
 test('website preflights and error responses carry CORS permissions; other origins do not', async t => {
   const app = express();
   const corsMiddleware = createCorsMiddleware({ NODE_ENV: 'production', CLIENT_URL: ' https://preview.example.com/ ' });
-  app.options('/api/leads', corsMiddleware);
+  app.options('*', corsMiddleware);
   app.use(corsMiddleware);
   app.use(express.json());
   app.post('/api/leads', (req, res) => res.status(201).json({ success: true }));
@@ -16,7 +16,7 @@ test('website preflights and error responses carry CORS permissions; other origi
   t.after(() => new Promise(resolve => server.close(resolve)));
   const base = `http://127.0.0.1:${server.address().port}`;
   for (const origin of ['https://jayproinfratech.com', 'https://www.jayproinfratech.com', 'https://preview.example.com']) {
-  for (const path of ['/api/auth/me', '/api/leads', '/api/payments/create-order']) {
+  for (const path of ['/api/auth/me', '/api/leads', '/api/payments/create-order', '/api/employees']) {
     const response = await fetch(base + path, {
       method: 'OPTIONS',
       headers: { Origin: origin, 'Access-Control-Request-Method': path === '/api/auth/me' ? 'GET' : 'POST', 'Access-Control-Request-Headers': 'authorization,content-type' },
