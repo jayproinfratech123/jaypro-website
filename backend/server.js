@@ -66,12 +66,35 @@ const app = express();
 // CORS CONFIGURATION
 // ----------------------------------------------------
 
-// Handle preflight before body parsing, authentication, and routes.
 const corsMiddleware = createCorsMiddleware();
-// Answer preflight for every route before authentication. Reuse the policy
-// so OPTIONS never falls back to the cors package's wildcard defaults.
+
+// Handle OPTIONS/preflight before authentication/routes
 app.options("*", corsMiddleware);
+
+// Apply CORS to all requests
 app.use(corsMiddleware);
+
+
+// ----------------------------------------------------
+// TEMPORARY CORS TEST ROUTE
+// ----------------------------------------------------
+//
+// Use this route to confirm:
+// 1. New backend deployment is actually running.
+// 2. Browser Origin reaches Express.
+// 3. CORS headers are being returned.
+//
+// Remove this route after CORS debugging is complete.
+//
+
+app.get("/api/cors-test", (req, res) => {
+  res.json({
+    success: true,
+    originReceived: req.headers.origin || null,
+    nodeEnv: process.env.NODE_ENV || null,
+    message: "NEW CORS TEST VERSION 1",
+  });
+});
 
 
 // ----------------------------------------------------
@@ -99,7 +122,6 @@ app.use(cookieParser());
 
 app.get("/api/health", async (req, res, next) => {
   try {
-
     await pool.query(
       "SELECT 1 FROM crm_leads LIMIT 1"
     );
@@ -131,12 +153,10 @@ app.get("/api/health", async (req, res, next) => {
 // ----------------------------------------------------
 
 app.get("/api", (req, res) => {
-
   res.json({
     success: true,
     message: "Jaypro Infratech API is running",
   });
-
 });
 
 
@@ -175,16 +195,10 @@ app.use(
   leadRoutes
 );
 
-// Routes:
-//
+// Public:
 // POST /api/leads
-// GET  /api/leads
-// GET  /api/leads/my-leads
-// GET  /api/leads/:leadId
-// PUT  /api/leads/:leadId/assign
-// PUT  /api/leads/:leadId/status
-// PUT  /api/leads/:leadId/notes
-// PUT  /api/leads/:leadId/follow-up
+//
+// Protected routes are controlled inside leadRoutes.js
 
 
 // ----------------------------------------------------
@@ -196,29 +210,27 @@ app.use(
   employeeRoutes
 );
 
-// Routes:
+
+// ----------------------------------------------------
+// FRONTEND
+// ----------------------------------------------------
 //
-// GET    /api/employees
-// POST   /api/employees
-// GET    /api/employees/:employeeId
-// PUT    /api/employees/:employeeId
-// DELETE /api/employees/:employeeId
+// Frontend files/client-side routes must remain AFTER
+// all API routes.
+//
+
+mountFrontend(app);
 
 
 // ----------------------------------------------------
-// Frontend files and client-side routes, after all API routes.
-mountFrontend(app);
-
 // 404 ROUTE
 // ----------------------------------------------------
 
 app.use((req, res) => {
-
   res.status(404).json({
     success: false,
     message: "API route not found.",
   });
-
 });
 
 
@@ -235,18 +247,15 @@ app.use((error, req, res, next) => {
 
   // CORS error
   if (error.message === "Not allowed by CORS") {
-
     return res.status(403).json({
       success: false,
       message: "Origin is not allowed.",
     });
-
   }
 
   res.status(
     error.statusCode || 500
   ).json({
-
     success: false,
 
     message:
@@ -254,9 +263,7 @@ app.use((error, req, res, next) => {
       error.statusCode < 500
         ? error.message
         : "Unable to complete the request. Please try again.",
-
   });
-
 });
 
 
@@ -270,10 +277,8 @@ app.listen(
   PORT,
   "0.0.0.0",
   () => {
-
     console.log(
       `Jaypro Backend API running on port ${PORT}`
     );
-
   }
 );
