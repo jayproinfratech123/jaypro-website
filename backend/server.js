@@ -67,7 +67,10 @@ const app = express();
 // ----------------------------------------------------
 
 // Handle preflight before body parsing, authentication, and routes.
-app.use(createCorsMiddleware());
+const corsMiddleware = createCorsMiddleware();
+// Use the same allowlist for the explicit lead preflight and actual requests.
+app.options("/api/leads", corsMiddleware);
+app.use(corsMiddleware);
 
 
 // ----------------------------------------------------
