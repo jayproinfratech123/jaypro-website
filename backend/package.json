@@ -5,7 +5,6 @@
   "private": true,
   "type": "module",
   "main": "server.js",
-
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
@@ -13,7 +12,6 @@
     "admin:create": "node scripts/create-admin.js",
     "test": "node --test tests/*.test.js"
   },
-
   "dependencies": {
     "bcryptjs": "^3.0.3",
     "cookie-parser": "^1.4.7",
@@ -24,11 +22,9 @@
     "mysql2": "^3.24.4",
     "razorpay": "^2.9.8"
   },
-
   "devDependencies": {
     "nodemon": "^3.1.14"
   },
-
   "keywords": [
     "jaypro",
     "crm",
@@ -39,7 +35,6 @@
     "express",
     "nodejs"
   ],
-
   "author": "Jaypro Infratech Private Limited",
   "license": "ISC"
 }
