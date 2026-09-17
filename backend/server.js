@@ -79,21 +79,30 @@ app.use(corsMiddleware);
 // TEMPORARY CORS TEST ROUTE
 // ----------------------------------------------------
 //
-// Use this route to confirm:
-// 1. New backend deployment is actually running.
-// 2. Browser Origin reaches Express.
-// 3. CORS headers are being returned.
-//
-// Remove this route after CORS debugging is complete.
+// TEMPORARY DEBUG ROUTE.
+// Remove after CORS issue is resolved.
 //
 
 app.get("/api/cors-test", (req, res) => {
+
+  // Manually set CORS headers for testing
+  res.setHeader(
+    "Access-Control-Allow-Origin",
+    "https://jayproinfratech.com"
+  );
+
+  res.setHeader(
+    "Access-Control-Allow-Credentials",
+    "true"
+  );
+
   res.json({
     success: true,
     originReceived: req.headers.origin || null,
     nodeEnv: process.env.NODE_ENV || null,
-    message: "NEW CORS TEST VERSION 1",
+    message: "NEW CORS TEST VERSION 2",
   });
+
 });
 
 
@@ -121,7 +130,9 @@ app.use(cookieParser());
 // ----------------------------------------------------
 
 app.get("/api/health", async (req, res, next) => {
+
   try {
+
     await pool.query(
       "SELECT 1 FROM crm_leads LIMIT 1"
     );
@@ -131,6 +142,7 @@ app.get("/api/health", async (req, res, next) => {
       service: "Jaypro Backend API",
 
       modules: {
+
         payments: Boolean(
           process.env.RAZORPAY_KEY_ID &&
           process.env.RAZORPAY_KEY_SECRET
@@ -139,12 +151,16 @@ app.get("/api/health", async (req, res, next) => {
         crm: true,
         authentication: true,
         mysql: true,
+
       },
     });
 
   } catch (error) {
+
     next(error);
+
   }
+
 });
 
 
@@ -153,10 +169,12 @@ app.get("/api/health", async (req, res, next) => {
 // ----------------------------------------------------
 
 app.get("/api", (req, res) => {
+
   res.json({
     success: true,
     message: "Jaypro Infratech API is running",
   });
+
 });
 
 
@@ -196,9 +214,11 @@ app.use(
 );
 
 // Public:
+//
 // POST /api/leads
 //
-// Protected routes are controlled inside leadRoutes.js
+// Protected lead routes are handled
+// inside leadRoutes.js.
 
 
 // ----------------------------------------------------
@@ -215,8 +235,8 @@ app.use(
 // FRONTEND
 // ----------------------------------------------------
 //
-// Frontend files/client-side routes must remain AFTER
-// all API routes.
+// Frontend/static/client-side routes must stay
+// AFTER all /api routes.
 //
 
 mountFrontend(app);
@@ -227,10 +247,12 @@ mountFrontend(app);
 // ----------------------------------------------------
 
 app.use((req, res) => {
+
   res.status(404).json({
     success: false,
     message: "API route not found.",
   });
+
 });
 
 
@@ -242,20 +264,34 @@ app.use((error, req, res, next) => {
 
   console.error(
     "Backend Error:",
-    error.code || error.name || error.message
+    error.code ||
+    error.name ||
+    error.message
   );
 
-  // CORS error
+
+  // --------------------------------------------------
+  // CORS ERROR
+  // --------------------------------------------------
+
   if (error.message === "Not allowed by CORS") {
+
     return res.status(403).json({
       success: false,
       message: "Origin is not allowed.",
     });
+
   }
+
+
+  // --------------------------------------------------
+  // OTHER ERRORS
+  // --------------------------------------------------
 
   res.status(
     error.statusCode || 500
   ).json({
+
     success: false,
 
     message:
@@ -263,7 +299,9 @@ app.use((error, req, res, next) => {
       error.statusCode < 500
         ? error.message
         : "Unable to complete the request. Please try again.",
+
   });
+
 });
 
 
@@ -277,8 +315,10 @@ app.listen(
   PORT,
   "0.0.0.0",
   () => {
+
     console.log(
       `Jaypro Backend API running on port ${PORT}`
     );
+
   }
 );
