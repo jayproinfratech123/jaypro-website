@@ -1,4 +1,4 @@
-import pool from '../config/db.js';
+import db, { nextLeadId } from '../config/db.js';
 export const statuses = ['New', 'Contacted', 'Follow Up', 'Interested', 'Not Interested', 'Converted'];
 export function normalizeLead(body, admin = false) {
   const field = (value, max, required = true) => {
@@ -27,45 +27,53 @@ export function normalizeLead(body, admin = false) {
     notes: admin ? field(body.notes ?? '', 10000, false) : '',
   };
 }
-const columns = "CONCAT('L', LPAD(id, GREATEST(3, CHAR_LENGTH(id)), '0')) AS id, customer, phone, city, service, source, DATE_FORMAT(date, '%Y-%m-%d') AS date, status, COALESCE(DATE_FORMAT(follow_up, '%Y-%m-%d'), '') AS followUp, notes, payment_id AS paymentId, order_id AS orderId, amount, (SELECT u.name FROM crm_lead_assignments a JOIN crm_users u ON u.id=a.employee_id WHERE a.lead_id=crm_leads.id) AS assignedEmployeeName";
-const databaseId = id => /^L\d+$/.test(id) ? id.slice(1) : '0';
+const leads = () => db.collection('crm_leads');
+const databaseId = id => /^L\d+$/.test(id) ? Number(id.slice(1)) : 0;
+async function serialize(lead) {
+  if (!lead) return undefined;
+  const employee = lead.employeeId ? await db.collection('crm_users').findOne({ id: lead.employeeId }) : null;
+  return { id: 'L' + String(lead.id).padStart(3, '0'), customer: lead.customer, phone: lead.phone,
+    city: lead.city, service: lead.service, source: lead.source, date: lead.date, status: lead.status,
+    followUp: lead.followUp || '', notes: lead.notes, paymentId: lead.paymentId ?? null,
+    orderId: lead.orderId ?? null, amount: lead.amount ?? null, assignedEmployeeName: employee?.name ?? null };
+}
 export async function listLeads() {
-  const [rows] = await pool.query(`SELECT ${columns} FROM crm_leads ORDER BY created_at DESC, id DESC`);
-  return rows;
+  return Promise.all((await leads().find({}).sort({ created_at: -1, id: -1 }).toArray()).map(serialize));
 }
-export async function getLead(id) {
-  const [rows] = await pool.execute(`SELECT ${columns} FROM crm_leads WHERE id = ?`, [databaseId(id)]);
-  return rows[0];
-}
+export async function getLead(id) { return serialize(await leads().findOne({ id: databaseId(id) })); }
 export async function createLead(lead) {
-  const [result] = await pool.execute('INSERT INTO crm_leads (customer, phone, city, service, source, date, status, follow_up, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
-    [lead.customer, lead.phone, lead.city, lead.service, lead.source, lead.date, lead.status, lead.followUp, lead.notes]);
-  return getLead(`L${result.insertId}`);
+  const id = await nextLeadId();
+  await leads().insertOne({ ...lead, id, created_at: new Date(), updated_at: new Date() });
+  return getLead('L' + id);
 }
 export async function updateLead(id, lead) {
-  await pool.execute('UPDATE crm_leads SET customer=?, phone=?, city=?, service=?, source=?, date=?, status=?, follow_up=?, notes=? WHERE id=?',
-    [lead.customer, lead.phone, lead.city, lead.service, lead.source, lead.date, lead.status, lead.followUp, lead.notes, databaseId(id)]);
+  await leads().updateOne({ id: databaseId(id) }, { $set: { ...lead, updated_at: new Date() } });
   return getLead(id);
 }
+function paymentLead(order) {
+  return { customer: order.notes?.customer_name || '', phone: order.notes?.mobile || '', city: order.notes?.location || '',
+    service: order.notes?.service || '', date: new Date().toISOString().slice(0, 10), followUp: null,
+    orderId: order.id, amount: Number(order.amount) / 100 };
+}
 export async function savePendingSiteVisit(order) {
-  await pool.execute(`INSERT INTO crm_leads
-    (customer, phone, city, service, source, date, status, notes, order_id, amount)
-    VALUES (?, ?, ?, ?, 'Engineer Site Visit', UTC_DATE(), 'New', '', ?, ?)`,
-    [order.notes.customer_name, order.notes.mobile, order.notes.location,
-      order.notes.service, order.id, Number(order.amount) / 100]);
+  await createLead({ ...paymentLead(order), source: 'Engineer Site Visit', status: 'New', notes: '' });
 }
 export async function saveVerifiedPayment({ order, paymentId }) {
   if (order.notes?.source === 'Engineer Site Visit') {
-    const [result] = await pool.execute(`UPDATE crm_leads
-      SET status = CASE WHEN payment_id IS NULL THEN 'Converted' ELSE status END, payment_id = ?
-      WHERE order_id = ? AND source = 'Engineer Site Visit'`, [paymentId, order.id]);
-    if (!result.affectedRows) throw new Error('Site visit booking was not found.');
+    const result = await leads().updateOne({ orderId: order.id, source: 'Engineer Site Visit' }, [{ $set: {
+      status: { $cond: [{ $eq: [{ $ifNull: ['$paymentId', null] }, null] }, 'Converted', '$status'] },
+      paymentId: { $literal: paymentId }, updated_at: '$$NOW',
+    } }]);
+    if (!result.matchedCount) throw new Error('Site visit booking was not found.');
     return;
   }
-  await pool.execute(`INSERT INTO crm_leads
-    (customer, phone, city, service, source, date, status, notes, payment_id, order_id, amount)
-    VALUES (?, ?, ?, ?, 'Payment', UTC_DATE(), 'Converted', ?, ?, ?, ?)
-    ON DUPLICATE KEY UPDATE payment_id=VALUES(payment_id)`,
-    [order.notes?.customer_name || '', order.notes?.mobile || '', order.notes?.location || '',
-      order.notes?.service || '', `Verified payment: ${paymentId}`, paymentId, order.id, Number(order.amount) / 100]);
+  const document = { ...paymentLead(order), id: await nextLeadId(), source: 'Payment', status: 'Converted',
+    notes: 'Verified payment: ' + paymentId, created_at: new Date() };
+  const filter = { orderId: order.id };
+  try {
+    await leads().updateOne(filter, { $setOnInsert: document, $set: { paymentId, updated_at: new Date() } }, { upsert: true });
+  } catch (error) {
+    if (error.code !== 11000 || !await leads().findOne(filter)) throw error;
+    await leads().updateOne(filter, { $set: { paymentId, updated_at: new Date() } });
+  }
 }

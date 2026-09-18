@@ -1,11 +1,8 @@
-import '../config/env.js';
-import { readFile } from 'node:fs/promises';
-import pool from '../config/db.js';
+import { setupDatabase, closeDatabase } from '../config/db.js';
 try {
-  const sql = await readFile(new URL('../db/schema.sql', import.meta.url), 'utf8');
-  for (const statement of sql.split(';').map(s => s.trim()).filter(Boolean)) await pool.query(statement);
-  console.log('CRM tables are ready. Existing records were preserved.');
+  await setupDatabase();
+  console.log('MongoDB connection and indexes ready.');
 } catch (error) {
-  console.error('Database setup failed:', error.code || error.name);
+  console.error('MongoDB setup failed:', error.name);
   process.exitCode = 1;
-} finally { await pool.end(); }
+} finally { await closeDatabase(); }

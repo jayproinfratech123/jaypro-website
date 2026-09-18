@@ -1,3 +1,4 @@
+import { setupDatabase } from './config/db.js';
 import express from "express";
 import "./config/env.js";
 import { createCorsMiddleware } from "./config/cors.js";
@@ -39,6 +40,8 @@ app.use((error, req, res, next) => {
 });
 
 const PORT = process.env.PORT || 3000;
+
+await setupDatabase();
 
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Listening on ${PORT}`);

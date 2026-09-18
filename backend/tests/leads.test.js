@@ -3,28 +3,26 @@ import assert from 'node:assert/strict';
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-import pool from '../config/db.js';
+import { testDatabase } from './database-helper.js';
 import leadRoutes from '../routes/leadRoutes.js';
 import authRoutes from '../routes/authRoutes.js';
 import { normalizeLead, savePendingSiteVisit, saveVerifiedPayment } from '../services/leadService.js';
 
 const fields = { fullName: 'Test Enquiry', mobile: '9876543210', city: 'Patna', purpose: 'Architecture Design' };
-test('site visit saves the submitted details and updates the same booking on payment verification', async t => {
+test('site visit verification updates one booking and preserves subsequent status changes', async t => {
+  const db = await testDatabase(t);
   const order = { id: 'order_visit', amount: 150050, notes: { source: 'Engineer Site Visit', customer_name: "O'Brien", mobile: '9876543210', location: 'Other city', service: 'Custom inspection' } };
-  const execute = t.mock.method(pool, 'execute', async () => [{ affectedRows: 1 }]);
   await savePendingSiteVisit(order);
-  assert.deepEqual(execute.mock.calls[0].arguments[1], ["O'Brien", '9876543210', 'Other city', 'Custom inspection', 'order_visit', 1500.5]);
+  let lead = await db.collection('crm_leads').findOne({ orderId: order.id });
+  assert.equal(lead.customer, "O'Brien"); assert.equal(lead.amount, 1500.5); assert.equal(lead.status, 'New');
   await saveVerifiedPayment({ order, paymentId: 'pay_visit' });
+  lead = await db.collection('crm_leads').findOne({ orderId: order.id });
+  assert.equal(lead.status, 'Converted');
+  await db.collection('crm_leads').updateOne({ id: lead.id }, { $set: { status: 'Contacted' } });
   await saveVerifiedPayment({ order, paymentId: 'pay_visit' });
-  for (const call of execute.mock.calls.slice(1)) {
-    assert.match(call.arguments[0], /UPDATE crm_leads/);
-    assert.match(call.arguments[0], /WHERE order_id = \?/);
-    assert.deepEqual(call.arguments[1], ['pay_visit', 'order_visit']);
-  }
-  execute.mock.mockImplementation(async () => [{ affectedRows: 0 }]);
-  await assert.rejects(saveVerifiedPayment({ order, paymentId: 'pay_visit' }), /not found/);
-  execute.mock.mockImplementation(async () => { throw new Error('Database unavailable'); });
-  await assert.rejects(savePendingSiteVisit(order), /Database unavailable/);
+  assert.equal(await db.collection('crm_leads').countDocuments(), 1);
+  assert.equal((await db.collection('crm_leads').findOne({ id: lead.id })).status, 'Contacted');
+  await assert.rejects(saveVerifiedPayment({ order: { ...order, id: 'missing' }, paymentId: 'missing' }), /not found/);
 });
 test('validation rejects bad phones, dates and statuses and ignores public admin-only fields', () => {
   const publicLead = normalizeLead({ ...fields, status: 'Converted', notes: 'forged', source: 'Payment', followUp: '2030-01-01' });
@@ -40,42 +38,11 @@ test('validation rejects bad phones, dates and statuses and ignores public admin
 
 test('HTTP flow: public submission, protected admin listing/editing, login, refresh, logout and database failures', async t => {
   process.env.JWT_SECRET = 'isolated-test-secret-that-is-not-a-production-secret';
-  const leads = new Map();
-  const sessions = new Map();
-  const users = new Map([
-    ['admin-id', { id: 'admin-id', name: 'Test Admin', email: 'admin@example.test', role: 'admin', password_hash: await bcrypt.hash('test-password-123', 4) }],
-    ['customer-id', { id: 'customer-id', name: 'Customer', role: 'customer' }],
+  const db = await testDatabase(t);
+  await db.collection('crm_users').insertMany([
+    { id: 'admin-id', name: 'Test Admin', email: 'admin@example.test', role: 'admin', password_hash: await bcrypt.hash('test-password-123', 4) },
+    { id: 'customer-id', name: 'Customer', email: 'other@example.test', role: 'customer' },
   ]);
-  let failWrites = false;
-  t.mock.method(pool, 'execute', async (sql, values) => {
-    if (sql.startsWith('SELECT * FROM crm_users')) return [[...users.values()].filter(u => u.email === values[0])];
-    if (sql.startsWith('SELECT id, name, email, role')) return [[users.get(values[0])].filter(Boolean)];
-    if (sql.startsWith('INSERT INTO crm_sessions')) { sessions.set(values[0], values[1]); return [{}]; }
-    if (sql.startsWith('SELECT u.id')) return [sessions.has(values[0]) ? [{ id: sessions.get(values[0]) }] : []];
-    if (sql.startsWith('DELETE FROM crm_sessions')) { sessions.delete(values[0]); return [{}]; }
-    if (sql.startsWith('INSERT INTO crm_users')) {
-      const [id, name, email, password_hash, role] = values;
-      users.set(id, { id, name, email, password_hash, role }); return [{}];
-    }
-    if (sql.startsWith('INSERT INTO crm_leads')) {
-      if (failWrites) throw new Error('Database unavailable');
-      const [customer, phone, city, service, source, date, status, followUp, notes] = values;
-      const insertId = leads.size + 1;
-      const id = `L${String(insertId).padStart(3, '0')}`;
-      leads.set(id, { id, customer, phone, city, service, source, date, status, followUp: followUp || '', notes });
-      return [{ affectedRows: 1, insertId }];
-    }
-    if (sql.startsWith('UPDATE crm_leads')) {
-      if (failWrites) throw new Error('Database unavailable');
-      const [customer, phone, city, service, source, date, status, followUp, notes, rawId] = values;
-      const id = `L${String(Number(rawId)).padStart(3, '0')}`;
-      if (leads.has(id)) leads.set(id, { id, customer, phone, city, service, source, date, status, followUp: followUp || '', notes });
-      return [{}];
-    }
-    if (sql.includes('FROM crm_leads WHERE id')) return [[leads.get(`L${String(Number(values[0])).padStart(3, '0')}`)].filter(Boolean)];
-    throw new Error(`Unexpected test query: ${sql}`);
-  });
-  t.mock.method(pool, 'query', async () => [[...leads.values()]]);
   const app = express();
   app.use(express.json());
   app.use('/api/leads', leadRoutes);
@@ -108,7 +75,11 @@ test('HTTP flow: public submission, protected admin listing/editing, login, refr
   assert.equal(reread.lead.notes, edited.notes);
   assert.equal((await call('/leads/missing', { token: token('admin') })).status, 404);
   assert.equal((await call('/leads/admin', { method: 'POST', body: edited, token: token('admin') })).status, 201);
-  failWrites = true;
+  const failingCollection = db.collection('crm_leads');
+  const originalCollection = db.collection.bind(db);
+  t.mock.method(failingCollection, 'insertOne', async () => { throw new Error('Database unavailable'); });
+  t.mock.method(failingCollection, 'updateOne', async () => { throw new Error('Database unavailable'); });
+  t.mock.method(db, 'collection', name => name === 'crm_leads' ? failingCollection : originalCollection(name));
   assert.equal((await call('/leads', { method: 'POST', body: fields })).status, 500);
   assert.equal((await call(`/leads/${id}`, { method: 'PUT', body: edited, token: token('admin') })).status, 500);
   assert.equal((await call('/auth/login', { method: 'POST', body: { email: 'admin@example.test', password: 'wrong' } })).status, 401);
@@ -124,12 +95,11 @@ test('HTTP flow: public submission, protected admin listing/editing, login, refr
   assert.equal((await call('/leads', { token: registration.accessToken })).status, 403);
 });
 
-test('payment persistence uses provider metadata and a duplicate-safe parameterized query', async t => {
-  const execute = t.mock.method(pool, 'execute', async () => [{}]);
-  await saveVerifiedPayment({ order: { id: 'order_test', amount: 12500, notes: { customer_name: "O'Brien", mobile: '9876543210', location: 'Patna', service: 'Design' } }, paymentId: 'pay_test' });
-  const [sql, values] = execute.mock.calls[0].arguments;
-  assert.match(sql, /ON DUPLICATE KEY UPDATE/);
-  assert.ok(!sql.includes("O'Brien"));
-  assert.equal(values[0], "O'Brien");
-  assert.equal(values.at(-1), 125);
+test('payment persistence is duplicate-safe under concurrent verification', async t => {
+  const db = await testDatabase(t);
+  const input = { order: { id: 'order_test', amount: 12500, notes: { customer_name: "O'Brien", mobile: '9876543210', location: 'Patna', service: 'Design' } }, paymentId: 'pay_test' };
+  await Promise.all(Array.from({ length: 5 }, () => saveVerifiedPayment(input)));
+  const leads = await db.collection('crm_leads').find({}).toArray();
+  assert.equal(leads.length, 1); assert.equal(leads[0].customer, "O'Brien");
+  assert.equal(leads[0].amount, 125); assert.equal(leads[0].paymentId, 'pay_test');
 });

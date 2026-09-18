@@ -1,7 +1,7 @@
 import express from 'express';
 import bcrypt from 'bcryptjs';
 import { randomBytes, randomUUID } from 'node:crypto';
-import pool from '../config/db.js';
+import db from '../config/db.js';
 import { requireAuth, requireAdmin } from '../middleware/auth.js';
 import { statuses } from '../services/leadService.js';
 const router = express.Router();
@@ -9,9 +9,7 @@ const run = fn => (req, res, next) => Promise.resolve(fn(req, res)).catch(next);
 router.use(requireAuth);
 const employeeOnly = (req, res, next) => req.user.role === 'employee' ? next() : res.status(403).json({ message: 'Employee access required.' });
 router.get('/my-leads', employeeOnly, run(async (req, res) => {
-  const [leads] = await pool.execute(`SELECT l.id, l.customer, l.phone, l.city, l.service, l.status, l.notes,
-    COALESCE(DATE_FORMAT(l.follow_up, '%Y-%m-%d'), '') AS followUp
-    FROM crm_leads l JOIN crm_lead_assignments a ON a.lead_id=l.id WHERE a.employee_id=? ORDER BY l.created_at DESC`, [req.user.id]);
+  const leads = (await db.collection('crm_leads').find({ employeeId: req.user.id }, { projection: { _id: 0, id: 1, customer: 1, phone: 1, city: 1, service: 1, status: 1, notes: 1, followUp: 1 } }).sort({ created_at: -1 }).toArray()).map(lead => ({ ...lead, followUp: lead.followUp || '' }));
   res.json({ leads });
 }));
 router.put('/my-leads/:id', employeeOnly, run(async (req, res) => {
@@ -20,31 +18,30 @@ router.put('/my-leads/:id', employeeOnly, run(async (req, res) => {
       (followUp && (typeof followUp !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(followUp) || !Number.isFinite(Date.parse(followUp)) || new Date(followUp).toISOString().slice(0,10) !== followUp))) {
     return res.status(400).json({ message: 'Enter valid status, notes and follow-up date.' });
   }
-  const [result] = await pool.execute(`UPDATE crm_leads l JOIN crm_lead_assignments a ON a.lead_id=l.id
-    SET l.status=?, l.notes=?, l.follow_up=? WHERE l.id=? AND a.employee_id=?`, [status, notes, followUp || null, req.params.id, req.user.id]);
-  res.status(result.affectedRows ? 200 : 404).json(result.affectedRows ? { success: true } : { message: 'Assigned lead not found.' });
+  const result = await db.collection('crm_leads').updateOne({ id: Number(req.params.id), employeeId: req.user.id }, { $set: { status, notes, followUp: followUp || null, updated_at: new Date() } });
+  res.status(result.matchedCount ? 200 : 404).json(result.matchedCount ? { success: true } : { message: 'Assigned lead not found.' });
 }));
 router.use(requireAdmin);
 router.get('/assignments/:id', run(async (req, res) => {
-  const [rows] = await pool.execute('SELECT employee_id AS employeeId FROM crm_lead_assignments WHERE lead_id=?', [/^L\d+$/.test(req.params.id) ? req.params.id.slice(1) : '0']);
-  res.json({ employeeId: rows[0]?.employeeId || '' });
+  const lead = await db.collection('crm_leads').findOne({ id: /^L\d+$/.test(req.params.id) ? Number(req.params.id.slice(1)) : 0 });
+  res.json({ employeeId: lead?.employeeId || '' });
 }));
 router.put('/assignments/:id', run(async (req, res) => {
   if (!/^L\d+$/.test(req.params.id) || typeof req.body.employeeId !== 'string') return res.status(400).json({ message: 'Invalid assignment.' });
-  const leadId = req.params.id.slice(1);
-  const [leads] = await pool.execute('SELECT id FROM crm_leads WHERE id=?', [leadId]);
-  if (!leads.length) return res.status(404).json({ message: 'Lead not found.' });
+  const leadId = Number(req.params.id.slice(1));
+  const lead = await db.collection('crm_leads').findOne({ id: leadId });
+  if (!lead) return res.status(404).json({ message: 'Lead not found.' });
   if (!req.body.employeeId) {
-    await pool.execute('DELETE FROM crm_lead_assignments WHERE lead_id=?', [leadId]);
+    await db.collection('crm_leads').updateOne({ id: leadId }, { $unset: { employeeId: '' } });
   } else {
-    const [employees] = await pool.execute("SELECT id FROM crm_users WHERE id=? AND role='employee'", [req.body.employeeId]);
-    if (!employees.length) return res.status(400).json({ message: 'Employee not found.' });
-    await pool.execute('INSERT INTO crm_lead_assignments (lead_id, employee_id) VALUES (?, ?) ON DUPLICATE KEY UPDATE employee_id=VALUES(employee_id)', [leadId, req.body.employeeId]);
+    const employee = await db.collection('crm_users').findOne({ id: req.body.employeeId, role: 'employee' });
+    if (!employee) return res.status(400).json({ message: 'Employee not found.' });
+    await db.collection('crm_leads').updateOne({ id: leadId }, { $set: { employeeId: req.body.employeeId } });
   }
   res.json({ success: true });
 }));
 router.get('/', run(async (req, res) => {
-  const [employees] = await pool.execute("SELECT id, name, email AS loginId FROM crm_users WHERE role='employee' ORDER BY name");
+  const employees = (await db.collection('crm_users').find({ role: 'employee' }, { projection: { _id: 0, id: 1, name: 1, email: 1 } }).sort({ name: 1 }).toArray()).map(({ id, name, email }) => ({ id, name, loginId: email }));
   res.json({ employees });
 }));
 router.post('/', run(async (req, res) => {
@@ -57,10 +54,9 @@ router.post('/', run(async (req, res) => {
   const credential = password || randomBytes(18).toString('base64url');
   const employee = { id: randomUUID(), name: name.trim(), loginId: loginId.toLowerCase() };
   try {
-    await pool.execute('INSERT INTO crm_users (id, name, email, password_hash, role) VALUES (?, ?, ?, ?, ?)',
-      [employee.id, employee.name, employee.loginId, await bcrypt.hash(credential, 12), 'employee']);
+    await db.collection('crm_users').insertOne({ id: employee.id, name: employee.name, email: employee.loginId, password_hash: await bcrypt.hash(credential, 12), role: 'employee' });
   } catch (error) {
-    if (error.code === 'ER_DUP_ENTRY') return res.status(409).json({ message: 'That login ID is already in use.' });
+    if (error.code === 11000) return res.status(409).json({ message: 'That login ID is already in use.' });
     throw error;
   }
   res.set('Cache-Control', 'no-store').status(201).json({ employee, password: credential });

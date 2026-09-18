@@ -26,16 +26,15 @@ once, using real values privately in the dashboard. Never commit secrets.
 | --- | --- |
 | NODE_ENV | production |
 | JWT_SECRET | A private randomly generated secret |
-| DB_HOST | Remote MySQL hostname supplied by your database provider |
-| DB_USER | MySQL username |
-| DB_PASSWORD | MySQL password |
-| DB_NAME | MySQL database name |
+| MONGODB_URI | MongoDB Atlas connection URI (or local MongoDB URI) |
+| MONGODB_DB_NAME | jayproinfratech |
 | CLIENT_URL | https://jayproinfratech.com, or the exact frontend origin if different |
 | RAZORPAY_KEY_ID | Razorpay key ID, required for payments |
 | RAZORPAY_KEY_SECRET | Matching Razorpay secret, required for payments |
 
-Set DB_PORT if different from 3306. Set DB_SSL=true if your provider requires
-TLS. The platform supplies PORT. This backend uses MySQL, not MongoDB.
+The platform supplies PORT. The backend uses MongoDB. Allow the Node host outbound
+IP in Atlas Network Access and configure a database user with read/write access.
+Run `npm run db:setup` and `npm run admin:create` from backend for a new database.
 
 Generate JWT_SECRET locally with:
 
@@ -65,10 +64,7 @@ Use branch `main`, app directory `backend`, install `npm ci`, start `npm start`,
 and health-check path `/`. Copy the existing production environment values
 privately into the GoDaddy app's secrets. Let the platform supply `PORT`.
 
-GoDaddy Node.js Hosting and cPanel MySQL can run on separate infrastructure.
-Confirm remote MySQL connectivity and the Node app's outbound IP requirements
-with GoDaddy; moving providers does not automatically remove IP restrictions.
-Allow the confirmed app outbound IPs in cPanel Remote MySQL when required.
+Configure MongoDB Atlas Network Access for the Node host outbound IPs.
 
 Connect `api.jayproinfratech.com` to the GoDaddy app using the DNS records shown
 by that app. The frontend production API URL is `https://api.jayproinfratech.com`.

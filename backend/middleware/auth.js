@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import pool from '../config/db.js';
+import db from '../config/db.js';
 export async function requireAuth(req, res, next) {
   try {
     const token = req.headers.authorization?.match(/^Bearer (.+)$/)?.[1];
@@ -8,9 +8,9 @@ export async function requireAuth(req, res, next) {
     try { payload = jwt.verify(token, process.env.JWT_SECRET, { algorithms: ['HS256'] }); }
     catch { return res.status(401).json({ message: 'Session expired. Please sign in.' }); }
     if (payload.type !== 'access') return res.status(401).json({ message: 'Invalid session.' });
-    const [rows] = await pool.execute('SELECT id, name, email, role FROM crm_users WHERE id=?', [payload.sub]);
-    if (!rows[0]) return res.status(401).json({ message: 'Invalid session.' });
-    req.user = rows[0]; next();
+    const user = await db.collection('crm_users').findOne({ id: payload.sub }, { projection: { _id: 0, id: 1, name: 1, email: 1, role: 1 } });
+    if (!user) return res.status(401).json({ message: 'Invalid session.' });
+    req.user = user; next();
   } catch (error) { next(error); }
 }
 export function requireAdmin(req, res, next) {
