@@ -1,5 +1,23 @@
 # GoDaddy backend deployment
 
+## Node module format and startup
+
+Keep `"type": "module"` in `backend/package.json`: `backend/server.js` uses
+ES module imports (option B). Do not replace those imports with `require()`.
+
+For a backend-only deployment, set the app root to `backend/`, install with
+`npm ci`, and start with `npm start`. If the host runs from the repository
+root, use `npm --prefix backend ci` and `npm --prefix backend start` instead.
+Verify the deployed server with `GET /api/test`; the current entry point returns
+`{"message":"API working"}`. The current minimal entry point does not expose
+the database, authentication, or payment routes described below.
+
+The GitHub Actions workflow deploys only the frontend. To redeploy this backend,
+update the Node app preview from the latest GitHub commit and publish it in the
+hosting dashboard. Verify `/api/test` on the backend app URL after publishing.
+
+## Environment and full API configuration
+
 In the app dashboard, open Settings → Secrets → Publish. Set each variable
 once, using real values privately in the dashboard. Never commit secrets.
 
