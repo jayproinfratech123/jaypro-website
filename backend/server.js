@@ -18,6 +18,10 @@ app.use(
 
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  res.status(200).json({ status: "ok" });
+});
+
 app.get("/api/test", (req, res) => {
   res.json({ message: "API working" });
 });
