@@ -5,9 +5,10 @@
 import "./config/env.js";
 
 import express from "express";
-import { mountFrontend } from "./config/frontend.js";
-import { createCorsMiddleware } from "./config/cors.js";
+import cors from "cors";
 import cookieParser from "cookie-parser";
+
+import { mountFrontend } from "./config/frontend.js";
 
 // Existing payment routes
 import paymentRoutes from "./routes/paymentRoutes.js";
@@ -66,44 +67,62 @@ const app = express();
 // CORS CONFIGURATION
 // ----------------------------------------------------
 
-const corsMiddleware = createCorsMiddleware();
+const allowedOrigins = [
+  "http://localhost:3000",
+  "http://localhost:5173",
+  "https://jayproinfratech.com",
+  "https://www.jayproinfratech.com",
+];
 
-// Handle OPTIONS/preflight before authentication/routes
-app.options("*", corsMiddleware);
+const corsOptions = {
+  origin: function (origin, callback) {
+
+    // Allow requests without Origin header
+    // Example: Postman, curl, server-to-server
+    if (!origin) {
+      return callback(null, true);
+    }
+
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    console.log("Blocked by CORS:", origin);
+
+    return callback(
+      new Error("Not allowed by CORS")
+    );
+  },
+
+  methods: [
+    "GET",
+    "POST",
+    "PUT",
+    "PATCH",
+    "DELETE",
+    "OPTIONS",
+  ],
+
+  allowedHeaders: [
+    "Content-Type",
+    "Authorization",
+  ],
+
+  credentials: true,
+
+  optionsSuccessStatus: 204,
+};
+
+
+// ----------------------------------------------------
+// HANDLE CORS
+// ----------------------------------------------------
 
 // Apply CORS to all requests
-app.use(corsMiddleware);
+app.use(cors(corsOptions));
 
-
-// ----------------------------------------------------
-// TEMPORARY CORS TEST ROUTE
-// ----------------------------------------------------
-//
-// TEMPORARY DEBUG ROUTE.
-// Remove after CORS issue is resolved.
-//
-
-app.get("/api/cors-test", (req, res) => {
-
-  // Manually set CORS headers for testing
-  res.setHeader(
-    "Access-Control-Allow-Origin",
-    "https://jayproinfratech.com"
-  );
-
-  res.setHeader(
-    "Access-Control-Allow-Credentials",
-    "true"
-  );
-
-  res.json({
-    success: true,
-    originReceived: req.headers.origin || null,
-    nodeEnv: process.env.NODE_ENV || null,
-    message: "NEW CORS TEST VERSION 2",
-  });
-
-});
+// Handle OPTIONS / preflight
+app.options("*", cors(corsOptions));
 
 
 // ----------------------------------------------------
@@ -126,6 +145,35 @@ app.use(cookieParser());
 
 
 // ----------------------------------------------------
+// CORS TEST ROUTE
+// ----------------------------------------------------
+
+app.get("/api/cors-test", (req, res) => {
+
+  res.json({
+    success: true,
+    message: "CORS is working correctly",
+    origin: req.headers.origin || null,
+  });
+
+});
+
+
+// ----------------------------------------------------
+// SIMPLE API TEST ROUTE
+// ----------------------------------------------------
+
+app.get("/api/test", (req, res) => {
+
+  res.json({
+    success: true,
+    message: "API working",
+  });
+
+});
+
+
+// ----------------------------------------------------
 // HEALTH CHECK
 // ----------------------------------------------------
 
@@ -139,6 +187,7 @@ app.get("/api/health", async (req, res, next) => {
 
     res.json({
       success: true,
+
       service: "Jaypro Backend API",
 
       modules: {
@@ -197,7 +246,7 @@ app.use(
   authRoutes
 );
 
-// Routes:
+// Available routes:
 //
 // POST /api/auth/login
 // POST /api/auth/logout
@@ -217,8 +266,7 @@ app.use(
 //
 // POST /api/leads
 //
-// Protected lead routes are handled
-// inside leadRoutes.js.
+// Protected routes are handled inside leadRoutes.js.
 
 
 // ----------------------------------------------------
@@ -235,6 +283,7 @@ app.use(
 // FRONTEND
 // ----------------------------------------------------
 //
+// IMPORTANT:
 // Frontend/static/client-side routes must stay
 // AFTER all /api routes.
 //
@@ -309,7 +358,7 @@ app.use((error, req, res, next) => {
 // SERVER
 // ----------------------------------------------------
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
 app.listen(
   PORT,
