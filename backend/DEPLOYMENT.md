@@ -9,8 +9,9 @@ For a backend-only deployment, set the app root to `backend/`, install with
 `npm ci`, and start with `npm start`. If the host runs from the repository
 root, use `npm --prefix backend ci` and `npm --prefix backend start` instead.
 Verify the deployed server with `GET /api/test`; the current entry point returns
-`{"message":"API working"}`. The current minimal entry point does not expose
-the database, authentication, or payment routes described below.
+`{"message":"API working"}`. The root `/` returns HTTP 200 for platform health
+checks. Authentication, leads, employees and payment routes are mounted under
+`/api/auth`, `/api/leads`, `/api/employees` and `/api/payments`.
 
 The GitHub Actions workflow deploys only the frontend. To redeploy this backend,
 update the Node app preview from the latest GitHub commit and publish it in the
@@ -52,10 +53,27 @@ secrets; configure them too when testing preview. Production and maintenance
 scripts use dashboard environment variables when NODE_ENV=production and do not
 load .env. Local development retains .env support.
 
-From the repository root, use npm run build to check backend syntax and npm start
-to start the backend. Check the published runtime logs for startup errors.
-The /api/health endpoint checks database reads; separately verify form submission,
-login, and payments after deployment. A healthy server alone does not verify them.
+From the repository root, use `node --check backend/server.js` to check syntax
+and `npm --prefix backend start` to start the backend. Check runtime logs for
+startup errors. `/` and `/api/test` do not check the database; separately verify
+form submission, login and payments after deployment.
+
+## Moving from Vercel
+
+Deploy the latest backend code to the GoDaddy Node.js app before removing Vercel.
+Use branch `main`, app directory `backend`, install `npm ci`, start `npm start`,
+and health-check path `/`. Copy the existing production environment values
+privately into the GoDaddy app's secrets. Let the platform supply `PORT`.
+
+GoDaddy Node.js Hosting and cPanel MySQL can run on separate infrastructure.
+Confirm remote MySQL connectivity and the Node app's outbound IP requirements
+with GoDaddy; moving providers does not automatically remove IP restrictions.
+Allow the confirmed app outbound IPs in cPanel Remote MySQL when required.
+
+Connect `api.jayproinfratech.com` to the GoDaddy app using the DNS records shown
+by that app. The frontend production API URL is `https://api.jayproinfratech.com`.
+Deploy a rebuilt frontend, verify the API and database flows on the live domain,
+then remove the old Vercel project if it is no longer needed.
 
 For a manually uploaded frontend, build in frontend with npm run build and upload
 the contents of frontend/dist to the website document root. The public backend
