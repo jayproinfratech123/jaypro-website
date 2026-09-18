@@ -26,6 +26,14 @@ app.use("/api/leads", leadRoutes);
 app.use("/api/employees", employeeRoutes);
 app.use("/api/payments", paymentRoutes);
 
+app.get('/api/health', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'Jaypro Backend API is running',
+    database: 'MongoDB',
+  });
+});
+
 app.use((req, res) => {
   res.status(404).json({ success: false, message: "Route not found." });
 });
