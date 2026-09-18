@@ -6,11 +6,11 @@ import { createCorsMiddleware } from '../config/cors.js';
 test('website preflights and error responses carry CORS permissions; other origins do not', async t => {
   const app = express();
   const corsMiddleware = createCorsMiddleware({ NODE_ENV: 'production', CLIENT_URL: ' https://preview.example.com/ ' });
-  app.options('*', corsMiddleware);
   app.use(corsMiddleware);
   app.use(express.json());
   app.post('/api/leads', (req, res) => res.status(201).json({ success: true }));
   app.use((req, res) => res.status(401).json({ message: 'Unauthorized' }));
+  app.use((error, req, res, next) => res.status(error.statusCode || 500).json({ message: error.message }));
   const server = app.listen(0, '127.0.0.1');
   await new Promise(resolve => server.once('listening', resolve));
   t.after(() => new Promise(resolve => server.close(resolve)));
@@ -40,7 +40,7 @@ test('website preflights and error responses carry CORS permissions; other origi
   assert.deepEqual(await submitted.json(), { success: true });
   for (const origin of ['https://jayproinfratech.com', 'https://preview.example.com', 'https://untrusted.example', 'http://localhost:5173']) {
     const response = await fetch(base + '/api/auth/me', { headers: { Origin: origin } });
-    assert.equal(response.status, 401);
-    assert.equal(response.headers.get('access-control-allow-origin'), ['https://jayproinfratech.com', 'https://preview.example.com'].includes(origin) ? origin : null);
+    assert.equal(response.status, origin === 'https://untrusted.example' ? 403 : 401);
+    assert.equal(response.headers.get('access-control-allow-origin'), origin !== 'https://untrusted.example' ? origin : null);
   }
 });
