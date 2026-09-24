@@ -1,12 +1,12 @@
 {
-  "name": "jaypro-website",
+  "name": "jaypro-supabase",
   "version": "1.0.0",
   "private": true,
-  "workspaces": [
-    "backend"
-  ],
+  "type": "module",
   "scripts": {
-    "start": "npm run start --workspace=backend",
-    "build": "node --check backend/server.js"
+    "setup": "node scripts/setup-supabase.js",
+    "dev": "npm --prefix frontend run dev",
+    "build": "npm --prefix frontend run build",
+    "test": "node --test supabase/tests/*.test.js"
   }
 }

@@ -1,0 +1,6 @@
+project_id = "jayproinfratech"
+
+[functions.api]
+# Public enquiries, registration and signed Razorpay callbacks share this router.
+# The handler validates Supabase Auth tokens on every protected route.
+verify_jwt = false

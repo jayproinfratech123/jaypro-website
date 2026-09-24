@@ -30,6 +30,8 @@ jobs:
       # 4. Build React/Vite frontend
       - name: Build frontend
         working-directory: ./frontend
+        env:
+          VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
         run: npm run build
 
       # 5. Deploy only frontend/dist to GoDaddy

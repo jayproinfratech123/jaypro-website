@@ -1,6 +1,13 @@
 node_modules/
 .env
+**/.env.local
+supabase/functions/.env.*
+!supabase/functions/.env.example
+supabase/.temp/
+supabase/.branches/
 dist/
 build/
 .DS_Store
 *.log
+.npm-cache/
+.migration-backup/
