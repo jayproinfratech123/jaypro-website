@@ -34,16 +34,17 @@ const Login = () => {
 
       if (user.role === "admin") {
         navigate("/admin/dashboard");
+      } else if (user.role === "employee") {
+        navigate("/employee/leads");
       } else {
-        setError(
-          "Only Admin can login."
-        );
+        navigate("/dashboard");
       }
 
     } catch (err) {
 
       setError(
         err.response?.data?.message ||
+          err.message ||
           "Login failed"
       );
 
@@ -58,11 +59,11 @@ const Login = () => {
       <div className="w-full max-w-md rounded-sm border border-black/5 bg-white p-8 shadow-sm">
 
         <h1 className="mb-2 text-3xl font-bold text-blueprint-900">
-          Admin Login
+          Sign in
         </h1>
 
         <p className="mb-6 text-sm text-gray-500">
-          Only administrator can access this dashboard.
+          Sign in to your Jaypro account.
         </p>
 
         {error && (
@@ -79,7 +80,7 @@ const Login = () => {
           <input
             type="email"
             required
-            placeholder="Admin Email"
+            placeholder="Email"
             value={form.email}
             onChange={(e) =>
               setForm({
@@ -112,7 +113,7 @@ const Login = () => {
           >
             {loading
               ? "Logging in..."
-              : "Admin Login"}
+              : "Sign in"}
           </button>
 
         </form>

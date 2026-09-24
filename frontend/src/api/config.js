@@ -1,10 +1,6 @@
-
-// frontend/src/api/config.js
-
-// Empty means same-origin /api (Vite proxies this during development).
-export const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "")
-  .trim()
-  .replace(/\/+$/, "")
-  .replace(/\/api$/, "");
-
-export const API_URL = `${API_BASE_URL}/api`;
+// All API routes run in the Supabase Edge Function named "api".
+export const SUPABASE_URL = (import.meta.env.VITE_SUPABASE_URL || '').trim().replace(/\/+$/, '');
+export const API_URL = `${SUPABASE_URL}/functions/v1/api`;
+export function requireSupabaseConfig() {
+  if (!SUPABASE_URL) throw new Error('Set VITE_SUPABASE_URL in the frontend environment, then rebuild.');
+}

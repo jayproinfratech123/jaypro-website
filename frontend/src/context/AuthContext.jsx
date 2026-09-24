@@ -154,6 +154,8 @@ export const AuthProvider = ({ children }) => {
       payload
     );
 
+    if (data?.confirmationRequired) return data;
+
     if (!data?.accessToken) {
       throw new Error(
         "Registration successful but access token was not returned."

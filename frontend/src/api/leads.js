@@ -1,7 +1,8 @@
-import { API_URL } from "./config";
+import { API_URL, requireSupabaseConfig } from "./config";
 
 export async function submitLead(fields) {
   try {
+    requireSupabaseConfig();
     const response = await fetch(`${API_URL}/leads`, {
       method: "POST",
       headers: {

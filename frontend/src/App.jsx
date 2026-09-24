@@ -77,6 +77,7 @@ import Portfolio from "./pages/Portfolio.jsx";
 import Blogs from "./pages/Blogs.jsx";
 import Contact from "./pages/Contact.jsx";
 import Register from "./pages/Register.jsx";
+import Login from "./pages/Login.jsx";
 import NotFound from "./pages/NotFound.jsx";
 
 // ==========================================
@@ -655,6 +656,7 @@ function App() {
           </Route>
 
           <Route path="/admin/preview-login" element={<PreviewLogin />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/employee/login" element={<PreviewLogin employee />} />
           <Route path="/employee/leads" element={<EmployeeLeads />} />
 

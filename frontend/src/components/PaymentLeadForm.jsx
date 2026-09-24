@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 // BACKEND API
 // =====================================================
 
-import { API_BASE_URL } from '../api/config';
+import { API_URL, requireSupabaseConfig } from '../api/config';
 
 // =====================================================
 // SERVICE OPTIONS
@@ -372,6 +372,7 @@ export default function PaymentLeadForm({
       );
 
       try {
+        requireSupabaseConfig();
         // =============================================
         // LOAD RAZORPAY
         // =============================================
@@ -404,7 +405,7 @@ export default function PaymentLeadForm({
 
         const orderResponse =
           await fetch(
-            `${API_BASE_URL}/api/payments/create-order`,
+            `${API_URL}/payments/create-order`,
             {
               method: "POST",
 
@@ -558,7 +559,7 @@ export default function PaymentLeadForm({
 
                 const verifyResponse =
                   await fetch(
-                    `${API_BASE_URL}/api/payments/verify`,
+                    `${API_URL}/payments/verify`,
                     {
                       method:
                         "POST",
