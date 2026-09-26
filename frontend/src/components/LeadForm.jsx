@@ -1,8 +1,19 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-import { submitLead } from '../api/leads';
+import { submitLead } from "../api/leads";
 
 const LeadForm = ({ onSuccess, onClose }) => {
+  // ==========================================
+  // NAVIGATION
+  // ==========================================
+
+  const navigate = useNavigate();
+
+  // ==========================================
+  // FORM STATE
+  // ==========================================
+
   const [formData, setFormData] = useState({
     fullName: "",
     mobile: "",
@@ -17,7 +28,7 @@ const LeadForm = ({ onSuccess, onClose }) => {
   // ==========================================
 
   const handleChange = (e) => {
-    const { name, value } = e.target;   
+    const { name, value } = e.target;
 
     setFormData((prev) => ({
       ...prev,
@@ -32,46 +43,61 @@ const LeadForm = ({ onSuccess, onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Prevent double submission
     if (loading) return;
 
     setLoading(true);
 
     try {
+      // ==========================================
+      // 1. SAVE LEAD TO BACKEND
+      // ==========================================
+
       await submitLead(formData);
 
       // ==========================================
-      // SUCCESS MESSAGE
+      // 2. GOOGLE TAG MANAGER / GA4 EVENT
+      // No personal information is sent.
       // ==========================================
 
-      alert("Form Submitted Successfully!");
+      window.dataLayer = window.dataLayer || [];
 
-      // ==========================================
-      // RESET FORM
-      // ==========================================
-
-      setFormData({
-        fullName: "",
-        mobile: "",
-        city: "",
-        purpose: "",
+      window.dataLayer.push({
+        event: "generate_lead",
+        lead_service: formData.purpose,
+        lead_city: formData.city,
       });
 
       // ==========================================
-      // IMPORTANT
-      // Notify parent component
+      // 3. NOTIFY PARENT IF PROVIDED
       // ==========================================
 
       if (typeof onSuccess === "function") {
         onSuccess();
       }
+
+      // ==========================================
+      // 4. REDIRECT TO THANK YOU PAGE
+      // ==========================================
+
+      navigate("/thank-you", {
+        replace: true,
+      });
+
+      // IMPORTANT:
+      // No alert is shown here.
+      // User directly goes to /thank-you.
+
     } catch (error) {
       console.error(
         "Lead submission failed:",
         error
       );
 
+      // Only show alert when submission FAILS
       alert(
-        error.message || "Something went wrong. Please try again."
+        error?.message ||
+          "Something went wrong. Please try again."
       );
     } finally {
       setLoading(false);
@@ -172,8 +198,10 @@ const LeadForm = ({ onSuccess, onClose }) => {
               border
               border-gray-300
               p-3
+              text-gray-900
               outline-none
               transition
+              placeholder:text-gray-400
               focus:border-red-600
               disabled:bg-gray-100
             "
@@ -201,8 +229,10 @@ const LeadForm = ({ onSuccess, onClose }) => {
               border
               border-gray-300
               p-3
+              text-gray-900
               outline-none
               transition
+              placeholder:text-gray-400
               focus:border-red-600
               disabled:bg-gray-100
             "
@@ -227,8 +257,10 @@ const LeadForm = ({ onSuccess, onClose }) => {
               border
               border-gray-300
               p-3
+              text-gray-900
               outline-none
               transition
+              placeholder:text-gray-400
               focus:border-red-600
               disabled:bg-gray-100
             "

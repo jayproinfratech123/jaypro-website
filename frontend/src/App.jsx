@@ -1,6 +1,6 @@
 import { Toaster } from "react-hot-toast";
 import { useState } from "react";
-
+import ThankYou from "./pages/ThankYou";
 import {
   Routes,
   Route,
@@ -360,7 +360,7 @@ function App() {
             path="/architecture-design"
             element={<ArchitectureAds />}
           />
-
+          <Route path="/thank-you" element={<ThankYou />} />
 
           {/* ==========================================
               ARCHITECTURE SEO - NOIDA
