@@ -8,5 +8,8 @@
     "dev": "npm --prefix frontend run dev",
     "build": "npm --prefix frontend run build",
     "test": "node --test supabase/tests/*.test.js"
+  },
+  "dependencies": {
+    "react-helmet-async": "^3.0.0"
   }
 }

@@ -8,9 +8,11 @@ import {
   useNavigate,
 } from "react-router-dom";
 
+
 // ==========================================
 // PROJECT / DETAIL PAGES
 // ==========================================
+
 import ConstructionAds from "./pages/ConstructionAds";
 import TurnkeyProjectDetails from "./pages/services/TurnkeyProjectDetails.jsx";
 import InteriorDetails from "./pages/InteriorDetails.jsx";
@@ -21,11 +23,13 @@ import FrontElevation from "./pages/FrontElevation.jsx";
 import ThreeDExteriorDesignDetails from "./pages/ThreeDExteriorDesignDetails";
 import StructuralDesign from "./pages/services/StructuralDesign";
 
+
 // ==========================================
 // ENGINEER SITE VISIT
 // ==========================================
 
 import EngineerSiteVisit from "./pages/services/EngineerSiteVisit";
+
 
 // ==========================================
 // OTHER ARCHITECTURE PAGES
@@ -36,11 +40,13 @@ import ThreeDFloorPlan from "./pages/ThreeDFloorPlan";
 import FloorPlanDetails from "./pages/FloorPlanDetails";
 import ThreeDExteriorDesign from "./pages/ThreeDExteriorDesign";
 
+
 // ==========================================
 // GOOGLE ADS
 // ==========================================
 
 import ArchitectureAds from "./pages/ArchitectureAds";
+
 
 // ==========================================
 // LAYOUT COMPONENTS
@@ -52,11 +58,13 @@ import ProtectedRoute from "./components/common/ProtectedRoute.jsx";
 import WhatsAppButton from "./components/WhatsAppButton.jsx";
 import BottomNavigation from "./components/BottomNavigation.jsx";
 
+
 // ==========================================
 // LEAD FORM
 // ==========================================
 
 import LeadForm from "./components/LeadForm.jsx";
+
 
 // ==========================================
 // LEGAL PAGES
@@ -65,6 +73,7 @@ import LeadForm from "./components/LeadForm.jsx";
 import RefundPolicy from "./components/legal/RefundPolicy";
 import PrivacyPolicy from "./pages/PrivacyPolocy.jsx";
 import TermsConditions from "./pages/TermsConditions.jsx";
+
 
 // ==========================================
 // PUBLIC PAGES
@@ -80,17 +89,20 @@ import Register from "./pages/Register.jsx";
 import Login from "./pages/Login.jsx";
 import NotFound from "./pages/NotFound.jsx";
 
+
 // ==========================================
 // PRICING PAGE
 // ==========================================
 
 import NavbarPricing from "./pages/NavbarPricing.jsx";
 
+
 // ==========================================
 // NAKSHA PAGE
 // ==========================================
 
 import Naksha from "./pages/Naksha.jsx";
+
 
 // ==========================================
 // SERVICE PAGES
@@ -104,11 +116,13 @@ import EstimatePage from "./pages/services/Estimate.jsx";
 import Contractor from "./pages/services/Contractor.jsx";
 import ContractorCategoryDetails from "./pages/services/ContractorCategoryDetails.jsx";
 
+
 // ==========================================
 // ARCHITECTURE SERVICE DETAIL PAGES
 // ==========================================
 
 import TwoDFloorPlan from "./pages/services/architecture/TwoDFloorPlan.jsx";
+
 
 // ==========================================
 // CUSTOMER DASHBOARD
@@ -121,6 +135,7 @@ import LiveTracking from "./pages/dashboard/LiveTracking.jsx";
 import Documents from "./pages/dashboard/Documents.jsx";
 import Payments from "./pages/dashboard/Payments.jsx";
 import Chat from "./pages/dashboard/Chat.jsx";
+
 
 // ==========================================
 // ADMIN DASHBOARD
@@ -136,6 +151,14 @@ import AdminProjects from "./pages/admin/AdminProjects.jsx";
 import AdminCustomers from "./pages/admin/AdminCustomers.jsx";
 import AdminBlogs from "./pages/admin/AdminBlogs.jsx";
 
+
+// ==========================================
+// SEO LOCATION PAGES
+// ==========================================
+
+import ArchitectureNoida from "./pages/architecture/ArchitectureNoida.jsx";
+
+
 // =====================================================
 // APP
 // =====================================================
@@ -144,6 +167,7 @@ function App() {
   const location = useLocation();
   const navigate = useNavigate();
 
+
   // ==========================================
   // LEAD POPUP
   // ==========================================
@@ -151,20 +175,25 @@ function App() {
   const [showArchitectureLead, setShowArchitectureLead] =
     useState(false);
 
+
   // ==========================================
-  // CHECK PRICING PAGE
+  // CHECK PAGE TYPE
   // ==========================================
 
   const isPricingPage = location.pathname === "/pricing";
-  const isAdminPage = /^\/(?:admin|employee)(?:\/|$)/.test(location.pathname);
+
+  const isAdminPage =
+    /^\/(?:admin|employee)(?:\/|$)/.test(location.pathname);
+
 
   // ==========================================
-  // OPEN ARCHITECTURE
+  // OPEN ARCHITECTURE POPUP
   // ==========================================
 
   const openArchitecture = () => {
     setShowArchitectureLead(true);
   };
+
 
   // ==========================================
   // CLOSE POPUP
@@ -173,6 +202,7 @@ function App() {
   const closeArchitectureLead = () => {
     setShowArchitectureLead(false);
   };
+
 
   // ==========================================
   // FORM SUCCESS
@@ -184,8 +214,10 @@ function App() {
     navigate("/services/architecture");
   };
 
+
   return (
     <>
+
       {/* ==========================================
           TOAST
       ========================================== */}
@@ -193,14 +225,18 @@ function App() {
       <Toaster
         position="top-center"
         reverseOrder={false}
-        containerStyle={{ zIndex: 100000 }}
+        containerStyle={{
+          zIndex: 100000,
+        }}
       />
+
 
       {/* ==========================================
           SCROLL TO TOP
       ========================================== */}
 
       <ScrollToTop />
+
 
       {/* ==========================================
           NAVBAR
@@ -212,11 +248,13 @@ function App() {
         />
       )}
 
+
       {/* ==========================================
           ARCHITECTURE LEAD POPUP
       ========================================== */}
 
       {showArchitectureLead && (
+
         <div
           className="
             fixed
@@ -230,6 +268,7 @@ function App() {
           "
           onClick={closeArchitectureLead}
         >
+
           <div
             className="
               relative
@@ -245,21 +284,33 @@ function App() {
             "
             onClick={(e) => e.stopPropagation()}
           >
+
             <LeadForm
               onSuccess={handleArchitectureLeadSuccess}
               onClose={closeArchitectureLead}
             />
+
           </div>
+
         </div>
+
       )}
+
 
       {/* ==========================================
           MAIN CONTENT
       ========================================== */}
 
-      <main className={isAdminPage ? "min-h-screen" : "min-h-screen pb-24"}>
+      <main
+        className={
+          isAdminPage
+            ? "min-h-screen"
+            : "min-h-screen pb-24"
+        }
+      >
 
         <Routes>
+
 
           {/* ==========================================
               HOME
@@ -270,6 +321,7 @@ function App() {
             element={<Home />}
           />
 
+
           {/* ==========================================
               ABOUT
           ========================================== */}
@@ -278,6 +330,7 @@ function App() {
             path="/about"
             element={<About />}
           />
+
 
           {/* ==========================================
               SERVICES
@@ -288,6 +341,7 @@ function App() {
             element={<Services />}
           />
 
+
           {/* ==========================================
               ENGINEER SITE VISIT
           ========================================== */}
@@ -297,14 +351,26 @@ function App() {
             element={<EngineerSiteVisit />}
           />
 
+
           {/* ==========================================
-              ARCHITECTURE GOOGLE ADS
+              ARCHITECTURE GOOGLE ADS PAGE
           ========================================== */}
 
           <Route
             path="/architecture-design"
             element={<ArchitectureAds />}
           />
+
+
+          {/* ==========================================
+              ARCHITECTURE SEO - NOIDA
+          ========================================== */}
+
+          <Route
+            path="/architecture-design/noida"
+            element={<ArchitectureNoida />}
+          />
+
 
           {/* ==========================================
               CONSTRUCTION GOOGLE ADS
@@ -315,6 +381,7 @@ function App() {
             element={<ConstructionAds />}
           />
 
+
           {/* ==========================================
               PORTFOLIO
           ========================================== */}
@@ -323,6 +390,7 @@ function App() {
             path="/portfolio"
             element={<Portfolio />}
           />
+
 
           {/* ==========================================
               BLOG
@@ -338,6 +406,7 @@ function App() {
             element={<Blogs />}
           />
 
+
           {/* ==========================================
               2D FLOOR PLAN DETAILS
           ========================================== */}
@@ -346,6 +415,7 @@ function App() {
             path="/2d-floor-plans/:id"
             element={<FloorPlanDetails />}
           />
+
 
           {/* ==========================================
               FRONT ELEVATION
@@ -361,6 +431,7 @@ function App() {
             element={<FrontElevationDetails />}
           />
 
+
           {/* ==========================================
               3D EXTERIOR DETAILS
           ========================================== */}
@@ -369,6 +440,7 @@ function App() {
             path="/3d-exterior-design/:id"
             element={<ThreeDExteriorDesignDetails />}
           />
+
 
           {/* ==========================================
               3D FLOOR PLAN
@@ -379,6 +451,7 @@ function App() {
             element={<ThreeDFloorPlan />}
           />
 
+
           {/* ==========================================
               PRICING
           ========================================== */}
@@ -387,6 +460,7 @@ function App() {
             path="/pricing"
             element={<NavbarPricing />}
           />
+
 
           {/* ==========================================
               CONTACT
@@ -397,10 +471,6 @@ function App() {
             element={<Contact />}
           />
 
-          {/* ==========================================
-              LOGIN
-          ========================================== */}
-
 
           {/* ==========================================
               REGISTER
@@ -410,6 +480,7 @@ function App() {
             path="/register"
             element={<Register />}
           />
+
 
           {/* ==========================================
               VASTU RESULT
@@ -424,6 +495,7 @@ function App() {
             path="/services/vastu-result"
             element={<VastuResult />}
           />
+
 
           {/* ==========================================
               LEGAL
@@ -444,6 +516,7 @@ function App() {
             element={<RefundPolicy />}
           />
 
+
           {/* ==========================================
               NAKSHA
           ========================================== */}
@@ -452,6 +525,7 @@ function App() {
             path="/naksha"
             element={<Naksha />}
           />
+
 
           {/* =====================================================
               ARCHITECTURE SERVICE
@@ -469,12 +543,14 @@ function App() {
               element={<TwoDFloorPlan />}
             />
 
+
             {/* 3D EXTERIOR DESIGN */}
 
             <Route
               path="3d-exterior-design"
               element={<ThreeDExteriorDesign />}
             />
+
 
             {/* STRUCTURAL DESIGN */}
 
@@ -483,6 +559,7 @@ function App() {
               element={<StructuralDesign />}
             />
 
+
             {/* INTERIOR DESIGN */}
 
             <Route
@@ -490,12 +567,14 @@ function App() {
               element={<Interior />}
             />
 
+
             {/* INTERIOR DETAILS */}
 
             <Route
               path="interior-design/:slug"
               element={<InteriorDetails />}
             />
+
 
             {/* VASTU */}
 
@@ -506,6 +585,7 @@ function App() {
 
           </Route>
 
+
           {/* ==========================================
               NORMAL INTERIOR PAGE
           ========================================== */}
@@ -514,6 +594,7 @@ function App() {
             path="/services/interior"
             element={<Interior />}
           />
+
 
           {/* ==========================================
               TURNKEY
@@ -529,6 +610,7 @@ function App() {
             element={<TurnkeyProjectDetails />}
           />
 
+
           {/* ==========================================
               NORMAL VASTU PAGE
           ========================================== */}
@@ -537,6 +619,7 @@ function App() {
             path="/services/vastu"
             element={<Vastu />}
           />
+
 
           {/* ==========================================
               ESTIMATE
@@ -552,6 +635,7 @@ function App() {
             element={<EstimatePage />}
           />
 
+
           {/* ==========================================
               PACKAGES
           ========================================== */}
@@ -560,6 +644,7 @@ function App() {
             path="/packages"
             element={<Packages />}
           />
+
 
           {/* ==========================================
               CONTRACTOR
@@ -574,6 +659,7 @@ function App() {
             path="/services/contractor/:slug"
             element={<ContractorCategoryDetails />}
           />
+
 
           {/* ==========================================
               CUSTOMER DASHBOARD
@@ -620,6 +706,7 @@ function App() {
 
           </Route>
 
+
           {/* ==========================================
               ADMIN DASHBOARD
           ========================================== */}
@@ -632,11 +719,29 @@ function App() {
             }
           >
 
-            {["dashboard", "leads", "new-leads", "follow-ups", "interested", "converted", "add-lead", "settings"].map((path) => (
-              <Route key={path} path={`/admin/${path}`} element={<AllLeads />} />
+            {[
+              "dashboard",
+              "leads",
+              "new-leads",
+              "follow-ups",
+              "interested",
+              "converted",
+              "add-lead",
+              "settings",
+            ].map((path) => (
+
+              <Route
+                key={path}
+                path={`/admin/${path}`}
+                element={<AllLeads />}
+              />
+
             ))}
 
-            <Route path="/admin/employees" element={<Employees />} />
+            <Route
+              path="/admin/employees"
+              element={<Employees />}
+            />
 
             <Route
               path="/admin/projects"
@@ -655,10 +760,31 @@ function App() {
 
           </Route>
 
-          <Route path="/admin/preview-login" element={<PreviewLogin />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/employee/login" element={<PreviewLogin employee />} />
-          <Route path="/employee/leads" element={<EmployeeLeads />} />
+
+          {/* ==========================================
+              LOGIN / EMPLOYEE
+          ========================================== */}
+
+          <Route
+            path="/admin/preview-login"
+            element={<PreviewLogin />}
+          />
+
+          <Route
+            path="/login"
+            element={<Login />}
+          />
+
+          <Route
+            path="/employee/login"
+            element={<PreviewLogin employee />}
+          />
+
+          <Route
+            path="/employee/leads"
+            element={<EmployeeLeads />}
+          />
+
 
           {/* ==========================================
               404
@@ -669,27 +795,37 @@ function App() {
             element={<NotFound />}
           />
 
+
         </Routes>
 
       </main>
+
 
       {/* ==========================================
           FOOTER
       ========================================== */}
 
-      {!isPricingPage && !isAdminPage && <Footer />}
+      {!isPricingPage && !isAdminPage && (
+        <Footer />
+      )}
+
 
       {/* ==========================================
           BOTTOM NAVIGATION
       ========================================== */}
 
-      {!isPricingPage && !isAdminPage && <BottomNavigation />}
+      {!isPricingPage && !isAdminPage && (
+        <BottomNavigation />
+      )}
+
 
       {/* ==========================================
           WHATSAPP
       ========================================== */}
 
-      {!isAdminPage && <WhatsAppButton />}
+      {!isAdminPage && (
+        <WhatsAppButton />
+      )}
 
     </>
   );
