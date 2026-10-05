@@ -317,13 +317,12 @@ const Footer = () => {
                   </span>
                   <br />
 
-                  H-169, H-Block,
+                  2nd Floor, 196 H-Block,
                   <br />
-
                   Sector-63,
-                  <span itemProp="addressLocality"> Noida</span>,
-                  Uttar Pradesh -
-                  <span itemProp="postalCode">201309</span>
+                  <span itemProp="addressLocality"> Noida Sector 63</span>,
+                  Delhi NCR -
+                  <span itemProp="postalCode">201301</span>
                 </address>
               </div>
 
